@@ -9,17 +9,17 @@ This license grants you a non-exclusive, non-transferable, revocable right to us
 **You are permitted to:**
 
 - Use goilerplate in unlimited personal and commercial projects
-- Modify the code for your internal use
-- Use goilerplate in client work (per your license tier: Single = 1 developer, Team = 5 developers, Enterprise = 25 developers)
-- Use goilerplate in open source projects
-- Bundle and distribute goilerplate in compiled production builds
+- Modify the code for your projects
+- Use goilerplate in client work (per your license tier)
+- Deploy to unlimited environments (dev, staging, production)
 
 **You are not permitted to:**
 
-- Share or redistribute the source code
-- Sell or distribute templates, themes, or boilerplates that are primarily just goilerplate with minimal modifications
-- Create competing products (UI kits, component libraries, design systems, boilerplates, starter kits)
-- Sell or sublicense goilerplate to third parties
+- Publish your project in a public repository
+- Share the source code with non-license holders
+- Sell or distribute templates, themes, or boilerplates based on goilerplate
+- Create competing products (UI kits, component libraries, design systems, boilerplates)
+- Sublicense goilerplate to third parties
 
 ## License Tiers
 
