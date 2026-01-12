@@ -196,9 +196,9 @@ func SecurityHeaders(next http.Handler) http.Handler {
 		// Umami host (default cloud.umami.is, configurable for self-hosted)
 		// Cloud requires multiple gateway domains, self-hosted only needs the single host
 		umamiHost := "cloud.umami.is"
-		umamiCsp := "https://cloud.umami.is https://gateway.umami.is https://eu.umami.is https://api-gateway-eu.umami.dev https://api-gateway.umami.dev"
+		umamiCsp := "https://cloud.umami.is https://analytics.umami.is https://gateway.umami.is https://eu.umami.is https://api-gateway-eu.umami.dev https://api-gateway.umami.dev"
 
-		if cfg != nil && cfg.UmamiHost != "" {
+		if cfg != nil && cfg.UmamiHost != "" && cfg.UmamiHost != "cloud.umami.is" {
 			umamiHost = cfg.UmamiHost
 			umamiCsp = "https://" + cfg.UmamiHost
 		}
