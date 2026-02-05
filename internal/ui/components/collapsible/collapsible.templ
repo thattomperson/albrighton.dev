@@ -1,4 +1,4 @@
-// templui component collapsible - version: v1.1.0 installed by templui v1.1.0
+// templui component collapsible - version: v1.4.0 installed by templui v1.4.0
 // 📚 Documentation: https://templui.io/docs/components/collapsible
 package collapsible
 
@@ -82,5 +82,5 @@ templ Content(props ...ContentProps) {
 }
 
 templ Script() {
-	<script defer nonce={ templ.GetNonce(ctx) } src={ "/assets/js/collapsible.min.js?v=" + utils.ScriptVersion }></script>
+	<script defer nonce={ templ.GetNonce(ctx) } src={ utils.ScriptURL("/assets/js/collapsible.min.js") }></script>
 }

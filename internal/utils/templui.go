@@ -1,4 +1,4 @@
-// templui util templui.go - version: v0.101.0 installed by templui v0.101.0
+// templui util templui.go - version: v1.4.0 installed by templui v1.4.0
 package utils
 
 import (
@@ -58,3 +58,17 @@ func RandomID() string {
 // ScriptVersion is a timestamp generated at app start for cache busting.
 // Used in Script() templates to append ?v=<timestamp> to script URLs.
 var ScriptVersion = fmt.Sprintf("%d", time.Now().Unix())
+
+// ScriptURL generates cache-busted script URLs.
+// Override this to use custom cache busting (CDN, content hashing, etc.)
+//
+// Example override in your app:
+//
+//	func init() {
+//	    utils.ScriptURL = func(path string) string {
+//	        return myAssetManifest.GetURL(path)
+//	    }
+//	}
+var ScriptURL = func(path string) string {
+	return path + "?v=" + ScriptVersion
+}

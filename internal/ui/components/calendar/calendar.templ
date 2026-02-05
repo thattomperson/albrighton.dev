@@ -1,4 +1,4 @@
-// templui component calendar - version: v1.1.0 installed by templui v1.1.0
+// templui component calendar - version: v1.4.0 installed by templui v1.4.0
 // 📚 Documentation: https://templui.io/docs/components/calendar
 package calendar
 
@@ -193,5 +193,5 @@ templ Calendar(props ...Props) {
 }
 
 templ Script() {
-	<script defer nonce={ templ.GetNonce(ctx) } src={ "/assets/js/calendar.min.js?v=" + utils.ScriptVersion }></script>
+	<script defer nonce={ templ.GetNonce(ctx) } src={ utils.ScriptURL("/assets/js/calendar.min.js") }></script>
 }

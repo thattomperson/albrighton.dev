@@ -1,4 +1,4 @@
-// templui component popover - version: v1.1.0 installed by templui v1.1.0
+// templui component popover - version: v1.4.0 installed by templui v1.4.0
 // 📚 Documentation: https://templui.io/docs/components/popover
 package popover
 
@@ -27,8 +27,9 @@ const (
 type TriggerType string
 
 const (
-	TriggerTypeHover TriggerType = "hover"
-	TriggerTypeClick TriggerType = "click"
+	TriggerTypeHover  TriggerType = "hover"
+	TriggerTypeClick  TriggerType = "click"
+	TriggerTypeManual TriggerType = "manual"
 )
 
 type TriggerProps struct {
@@ -131,5 +132,5 @@ templ Content(props ...ContentProps) {
 }
 
 templ Script() {
-	<script defer nonce={ templ.GetNonce(ctx) } src={ "/assets/js/popover.min.js?v=" + utils.ScriptVersion }></script>
+	<script defer nonce={ templ.GetNonce(ctx) } src={ utils.ScriptURL("/assets/js/popover.min.js") }></script>
 }
