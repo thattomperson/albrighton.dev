@@ -32,9 +32,18 @@ func SetupRoutes(app *app.App) http.Handler {
 	// PUBLIC ROUTES
 	// ============================================================================
 
-	// Static files
-	sub, _ := fs.Sub(assets.AssetsFS, ".")
-	mux.Handle("GET /assets/", http.StripPrefix("/assets/", http.FileServer(http.FS(sub))))
+	// In development serve from disk for live watch updates; in production serve embedded assets.
+	var assetHandler http.Handler
+	if app.Cfg.IsDevelopment() {
+		assetHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Cache-Control", "no-store")
+			http.FileServer(http.Dir("./assets")).ServeHTTP(w, r)
+		})
+	} else {
+		sub, _ := fs.Sub(assets.AssetsFS, ".")
+		assetHandler = http.FileServer(http.FS(sub))
+	}
+	mux.Handle("GET /assets/", http.StripPrefix("/assets/", assetHandler))
 
 	// SEO
 	mux.HandleFunc("GET /robots.txt", seo.Robots)
