@@ -1,6 +1,7 @@
 package layouts
 
 import "github.com/templui/goilerplate/internal/ui/components/input"
+import "github.com/templui/goilerplate/internal/ui/components/avatar"
 import "github.com/templui/goilerplate/internal/ui/components/dialog"
 import "github.com/templui/goilerplate/internal/ui/components/sidebar"
 import "github.com/templui/goilerplate/internal/ui/components/collapsible"
@@ -33,7 +34,7 @@ templ Base(props ...SEOProps) {
 				{{ cfg := ctxkeys.Config(ctx) }}
 				<title>{ cfg.AppName }</title>
 			}
-			<link rel="icon" type="image/x-icon" href="/assets/favicon/favicon.ico"/>
+			<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico"/>
 			<link href={ "/assets/css/output.css?v=" + templ.EscapeString(fmt.Sprintf("%d", time.Now().Unix())) } rel="stylesheet"/>
 			<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js" integrity="sha384-ZBXiYtYQ6hJ2Y0ZNoYuI+Nq5MqWBr+chMrS/RkXpNzQCApHEhOt2aY8EJgqwHLkJ" crossorigin="anonymous"></script>
 			// Component scripts
@@ -47,6 +48,7 @@ templ Base(props ...SEOProps) {
 			@calendar.Script()
 			@datepicker.Script()
 			@progress.Script()
+			@avatar.Script()
 			// Site-wide enhancements
 			@themeScript()
 			// Must run before body to prevent flash
