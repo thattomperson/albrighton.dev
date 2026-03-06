@@ -1,0 +1,17 @@
+package announcement
+
+import "github.com/templui/templui-pro/internal/ui/components/icon"
+
+templ Announcement001() {
+	<div class="bg-background border-b border-border w-full">
+		<div class="container mx-auto px-4 py-2 flex items-center justify-between">
+			<div class="flex items-center gap-2 text-sm">
+				<span>✨</span>
+				<p>New features available! <a href="#" class="underline font-medium text-primary">Check our latest update</a></p>
+			</div>
+			<button class="text-muted-foreground hover:text-foreground transition-colors" aria-label="Close">
+				@icon.X(icon.Props{Size: 16})
+			</button>
+		</div>
+	</div>
+}

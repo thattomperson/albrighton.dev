@@ -1,0 +1,86 @@
+// Layout003 - Sticky Header + Sidebar
+// Header stays at top when scrolling, sidebar scrolls with content
+package layout
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/sheet"
+)
+
+templ Layout003() {
+	@sheet.Sheet(sheet.Props{
+		Side: sheet.SideLeft,
+	}) {
+		<div class="min-h-screen bg-background">
+			<!-- Sticky Header -->
+			<header class="sticky top-0 z-40 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+				<div class="flex h-16 items-center px-4 lg:px-6">
+					<!-- Mobile Menu -->
+					<div class="lg:hidden">
+						@sheet.Trigger() {
+							@button.Button(button.Props{
+								Variant: button.VariantGhost,
+								Size:    button.SizeIcon,
+							}) {
+								@icon.Menu(icon.Props{Size: 20})
+							}
+						}
+					</div>
+					<!-- Logo -->
+					<div class="ml-4 lg:ml-0">
+						<div class="h-8 w-32 bg-primary rounded"></div>
+					</div>
+					<!-- Header Content -->
+					<div class="flex-1 flex items-center justify-end gap-4 ml-8">
+						<div class="hidden md:block max-w-md w-full">
+							<div class="h-9 bg-muted/50 rounded-lg"></div>
+						</div>
+						<div class="h-8 w-8 bg-muted rounded-full"></div>
+						<div class="h-8 w-8 bg-muted rounded-full"></div>
+					</div>
+				</div>
+			</header>
+			<!-- Main Layout -->
+			<div class="flex">
+				<!-- Desktop Sidebar (scrolls with content) -->
+				<aside class="hidden lg:block w-64 bg-card border-r min-h-[calc(100vh-4rem)]">
+					@Layout003SidebarContent()
+				</aside>
+				<!-- Main Content -->
+				<main class="flex-1 p-6">
+					<div class="max-w-6xl mx-auto space-y-6">
+						<!-- Content blocks -->
+						for i := 0; i < 5; i++ {
+							<div class="h-48 bg-muted/50 rounded-lg"></div>
+						}
+					</div>
+				</main>
+			</div>
+		</div>
+		<!-- Mobile Drawer -->
+		@sheet.Content() {
+			@Layout003SidebarContent()
+		}
+	}
+}
+
+templ Layout003SidebarContent() {
+	<div class="p-4 space-y-4">
+		<!-- Navigation -->
+		<nav class="space-y-2">
+			<div class="h-10 bg-primary/10 rounded"></div>
+			for i := 0; i < 5; i++ {
+				<div class="h-10 bg-muted/50 rounded"></div>
+			}
+		</nav>
+		<!-- Divider -->
+		<div class="border-t my-4"></div>
+		<!-- Secondary Navigation -->
+		<nav class="space-y-2">
+			for i := 0; i < 3; i++ {
+				<div class="h-10 bg-muted/50 rounded"></div>
+			}
+		</nav>
+	</div>
+}

@@ -1,0 +1,53 @@
+package state
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ State005() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="text-center space-y-6 max-w-md">
+			@State005Icon()
+			@State005Content()
+			@State005Actions()
+		</div>
+	</section>
+}
+
+templ State005Icon() {
+	<div class="relative inline-flex">
+		<div class="absolute inset-0 bg-muted-foreground/10 blur-xl rounded-full"></div>
+		<div class="relative rounded-full bg-muted p-6">
+			@icon.WifiOff(icon.Props{
+				Size:  48,
+				Class: "text-muted-foreground",
+			})
+		</div>
+	</div>
+}
+
+templ State005Content() {
+	<div class="space-y-2">
+		<h2 class="text-2xl font-semibold tracking-tight">You're offline</h2>
+		<p class="text-muted-foreground">
+			It looks like you've lost your internet connection. Please check your network settings and try again.
+		</p>
+	</div>
+}
+
+templ State005Actions() {
+	<div class="pt-2">
+		@button.Button() {
+			<span class="flex items-center gap-2">
+				@icon.RefreshCw(icon.Props{
+					Size: 16,
+				})
+				Try again
+			</span>
+		}
+		<p class="text-xs text-muted-foreground mt-4">
+			Trying to reconnect...
+		</p>
+	</div>
+}

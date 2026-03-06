@@ -1,0 +1,206 @@
+package blog
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Blog006() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-7xl">
+			@Blog006Header()
+			@Blog006Grid()
+		</div>
+	</section>
+}
+
+templ Blog006Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">Knowledge Base</h2>
+		<p class="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+			Find answers, tutorials, and guides to help you get the most out of our platform.
+		</p>
+		<div class="flex justify-center gap-2 mt-6">
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantOutline,
+			}) {
+				@icon.FileText(icon.Props{
+					Size: 14,
+				})
+				156 Articles
+			}
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantOutline,
+			}) {
+				@icon.Users(icon.Props{
+					Size: 14,
+				})
+				23 Contributors
+			}
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantOutline,
+			}) {
+				@icon.Clock(icon.Props{
+					Size: 14,
+				})
+				Updated Daily
+			}
+		</div>
+	</div>
+}
+
+templ Blog006Grid() {
+	<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+		@Blog006CategoryCard(
+			"Getting Started",
+			"New to our platform? Start here with our beginner-friendly guides.",
+			"BookOpen",
+			"12 articles",
+			[]string{"Quick Start Guide", "Basic Concepts", "First Project"},
+		)
+		@Blog006CategoryCard(
+			"API Reference",
+			"Complete documentation for all API endpoints and methods.",
+			"Code",
+			"45 articles",
+			[]string{"Authentication", "REST Endpoints", "GraphQL Schema"},
+		)
+		@Blog006CategoryCard(
+			"Best Practices",
+			"Learn industry best practices and optimization techniques.",
+			"Lightbulb",
+			"28 articles",
+			[]string{"Performance Tips", "Security Guide", "Code Standards"},
+		)
+		@Blog006CategoryCard(
+			"Troubleshooting",
+			"Common issues and their solutions to help you debug faster.",
+			"AlertCircle",
+			"34 articles",
+			[]string{"Error Messages", "Debug Guide", "Common Issues"},
+		)
+		@Blog006CategoryCard(
+			"Integrations",
+			"Connect with third-party services and extend functionality.",
+			"Plug",
+			"22 articles",
+			[]string{"OAuth Setup", "Webhooks", "Third-party APIs"},
+		)
+		@Blog006CategoryCard(
+			"Community",
+			"Learn from community contributions and success stories.",
+			"Users",
+			"15 articles",
+			[]string{"Case Studies", "Guest Posts", "Community Tips"},
+		)
+	</div>
+}
+
+templ Blog006CategoryCard(title, description, iconName, count string, topics []string) {
+	@card.Card(card.Props{
+		Class: "hover:shadow-md transition-shadow cursor-pointer",
+	}) {
+		@card.Header() {
+			<div class="flex items-start justify-between">
+				<div class="p-2 bg-primary/10 rounded-lg">
+					switch iconName {
+						case "BookOpen":
+							@icon.BookOpen(icon.Props{
+								Size:  24,
+								Class: "text-primary",
+							})
+						case "Code":
+							@icon.Code(icon.Props{
+								Size:  24,
+								Class: "text-primary",
+							})
+						case "Lightbulb":
+							@icon.Lightbulb(icon.Props{
+								Size:  24,
+								Class: "text-primary",
+							})
+						case "AlertCircle":
+							@icon.CircleAlert(icon.Props{
+								Size:  24,
+								Class: "text-primary",
+							})
+						case "Plug":
+							@icon.Plug(icon.Props{
+								Size:  24,
+								Class: "text-primary",
+							})
+						case "Users":
+							@icon.Users(icon.Props{
+								Size:  24,
+								Class: "text-primary",
+							})
+					}
+				</div>
+				<span class="text-sm text-muted-foreground">{ count }</span>
+			</div>
+			@card.Title(card.TitleProps{
+				Class: "mt-4",
+			}) {
+				{ title }
+			}
+			@card.Description() {
+				{ description }
+			}
+		}
+		@card.Content() {
+			<div class="space-y-2">
+				<p class="text-sm font-medium">Popular topics:</p>
+				<ul class="space-y-1">
+					for _, topic := range topics {
+						<li class="text-sm text-muted-foreground flex items-center gap-2">
+							@icon.ChevronRight(icon.Props{
+								Size:  14,
+								Class: "text-muted-foreground/50",
+							})
+							{ topic }
+						</li>
+					}
+				</ul>
+			</div>
+		}
+		@card.Footer() {
+			<div class="flex items-center justify-between">
+				<div class="flex -space-x-2 *:ring-2 *:ring-background">
+					@avatar.Avatar(avatar.Props{
+						Class: "h-8 w-8",
+					}) {
+						@avatar.Image(avatar.ImageProps{
+							Src: "/assets/img/avatar-gh-2.png",
+							Alt: "Contributor",
+						})
+						@avatar.Fallback() {
+							C
+						}
+					}
+					@avatar.Avatar(avatar.Props{
+						Class: "h-8 w-8",
+					}) {
+						@avatar.Fallback() {
+							JD 
+						}
+					}
+					@avatar.Avatar(avatar.Props{
+						Class: "h-8 w-8 text-muted-foreground",
+					}) {
+						@avatar.Fallback() {
+							+3 
+						}
+					}
+				</div>
+				<span class="pl-4 text-sm text-primary flex items-center gap-2">
+					Browse articles
+					@icon.ArrowRight(icon.Props{
+						Size: 14,
+					})
+				</span>
+			</div>
+		}
+	}
+}

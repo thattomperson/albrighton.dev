@@ -1,0 +1,63 @@
+package hero
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Hero009() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="mx-auto max-w-[800px] text-center">
+			@Hero009Header()
+			@Hero009Actions()
+			@Hero009Links()
+		</div>
+	</section>
+}
+
+templ Hero009Header() {
+	<p class="mb-6 text-sm font-medium uppercase tracking-widest">
+		Design Matters
+	</p>
+	<h1 class="font-serif text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl mb-8">
+		<span class="block">Beautiful typography</span>
+		<span class="block mt-2">creates memorable experiences</span>
+	</h1>
+	<p class="mx-auto mb-10 max-w-[600px] text-muted-foreground text-lg md:text-xl/relaxed lg:text-2xl/relaxed">
+		Typography is the art and technique of arranging type to make written language legible, readable, and appealing when displayed.
+	</p>
+	@separator.Separator(separator.Props{
+		Class: "my-10",
+	}) {
+		<span class="text-sm">Crafted with attention to detail</span>
+	}
+}
+
+templ Hero009Actions() {
+	<div class="mt-10 flex flex-col sm:flex-row justify-center gap-2">
+		@button.Button(button.Props{
+			Size:  "lg",
+			Class: "font-medium",
+		}) {
+			Get Started
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+			Size:    "lg",
+			Class:   "font-medium",
+		}) {
+			View Examples
+			@icon.ExternalLink(icon.Props{Class: "ml-2 h-4 w-4"})
+		}
+	</div>
+}
+
+templ Hero009Links() {
+	<div class="mt-16 flex justify-center space-x-6 text-sm text-muted-foreground">
+		<a href="#" class="underline-offset-4 hover:underline">About</a>
+		<a href="#" class="underline-offset-4 hover:underline">Features</a>
+		<a href="#" class="underline-offset-4 hover:underline">Testimonials</a>
+		<a href="#" class="underline-offset-4 hover:underline">Contact</a>
+	</div>
+}

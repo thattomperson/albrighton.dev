@@ -1,0 +1,158 @@
+package social
+
+import (
+	"fmt"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Social002() {
+	<section class="w-full py-12 md:py-16 lg:py-20">
+		<div class="container mx-auto px-4 md:px-6">
+			@Social002Header()
+			@Social002Feed()
+			@Social002Footer()
+		</div>
+	</section>
+}
+
+templ Social002Header() {
+	<div class="max-w-5xl mx-auto mb-8">
+		<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+			<div class="flex items-center gap-4">
+				<div class="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
+					@icon.Building(icon.Props{
+						Size:  24,
+						Class: "text-muted-foreground",
+					})
+				</div>
+				<div>
+					<h2 class="text-xl font-bold flex items-center gap-2">
+						yourcompany
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantSecondary,
+						}) {
+							<span class="flex items-center gap-1">
+								@icon.Check(icon.Props{
+									Size: 10,
+								})
+								Verified
+							</span>
+						}
+					</h2>
+					<p class="text-sm text-muted-foreground">Design & Innovation</p>
+				</div>
+			</div>
+			<!-- Stats -->
+			<div class="flex items-center gap-6 text-sm">
+				<div class="text-center">
+					<p class="font-bold text-lg">248</p>
+					<p class="text-muted-foreground">Posts</p>
+				</div>
+				<div class="text-center">
+					<p class="font-bold text-lg">425K</p>
+					<p class="text-muted-foreground">Followers</p>
+				</div>
+				<div class="text-center">
+					<p class="font-bold text-lg">892</p>
+					<p class="text-muted-foreground">Following</p>
+				</div>
+			</div>
+			<!-- Follow Button -->
+			<div>
+				@button.Button() {
+					<span class="flex items-center gap-2">
+						@icon.UserPlus(icon.Props{
+							Size: 16,
+						})
+						Follow
+					</span>
+				}
+			</div>
+		</div>
+	</div>
+}
+
+templ Social002Feed() {
+	<div class="max-w-5xl mx-auto">
+		<div class="grid grid-cols-3 gap-1 md:gap-2">
+			for i := 1; i <= 12; i++ {
+				@Social002Post(i)
+			}
+		</div>
+	</div>
+}
+
+templ Social002Post(index int) {
+	@card.Card(card.Props{
+		Class: "relative aspect-square group cursor-pointer overflow-hidden hover:shadow-lg transition-all",
+	}) {
+		<div class="w-full h-full bg-muted flex items-center justify-center">
+			<div class="text-muted-foreground/30">
+				if index%3 == 0 {
+					@icon.Image(icon.Props{
+						Size: 32,
+					})
+				} else if index%3 == 1 {
+					@icon.Video(icon.Props{
+						Size: 32,
+					})
+				} else {
+					@icon.LayoutGrid(icon.Props{
+						Size: 32,
+					})
+				}
+			</div>
+		</div>
+		<div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+			<div class="flex items-center gap-6 text-white">
+				<div class="flex items-center gap-2">
+					@icon.Heart(icon.Props{
+						Size: 20,
+					})
+					<span class="font-semibold">{ fmt.Sprintf("%d.%dk", (index*17)%99, (index*3)%9) }</span>
+				</div>
+				<div class="flex items-center gap-2">
+					@icon.MessageCircle(icon.Props{
+						Size: 20,
+					})
+					<span class="font-semibold">{ fmt.Sprintf("%d", (index*23)%999) }</span>
+				</div>
+			</div>
+		</div>
+		if index%3 == 1 {
+			<div class="absolute top-2 right-2">
+				@icon.Play(icon.Props{
+					Size:  20,
+					Class: "text-white drop-shadow-lg",
+				})
+			</div>
+		} else if index%3 == 2 {
+			<div class="absolute top-2 right-2">
+				@icon.LayoutGrid(icon.Props{
+					Size:  20,
+					Class: "text-white drop-shadow-lg",
+				})
+			</div>
+		}
+	}
+}
+
+templ Social002Footer() {
+	<div class="max-w-5xl mx-auto mt-8">
+		<div class="text-center">
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+			}) {
+				<span class="flex items-center gap-2">
+					Load More
+					@icon.ChevronDown(icon.Props{
+						Size: 16,
+					})
+				</span>
+			}
+		</div>
+	</div>
+}

@@ -1,0 +1,168 @@
+package ecommerce
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/carousel"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+// Shop003 - Product Carousel / Featured Products
+templ Shop003() {
+	<section class="py-12 px-6 md:px-10">
+		<div class="max-w-7xl mx-auto">
+			@Shop003Header()
+			@Shop003Carousel()
+		</div>
+	</section>
+}
+
+templ Shop003Header() {
+	<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+		<div>
+			<h2 class="text-xl sm:text-2xl font-bold">Featured Products</h2>
+			<p class="text-sm text-muted-foreground mt-1">Handpicked items just for you</p>
+		</div>
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+			Class:   "w-full sm:w-auto",
+		}) {
+			View All
+			@icon.ArrowRight(icon.Props{Size: 16, Class: "ml-2"})
+		}
+	</div>
+}
+
+templ Shop003Carousel() {
+	@carousel.Carousel(carousel.Props{
+		ID: "featured-products",
+	}) {
+		@carousel.Content() {
+			@Shop003CarouselItem(
+				"Smart Watch Pro",
+				"$299",
+				"/assets/img/placeholder.svg",
+				true,
+			)
+			@Shop003CarouselItem(
+				"Wireless Earbuds",
+				"$149",
+				"/assets/img/placeholder.svg",
+				false,
+			)
+			@Shop003CarouselItem(
+				"Leather Backpack",
+				"$89",
+				"/assets/img/placeholder.svg",
+				true,
+			)
+			@Shop003CarouselItem(
+				"Vintage Camera",
+				"$599",
+				"/assets/img/placeholder.svg",
+				false,
+			)
+			@Shop003CarouselItem(
+				"Running Shoes",
+				"$129",
+				"/assets/img/placeholder.svg",
+				true,
+			)
+			@Shop003CarouselItem(
+				"Coffee Maker",
+				"$79",
+				"/assets/img/placeholder.svg",
+				false,
+			)
+		}
+		@carousel.Previous()
+		@carousel.Next()
+	}
+}
+
+templ Shop003CarouselItem(name string, price string, imageUrl string, isNew bool) {
+	@carousel.Item(carousel.ItemProps{
+		Class: "basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4",
+	}) {
+		<div class="p-2">
+			<div class="group cursor-pointer">
+				<div class="aspect-square rounded-lg overflow-hidden bg-muted relative">
+					<img
+						src={ imageUrl }
+						alt={ name }
+						class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+					/>
+					if isNew {
+						@badge.Badge(badge.Props{
+							Class: "absolute top-2 left-2",
+						}) {
+							New
+						}
+					}
+					<div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+				</div>
+				<div class="mt-3 space-y-1">
+					<h3 class="font-medium line-clamp-2 text-sm sm:text-base">{ name }</h3>
+					<div class="flex items-center justify-between gap-2">
+						<span class="font-bold text-sm sm:text-base">{ price }</span>
+						@button.Button(button.Props{
+							Size:    button.SizeSm,
+							Variant: button.VariantOutline,
+							Class:   "text-xs sm:text-sm",
+						}) {
+							Add to Cart
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+}
+
+// Alternative banner style carousel
+templ Shop003BannerCarousel() {
+	<section class="w-full">
+		@carousel.Carousel(carousel.Props{
+			ID: "banner-carousel",
+		}) {
+			@carousel.Content() {
+				@Shop003BannerSlide(
+					"Summer Sale",
+					"Up to 50% off on selected items",
+					"Shop Now",
+					"bg-gradient-to-r from-blue-500 to-purple-600",
+				)
+				@Shop003BannerSlide(
+					"New Arrivals",
+					"Check out our latest collection",
+					"Explore",
+					"bg-gradient-to-r from-green-500 to-teal-600",
+				)
+				@Shop003BannerSlide(
+					"Free Shipping",
+					"On orders over $50",
+					"Learn More",
+					"bg-gradient-to-r from-orange-500 to-red-600",
+				)
+			}
+			@carousel.Previous()
+			@carousel.Next()
+		}
+	</section>
+}
+
+templ Shop003BannerSlide(title string, subtitle string, cta string, gradient string) {
+	@carousel.Item() {
+		<div class={ "w-full h-64 md:h-80 flex items-center justify-center text-white", gradient }>
+			<div class="text-center px-6">
+				<h2 class="text-3xl md:text-5xl font-bold mb-4">{ title }</h2>
+				<p class="text-lg md:text-xl mb-6 opacity-90">{ subtitle }</p>
+				@button.Button(button.Props{
+					Variant: button.VariantSecondary,
+				}) {
+					{ cta }
+				}
+			</div>
+		</div>
+	}
+}

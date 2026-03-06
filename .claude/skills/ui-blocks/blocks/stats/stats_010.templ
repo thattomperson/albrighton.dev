@@ -1,0 +1,37 @@
+package stats
+
+import (
+	badgecomp "github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+)
+
+templ Stats010() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-6">
+		@Stats010Card("$2.4M", "Annual Revenue")
+		@Stats010Card("15.2K", "Happy Customers")
+		@Stats010Card("98.7%", "Success Rate")
+	</div>
+}
+
+templ Stats010Card(bigNumber, subtitle string) {
+	@card.Card() {
+		@card.Content(card.ContentProps{
+			Class: "p-8 text-center",
+		}) {
+			<div class="space-y-4">
+				<div class={ "text-6xl md:text-7xl font-black" }>
+					{ bigNumber }
+				</div>
+				<div class={ "text-lg font-medium text-primary/90" }>
+					{ subtitle }
+				</div>
+				@badgecomp.Badge(badgecomp.Props{
+					Variant: badgecomp.VariantSecondary,
+					Class:   "bg-primary/70 text-primary-foreground",
+				}) {
+					+23% this year
+				}
+			</div>
+		}
+	}
+}

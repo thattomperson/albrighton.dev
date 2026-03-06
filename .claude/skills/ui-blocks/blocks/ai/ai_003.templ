@@ -1,0 +1,313 @@
+package ai
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/sheet"
+)
+
+templ AI003() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		@sheet.Sheet(sheet.Props{
+			Side: sheet.SideLeft,
+		}) {
+			@card.Card(card.Props{Class: "w-full max-w-6xl h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden flex relative"}) {
+				<!-- Mobile menu trigger -->
+				@sheet.Trigger(sheet.TriggerProps{
+					Class: "md:hidden absolute top-4 left-4 z-10",
+				}) {
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+					}) {
+						@icon.Menu(icon.Props{Size: 20})
+					}
+				}
+				<!-- Desktop sidebar -->
+				<div class="hidden md:block">
+					@AI003Sidebar()
+				</div>
+				@AI003EmptyState()
+			}
+			<!-- Mobile sidebar drawer -->
+			@sheet.Content(sheet.ContentProps{
+				HideCloseButton: true,
+			}) {
+				@AI003SidebarDrawerContent()
+			}
+		}
+	</section>
+}
+
+templ AI003Sidebar() {
+	<div class="w-80 border-r flex flex-col bg-muted/10 h-full">
+		@AI003SidebarHeader()
+		@AI003SidebarContent()
+	</div>
+}
+
+templ AI003SidebarDrawerContent() {
+	<div class="flex flex-col h-full">
+		@AI003SidebarHeader()
+		@AI003SidebarContent()
+	</div>
+}
+
+templ AI003SidebarHeader() {
+	<div class="p-4 border-b space-y-3">
+		<div class="flex items-center justify-between">
+			<h2 class="text-lg font-semibold">Conversations</h2>
+			@button.Button(button.Props{
+				Size: button.SizeIcon,
+			}) {
+				@icon.MapPinPen(icon.Props{
+					Size: 18,
+				})
+			}
+		</div>
+		<div class="relative">
+			<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+				@icon.Search(icon.Props{
+					Size:  16,
+					Class: "text-muted-foreground",
+				})
+			</div>
+			@input.Input(input.Props{
+				Placeholder: "Search conversations...",
+				Class:       "pl-9 h-9",
+			})
+		</div>
+		<div class="flex gap-2">
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Size:    button.SizeSm,
+				Class:   "flex-1",
+			}) {
+				@icon.FolderOpen(icon.Props{
+					Size:  14,
+					Class: "mr-1",
+				})
+				All Chats
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeSm,
+				Class:   "flex-1",
+			}) {
+				@icon.Star(icon.Props{
+					Size:  14,
+					Class: "mr-1",
+				})
+				Starred
+			}
+		</div>
+	</div>
+}
+
+templ AI003SidebarContent() {
+	<div class="flex-1 overflow-y-auto">
+		<div class="p-2 space-y-4">
+			@AI003ConversationGroup("Today", []AI003_Conversation{
+				{Title: "Go Performance Optimization", Time: "2m ago", Pinned: true, Model: "GPT-4"},
+				{Title: "Python Data Analysis Help", Time: "1h ago", Pinned: false, Model: "Claude 3"},
+				{Title: "SQL Query Debugging", Time: "3h ago", Pinned: false, Model: "GPT-3.5"},
+			})
+			@AI003ConversationGroup("Yesterday", []AI003_Conversation{
+				{Title: "Docker Compose Setup", Time: "1d ago", Pinned: false, Model: "GPT-4"},
+				{Title: "API Design Best Practices", Time: "1d ago", Pinned: true, Model: "Claude 3"},
+				{Title: "Go Concurrency Patterns", Time: "1d ago", Pinned: false, Model: "GPT-3.5"},
+			})
+			@AI003ConversationGroup("Previous 7 Days", []AI003_Conversation{
+				{Title: "Machine Learning Basics", Time: "3d ago", Pinned: false, Model: "GPT-4"},
+				{Title: "CSS Grid Layout Tutorial", Time: "4d ago", Pinned: false, Model: "GPT-3.5"},
+				{Title: "Git Advanced Commands", Time: "5d ago", Pinned: false, Model: "Claude 3"},
+				{Title: "Go Generics", Time: "6d ago", Pinned: false, Model: "GPT-4"},
+			})
+		</div>
+	</div>
+}
+
+type AI003_Conversation struct {
+	Title  string
+	Time   string
+	Pinned bool
+	Model  string
+}
+
+templ AI003ConversationGroup(title string, conversations []AI003_Conversation) {
+	<div>
+		<h3 class="text-xs font-medium text-muted-foreground px-2 mb-2">{ title }</h3>
+		<div class="space-y-1">
+			for _, conv := range conversations {
+				@AI003ConversationItem(conv)
+			}
+		</div>
+	</div>
+}
+
+templ AI003ConversationItem(conv AI003_Conversation) {
+	<div class="group relative">
+		<button class="w-full text-left px-3 py-2 rounded-lg hover:bg-background transition-colors">
+			<div class="flex items-start justify-between gap-2">
+				<div class="flex-1 min-w-0">
+					<div class="flex items-center gap-2">
+						if conv.Pinned {
+							@icon.Pin(icon.Props{
+								Size:  12,
+								Class: "text-muted-foreground",
+							})
+						}
+						<p class="text-sm font-medium truncate">{ conv.Title }</p>
+					</div>
+					<div class="flex items-center gap-2 mt-1">
+						<span class="text-xs text-muted-foreground">{ conv.Time }</span>
+						<span class="text-xs text-muted-foreground">•</span>
+						<span class="text-xs text-muted-foreground">{ conv.Model }</span>
+					</div>
+				</div>
+			</div>
+		</button>
+		<div class="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity">
+			@dropdown.Dropdown() {
+				@dropdown.Trigger() {
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+						Class:   "h-7 w-7",
+					}) {
+						@icon.MessageCircleMore(icon.Props{
+							Size: 14,
+						})
+					}
+				}
+				@dropdown.Content(dropdown.ContentProps{
+					Class: "w-40",
+				}) {
+					@dropdown.Item() {
+						@icon.Pin(icon.Props{
+							Size:  14,
+							Class: "mr-2",
+						})
+						Pin/Unpin
+					}
+					@dropdown.Item() {
+						@icon.Star(icon.Props{
+							Size:  14,
+							Class: "mr-2",
+						})
+						Star
+					}
+					@dropdown.Item() {
+						@icon.Pencil(icon.Props{
+							Size:  14,
+							Class: "mr-2",
+						})
+						Rename
+					}
+					@dropdown.Item() {
+						@icon.Share(icon.Props{
+							Size:  14,
+							Class: "mr-2",
+						})
+						Share
+					}
+					@dropdown.Separator()
+					@dropdown.Item() {
+						@icon.Archive(icon.Props{
+							Size:  14,
+							Class: "mr-2",
+						})
+						Archive
+					}
+					@dropdown.Item() {
+						@icon.Trash2(icon.Props{
+							Size:  14,
+							Class: "mr-2",
+						})
+						Delete
+					}
+				}
+			}
+		</div>
+	</div>
+}
+
+templ AI003EmptyState() {
+	<div class="flex-1 flex items-center justify-center p-8 pt-16 md:pt-8">
+		<div class="text-center max-w-md">
+			<div class="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+				@icon.MessageSquare(icon.Props{
+					Size:  32,
+					Class: "text-muted-foreground",
+				})
+			</div>
+			<h3 class="text-lg font-semibold mb-2">Start a New Conversation</h3>
+			<p class="text-sm text-muted-foreground mb-6">
+				Select a conversation from the sidebar or create a new one to begin chatting with AI
+			</p>
+			<div class="flex flex-col gap-3">
+				@button.Button(button.Props{
+					Class: "w-full",
+				}) {
+					@icon.Plus(icon.Props{
+						Size:  16,
+						Class: "mr-2",
+					})
+					New Conversation
+				}
+				<div class="flex gap-2">
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+						Size:    button.SizeSm,
+						Class:   "flex-1",
+					}) {
+						@icon.Upload(icon.Props{
+							Size:  14,
+							Class: "mr-1",
+						})
+						Import
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+						Size:    button.SizeSm,
+						Class:   "flex-1",
+					}) {
+						@icon.Download(icon.Props{
+							Size:  14,
+							Class: "mr-1",
+						})
+						Export
+					}
+				</div>
+			</div>
+			<div class="mt-8 p-4 bg-muted/50 rounded-lg">
+				<h4 class="text-sm font-medium mb-2">Quick Templates</h4>
+				<div class="grid grid-cols-2 gap-2">
+					@AI003TemplateButton("Code Review", "code")
+					@AI003TemplateButton("Writing Help", "writing")
+					@AI003TemplateButton("Data Analysis", "data")
+					@AI003TemplateButton("Learning", "learning")
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ AI003TemplateButton(label, category string) {
+	<button class="flex items-center gap-2 p-2 text-sm bg-background border rounded-lg hover:bg-muted transition-colors">
+		switch category {
+			case "code":
+				@icon.Code(icon.Props{Size: 14})
+			case "writing":
+				@icon.FileText(icon.Props{Size: 14})
+			case "data":
+				@icon.ChartBar(icon.Props{Size: 14})
+			default:
+				@icon.GraduationCap(icon.Props{Size: 14})
+		}
+		{ label }
+	</button>
+}

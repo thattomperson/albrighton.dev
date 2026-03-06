@@ -1,0 +1,69 @@
+package cta
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+)
+
+templ CTA004() {
+	<section class="px-6 md:px-10 py-16 md:py-24">
+		<div class="mx-auto max-w-7xl">
+			<div class="mx-auto max-w-2xl text-center">
+				@CTA004Content()
+				@CTA004Form()
+			</div>
+		</div>
+	</section>
+}
+
+templ CTA004Content() {
+	<div class="mb-8">
+		<h2 class="mb-4 text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+			Stay updated with our newsletter
+		</h2>
+		<p class="text-lg md:text-xl text-muted-foreground">
+			Get the latest updates, news, and exclusive offers delivered straight to your inbox.
+		</p>
+	</div>
+}
+
+templ CTA004Form() {
+	<form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+		<div class="flex-1">
+			@input.Input(input.Props{
+				Type:        input.TypeEmail,
+				Placeholder: "Enter your email",
+				Class:       "h-12",
+			})
+		</div>
+		@button.Button(button.Props{
+			Class: "h-12",
+		}) {
+			Subscribe
+		}
+	</form>
+	<div class="mt-6 flex items-center justify-center gap-6 text-sm text-muted-foreground">
+		<div class="flex items-center gap-2">
+			@icon.Check(icon.Props{
+				Size:  16,
+				Class: "text-primary",
+			})
+			<span>Free forever</span>
+		</div>
+		<div class="flex items-center gap-2">
+			@icon.Check(icon.Props{
+				Size:  16,
+				Class: "text-primary",
+			})
+			<span>No spam</span>
+		</div>
+		<div class="flex items-center gap-2">
+			@icon.Check(icon.Props{
+				Size:  16,
+				Class: "text-primary",
+			})
+			<span>Cancel anytime</span>
+		</div>
+	</div>
+}

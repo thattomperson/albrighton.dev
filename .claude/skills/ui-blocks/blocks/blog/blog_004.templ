@@ -1,0 +1,169 @@
+package blog
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/tabs"
+)
+
+templ Blog004() {
+	<section class="flex min-h-svh w-full justify-center p-6 md:p-10">
+		<div class="w-full max-w-7xl">
+			@Blog004Header()
+			@Blog004Tabs()
+		</div>
+	</section>
+}
+
+templ Blog004Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">Articles & <span class="text-primary">Resources</span></h2>
+		<p class="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+			Browse our content by category
+		</p>
+	</div>
+}
+
+templ Blog004Tabs() {
+	@tabs.Tabs(tabs.Props{
+		Class: "w-full",
+	}) {
+		<div class="overflow-x-auto mb-8">
+			@tabs.List(tabs.ListProps{
+				Class: "flex min-w-max",
+			}) {
+				@tabs.Trigger(tabs.TriggerProps{
+					Value: "all",
+				}) {
+					All Posts
+				}
+				@tabs.Trigger(tabs.TriggerProps{
+					Value: "tutorials",
+				}) {
+					Tutorials
+				}
+				@tabs.Trigger(tabs.TriggerProps{
+					Value: "news",
+				}) {
+					News
+				}
+				@tabs.Trigger(tabs.TriggerProps{
+					Value: "guides",
+				}) {
+					Guides
+				}
+				@tabs.Trigger(tabs.TriggerProps{
+					Value: "case-studies",
+				}) {
+					Case Studies
+				}
+			}
+		</div>
+		@tabs.Content(tabs.ContentProps{
+			Value: "all",
+		}) {
+			@Blog004PostGrid([]Blog004Post{
+				{Title: "Getting Started with Go Modules", Category: "Tutorial", Date: "Mar 20, 2024", ReadTime: "5 min", Author: "John Smith"},
+				{Title: "Company Announces New Features", Category: "News", Date: "Mar 19, 2024", ReadTime: "3 min", Author: "PR Team"},
+				{Title: "Complete Guide to REST APIs", Category: "Guide", Date: "Mar 18, 2024", ReadTime: "15 min", Author: "Sarah Lee"},
+				{Title: "How We Scaled to 1M Users", Category: "Case Study", Date: "Mar 17, 2024", ReadTime: "20 min", Author: "CTO"},
+				{Title: "Understanding Goroutines", Category: "Tutorial", Date: "Mar 16, 2024", ReadTime: "8 min", Author: "Mike Chen"},
+				{Title: "Q1 Product Updates", Category: "News", Date: "Mar 15, 2024", ReadTime: "4 min", Author: "Product Team"},
+			})
+		}
+		@tabs.Content(tabs.ContentProps{
+			Value: "tutorials",
+		}) {
+			@Blog004PostGrid([]Blog004Post{
+				{Title: "Getting Started with Go Modules", Category: "Tutorial", Date: "Mar 20, 2024", ReadTime: "5 min", Author: "John Smith"},
+				{Title: "Understanding Goroutines", Category: "Tutorial", Date: "Mar 16, 2024", ReadTime: "8 min", Author: "Mike Chen"},
+				{Title: "Building Your First API", Category: "Tutorial", Date: "Mar 14, 2024", ReadTime: "10 min", Author: "Alice Wong"},
+				{Title: "Error Handling in Go", Category: "Tutorial", Date: "Mar 12, 2024", ReadTime: "7 min", Author: "Bob Johnson"},
+			})
+		}
+		@tabs.Content(tabs.ContentProps{
+			Value: "news",
+		}) {
+			@Blog004PostGrid([]Blog004Post{
+				{Title: "Company Announces New Features", Category: "News", Date: "Mar 19, 2024", ReadTime: "3 min", Author: "PR Team"},
+				{Title: "Q1 Product Updates", Category: "News", Date: "Mar 15, 2024", ReadTime: "4 min", Author: "Product Team"},
+				{Title: "Partnership Announcement", Category: "News", Date: "Mar 10, 2024", ReadTime: "2 min", Author: "PR Team"},
+			})
+		}
+		@tabs.Content(tabs.ContentProps{
+			Value: "guides",
+		}) {
+			@Blog004PostGrid([]Blog004Post{
+				{Title: "Complete Guide to REST APIs", Category: "Guide", Date: "Mar 18, 2024", ReadTime: "15 min", Author: "Sarah Lee"},
+				{Title: "Database Design Best Practices", Category: "Guide", Date: "Mar 13, 2024", ReadTime: "25 min", Author: "DB Expert"},
+				{Title: "Security Hardening Guide", Category: "Guide", Date: "Mar 8, 2024", ReadTime: "30 min", Author: "Security Team"},
+			})
+		}
+		@tabs.Content(tabs.ContentProps{
+			Value: "case-studies",
+		}) {
+			@Blog004PostGrid([]Blog004Post{
+				{Title: "How We Scaled to 1M Users", Category: "Case Study", Date: "Mar 17, 2024", ReadTime: "20 min", Author: "CTO"},
+				{Title: "Migrating from Monolith to Microservices", Category: "Case Study", Date: "Mar 11, 2024", ReadTime: "18 min", Author: "Tech Lead"},
+				{Title: "Reducing Costs by 50%", Category: "Case Study", Date: "Mar 5, 2024", ReadTime: "15 min", Author: "DevOps Team"},
+			})
+		}
+	}
+}
+
+type Blog004Post struct {
+	Title    string
+	Category string
+	Date     string
+	ReadTime string
+	Author   string
+}
+
+templ Blog004PostGrid(posts []Blog004Post) {
+	<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+		for _, post := range posts {
+			@Blog004PostCard(post)
+		}
+	</div>
+}
+
+templ Blog004PostCard(post Blog004Post) {
+	@card.Card(card.Props{
+		Class: "group relative overflow-hidden hover:shadow-lg transition-all h-full",
+	}) {
+		@card.Header() {
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantOutline,
+				Class:   "w-min mb-2 text-nowrap hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors cursor-pointer",
+			}) {
+				{ post.Category }
+			}
+			@card.Title(card.TitleProps{
+				Class: "mt-3",
+			}) {
+				{ post.Title }
+			}
+		}
+		@card.Content(card.ContentProps{
+			Class: "flex-1",
+		}) {
+			<div class="flex items-center justify-between text-sm text-muted-foreground">
+				<span>{ post.Author }</span>
+				<span>{ post.Date }</span>
+			</div>
+		}
+		@card.Footer() {
+			<div class="flex items-center justify-between w-full">
+				<span class="text-sm text-muted-foreground">{ post.ReadTime } read</span>
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+					Class:   "hover:border-primary hover:text-primary transition-colors",
+				}) {
+					Read More →
+				}
+			</div>
+		}
+		<div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-primary/0 via-primary to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+	}
+}

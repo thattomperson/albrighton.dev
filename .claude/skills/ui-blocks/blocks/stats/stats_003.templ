@@ -1,0 +1,39 @@
+package stats
+
+import (
+	badgecomp "github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Stats003() {
+	<div class="grid grid-cols-1 md:grid-cols-4 gap-6 p-6">
+		@Stats003Card("Monthly Revenue", "$127.4K", "+18.5%", icon.DollarSign(icon.Props{Size: 24, Class: "text-primary"}), "border-primary/20")
+		@Stats003Card("Active Users", "12.4K", "+15.3%", icon.Users(icon.Props{Size: 24, Class: "text-primary"}), "border-primary/20")
+		@Stats003Card("Conversion", "4.8%", "+2.1%", icon.TrendingUp(icon.Props{Size: 24, Class: "text-primary"}), "border-primary/20")
+		@Stats003Card("Server Uptime", "99.9%", "+0.1%", icon.Zap(icon.Props{Size: 24, Class: "text-primary"}), "border-primary/20")
+	</div>
+}
+
+templ Stats003Card(title, value, change string, iconElement templ.Component, borderClass string) {
+	@card.Card(card.Props{
+		Class: "relative overflow-hidden " + borderClass,
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "p-6 text-center",
+		}) {
+			<div class="mb-4">
+				<div class="mb-3 items-center justify-center flex">
+					@iconElement
+				</div>
+				<h3 class="text-2xl font-bold">{ value }</h3>
+				<p class="text-sm text-muted-foreground">{ title }</p>
+			</div>
+			@badgecomp.Badge(badgecomp.Props{
+				Variant: badgecomp.VariantDefault,
+			}) {
+				{ change }
+			}
+		}
+	}
+}

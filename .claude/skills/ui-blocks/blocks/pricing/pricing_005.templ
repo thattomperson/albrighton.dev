@@ -1,0 +1,105 @@
+package pricing
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Pricing005() {
+	<section class="py-24 px-4 sm:px-6 lg:px-8">
+		<div class="mx-auto max-w-md">
+			@Pricing005Header()
+			@Pricing005PricingCard()
+		</div>
+	</section>
+}
+
+templ Pricing005Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl font-bold tracking-tight mb-4">
+			Simple, honest pricing
+		</h2>
+		<p class="text-muted-foreground">
+			One plan that includes everything you need
+		</p>
+	</div>
+}
+
+templ Pricing005PricingCard() {
+	@card.Card() {
+		@card.Content() {
+			<div class="text-center mb-8">
+				<h3 class="text-xl font-semibold mb-2">Professional</h3>
+				<div class="mb-4">
+					<span class="text-5xl font-bold">$39</span>
+					<span class="text-muted-foreground">/month</span>
+				</div>
+				<p class="text-sm text-muted-foreground">
+					Billed monthly, cancel anytime
+				</p>
+			</div>
+			@separator.Separator(separator.Props{Class: "my-8"})
+			<div class="space-y-4 mb-8">
+				<h4 class="font-medium">What's included:</h4>
+				<ul class="space-y-3 text-sm">
+					<li class="flex items-start gap-2">
+						<span class="text-primary">✓</span>
+						<span>Unlimited projects and team members</span>
+					</li>
+					<li class="flex items-start gap-2">
+						<span class="text-primary">✓</span>
+						<span>100GB storage with automatic backups</span>
+					</li>
+					<li class="flex items-start gap-2">
+						<span class="text-primary">✓</span>
+						<span>Advanced collaboration tools</span>
+					</li>
+					<li class="flex items-start gap-2">
+						<span class="text-primary">✓</span>
+						<span>Priority email and chat support</span>
+					</li>
+					<li class="flex items-start gap-2">
+						<span class="text-primary">✓</span>
+						<span>Custom integrations and API access</span>
+					</li>
+					<li class="flex items-start gap-2">
+						<span class="text-primary">✓</span>
+						<span>Advanced analytics and reporting</span>
+					</li>
+					<li class="flex items-start gap-2">
+						<span class="text-primary">✓</span>
+						<span>SSO and enterprise security features</span>
+					</li>
+				</ul>
+			</div>
+			@Pricing005CTAButtons()
+			@separator.Separator(separator.Props{Class: "my-8"})
+			<div class="text-center">
+				<p class="text-xs text-muted-foreground mb-2">
+					14-day free trial • No credit card required
+				</p>
+				<p class="text-xs text-muted-foreground">
+					Questions? <a href="#" class="text-primary hover:underline">Contact our sales team</a>
+				</p>
+			</div>
+		}
+	}
+}
+
+templ Pricing005CTAButtons() {
+	<div class="space-y-3">
+		@button.Button(button.Props{
+			FullWidth: true,
+			Variant:   button.VariantDefault,
+		}) {
+			Start free trial
+		}
+		@button.Button(button.Props{
+			FullWidth: true,
+			Variant:   button.VariantOutline,
+		}) {
+			Schedule a demo
+		}
+	</div>
+}

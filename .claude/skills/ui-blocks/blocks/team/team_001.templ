@@ -1,0 +1,105 @@
+package team
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+)
+
+templ Team001() {
+	<section class="py-24 bg-background">
+		<div class="container mx-auto px-4">
+			@Team001Header()
+			@Team001TeamGrid()
+		</div>
+	</section>
+}
+
+templ Team001Header() {
+	<div class="text-center mb-16">
+		@badge.Badge() {
+			Our Team
+		}
+		<h2 class="text-4xl md:text-5xl font-bold mb-6 mt-4">
+			Meet the people behind the magic
+		</h2>
+		<p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+			Our diverse team brings together expertise from design, development, and business to create exceptional digital experiences.
+		</p>
+	</div>
+}
+
+templ Team001TeamGrid() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+		@Team001TeamMember(
+			"/assets/img/avatar-gh-1.png",
+			"Sarah Johnson",
+			"CEO & Founder",
+			"Leading the vision and strategy for our platform. Former VP at TechCorp with 15+ years experience.",
+		)
+		@Team001TeamMember(
+			"/assets/img/avatar-gh-2.png",
+			"Michael Chen",
+			"CTO",
+			"Architecting scalable solutions. Previously lead engineer at major tech companies.",
+		)
+		@Team001TeamMember(
+			"/assets/img/avatar-gh-3.png",
+			"Emily Rodriguez",
+			"Head of Design",
+			"Creating beautiful and intuitive user experiences. Award-winning designer from top agencies.",
+		)
+		@Team001TeamMember(
+			"/assets/img/avatar-gh-4.png",
+			"David Kim",
+			"Lead Developer",
+			"Building robust applications. Full-stack expert with passion for clean code.",
+		)
+		@Team001TeamMember(
+			"/assets/img/avatar-gh-5.png",
+			"Jessica Park",
+			"Product Manager",
+			"Driving product strategy and user research. MBA from Stanford with product experience.",
+		)
+		@Team001TeamMember(
+			"/assets/img/avatar-gh-6.png",
+			"Alex Thompson",
+			"Marketing Director",
+			"Growing our community and brand. Digital marketing expert with proven track record.",
+		)
+		@Team001TeamMember(
+			"/assets/img/avatar-gh-7.png",
+			"Maria Garcia",
+			"Customer Success",
+			"Ensuring customer satisfaction and success. Former consultant with deep industry knowledge.",
+		)
+		@Team001TeamMember(
+			"/assets/img/avatar-gh-1.png",
+			"James Wilson",
+			"Operations Manager",
+			"Streamlining processes and operations. Operations expert from fast-growing startups.",
+		)
+	</div>
+}
+
+templ Team001TeamMember(imageSrc, name, role, description string) {
+	@card.Card(card.Props{
+		Class: "text-center hover:shadow-lg transition-shadow",
+	}) {
+		@card.Content() {
+			<div class="mb-4">
+				@avatar.Avatar(avatar.Props{
+					Class: "w-24 h-24 mx-auto",
+				}) {
+					@avatar.Image(avatar.ImageProps{
+						Src: imageSrc,
+						Alt: name,
+					})
+				}
+			</div>
+			<h3 class="text-xl font-semibold mb-2">{ name }</h3>
+			<p class="text-primary font-medium mb-3">{ role }</p>
+			<p class="text-muted-foreground text-sm">{ description }</p>
+		}
+	}
+}

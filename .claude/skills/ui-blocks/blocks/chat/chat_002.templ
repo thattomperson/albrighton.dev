@@ -1,0 +1,198 @@
+package chat
+
+import (
+	"fmt"
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+)
+
+templ Chat002() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-2xl">
+			@card.Card(card.Props{Class: "overflow-hidden"}) {
+				@Chat002Header()
+				@Chat002ConversationList()
+			}
+		</div>
+	</section>
+}
+
+templ Chat002Header() {
+	<div class="border-b px-6 py-4">
+		<div class="flex items-center justify-between mb-4">
+			<h2 class="text-xl font-semibold">Conversations</h2>
+			<div class="flex items-center gap-2">
+				@dropdown.Dropdown() {
+					@dropdown.Trigger() {
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Size:    button.SizeIcon,
+						}) {
+							@icon.ListFilter(icon.Props{
+								Size: 18,
+							})
+						}
+					}
+					@dropdown.Content(dropdown.ContentProps{
+						Class: "w-48",
+					}) {
+						@dropdown.Item() {
+							All Conversations
+						}
+						@dropdown.Item() {
+							Unread Only
+						}
+						@dropdown.Item() {
+							Archived
+						}
+						@dropdown.Separator()
+						@dropdown.Item() {
+							Mark All as Read
+						}
+					}
+				}
+				@button.Button(button.Props{
+					Size: button.SizeIcon,
+				}) {
+					@icon.Pencil(icon.Props{
+						Size: 18,
+					})
+				}
+			</div>
+		</div>
+		<div class="relative">
+			<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+				@icon.Search(icon.Props{
+					Size:  16,
+					Class: "text-muted-foreground",
+				})
+			</div>
+			@input.Input(input.Props{
+				Placeholder: "Search messages or people...",
+				Class:       "pl-9",
+			})
+		</div>
+	</div>
+}
+
+templ Chat002ConversationList() {
+	<div class="divide-y">
+		@Chat002ConversationItem(
+			"/assets/img/avatar-gh-1.png",
+			"Product Team",
+			"Emily Davis",
+			"We need to finalize the Q4 roadmap by end of week. Can everyone review the latest doc?",
+			"Just now",
+			true,
+			5,
+			true,
+			[]string{"team", "product"},
+		)
+		@Chat002ConversationItem(
+			"/assets/img/avatar-gh-2.png",
+			"David Kim",
+			"You",
+			"Sounds good, I'll have it ready by tomorrow morning",
+			"10m",
+			false,
+			0,
+			false,
+			[]string{"work"},
+		)
+		@Chat002ConversationItem(
+			"/assets/img/avatar-gh-3.png",
+			"Support Channel",
+			"Lisa Wong",
+			"Customer ticket #4521 has been resolved. Great teamwork!",
+			"45m",
+			false,
+			2,
+			true,
+			[]string{"support", "team"},
+		)
+		@Chat002ConversationItem(
+			"/assets/img/avatar-gh-4.png",
+			"Rachel Green",
+			"Rachel Green",
+			"Thanks for your help with the presentation! The client loved it 🎉",
+			"2h",
+			true,
+			0,
+			false,
+			[]string{"client"},
+		)
+		@Chat002ConversationItem(
+			"/assets/img/avatar-gh-5.png",
+			"Dev Standup",
+			"Tom Chen",
+			"Daily standup in 15 minutes. Here's the Zoom link: zoom.us/j/123456789",
+			"3h",
+			false,
+			0,
+			true,
+			[]string{"meeting", "dev"},
+		)
+	</div>
+}
+
+templ Chat002ConversationItem(avatarUrl, name, sender, lastMessage, time string, isOnline bool, unreadCount int, isGroup bool, tags []string) {
+	<div class="flex items-start gap-4 px-6 py-4 hover:bg-muted/50 cursor-pointer transition-colors">
+		<div class="relative">
+			@avatar.Avatar(avatar.Props{
+				Class: "h-12 w-12",
+			}) {
+				@avatar.Image(avatar.ImageProps{
+					Src: avatarUrl,
+					Alt: name,
+				})
+			}
+			if isOnline {
+				<span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-background rounded-full"></span>
+			}
+		</div>
+		<div class="flex-1 min-w-0">
+			<div class="flex items-start justify-between mb-1">
+				<div>
+					<div class="flex items-center gap-2">
+						<p class="font-semibold text-sm">{ name }</p>
+						if isGroup {
+							@icon.Users(icon.Props{
+								Size:  14,
+								Class: "text-muted-foreground",
+							})
+						}
+					</div>
+					<p class="text-xs text-muted-foreground">{ sender }: { lastMessage }</p>
+				</div>
+				<div class="flex flex-col items-end gap-2">
+					<span class="text-xs text-muted-foreground whitespace-nowrap">{ time }</span>
+					if unreadCount > 0 {
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantDefault,
+							Class:   "h-5 min-w-5 px-1.5 flex items-center justify-center",
+						}) {
+							{ fmt.Sprintf("%d", unreadCount) }
+						}
+					}
+				</div>
+			</div>
+			if len(tags) > 0 {
+				<div class="flex flex-wrap gap-1 mt-2">
+					for _, tag := range tags {
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantSecondary,
+							Class:   "text-xs px-2 py-0 h-5",
+						}) {
+							{ tag }
+						}
+					}
+				</div>
+			}
+		</div>
+	</div>
+}

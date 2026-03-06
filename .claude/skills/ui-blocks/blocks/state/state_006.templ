@@ -1,0 +1,60 @@
+package state
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ State006() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="text-center space-y-6 max-w-md">
+			@State006Icon()
+			@State006Content()
+			@State006Actions()
+		</div>
+	</section>
+}
+
+templ State006Icon() {
+	<div class="relative inline-flex">
+		<div class="absolute inset-0 bg-red-500/10 rounded-full"></div>
+		<div class="relative rounded-full bg-red-100 dark:bg-red-900/20 p-6">
+			@icon.Lock(icon.Props{
+				Size:  48,
+				Class: "text-red-600 dark:text-red-500",
+			})
+		</div>
+	</div>
+}
+
+templ State006Content() {
+	<div class="space-y-2">
+		<h2 class="text-2xl font-semibold tracking-tight">Access Denied</h2>
+		<p class="text-muted-foreground">
+			You don't have permission to access this resource. Please contact your administrator or upgrade your account.
+		</p>
+	</div>
+}
+
+templ State006Actions() {
+	<div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+		}) {
+			<span class="flex items-center gap-2">
+				@icon.ArrowLeft(icon.Props{
+					Size: 16,
+				})
+				Go back
+			</span>
+		}
+		@button.Button() {
+			<span class="flex items-center gap-2">
+				@icon.Sparkles(icon.Props{
+					Size: 16,
+				})
+				Upgrade plan
+			</span>
+		}
+	</div>
+}

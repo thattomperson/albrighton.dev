@@ -1,0 +1,26 @@
+package announcement
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Announcement002() {
+	<div class="bg-secondary w-full">
+		<div class="container mx-auto px-4 py-2 flex items-center justify-between">
+			<div class="flex items-center gap-2">
+				@icon.TriangleAlert(icon.Props{
+					Size:  18,
+					Class: "text-primary",
+				})
+				<p class="text-sm text-secondary-foreground">Your account requires verification. <a href="#" class="font-medium underline text-primary">Verify now</a> to continue using all features.</p>
+			</div>
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.X(icon.Props{Size: 16})
+			}
+		</div>
+	</div>
+}

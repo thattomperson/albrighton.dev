@@ -1,0 +1,81 @@
+package hero
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Hero006() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="flex flex-col items-center justify-center space-y-4 text-center">
+			@Hero006Header()
+			@Hero006Metrics()
+			@Hero006Actions()
+			@Hero006Logos()
+		</div>
+	</section>
+}
+
+templ Hero006Header() {
+	<a href="#" rel="noopener noreferrer">
+		@badge.Badge(badge.Props{
+			Class:   "rounded-full px-4 py-1.5 text-sm font-medium hover:bg-muted",
+			Variant: badge.VariantOutline,
+		}) {
+			@icon.Feather(icon.Props{Class: "h-4 w-4"})
+			Featured on Product Hunt
+		}
+	</a>
+	<h1 class="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
+		Revolutionize Your Workflow
+	</h1>
+	<p class="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+		Join thousands of teams who have already transformed how they build and deploy applications
+	</p>
+}
+
+templ Hero006Metrics() {
+	<div class="mx-auto grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-12 lg:gap-16 mt-8">
+		@Hero006Metric("250K+", "Active Users")
+		@Hero006Metric("99.9%", "Uptime")
+		@Hero006Metric("4.9/5", "Average Rating")
+	</div>
+}
+
+templ Hero006Metric(value string, label string) {
+	<div class="flex flex-col items-center">
+		<span class="text-4xl font-bold">{ value }</span>
+		<span class="text-sm text-muted-foreground">{ label }</span>
+	</div>
+}
+
+templ Hero006Actions() {
+	<div class="flex flex-col gap-2 min-[400px]:flex-row pt-8">
+		@button.Button(button.Props{
+			Size:  "lg",
+			Class: "font-medium",
+		}) {
+			Try it Free
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+			Size:    "lg",
+			Class:   "font-medium",
+		}) {
+			View Demo
+			@icon.ArrowRight(icon.Props{Class: "ml-2 h-4 w-4"})
+		}
+	</div>
+}
+
+templ Hero006Logos() {
+	<div class="mt-12">
+		<p class="text-sm text-muted-foreground mb-4">Trusted by innovative companies</p>
+		<div class="flex flex-wrap justify-center gap-8 grayscale opacity-70">
+			for _, name := range []string{"Adobe", "Microsoft", "Google", "Shopify", "Spotify"} {
+				<p class="text-muted-foreground font-semibold">{ name }</p>
+			}
+		</div>
+	</div>
+}

@@ -1,0 +1,53 @@
+package state
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ State002() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-2xl">
+			@State002Empty()
+		</div>
+	</section>
+}
+
+templ State002Empty() {
+	<div class="flex flex-col items-center justify-center text-center space-y-6 py-16">
+		@State002Icon()
+		@State002Content()
+		@State002Actions()
+	</div>
+}
+
+templ State002Icon() {
+	<div class="rounded-full bg-muted p-6">
+		@icon.Inbox(icon.Props{
+			Size:  48,
+			Class: "text-muted-foreground",
+		})
+	</div>
+}
+
+templ State002Content() {
+	<div class="space-y-2">
+		<h3 class="text-2xl font-semibold tracking-tight">No results found</h3>
+		<p class="text-muted-foreground max-w-sm mx-auto">
+			We couldn't find any items matching your criteria. Try adjusting your filters or search terms.
+		</p>
+	</div>
+}
+
+templ State002Actions() {
+	<div class="flex flex-col sm:flex-row gap-3">
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+		}) {
+			Clear filters
+		}
+		@button.Button() {
+			Add new item
+		}
+	</div>
+}

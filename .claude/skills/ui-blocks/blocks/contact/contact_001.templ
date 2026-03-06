@@ -1,0 +1,86 @@
+package contact
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/textarea"
+)
+
+templ Contact001() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-md">
+			@Contact001Header()
+			@Contact001Form()
+		</div>
+	</section>
+}
+
+templ Contact001Header() {
+	<div class="text-center mb-8">
+		<h2 class="text-3xl font-bold tracking-tight mb-2">Get in <span class="text-primary">Touch</span></h2>
+		<p class="text-muted-foreground">
+			We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+		</p>
+	</div>
+}
+
+templ Contact001Form() {
+	<form class="space-y-4">
+		@Contact001NameField()
+		@Contact001EmailField()
+		@Contact001MessageField()
+		@Contact001SubmitButton()
+	</form>
+}
+
+templ Contact001NameField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact-name"}) {
+			Name
+		}
+		@input.Input(input.Props{
+			ID:          "contact-name",
+			Name:        "name",
+			Placeholder: "John Doe",
+		})
+	</div>
+}
+
+templ Contact001EmailField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact-email"}) {
+			Email
+		}
+		@input.Input(input.Props{
+			ID:          "contact-email",
+			Name:        "email",
+			Type:        input.TypeEmail,
+			Placeholder: "john@example.com",
+		})
+	</div>
+}
+
+templ Contact001MessageField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact-message"}) {
+			Message
+		}
+		@textarea.Textarea(textarea.Props{
+			ID:          "contact-message",
+			Name:        "message",
+			Placeholder: "Your message here...",
+			Rows:        5,
+		})
+	</div>
+}
+
+templ Contact001SubmitButton() {
+	<div class="pt-2">
+		@button.Button(button.Props{
+			Class: "w-full",
+		}) {
+			Send Message
+		}
+	</div>
+}

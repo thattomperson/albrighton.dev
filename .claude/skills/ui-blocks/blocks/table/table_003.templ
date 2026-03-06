@@ -1,0 +1,161 @@
+package table
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/table"
+)
+
+templ Table003() {
+	<section class="w-full max-w-6xl mx-auto p-6 md:p-8">
+		<div class="space-y-4">
+			@Table003Header()
+			@Table003Table()
+		</div>
+	</section>
+}
+
+templ Table003Header() {
+	<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+		<div>
+			<h2 class="text-2xl font-bold tracking-tight">Recent Orders</h2>
+			<p class="text-muted-foreground">Track and manage your recent orders</p>
+		</div>
+		<div class="flex items-center gap-2">
+			@dropdown.Dropdown() {
+				@dropdown.Trigger() {
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+						Size:    button.SizeSm,
+						Class:   "w-full sm:w-auto",
+					}) {
+						@icon.Funnel(icon.Props{Size: 16, Class: "mr-2"})
+						<span class="hidden sm:inline">Filter Status</span>
+						<span class="sm:hidden">Filter</span>
+						@icon.ChevronDown(icon.Props{Size: 16, Class: "ml-2"})
+					}
+				}
+				@dropdown.Content() {
+					@dropdown.Label() {
+						Filter by Status 
+					}
+					@dropdown.Separator()
+					@dropdown.Item(dropdown.ItemProps{Href: "?filter=all"}) {
+						All Orders
+					}
+					@dropdown.Item(dropdown.ItemProps{Href: "?filter=delivered"}) {
+						Delivered
+					}
+					@dropdown.Item(dropdown.ItemProps{Href: "?filter=processing"}) {
+						Processing
+					}
+					@dropdown.Item(dropdown.ItemProps{Href: "?filter=shipped"}) {
+						Shipped
+					}
+					@dropdown.Item(dropdown.ItemProps{Href: "?filter=pending"}) {
+						Pending
+					}
+					@dropdown.Item(dropdown.ItemProps{Href: "?filter=cancelled"}) {
+						Cancelled
+					}
+				}
+			}
+		</div>
+	</div>
+}
+
+templ Table003Table() {
+	<div class="rounded-md border">
+		@table.Table() {
+			@table.Header() {
+				@table.Row() {
+					@table.Head() {
+						<a href="?sort=id&order=asc" class="inline-flex items-center gap-1 hover:text-foreground">
+							<span class="hidden sm:inline">Order ID</span>
+							<span class="sm:hidden">ID</span>
+							@icon.ArrowUpDown(icon.Props{Size: 14, Class: "text-muted-foreground"})
+						</a>
+					}
+					@table.Head(table.HeadProps{Class: "hidden sm:table-cell"}) {
+						Customer 
+					}
+					@table.Head() {
+						Product 
+					}
+					@table.Head() {
+						<a href="?sort=date&order=desc" class="inline-flex items-center gap-1 hover:text-foreground">
+							Date
+							@icon.ArrowDown(icon.Props{Size: 14})
+						</a>
+					}
+					@table.Head(table.HeadProps{Class: "hidden sm:table-cell"}) {
+						<a href="?sort=amount&order=desc" class="inline-flex items-center gap-1 hover:text-foreground">
+							Amount
+							@icon.ArrowUpDown(icon.Props{Size: 14, Class: "text-muted-foreground"})
+						</a>
+					}
+					@table.Head() {
+						Status 
+					}
+				}
+			}
+			@table.Body() {
+				@Table003Row("ORD-001", "John Smith", "Wireless Headphones", "2024-01-15", "$89.99", "delivered", badge.VariantDefault)
+				@Table003Row("ORD-002", "Emily Johnson", "Smart Watch Pro", "2024-01-15", "$299.99", "processing", badge.VariantSecondary)
+				@Table003Row("ORD-003", "Michael Chen", "Yoga Mat Premium", "2024-01-14", "$34.99", "shipped", badge.VariantDefault)
+				@Table003Row("ORD-004", "Sarah Williams", "Organic Coffee Beans", "2024-01-14", "$24.99", "delivered", badge.VariantDefault)
+				@Table003Row("ORD-005", "David Brown", "LED Desk Lamp", "2024-01-13", "$45.99", "cancelled", badge.VariantDestructive)
+				@Table003Row("ORD-006", "Lisa Anderson", "Bamboo Water Bottle", "2024-01-13", "$19.99", "pending", badge.VariantOutline)
+				@Table003Row("ORD-007", "Robert Taylor", "Wireless Keyboard", "2024-01-12", "$65.99", "processing", badge.VariantSecondary)
+				@Table003Row("ORD-008", "Jennifer Davis", "Fitness Tracker", "2024-01-12", "$129.99", "shipped", badge.VariantDefault)
+			}
+		}
+	</div>
+}
+
+templ Table003Row(orderID, customer, product, date, amount, status string, variant badge.Variant) {
+	@table.Row() {
+		@table.Cell(table.CellProps{Class: "font-medium"}) {
+			{ orderID }
+		}
+		@table.Cell(table.CellProps{Class: "hidden sm:table-cell"}) {
+			{ customer }
+		}
+		@table.Cell() {
+			<div>
+				<div>{ product }</div>
+				<div class="text-sm text-muted-foreground sm:hidden">{ customer }</div>
+			</div>
+		}
+		@table.Cell() {
+			{ date }
+		}
+		@table.Cell(table.CellProps{Class: "hidden sm:table-cell"}) {
+			{ amount }
+		}
+		@table.Cell() {
+			<div class="flex items-center gap-2">
+				@Table003StatusBadge(status, variant)
+				<span class="text-sm font-medium sm:hidden">{ amount }</span>
+			</div>
+		}
+	}
+}
+
+templ Table003StatusBadge(status string, variant badge.Variant) {
+	@badge.Badge(badge.Props{Variant: variant}) {
+		if status == "delivered" {
+			Delivered
+		} else if status == "processing" {
+			Processing
+		} else if status == "shipped" {
+			Shipped
+		} else if status == "cancelled" {
+			Cancelled
+		} else if status == "pending" {
+			Pending
+		}
+	}
+}

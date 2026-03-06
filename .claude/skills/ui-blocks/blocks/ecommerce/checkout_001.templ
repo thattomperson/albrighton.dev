@@ -1,0 +1,267 @@
+package ecommerce
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/checkbox"
+	"github.com/templui/templui-pro/internal/ui/components/form"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/radio"
+	"github.com/templui/templui-pro/internal/ui/components/selectbox"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+// Checkout001 - Checkout Form
+templ Checkout001() {
+	<div class="min-h-screen p-6 md:p-10">
+		<div class="max-w-6xl mx-auto">
+			<h1 class="text-3xl font-bold mb-8">Checkout</h1>
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+				<div class="lg:col-span-2 space-y-6">
+					@Checkout001ShippingInfo()
+					@Checkout001PaymentMethod()
+				</div>
+				<div>
+					@Checkout001OrderSummary()
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ Checkout001ShippingInfo() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Shipping Information
+			}
+		}
+		@card.Content(card.ContentProps{
+			Class: "space-y-4",
+		}) {
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				@form.Item() {
+					@label.Label(label.Props{For: "firstName"}) {
+						First Name
+					}
+					@input.Input(input.Props{
+						ID:          "firstName",
+						Placeholder: "John",
+					})
+				}
+				@form.Item() {
+					@label.Label(label.Props{For: "lastName"}) {
+						Last Name
+					}
+					@input.Input(input.Props{
+						ID:          "lastName",
+						Placeholder: "Doe",
+					})
+				}
+			</div>
+			@form.Item() {
+				@label.Label(label.Props{For: "email"}) {
+					Email
+				}
+				@input.Input(input.Props{
+					ID:          "email",
+					Type:        "email",
+					Placeholder: "john@example.com",
+				})
+			}
+			@form.Item() {
+				@label.Label(label.Props{For: "address"}) {
+					Street Address
+				}
+				@input.Input(input.Props{
+					ID:          "address",
+					Placeholder: "123 Main Street",
+				})
+			}
+			<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+				@form.Item() {
+					@label.Label(label.Props{For: "city"}) {
+						City
+					}
+					@input.Input(input.Props{
+						ID:          "city",
+						Placeholder: "New York",
+					})
+				}
+				@form.Item() {
+					@label.Label(label.Props{For: "state"}) {
+						State
+					}
+					@selectbox.SelectBox() {
+						@selectbox.Trigger(selectbox.TriggerProps{
+							ID:    "state",
+							Class: "w-full",
+						}) {
+							@selectbox.Value(selectbox.ValueProps{
+								Placeholder: "Select",
+							})
+						}
+						@selectbox.Content() {
+							@selectbox.Item(selectbox.ItemProps{Value: "ny"}) {
+								NY
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "ca"}) {
+								CA
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "tx"}) {
+								TX
+							}
+						}
+					}
+				}
+				@form.Item() {
+					@label.Label(label.Props{For: "zip"}) {
+						ZIP Code
+					}
+					@input.Input(input.Props{
+						ID:          "zip",
+						Placeholder: "10001",
+					})
+				}
+			</div>
+			<div class="flex items-center space-x-2">
+				@checkbox.Checkbox(checkbox.Props{ID: "saveInfo"})
+				@label.Label(label.Props{
+					For:   "saveInfo",
+					Class: "text-sm font-normal cursor-pointer",
+				}) {
+					Save this information for next time
+				}
+			</div>
+		}
+	}
+}
+
+templ Checkout001PaymentMethod() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Payment Method
+			}
+		}
+		@card.Content() {
+			<div class="space-y-4">
+				<div class="space-y-3">
+					@Checkout001PaymentOption("card", "Credit Card", icon.CreditCard)
+					@Checkout001PaymentOption("paypal", "PayPal", icon.DollarSign)
+					@Checkout001PaymentOption("apple", "Apple Pay", icon.Smartphone)
+				</div>
+				@separator.Separator(separator.Props{Class: "my-4"})
+				<div class="space-y-4">
+					@form.Item() {
+						@label.Label(label.Props{For: "cardNumber"}) {
+							Card Number
+						}
+						@input.Input(input.Props{
+							ID:          "cardNumber",
+							Placeholder: "1234 5678 9012 3456",
+						})
+					}
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+						@form.Item() {
+							@label.Label(label.Props{For: "expiry"}) {
+								Expiry Date
+							}
+							@input.Input(input.Props{
+								ID:          "expiry",
+								Placeholder: "MM/YY",
+							})
+						}
+						@form.Item() {
+							@label.Label(label.Props{For: "cvv"}) {
+								CVV
+							}
+							@input.Input(input.Props{
+								ID:          "cvv",
+								Placeholder: "123",
+							})
+						}
+					</div>
+				</div>
+			</div>
+		}
+	}
+}
+
+templ Checkout001PaymentOption(value string, labelText string, iconFunc func(...icon.Props) templ.Component) {
+	<div class="flex items-center space-x-2">
+		@radio.Radio(radio.Props{
+			Value: value,
+			ID:    value,
+			Name:  "payment-method",
+		})
+		@label.Label(label.Props{
+			For:   value,
+			Class: "flex items-center gap-2 cursor-pointer font-normal",
+		}) {
+			@iconFunc(icon.Props{Size: 18})
+			{ labelText }
+		}
+	</div>
+}
+
+templ Checkout001OrderSummary() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Order Summary
+			}
+		}
+		@card.Content() {
+			<div class="space-y-4">
+				@Checkout001OrderItem("Wireless Headphones", "1x", "$199.00")
+				@Checkout001OrderItem("Smart Watch", "1x", "$299.00")
+				@Checkout001OrderItem("Laptop Stand", "2x", "$118.00")
+				@separator.Separator()
+				<div class="space-y-2">
+					@Checkout001SummaryRow("Subtotal", "$616.00", false)
+					@Checkout001SummaryRow("Shipping", "Free", false)
+					@Checkout001SummaryRow("Tax", "$61.60", false)
+				</div>
+				@separator.Separator()
+				@Checkout001SummaryRow("Total", "$677.60", true)
+			</div>
+		}
+		@card.Footer(card.FooterProps{
+			Class: "flex-wrap",
+		}) {
+			@button.Button(button.Props{
+				Class: "w-full h-12",
+			}) {
+				@icon.Lock(icon.Props{Size: 16, Class: "mr-2"})
+				Complete Order
+			}
+			<p class="text-xs text-center text-muted-foreground mt-2">
+				Your payment information is encrypted and secure
+			</p>
+		}
+	}
+}
+
+templ Checkout001OrderItem(name string, quantity string, price string) {
+	<div class="flex justify-between text-sm">
+		<div class="flex gap-2">
+			<span class="text-muted-foreground">{ quantity }</span>
+			<span>{ name }</span>
+		</div>
+		<span>{ price }</span>
+	</div>
+}
+
+templ Checkout001SummaryRow(label string, value string, isTotal bool) {
+	<div
+		class={ templ.KV("flex justify-between", true),
+		templ.KV("text-sm", !isTotal),
+		templ.KV("font-semibold text-base", isTotal) }
+	>
+		<span>{ label }</span>
+		<span>{ value }</span>
+	</div>
+}

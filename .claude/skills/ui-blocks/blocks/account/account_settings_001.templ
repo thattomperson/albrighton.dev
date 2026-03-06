@@ -1,0 +1,484 @@
+package account
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/checkbox"
+	"github.com/templui/templui-pro/internal/ui/components/form"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/radio"
+	"github.com/templui/templui-pro/internal/ui/components/selectbox"
+	switchcomp "github.com/templui/templui-pro/internal/ui/components/switch"
+	"github.com/templui/templui-pro/internal/ui/components/tabs"
+)
+
+templ AccountSettings001() {
+	<div class="container mx-auto px-4 py-8">
+		<div class="max-w-4xl mx-auto">
+			@AccountSettings001Header()
+			@AccountSettings001Form()
+		</div>
+	</div>
+}
+
+templ AccountSettings001Header() {
+	<div class="mb-8">
+		<h2 class="text-3xl font-bold text-foreground mb-2">Account Settings</h2>
+		<p class="text-muted-foreground">Manage your account preferences and privacy settings</p>
+	</div>
+}
+
+templ AccountSettings001Form() {
+	<form class="bg-card rounded-lg border overflow-hidden">
+		@tabs.Tabs() {
+			@AccountSettings001TabsList()
+			<div class="p-4 sm:p-6 lg:p-8">
+				@tabs.Content(tabs.ContentProps{Value: "general", IsActive: true}) {
+					@AccountSettings001GeneralTab()
+				}
+				@tabs.Content(tabs.ContentProps{Value: "notifications"}) {
+					@AccountSettings001NotificationsTab()
+				}
+				@tabs.Content(tabs.ContentProps{Value: "privacy"}) {
+					@AccountSettings001PrivacyTab()
+				}
+				@tabs.Content(tabs.ContentProps{Value: "appearance"}) {
+					@AccountSettings001AppearanceTab()
+				}
+				@AccountSettings001Actions()
+			</div>
+		}
+	</form>
+}
+
+templ AccountSettings001TabsList() {
+	<div class="border-b bg-muted/30 overflow-x-auto">
+		@tabs.List(tabs.ListProps{Class: "h-auto p-0 bg-transparent min-w-fit"}) {
+			@tabs.Trigger(tabs.TriggerProps{Value: "general", IsActive: true}) {
+				General
+			}
+			@tabs.Trigger(tabs.TriggerProps{Value: "notifications"}) {
+				Notifications
+			}
+			@tabs.Trigger(tabs.TriggerProps{Value: "privacy"}) {
+				Privacy
+			}
+			@tabs.Trigger(tabs.TriggerProps{Value: "appearance"}) {
+				Appearance
+			}
+		}
+	</div>
+}
+
+templ AccountSettings001GeneralTab() {
+	<div class="space-y-6">
+		<div>
+			<h3 class="text-lg font-semibold mb-4">General Preferences</h3>
+			<div class="space-y-4">
+				@form.Item() {
+					@label.Label(label.Props{For: "account003-language"}) {
+						Language
+					}
+					@selectbox.SelectBox() {
+						@selectbox.Trigger(selectbox.TriggerProps{
+							ID: "account003-language",
+						}) {
+							@selectbox.Value(selectbox.ValueProps{
+								Placeholder: "Select language",
+							})
+						}
+						@selectbox.Content() {
+							@selectbox.Item(selectbox.ItemProps{Value: "en"}) {
+								English
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "es"}) {
+								Spanish
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "fr"}) {
+								French
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "de"}) {
+								German
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "ja"}) {
+								Japanese
+							}
+						}
+					}
+				}
+				@form.Item() {
+					@label.Label(label.Props{For: "account003-timezone"}) {
+						Timezone
+					}
+					@selectbox.SelectBox() {
+						@selectbox.Trigger(selectbox.TriggerProps{
+							ID: "account003-timezone",
+						}) {
+							@selectbox.Value(selectbox.ValueProps{
+								Placeholder: "Select timezone",
+							})
+						}
+						@selectbox.Content() {
+							@selectbox.Item(selectbox.ItemProps{Value: "pst"}) {
+								Pacific Time (PT)
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "est"}) {
+								Eastern Time (ET)
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "cst"}) {
+								Central Time (CT)
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "mst"}) {
+								Mountain Time (MT)
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "utc"}) {
+								UTC
+							}
+						}
+					}
+				}
+				@form.Item() {
+					@label.Label(label.Props{For: "account003-dateformat"}) {
+						Date Format
+					}
+					@selectbox.SelectBox() {
+						@selectbox.Trigger(selectbox.TriggerProps{
+							ID: "account003-dateformat",
+						}) {
+							@selectbox.Value(selectbox.ValueProps{
+								Placeholder: "Select format",
+							})
+						}
+						@selectbox.Content() {
+							@selectbox.Item(selectbox.ItemProps{Value: "mdy"}) {
+								MM/DD/YYYY
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "dmy"}) {
+								DD/MM/YYYY
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "ymd"}) {
+								YYYY-MM-DD
+							}
+						}
+					}
+				}
+			</div>
+		</div>
+		<div class="pt-6 border-t">
+			<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+				<div>
+					<h4 class="font-medium">Beta Features</h4>
+					<p class="text-sm text-muted-foreground">Try out new features before they're released</p>
+				</div>
+				@switchcomp.Switch(switchcomp.Props{
+					ID: "account003-beta",
+				})
+			</div>
+		</div>
+	</div>
+}
+
+templ AccountSettings001NotificationsTab() {
+	<div class="space-y-6">
+		<h3 class="text-lg font-semibold mb-4">Notification Preferences</h3>
+		<div>
+			<h4 class="font-medium mb-3">Email Notifications</h4>
+			<div class="space-y-4">
+				<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+					<div class="flex-1">
+						<p class="font-medium">Product Updates</p>
+						<p class="text-sm text-muted-foreground">News about product features and improvements</p>
+					</div>
+					@switchcomp.Switch(switchcomp.Props{
+						ID:      "account003-product-updates",
+						Checked: true,
+					})
+				</div>
+				<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+					<div class="flex-1">
+						<p class="font-medium">Security Alerts</p>
+						<p class="text-sm text-muted-foreground">Important notifications about your account security</p>
+					</div>
+					@switchcomp.Switch(switchcomp.Props{
+						ID:      "account003-security-alerts",
+						Checked: true,
+					})
+				</div>
+				<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+					<div class="flex-1">
+						<p class="font-medium">Marketing Emails</p>
+						<p class="text-sm text-muted-foreground">Tips, tutorials, and promotional content</p>
+					</div>
+					@switchcomp.Switch(switchcomp.Props{
+						ID: "account003-marketing",
+					})
+				</div>
+				<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+					<div class="flex-1">
+						<p class="font-medium">Team Activity</p>
+						<p class="text-sm text-muted-foreground">Updates about your team members' activities</p>
+					</div>
+					@switchcomp.Switch(switchcomp.Props{
+						ID:      "account003-team-activity",
+						Checked: true,
+					})
+				</div>
+			</div>
+		</div>
+		<div class="pt-6 border-t">
+			<h4 class="font-medium mb-3">Push Notifications</h4>
+			<div class="space-y-4">
+				<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+					<div class="flex-1">
+						<p class="font-medium">Desktop Notifications</p>
+						<p class="text-sm text-muted-foreground">Show notifications on your desktop</p>
+					</div>
+					@switchcomp.Switch(switchcomp.Props{
+						ID: "account003-desktop",
+					})
+				</div>
+				<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+					<div class="flex-1">
+						<p class="font-medium">Mobile Push Notifications</p>
+						<p class="text-sm text-muted-foreground">Receive notifications on your mobile device</p>
+					</div>
+					@switchcomp.Switch(switchcomp.Props{
+						ID:      "account003-mobile",
+						Checked: true,
+					})
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ AccountSettings001PrivacyTab() {
+	<div class="space-y-6">
+		<h3 class="text-lg font-semibold mb-4">Privacy Settings</h3>
+		<div>
+			<h4 class="font-medium mb-3">Profile Visibility</h4>
+			<div class="space-y-2">
+				@form.ItemFlex() {
+					@radio.Radio(radio.Props{
+						ID:      "account003-visibility-public",
+						Name:    "visibility",
+						Value:   "public",
+						Checked: true,
+					})
+					@label.Label(label.Props{For: "account003-visibility-public", Class: "text-sm font-normal"}) {
+						<div>
+							<p class="font-medium">Public</p>
+							<p class="text-muted-foreground">Anyone can see your profile</p>
+						</div>
+					}
+				}
+				@form.ItemFlex() {
+					@radio.Radio(radio.Props{
+						ID:    "account003-visibility-friends",
+						Name:  "visibility",
+						Value: "friends",
+					})
+					@label.Label(label.Props{For: "account003-visibility-friends", Class: "text-sm font-normal"}) {
+						<div>
+							<p class="font-medium">Friends Only</p>
+							<p class="text-muted-foreground">Only people you follow can see your profile</p>
+						</div>
+					}
+				}
+				@form.ItemFlex() {
+					@radio.Radio(radio.Props{
+						ID:    "account003-visibility-private",
+						Name:  "visibility",
+						Value: "private",
+					})
+					@label.Label(label.Props{For: "account003-visibility-private", Class: "text-sm font-normal"}) {
+						<div>
+							<p class="font-medium">Private</p>
+							<p class="text-muted-foreground">Only you can see your profile</p>
+						</div>
+					}
+				}
+			</div>
+		</div>
+		<div class="pt-6 border-t">
+			<h4 class="font-medium mb-3">Data & Privacy</h4>
+			<div class="space-y-4">
+				<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+					<div class="flex-1">
+						<p class="font-medium">Activity Status</p>
+						<p class="text-sm text-muted-foreground">Show when you're active</p>
+					</div>
+					@switchcomp.Switch(switchcomp.Props{
+						ID:      "account003-activity-status",
+						Checked: true,
+					})
+				</div>
+				<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+					<div class="flex-1">
+						<p class="font-medium">Read Receipts</p>
+						<p class="text-sm text-muted-foreground">Let people know when you've seen their messages</p>
+					</div>
+					@switchcomp.Switch(switchcomp.Props{
+						ID:      "account003-read-receipts",
+						Checked: true,
+					})
+				</div>
+				<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+					<div class="flex-1">
+						<p class="font-medium">Profile Suggestions</p>
+						<p class="text-sm text-muted-foreground">Suggest your profile to others</p>
+					</div>
+					@switchcomp.Switch(switchcomp.Props{
+						ID: "account003-suggestions",
+					})
+				</div>
+			</div>
+		</div>
+		<div class="pt-6 border-t">
+			<h4 class="font-medium mb-3">Search Engine Visibility</h4>
+			@form.ItemFlex() {
+				@checkbox.Checkbox(checkbox.Props{
+					ID: "account003-search-engines",
+				})
+				@label.Label(label.Props{For: "account003-search-engines", Class: "text-sm font-normal"}) {
+					Allow search engines to index my profile
+				}
+			}
+		</div>
+	</div>
+}
+
+templ AccountSettings001AppearanceTab() {
+	<div class="space-y-6">
+		<h3 class="text-lg font-semibold mb-4">Appearance Settings</h3>
+		<div>
+			<h4 class="font-medium mb-3">Theme</h4>
+			<div class="space-y-2">
+				@form.ItemFlex() {
+					@radio.Radio(radio.Props{
+						ID:      "account003-theme-light",
+						Name:    "theme",
+						Value:   "light",
+						Checked: true,
+					})
+					@label.Label(label.Props{For: "account003-theme-light", Class: "text-sm font-normal"}) {
+						<div class="flex items-center gap-2">
+							@icon.Sun(icon.Props{Size: 16})
+							<span>Light</span>
+						</div>
+					}
+				}
+				@form.ItemFlex() {
+					@radio.Radio(radio.Props{
+						ID:    "account003-theme-dark",
+						Name:  "theme",
+						Value: "dark",
+					})
+					@label.Label(label.Props{For: "account003-theme-dark", Class: "text-sm font-normal"}) {
+						<div class="flex items-center gap-2">
+							@icon.Moon(icon.Props{Size: 16})
+							<span>Dark</span>
+						</div>
+					}
+				}
+				@form.ItemFlex() {
+					@radio.Radio(radio.Props{
+						ID:    "account003-theme-system",
+						Name:  "theme",
+						Value: "system",
+					})
+					@label.Label(label.Props{For: "account003-theme-system", Class: "text-sm font-normal"}) {
+						<div class="flex items-center gap-2">
+							@icon.Monitor(icon.Props{Size: 16})
+							<span>System</span>
+						</div>
+					}
+				}
+			</div>
+		</div>
+		<div class="pt-6 border-t">
+			<h4 class="font-medium mb-3">Display Options</h4>
+			<div class="space-y-4">
+				<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+					<div class="flex-1">
+						<p class="font-medium">Compact Mode</p>
+						<p class="text-sm text-muted-foreground">Reduce spacing between elements</p>
+					</div>
+					@switchcomp.Switch(switchcomp.Props{
+						ID: "account003-compact",
+					})
+				</div>
+				<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+					<div class="flex-1">
+						<p class="font-medium">Animations</p>
+						<p class="text-sm text-muted-foreground">Enable interface animations</p>
+					</div>
+					@switchcomp.Switch(switchcomp.Props{
+						ID:      "account003-animations",
+						Checked: true,
+					})
+				</div>
+				<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+					<div class="flex-1">
+						<p class="font-medium">High Contrast</p>
+						<p class="text-sm text-muted-foreground">Increase contrast for better visibility</p>
+					</div>
+					@switchcomp.Switch(switchcomp.Props{
+						ID: "account003-contrast",
+					})
+				</div>
+			</div>
+		</div>
+		<div class="pt-6 border-t">
+			@form.Item() {
+				@label.Label(label.Props{For: "account003-font-size"}) {
+					Font Size
+				}
+				@selectbox.SelectBox() {
+					@selectbox.Trigger(selectbox.TriggerProps{
+						ID: "account003-font-size",
+					}) {
+						@selectbox.Value(selectbox.ValueProps{
+							Placeholder: "Select size",
+						})
+					}
+					@selectbox.Content() {
+						@selectbox.Item(selectbox.ItemProps{Value: "small"}) {
+							Small
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "medium"}) {
+							Medium (Default)
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "large"}) {
+							Large
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "xlarge"}) {
+							Extra Large
+						}
+					}
+				}
+			}
+		</div>
+	</div>
+}
+
+templ AccountSettings001Actions() {
+	<div class="flex flex-col sm:flex-row flex-wrap gap-3 pt-6 mt-6 border-t">
+		@button.Button(button.Props{
+			Type:    "button",
+			Variant: button.VariantOutline,
+		}) {
+			Reset to Defaults
+		}
+		@button.Button(button.Props{
+			Type:    "button",
+			Variant: button.VariantGhost,
+		}) {
+			Cancel
+		}
+		@button.Button() {
+			@icon.Save(icon.Props{Size: 16})
+			<span class="ml-2">Save Changes</span>
+		}
+	</div>
+}

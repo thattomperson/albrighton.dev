@@ -1,0 +1,140 @@
+package feature
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Feature003() {
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="py-16 lg:py-24 max-w-7xl w-full">
+			@Feature003Header()
+			@Feature003Content()
+		</div>
+	</div>
+}
+
+templ Feature003Header() {
+	<div class="text-center mb-16">
+		@badge.Badge(badge.Props{
+			Variant: badge.VariantDefault,
+			Class:   "mb-4",
+		}) {
+			@icon.Star(icon.Props{Size: 14})
+			Why Choose Us
+		}
+		<h2 class="text-4xl font-bold mb-6">
+			Built for <span class="text-primary">Modern Development</span>
+		</h2>
+		<p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+			Everything you need to ship faster and build better applications with confidence.
+		</p>
+	</div>
+}
+
+templ Feature003Content() {
+	<div class="grid gap-8 lg:grid-cols-3">
+		<div class="lg:col-span-2">
+			<div class="grid gap-6 sm:grid-cols-2">
+				@Feature003MainFeature("Lightning Fast", "Components load instantly with zero runtime overhead", icon.Zap)
+				@Feature003MainFeature("Type Safe", "Full type safety with Go's strong typing system", icon.Shield)
+				@Feature003MainFeature("Responsive", "Mobile-first design that works on all screen sizes", icon.Smartphone)
+				@Feature003MainFeature("Accessible", "WCAG 2.1 AA compliant components out of the box", icon.Heart)
+			</div>
+		</div>
+		@Feature003Sidebar()
+	</div>
+}
+
+templ Feature003Sidebar() {
+	<div class="space-y-6">
+		@Feature003QuickStart()
+		@Feature003TrustedBy()
+	</div>
+}
+
+templ Feature003QuickStart() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title(card.TitleProps{
+				Class: "flex items-center gap-2",
+			}) {
+				@icon.Rocket(icon.Props{Size: 20, Class: "text-primary"})
+				Quick Start
+			}
+		}
+		@card.Content() {
+			<div class="space-y-4">
+				<div class="flex items-center gap-2 text-sm">
+					@icon.Check(icon.Props{Size: 16, Class: "text-primary"})
+					<span>Install in 2 minutes</span>
+				</div>
+				<div class="flex items-center gap-2 text-sm">
+					@icon.Check(icon.Props{Size: 16, Class: "text-primary"})
+					<span>Copy & paste ready</span>
+				</div>
+				<div class="flex items-center gap-2 text-sm">
+					@icon.Check(icon.Props{Size: 16, Class: "text-primary"})
+					<span>Works with any framework</span>
+				</div>
+			</div>
+			@separator.Separator(separator.Props{
+				Class: "my-4",
+			})
+			@button.Button(button.Props{
+				Class: "w-full",
+			}) {
+				Get Started
+				@icon.ArrowRight(icon.Props{Size: 14, Class: "ml-1"})
+			}
+		}
+	}
+}
+
+templ Feature003TrustedBy() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title(card.TitleProps{
+				Class: "flex items-center gap-2",
+			}) {
+				@icon.Users(icon.Props{Size: 20, Class: "text-primary"})
+				Trusted by 10,000+ Developers
+			}
+		}
+		@card.Content(card.ContentProps{
+			Class: "space-y-3",
+		}) {
+			<div class="flex items-center justify-between text-sm">
+				<span>Startups</span>
+				<span class="font-medium text-primary">8,500+</span>
+			</div>
+			<div class="flex items-center justify-between text-sm">
+				<span>Enterprises</span>
+				<span class="font-medium text-primary">1,200+</span>
+			</div>
+			<div class="flex items-center justify-between text-sm">
+				<span>Open Source</span>
+				<span class="font-medium text-primary">300+</span>
+			</div>
+		}
+	}
+}
+
+templ Feature003MainFeature(title, description string, iconFunc func(...icon.Props) templ.Component) {
+	@card.Card(card.Props{
+		Class: "bg-gradient-to-br from-background to-muted/50",
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "p-6",
+		}) {
+			@iconFunc(icon.Props{Size: 24, Class: "mb-4 text-primary"})
+			<div>
+				<h3 class="text-lg font-semibold mb-2">{ title }</h3>
+				<p class="text-sm text-muted-foreground">{ description }</p>
+			</div>
+		}
+	}
+}

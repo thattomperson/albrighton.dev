@@ -1,0 +1,122 @@
+package table
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/table"
+)
+
+templ Table002() {
+	<section class="w-full max-w-6xl mx-auto p-6 md:p-8">
+		<div class="space-y-4">
+			@Table002Header()
+			@Table002Table()
+		</div>
+	</section>
+}
+
+templ Table002Header() {
+	<div class="flex items-center justify-between">
+		<div>
+			<h2 class="text-2xl font-bold tracking-tight">Products</h2>
+			<p class="text-muted-foreground">Manage your product inventory</p>
+		</div>
+		@button.Button() {
+			@icon.Plus(icon.Props{Size: 16, Class: "mr-2"})
+			Add Product
+		}
+	</div>
+}
+
+templ Table002Table() {
+	<div class="rounded-md border">
+		@table.Table() {
+			@table.Header() {
+				@table.Row() {
+					@table.Head() {
+						Product 
+					}
+					@table.Head() {
+						SKU 
+					}
+					@table.Head() {
+						Price 
+					}
+					@table.Head() {
+						Stock 
+					}
+					@table.Head() {
+						Category 
+					}
+					@table.Head(table.HeadProps{Class: "text-right"}) {
+						Actions 
+					}
+				}
+			}
+			@table.Body() {
+				@Table002Row("Wireless Headphones", "WH-1001", "$89.99", "45", "Electronics")
+				@Table002Row("Organic Coffee Beans", "CB-2002", "$24.99", "120", "Food & Beverage")
+				@Table002Row("Yoga Mat Premium", "YM-3003", "$34.99", "67", "Sports & Fitness")
+				@Table002Row("Smart Watch Pro", "SW-4004", "$299.99", "23", "Electronics")
+				@Table002Row("Bamboo Water Bottle", "BW-5005", "$19.99", "89", "Home & Living")
+				@Table002Row("LED Desk Lamp", "DL-6006", "$45.99", "56", "Office Supplies")
+			}
+		}
+	</div>
+}
+
+templ Table002Row(product, sku, price, stock, category string) {
+	@table.Row() {
+		@table.Cell(table.CellProps{Class: "font-medium"}) {
+			{ product }
+		}
+		@table.Cell() {
+			{ sku }
+		}
+		@table.Cell() {
+			{ price }
+		}
+		@table.Cell() {
+			{ stock } units 
+		}
+		@table.Cell() {
+			{ category }
+		}
+		@table.Cell(table.CellProps{Class: "text-right"}) {
+			<div class="flex items-center justify-end gap-2">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeSm,
+				}) {
+					@icon.Pencil(icon.Props{Size: 16})
+				}
+				@dropdown.Dropdown() {
+					@dropdown.Trigger() {
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Size:    button.SizeSm,
+						}) {
+							@icon.EllipsisVertical(icon.Props{Size: 16})
+						}
+					}
+					@dropdown.Content() {
+						@dropdown.Item() {
+							@icon.Copy(icon.Props{Size: 16, Class: "mr-2"})
+							Duplicate
+						}
+						@dropdown.Item() {
+							@icon.Archive(icon.Props{Size: 16, Class: "mr-2"})
+							Archive
+						}
+						@dropdown.Separator()
+						@dropdown.Item(dropdown.ItemProps{Class: "text-destructive focus:text-destructive"}) {
+							@icon.Trash(icon.Props{Size: 16, Class: "mr-2"})
+							Delete
+						}
+					}
+				}
+			</div>
+		}
+	}
+}

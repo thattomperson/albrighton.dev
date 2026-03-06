@@ -1,0 +1,244 @@
+package pricing
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	switchcomp "github.com/templui/templui-pro/internal/ui/components/switch"
+)
+
+templ Pricing002() {
+	<section class="py-24 px-4 sm:px-6 lg:px-8">
+		<div class="mx-auto max-w-7xl">
+			@Pricing002Header()
+			@Pricing002Toggle()
+			@Pricing002Plans()
+		</div>
+	</section>
+	@Pricing002Script()
+}
+
+templ Pricing002Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+			Flexible pricing options
+		</h2>
+		<p class="text-lg text-muted-foreground">
+			Save up to 20% with annual billing
+		</p>
+	</div>
+}
+
+templ Pricing002Toggle() {
+	<div class="flex items-center justify-center gap-4 mb-16">
+		<span class="text-sm font-medium">Monthly</span>
+		@switchcomp.Switch(switchcomp.Props{
+			ID: "billing-toggle",
+		})
+		<span class="text-sm font-medium">Annual</span>
+		@badge.Badge(badge.Props{
+			Variant: badge.VariantSecondary,
+		}) {
+			Save 20%
+		}
+	</div>
+}
+
+templ Pricing002Plans() {
+	<div class="grid gap-8 lg:grid-cols-3">
+		@Pricing002BasicCard()
+		@Pricing002ProCard()
+		@Pricing002TeamCard()
+	</div>
+}
+
+templ Pricing002BasicCard() {
+	@card.Card(card.Props{Class: "flex flex-col h-full"}) {
+		<div class="flex flex-col justify-between h-full">
+			<div>
+				@card.Header() {
+					@card.Title() {
+						Basic
+					}
+					@card.Description() {
+						Essential features for individuals
+					}
+				}
+				@card.Content(card.ContentProps{Class: "pt-6"}) {
+					<div class="text-center mb-6">
+						<div class="monthly-price">
+							<span class="text-4xl font-bold">$12</span>
+							<span class="text-muted-foreground">/month</span>
+						</div>
+						<div class="annual-price hidden">
+							<span class="text-4xl font-bold">$10</span>
+							<span class="text-muted-foreground">/month</span>
+							<div class="text-xs text-muted-foreground">Billed annually ($120)</div>
+						</div>
+					</div>
+					<ul class="space-y-3">
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{Size: 16})
+							<span class="text-sm">5 projects</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{Size: 16})
+							<span class="text-sm">10GB storage</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{Size: 16})
+							<span class="text-sm">Email support</span>
+						</li>
+					</ul>
+				}
+			</div>
+			@card.Footer(card.FooterProps{Class: "mt-auto"}) {
+				@button.Button(button.Props{
+					FullWidth: true,
+					Variant:   button.VariantOutline,
+				}) {
+					Start free trial
+				}
+			}
+		</div>
+	}
+}
+
+templ Pricing002ProCard() {
+	@card.Card(card.Props{
+		Class: "ring-2 ring-border flex flex-col h-full shadow-lg",
+	}) {
+		<div class="flex flex-col justify-between h-full">
+			<div>
+				@card.Header() {
+					@card.Title() {
+						Pro
+					}
+					@card.Description() {
+						Advanced features for professionals
+					}
+				}
+				@card.Content(card.ContentProps{Class: "pt-6"}) {
+					<div class="text-center mb-6">
+						<div class="monthly-price">
+							<span class="text-4xl font-bold">$29</span>
+							<span class="text-muted-foreground">/month</span>
+						</div>
+						<div class="annual-price hidden">
+							<span class="text-4xl font-bold">$24</span>
+							<span class="text-muted-foreground">/month</span>
+							<div class="text-xs text-muted-foreground">Billed annually ($288)</div>
+						</div>
+					</div>
+					<ul class="space-y-3">
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{Size: 16})
+							<span class="text-sm">Unlimited projects</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{Size: 16})
+							<span class="text-sm">100GB storage</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{Size: 16})
+							<span class="text-sm">Priority support</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{Size: 16})
+							<span class="text-sm">Advanced analytics</span>
+						</li>
+					</ul>
+				}
+			</div>
+			@card.Footer(card.FooterProps{Class: "mt-auto"}) {
+				@button.Button(button.Props{
+					FullWidth: true,
+					Variant:   button.VariantDefault,
+				}) {
+					Start free trial
+				}
+			}
+		</div>
+	}
+}
+
+templ Pricing002TeamCard() {
+	@card.Card(card.Props{Class: "flex flex-col h-full"}) {
+		<div class="flex flex-col justify-between h-full">
+			<div>
+				@card.Header() {
+					@card.Title() {
+						Team
+					}
+					@card.Description() {
+						Collaboration tools for teams
+					}
+				}
+				@card.Content(card.ContentProps{Class: "pt-6"}) {
+					<div class="text-center mb-6">
+						<div class="monthly-price">
+							<span class="text-4xl font-bold">$59</span>
+							<span class="text-muted-foreground">/month</span>
+						</div>
+						<div class="annual-price hidden">
+							<span class="text-4xl font-bold">$49</span>
+							<span class="text-muted-foreground">/month</span>
+							<div class="text-xs text-muted-foreground">Billed annually ($588)</div>
+						</div>
+					</div>
+					<ul class="space-y-3">
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{Size: 16})
+							<span class="text-sm">Everything in Pro</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{Size: 16})
+							<span class="text-sm">Up to 10 team members</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{Size: 16})
+							<span class="text-sm">Team collaboration</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{Size: 16})
+							<span class="text-sm">Admin dashboard</span>
+						</li>
+					</ul>
+				}
+			</div>
+			@card.Footer(card.FooterProps{Class: "mt-auto"}) {
+				@button.Button(button.Props{
+					FullWidth: true,
+					Variant:   button.VariantOutline,
+				}) {
+					Start free trial
+				}
+			}
+		</div>
+	}
+}
+
+templ Pricing002Script() {
+	<script nonce={ templ.GetNonce(ctx) }> 
+		document.addEventListener('DOMContentLoaded', function() {
+			const toggle = document.getElementById('billing-toggle');
+			const monthlyPrices = document.querySelectorAll('.monthly-price');
+			const annualPrices = document.querySelectorAll('.annual-price');
+			
+			if (toggle) {
+				toggle.addEventListener('change', function() {
+					if (this.checked) {
+						// Show annual prices
+						monthlyPrices.forEach(price => price.classList.add('hidden'));
+						annualPrices.forEach(price => price.classList.remove('hidden'));
+					} else {
+						// Show monthly prices
+						monthlyPrices.forEach(price => price.classList.remove('hidden'));
+						annualPrices.forEach(price => price.classList.add('hidden'));
+					}
+				});
+			}
+		});
+	</script>
+}

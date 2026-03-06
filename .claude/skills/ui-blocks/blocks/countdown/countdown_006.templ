@@ -1,0 +1,133 @@
+package countdown
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+)
+
+templ Countdown006() {
+	@Countdown006Script()
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10" id="countdown006-container">
+		@card.Card(card.Props{
+			Class: "w-full max-w-5xl bg-accent/10",
+		}) {
+			@card.Content() {
+				<div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+					<!-- Left side: Product info -->
+					<div>
+						<div class="flex items-center space-x-3 mb-4">
+							@badge.Badge(badge.Props{
+								Variant: badge.VariantOutline,
+							}) {
+								Limited Edition
+							}
+							@badge.Badge(badge.Props{
+								Variant: badge.VariantSecondary,
+							}) {
+								Pre-order
+							}
+						</div>
+						<h2 class="text-3xl font-bold mb-2">Premium Noise-Cancelling Headphones</h2>
+						<p class="text-muted-foreground mb-6">Experience crystal-clear sound with our most advanced wireless headphones yet.</p>
+						<div class="mb-6">
+							<div class="flex items-baseline mb-1">
+								<span class="text-2xl sm:text-3xl font-bold">$249.99</span>
+								<span class="text-muted-foreground line-through ml-2">$299.99</span>
+								<span class="text-sm text-primary ml-2">Save $50</span>
+							</div>
+							<p class="text-sm text-muted-foreground">Free shipping • 2-year warranty</p>
+						</div>
+						<div class="mb-6">
+							<div class="flex items-center justify-between mb-1.5">
+								<span class="text-sm">Units available</span>
+								<span class="text-sm text-muted-foreground">168/500</span>
+							</div>
+							@progress.Progress(progress.Props{
+								Value:   33,
+								Size:    progress.SizeSm,
+								Variant: progress.VariantSuccess,
+							})
+							<p class="text-xs text-muted-foreground mt-1.5">Only 168 units left at this price</p>
+						</div>
+						@button.Button(button.Props{
+							Variant: button.VariantDefault,
+							Class:   "w-full mb-3",
+						}) {
+							Pre-order Now
+						}
+						<div class="text-center">
+							<p class="text-xs text-muted-foreground">Pre-order now and get a free leather carrying case</p>
+						</div>
+					</div>
+					<!-- Right side: Countdown and image -->
+					<div>
+						<div class="aspect-square relative rounded-lg overflow-hidden mb-6">
+							<div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/assets/img/placeholder.svg');"></div>
+						</div>
+						<div class="space-y-2">
+							<p class="text-sm font-medium text-center">Pre-order period ends in:</p>
+							<div class="flex justify-center gap-1 sm:gap-2 lg:gap-3">
+								@Countdown006TimerUnit("00", "days", "countdown006-days")
+								<div class="flex items-center text-muted-foreground">:</div>
+								@Countdown006TimerUnit("00", "hours", "countdown006-hours")
+								<div class="flex items-center text-muted-foreground">:</div>
+								@Countdown006TimerUnit("00", "mins", "countdown006-minutes")
+								<div class="flex items-center text-muted-foreground">:</div>
+								@Countdown006TimerUnit("00", "secs", "countdown006-seconds")
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		}
+	</div>
+}
+
+templ Countdown006TimerUnit(value, label, id string) {
+	<div class="flex flex-col items-center justify-center p-2 sm:p-3 bg-background border border-border rounded-lg w-12 sm:w-16 lg:w-20">
+		<span id={ id } class="text-lg sm:text-xl lg:text-2xl font-bold text-primary">{ value }</span>
+		<span class="text-[10px] uppercase tracking-widest text-muted-foreground">{ label }</span>
+	</div>
+}
+
+// JavaScript logic for the countdown timer
+templ Countdown006Script() {
+	<script nonce={ templ.GetNonce(ctx) }>
+		// EASY TO CUSTOMIZE:
+		// Set your target date here (30 days from now by default)
+		const targetDate006 = new Date();
+		targetDate006.setDate(targetDate006.getDate() + 30);
+		
+		// Initialize countdown
+		function initCountdown006() {
+			// Update countdown every second
+			const countdownInterval = setInterval(function() {
+				const now = new Date().getTime();
+				const distance = targetDate006.getTime() - now;
+				
+				// Calculate time units
+				const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+				const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+				const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+				
+				// Update the countdown elements
+				document.getElementById('countdown006-days').textContent = days.toString().padStart(2, '0');
+				document.getElementById('countdown006-hours').textContent = hours.toString().padStart(2, '0');
+				document.getElementById('countdown006-minutes').textContent = minutes.toString().padStart(2, '0');
+				document.getElementById('countdown006-seconds').textContent = seconds.toString().padStart(2, '0');
+				
+				// If the countdown is over
+				if (distance < 0) {
+					clearInterval(countdownInterval);
+					document.getElementById('countdown006-container').innerHTML = "<div class='text-center py-4'>Pre-order period has ended!</div>";
+				}
+			}, 1000);
+		}
+		
+		// Start the countdown when the page loads
+		document.addEventListener('DOMContentLoaded', initCountdown006);
+	</script>
+}

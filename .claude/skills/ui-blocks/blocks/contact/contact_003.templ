@@ -1,0 +1,153 @@
+package contact
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/textarea"
+)
+
+templ Contact003() {
+	<section class="relative min-h-svh w-full">
+		@Contact003Map()
+		@Contact003Content()
+	</section>
+}
+
+templ Contact003Map() {
+	<div class="absolute inset-0 bg-muted">
+		<div class="w-full h-full flex items-center justify-center">
+			<div class="text-center space-y-4">
+				@icon.MapPin(icon.Props{
+					Size:  48,
+					Class: "mx-auto text-primary",
+				})
+				<p class="text-muted-foreground">Interactive map placeholder</p>
+			</div>
+		</div>
+	</div>
+}
+
+templ Contact003Content() {
+	<div class="relative min-h-svh flex items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-6xl">
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+				<div class="lg:col-start-2">
+					@Contact003FormCard()
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ Contact003FormCard() {
+	<div class="bg-background rounded-lg border shadow-lg p-6 md:p-8">
+		@Contact003Header()
+		@Contact003Form()
+		@Contact003LocationInfo()
+	</div>
+}
+
+templ Contact003Header() {
+	<div class="mb-6">
+		<h2 class="text-2xl font-bold tracking-tight mb-2">Contact <span class="text-primary">Us</span></h2>
+		<p class="text-muted-foreground">
+			Get in touch with our team. We're here to help.
+		</p>
+	</div>
+}
+
+templ Contact003Form() {
+	<form class="space-y-4 mb-8">
+		@Contact003NameField()
+		@Contact003EmailField()
+		@Contact003SubjectField()
+		@Contact003MessageField()
+		@Contact003SubmitButton()
+	</form>
+}
+
+templ Contact003NameField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact3-name"}) {
+			Full Name
+		}
+		@input.Input(input.Props{
+			ID:          "contact3-name",
+			Name:        "name",
+			Placeholder: "John Doe",
+		})
+	</div>
+}
+
+templ Contact003EmailField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact3-email"}) {
+			Email
+		}
+		@input.Input(input.Props{
+			ID:          "contact3-email",
+			Name:        "email",
+			Type:        input.TypeEmail,
+			Placeholder: "john@example.com",
+		})
+	</div>
+}
+
+templ Contact003SubjectField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact3-subject"}) {
+			Subject
+		}
+		@input.Input(input.Props{
+			ID:          "contact3-subject",
+			Name:        "subject",
+			Placeholder: "How can we help?",
+		})
+	</div>
+}
+
+templ Contact003MessageField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact3-message"}) {
+			Message
+		}
+		@textarea.Textarea(textarea.Props{
+			ID:          "contact3-message",
+			Name:        "message",
+			Placeholder: "Tell us more about your inquiry...",
+			Rows:        4,
+		})
+	</div>
+}
+
+templ Contact003SubmitButton() {
+	<div class="pt-2">
+		@button.Button(button.Props{
+			Class: "w-full",
+		}) {
+			Send Message
+		}
+	</div>
+}
+
+templ Contact003LocationInfo() {
+	<div class="border-t pt-6">
+		<div class="flex items-start gap-3">
+			<div class="p-2 bg-primary/10 rounded-lg text-primary">
+				@icon.MapPin(icon.Props{Size: 20})
+			</div>
+			<div>
+				<p class="font-medium">Our Office</p>
+				<p class="text-sm text-muted-foreground">
+					123 Business St, Suite 100
+					<br/>
+					New York, NY 10001
+					<br/>
+					United States
+				</p>
+			</div>
+		</div>
+	</div>
+}

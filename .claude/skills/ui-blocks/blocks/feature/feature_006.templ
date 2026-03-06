@@ -1,0 +1,187 @@
+package feature
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+	"strconv"
+)
+
+templ Feature006() {
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10 bg-gradient-to-b from-background to-muted">
+		<div class="py-16 lg:py-24 max-w-6xl w-full">
+			@Feature006Header()
+			@Feature006Content()
+		</div>
+	</div>
+}
+
+templ Feature006Header() {
+	<div class="text-center mb-16">
+		@badge.Badge(badge.Props{
+			Variant: badge.VariantSecondary,
+			Class:   "mb-4",
+		}) {
+			@icon.Shield(icon.Props{Size: 14})
+			Security & Compliance
+		}
+		<h2 class="text-4xl font-bold mb-6">
+			Enterprise Security by Default
+		</h2>
+		<p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+			Built with security-first principles. SOC2 compliant, GDPR ready, and trusted by Fortune 500 companies.
+		</p>
+	</div>
+}
+
+templ Feature006Content() {
+	<div class="grid gap-12 lg:grid-cols-2 items-start">
+		<div class="space-y-8">
+			<div>
+				<h3 class="text-2xl font-semibold mb-6 flex items-center gap-2">
+					@icon.Lock(icon.Props{Size: 24})
+					Security Features
+				</h3>
+				<div class="space-y-4">
+					@Feature006SecurityItem("End-to-End Encryption", "All data encrypted in transit and at rest with AES-256", icon.Key, true)
+					@Feature006SecurityItem("Zero Trust Architecture", "Every request verified, no implicit trust", icon.Shield, true)
+					@Feature006SecurityItem("Regular Security Audits", "Quarterly penetration testing by third parties", icon.Search, true)
+					@Feature006SecurityItem("Incident Response", "24/7 security monitoring and rapid response", icon.Clock, true)
+				</div>
+			</div>
+			<div>
+				<h3 class="text-2xl font-semibold mb-6 flex items-center gap-2">
+					@icon.Award(icon.Props{Size: 24})
+					Compliance Standards
+				</h3>
+				<div class="grid gap-3 sm:grid-cols-2">
+					@Feature006ComplianceBadge("SOC 2 Type II", "Certified")
+					@Feature006ComplianceBadge("GDPR", "Compliant")
+					@Feature006ComplianceBadge("HIPAA", "Ready")
+					@Feature006ComplianceBadge("ISO 27001", "Certified")
+				</div>
+			</div>
+		</div>
+		@Feature006Sidebar()
+	</div>
+}
+
+templ Feature006Sidebar() {
+	<div class="space-y-6">
+		@card.Card(card.Props{
+			Class: "border-primary",
+		}) {
+			@card.Header() {
+				@card.Title(card.TitleProps{
+					Class: "flex items-center gap-2",
+				}) {
+					@icon.Check(icon.Props{Size: 20})
+					Security Score: A+
+				}
+			}
+			@card.Content() {
+				<div class="space-y-4">
+					@Feature006ScoreItem("Vulnerability Scanning", 100)
+					@Feature006ScoreItem("Access Controls", 98)
+					@Feature006ScoreItem("Data Protection", 100)
+					@Feature006ScoreItem("Network Security", 97)
+				</div>
+			}
+		}
+		@card.Card() {
+			@card.Header() {
+				@card.Title(card.TitleProps{
+					Class: "flex items-center gap-2",
+				}) {
+					@icon.Users(icon.Props{Size: 20})
+					Trusted Worldwide
+				}
+			}
+			@card.Content() {
+				<div class="grid gap-4 text-center">
+					<div>
+						<div class="text-2xl font-bold">500+</div>
+						<div class="text-sm text-muted-foreground">Enterprise Customers</div>
+					</div>
+					<div>
+						<div class="text-2xl font-bold">99.99%</div>
+						<div class="text-sm text-muted-foreground">Security Uptime</div>
+					</div>
+					<div>
+						<div class="text-2xl font-bold">0</div>
+						<div class="text-sm text-muted-foreground">Data Breaches</div>
+					</div>
+				</div>
+				@separator.Separator(separator.Props{
+					Class: "my-4",
+				})
+				@button.Button(button.Props{
+					Class: "w-full",
+				}) {
+					View Security Details
+					@icon.ExternalLink(icon.Props{Size: 14, Class: "ml-2"})
+				}
+			}
+		}
+		<div class="bg-primary rounded-xl p-6 text-primary-foreground">
+			<div class="flex items-center gap-3 mb-4">
+				@icon.Phone(icon.Props{Size: 20})
+				<h4 class="font-semibold">24/7 Security Support</h4>
+			</div>
+			<p class="text-primary-foreground/80 text-sm mb-4">
+				Direct line to our security team. Average response time: 15 minutes.
+			</p>
+			<button class="bg-primary-foreground/20 hover:bg-primary-foreground/30 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+				Contact Security Team
+			</button>
+		</div>
+	</div>
+}
+
+templ Feature006SecurityItem(title, description string, iconFunc func(...icon.Props) templ.Component, verified bool) {
+	<div class="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/80 transition-colors">
+		@iconFunc(icon.Props{Size: 18, Class: "mt-0.5"})
+		<div class="flex-1">
+			<div class="flex items-center gap-2 mb-1">
+				<span class="font-medium">{ title }</span>
+				if verified {
+					@icon.Check(icon.Props{Size: 14})
+				}
+			</div>
+			<p class="text-sm text-muted-foreground">{ description }</p>
+		</div>
+	</div>
+}
+
+templ Feature006ComplianceBadge(standard, status string) {
+	@card.Card() {
+		@card.Content(card.ContentProps{
+			Class: "flex items-center justify-between p-3",
+		}) {
+			<span class="font-medium text-sm">{ standard }</span>
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantSecondary,
+				Class:   "text-xs",
+			}) {
+				{ status }
+			}
+		}
+	}
+}
+
+templ Feature006ScoreItem(item string, score int) {
+	<div class="flex items-center justify-between">
+		<span class="text-sm">{ item }</span>
+		<div class="flex items-center gap-3">
+			@progress.Progress(progress.Props{
+				Value: score,
+				Max:   100,
+				Class: "w-16 h-2",
+			})
+			<span class="text-xs font-medium w-8 text-right">{ strconv.Itoa(score) }%</span>
+		</div>
+	</div>
+}

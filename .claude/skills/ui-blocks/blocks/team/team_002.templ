@@ -1,0 +1,128 @@
+package team
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Team002() {
+	<section class="py-24 bg-muted/30">
+		<div class="container mx-auto px-4">
+			@Team002Header()
+			@Team002LeadershipGrid()
+		</div>
+	</section>
+}
+
+templ Team002Header() {
+	<div class="text-center mb-16">
+		<h2 class="text-4xl md:text-5xl font-bold mb-6">
+			Leadership Team
+		</h2>
+		<p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+			Meet the visionary leaders driving innovation and growth at our company. With decades of combined experience, they guide our mission to transform digital experiences.
+		</p>
+	</div>
+}
+
+templ Team002LeadershipGrid() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+		@Team002LeaderCard(
+			"/assets/img/avatar-gh-1.png",
+			"Sarah Johnson",
+			"Chief Executive Officer",
+			"Sarah brings 15+ years of leadership experience from Fortune 500 companies. She's passionate about building products that make a real difference in people's lives.",
+			"@sarahjohnson",
+			"sarah@company.com",
+		)
+		@Team002LeaderCard(
+			"/assets/img/avatar-gh-2.png",
+			"Michael Chen",
+			"Chief Technology Officer",
+			"Michael is a technology visionary with expertise in scalable architecture and AI. He previously led engineering teams at major tech companies.",
+			"@michaelchen",
+			"michael@company.com",
+		)
+		@Team002LeaderCard(
+			"/assets/img/avatar-gh-3.png",
+			"Emily Rodriguez",
+			"Chief Design Officer",
+			"Emily is an award-winning designer who believes that great design is invisible. She leads our design thinking and user experience strategy.",
+			"@emilyrodriguez",
+			"emily@company.com",
+		)
+		@Team002LeaderCard(
+			"/assets/img/avatar-gh-4.png",
+			"David Kim",
+			"Chief Product Officer",
+			"David combines deep technical knowledge with business acumen. He's responsible for our product strategy and roadmap execution.",
+			"@davidkim",
+			"david@company.com",
+		)
+		@Team002LeaderCard(
+			"/assets/img/avatar-gh-5.png",
+			"Jessica Park",
+			"Chief Marketing Officer",
+			"Jessica is a growth marketing expert who has scaled multiple startups. She leads our brand strategy and community building efforts.",
+			"@jessicapark",
+			"jessica@company.com",
+		)
+		@Team002LeaderCard(
+			"/assets/img/avatar-gh-6.png",
+			"Alex Thompson",
+			"Chief Operations Officer",
+			"Alex ensures our operations run smoothly as we scale. With an MBA from Wharton, he brings operational excellence to everything we do.",
+			"@alexthompson",
+			"alex@company.com",
+		)
+	</div>
+}
+
+templ Team002LeaderCard(imageSrc, name, role, bio, twitter, email string) {
+	@card.Card(card.Props{
+		Class: "shadow-lg hover:shadow-xl transition-shadow",
+	}) {
+		@card.Content() {
+			<div class="flex items-start gap-4 mb-6">
+				@avatar.Avatar(avatar.Props{
+					Class: "w-16 h-16",
+				}) {
+					@avatar.Image(avatar.ImageProps{
+						Src: imageSrc,
+						Alt: name,
+					})
+				}
+				<div class="flex-1">
+					<h3 class="text-xl font-semibold mb-1">{ name }</h3>
+					<p class="text-primary font-medium text-sm">{ role }</p>
+				</div>
+			</div>
+			<p class="text-muted-foreground mb-6 leading-relaxed">{ bio }</p>
+			<div class="flex items-center gap-4">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "p-2",
+				}) {
+					@icon.Twitter(icon.Props{Size: 16})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "p-2",
+				}) {
+					@icon.Mail(icon.Props{Size: 16})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "p-2",
+				}) {
+					@icon.Linkedin(icon.Props{Size: 16})
+				}
+			</div>
+		}
+	}
+}

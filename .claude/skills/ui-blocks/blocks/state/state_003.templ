@@ -1,0 +1,54 @@
+package state
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ State003() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="text-center space-y-8">
+			@State003404()
+			@State003Content()
+			@State003Actions()
+		</div>
+	</section>
+}
+
+templ State003404() {
+	<h1 class="text-[8rem] md:text-[16rem] font-bold leading-none text-muted-foreground/20 select-none">
+		404
+	</h1>
+}
+
+templ State003Content() {
+	<div class="space-y-3 -mt-12">
+		<h2 class="text-3xl font-semibold tracking-tight">Page not found</h2>
+		<p class="text-muted-foreground max-w-md mx-auto">
+			Sorry, we couldn't find the page you're looking for. It might have been removed, renamed, or doesn't exist.
+		</p>
+	</div>
+}
+
+templ State003Actions() {
+	<div class="flex flex-col sm:flex-row gap-3 justify-center">
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+		}) {
+			<span class="flex items-center gap-2">
+				@icon.ArrowLeft(icon.Props{
+					Size: 16,
+				})
+				Go back
+			</span>
+		}
+		@button.Button() {
+			<span class="flex items-center gap-2">
+				@icon.House(icon.Props{
+					Size: 16,
+				})
+				Go home
+			</span>
+		}
+	</div>
+}

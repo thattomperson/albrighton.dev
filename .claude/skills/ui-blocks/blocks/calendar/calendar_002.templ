@@ -1,0 +1,169 @@
+package calendar
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/datepicker"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/selectbox"
+)
+
+// Calendar002 - Booking Calendar
+// A booking form with integrated date picker for appointments or reservations
+templ Calendar002() {
+	<div class="flex items-center justify-center min-h-svh w-full">
+		<div class="w-full max-w-lg">
+			@card.Card(card.Props{
+				Class: "p-6",
+			}) {
+				@card.Header(card.HeaderProps{
+					Class: "pb-6",
+				}) {
+					<h3 class="text-lg font-semibold">Book an Appointment</h3>
+					<p class="text-sm text-muted-foreground">Select your preferred date and time</p>
+				}
+				@card.Content(card.ContentProps{
+					Class: "pt-0",
+				}) {
+					@Calendar002BookingForm()
+				}
+			}
+		</div>
+	</div>
+}
+
+templ Calendar002BookingForm() {
+	<form class="space-y-6">
+		// Name field
+		<div class="space-y-2">
+			@label.Label(label.Props{
+				For: "name",
+			}) {
+				Full Name
+			}
+			@input.Input(input.Props{
+				ID:          "name",
+				Name:        "name",
+				Placeholder: "Enter your full name",
+			})
+		</div>
+		// Email field
+		<div class="space-y-2">
+			@label.Label(label.Props{
+				For: "email",
+			}) {
+				Email Address
+			}
+			@input.Input(input.Props{
+				ID:          "email",
+				Name:        "email",
+				Type:        "email",
+				Placeholder: "Enter your email",
+			})
+		</div>
+		// Date picker field
+		<div class="space-y-2">
+			@label.Label(label.Props{
+				For: "appointment-date",
+			}) {
+				Preferred Date
+			}
+			@datepicker.DatePicker(datepicker.Props{
+				ID:          "appointment-date",
+				Name:        "appointment_date",
+				Placeholder: "Select a date",
+			})
+		</div>
+		// Time selection
+		<div class="space-y-2">
+			@label.Label(label.Props{
+				For: "appointment-time",
+			}) {
+				Preferred Time
+			}
+			@selectbox.SelectBox(selectbox.Props{
+				ID: "appointment-time",
+			}) {
+				@selectbox.Trigger(selectbox.TriggerProps{
+					Name: "appointment_time",
+				}) {
+					@selectbox.Value(selectbox.ValueProps{
+						Placeholder: "Select a time",
+					})
+				}
+				@selectbox.Content() {
+					@selectbox.Group() {
+						@selectbox.Label() {
+							Morning
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "09:00"}) {
+							9:00 AM
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "09:30"}) {
+							9:30 AM
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "10:00"}) {
+							10:00 AM
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "10:30"}) {
+							10:30 AM
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "11:00"}) {
+							11:00 AM
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "11:30"}) {
+							11:30 AM
+						}
+					}
+					@selectbox.Group() {
+						@selectbox.Label() {
+							Afternoon
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "14:00"}) {
+							2:00 PM
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "14:30"}) {
+							2:30 PM
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "15:00"}) {
+							3:00 PM
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "15:30"}) {
+							3:30 PM
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "16:00"}) {
+							4:00 PM
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "16:30"}) {
+							4:30 PM
+						}
+					}
+				}
+			}
+		</div>
+		// Additional notes
+		<div class="space-y-2">
+			@label.Label(label.Props{
+				For: "notes",
+			}) {
+				Additional Notes (Optional)
+			}
+			<textarea
+				id="notes"
+				name="notes"
+				rows="3"
+				placeholder="Any special requirements or notes..."
+				class="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/20 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+			></textarea>
+		</div>
+		// Submit button
+		<div class="pt-4">
+			@button.Button(button.Props{
+				Class: "w-full",
+			}) {
+				Book Appointment
+			}
+		</div>
+	</form>
+}

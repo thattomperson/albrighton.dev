@@ -1,0 +1,276 @@
+package account
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/form"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	switchcomp "github.com/templui/templui-pro/internal/ui/components/switch"
+)
+
+templ SecuritySettings001() {
+	<div class="container mx-auto px-4 py-8">
+		<div class="max-w-4xl mx-auto">
+			@SecuritySettings001Header()
+			<div class="space-y-6">
+				@SecuritySettings001PasswordSection()
+				@SecuritySettings001TwoFactorSection()
+				@SecuritySettings001SessionsSection()
+				@SecuritySettings001SecurityKeysSection()
+			</div>
+		</div>
+	</div>
+}
+
+templ SecuritySettings001Header() {
+	<div class="mb-8">
+		<h2 class="text-3xl font-bold text-foreground mb-2">Security Settings</h2>
+		<p class="text-muted-foreground">Manage your password, authentication methods, and active sessions</p>
+	</div>
+}
+
+templ SecuritySettings001PasswordSection() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				<div class="flex items-center gap-2">
+					@icon.Lock(icon.Props{Size: 20})
+					Password
+				</div>
+			}
+			@card.Description() {
+				Last changed 3 months ago
+			}
+		}
+		@card.Content() {
+			<form class="space-y-4">
+				@form.Item() {
+					@label.Label(label.Props{For: "account004-current-password"}) {
+						Current Password
+					}
+					@input.Input(input.Props{
+						ID:          "account004-current-password",
+						Type:        input.TypePassword,
+						Placeholder: "Enter current password",
+					})
+				}
+				@form.Item() {
+					@label.Label(label.Props{For: "account004-new-password"}) {
+						New Password
+					}
+					@input.Input(input.Props{
+						ID:          "account004-new-password",
+						Type:        input.TypePassword,
+						Placeholder: "Enter new password",
+					})
+					<p class="text-sm text-muted-foreground mt-1 break-words">Must be at least 8 characters with a mix of letters, numbers, and symbols</p>
+				}
+				@form.Item() {
+					@label.Label(label.Props{For: "account004-confirm-password"}) {
+						Confirm New Password
+					}
+					@input.Input(input.Props{
+						ID:          "account004-confirm-password",
+						Type:        input.TypePassword,
+						Placeholder: "Confirm new password",
+					})
+				}
+			</form>
+		}
+		@card.Footer() {
+			@button.Button() {
+				@icon.Save(icon.Props{Size: 16})
+				<span class="ml-2">Update Password</span>
+			}
+		}
+	}
+}
+
+templ SecuritySettings001TwoFactorSection() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				<div class="flex items-center gap-2">
+					@icon.Smartphone(icon.Props{Size: 20})
+					Two-Factor Authentication
+				</div>
+			}
+			@card.Description() {
+				Add an extra layer of security to your account
+			}
+		}
+		@card.Content() {
+			<div class="space-y-4">
+				<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 bg-muted/50 rounded-lg gap-3">
+					<div class="flex items-center gap-3">
+						<div class="p-2 bg-green-500/10 dark:bg-green-500/20 text-green-500 rounded-full flex-shrink-0">
+							@icon.Check(icon.Props{Size: 16})
+						</div>
+						<div class="min-w-0">
+							<p class="font-medium">Authenticator App</p>
+							<p class="text-sm text-muted-foreground">Google Authenticator configured</p>
+						</div>
+					</div>
+					<div class="flex items-center gap-2 flex-shrink-0">
+						@badge.Badge(badge.Props{Variant: badge.VariantSecondary}) {
+							Active
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+						}) {
+							Remove
+						}
+					</div>
+				</div>
+				<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg gap-3">
+					<div class="flex items-center gap-3">
+						<div class="p-2 bg-muted rounded-full flex-shrink-0">
+							@icon.MessageSquare(icon.Props{Size: 16})
+						</div>
+						<div class="min-w-0">
+							<p class="font-medium">SMS Backup</p>
+							<p class="text-sm text-muted-foreground">Receive codes via text message</p>
+						</div>
+					</div>
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+					}) {
+						Set Up
+					}
+				</div>
+				<div class="pt-4 border-t">
+					<h4 class="font-medium mb-3">Recovery Codes</h4>
+					<p class="text-sm text-muted-foreground mb-3">Save these codes in a safe place. You can use them to access your account if you lose your device.</p>
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+					}) {
+						@icon.Download(icon.Props{Size: 16})
+						<span class="ml-2">Generate New Codes</span>
+					}
+				</div>
+			</div>
+		}
+	}
+}
+
+templ SecuritySettings001SessionsSection() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				<div class="flex items-center gap-2">
+					@icon.Monitor(icon.Props{Size: 20})
+					Active Sessions
+				</div>
+			}
+			@card.Description() {
+				Devices currently signed in to your account
+			}
+		}
+		@card.Content() {
+			<div class="space-y-4">
+				@SecuritySettings001SessionItem(
+					"MacBook Pro",
+					"Chrome on macOS",
+					"San Francisco, CA",
+					"Current session",
+					true,
+				)
+				@SecuritySettings001SessionItem(
+					"iPhone 14 Pro",
+					"Mobile app",
+					"San Francisco, CA",
+					"Last active 2 hours ago",
+					false,
+				)
+				@SecuritySettings001SessionItem(
+					"iPad Air",
+					"Safari on iPadOS",
+					"Los Angeles, CA",
+					"Last active 3 days ago",
+					false,
+				)
+			</div>
+		}
+		@card.Footer() {
+			@button.Button(button.Props{
+				Variant: button.VariantDestructive,
+			}) {
+				Sign Out All Other Sessions
+			}
+		}
+	}
+}
+
+templ SecuritySettings001SessionItem(device, browser, location, activity string, current bool) {
+	<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between p-4 border rounded-lg gap-3">
+		<div class="flex items-start gap-3">
+			<div class="p-2 bg-muted rounded-full flex-shrink-0">
+				@icon.Monitor(icon.Props{Size: 16})
+			</div>
+			<div class="min-w-0 flex-1">
+				<div class="flex flex-wrap items-center gap-2">
+					<p class="font-medium">{ device }</p>
+					if current {
+						@badge.Badge(badge.Props{Variant: badge.VariantSecondary}) {
+							Current
+						}
+					}
+				</div>
+				<p class="text-sm text-muted-foreground break-words">{ browser }</p>
+				<p class="text-sm text-muted-foreground break-words">{ location } • { activity }</p>
+			</div>
+		</div>
+		if !current {
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Class:   "flex-shrink-0",
+			}) {
+				Sign Out
+			}
+		}
+	</div>
+}
+
+templ SecuritySettings001SecurityKeysSection() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				<div class="flex items-center gap-2">
+					@icon.Key(icon.Props{Size: 20})
+					Security Keys
+				</div>
+			}
+			@card.Description() {
+				Hardware keys for passwordless authentication
+			}
+		}
+		@card.Content() {
+			<div class="space-y-4">
+				<div class="text-center py-8 border-2 border-dashed rounded-lg">
+					<div class="inline-flex p-3 bg-muted rounded-full mb-3">
+						@icon.ShieldCheck(icon.Props{Size: 24, Class: "text-muted-foreground"})
+					</div>
+					<p class="text-sm text-muted-foreground mb-4">No security keys added yet</p>
+					@button.Button() {
+						@icon.Plus(icon.Props{Size: 16})
+						<span class="ml-2">Add Security Key</span>
+					}
+				</div>
+				<div class="pt-4 border-t">
+					<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+						<div class="flex-1">
+							<p class="font-medium">Passkeys</p>
+							<p class="text-sm text-muted-foreground">Sign in with Face ID, Touch ID, or Windows Hello</p>
+						</div>
+						@switchcomp.Switch(switchcomp.Props{
+							ID: "account004-passkeys",
+						})
+					</div>
+				</div>
+			</div>
+		}
+	}
+}

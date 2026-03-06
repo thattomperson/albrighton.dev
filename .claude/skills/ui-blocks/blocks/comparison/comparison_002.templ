@@ -1,0 +1,167 @@
+package comparison
+
+import (
+	"fmt"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+)
+
+templ Comparison002() {
+	<section class="w-full py-12 md:py-16 lg:py-20">
+		<div class="container mx-auto px-4 md:px-6">
+			@Comparison002Header()
+			@Comparison002Metrics()
+		</div>
+	</section>
+}
+
+templ Comparison002Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+			Performance Improvements
+		</h2>
+		<p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+			See how our optimizations transformed the application performance across key metrics.
+		</p>
+	</div>
+}
+
+templ Comparison002Metrics() {
+	@card.Card(card.Props{
+		Class: "max-w-4xl mx-auto",
+	}) {
+		<div class="divide-y">
+			@Comparison002MetricRow(
+				"Page Load Time",
+				"3.2s",
+				"0.8s",
+				75,
+				"faster",
+				icon.Zap,
+			)
+			@Comparison002MetricRow(
+				"Time to Interactive",
+				"5.1s",
+				"1.3s",
+				74,
+				"reduction",
+				icon.Activity,
+			)
+			@Comparison002MetricRow(
+				"Bundle Size",
+				"2.4 MB",
+				"680 KB",
+				72,
+				"smaller",
+				icon.Package,
+			)
+			@Comparison002MetricRow(
+				"API Response Time",
+				"450ms",
+				"90ms",
+				80,
+				"faster",
+				icon.Gauge,
+			)
+			@Comparison002MetricRow(
+				"Memory Usage",
+				"512 MB",
+				"128 MB",
+				75,
+				"reduction",
+				icon.Cpu,
+			)
+			@Comparison002MetricRow(
+				"First Contentful Paint",
+				"2.8s",
+				"0.6s",
+				78,
+				"improvement",
+				icon.Eye,
+			)
+		</div>
+		<div class="p-4 md:p-6 bg-muted/50">
+			<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+				<div>
+					<p class="text-xs md:text-sm text-muted-foreground">Overall Performance Score</p>
+					<p class="text-xl md:text-2xl font-bold">76% Improvement</p>
+				</div>
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantDefault,
+					Class:   "w-fit",
+				}) {
+					Optimized
+				}
+			</div>
+		</div>
+	}
+}
+
+templ Comparison002MetricRow(
+	metric string,
+	before string,
+	after string,
+	improvement int,
+	improvementType string,
+	iconFunc func(...icon.Props) templ.Component,
+) {
+	<div class="p-4 md:p-6">
+		<div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-4">
+			<div class="flex items-center gap-3 flex-1">
+				<div class="p-1.5 md:p-2 bg-muted rounded-lg flex-shrink-0">
+					@iconFunc(icon.Props{
+						Size:  16,
+						Class: "text-foreground md:w-5 md:h-5",
+					})
+				</div>
+				<div class="flex-1 min-w-0">
+					<h3 class="font-semibold text-sm md:text-base">{ metric }</h3>
+					<p class="text-xs md:text-sm text-muted-foreground">
+						if improvementType == "faster" {
+							Response time
+						} else if improvementType == "smaller" {
+							Resource size
+						} else {
+							Performance metric
+						}
+					</p>
+				</div>
+			</div>
+			<div class="flex items-center gap-1.5 text-green-600 dark:text-green-500">
+				@icon.TrendingDown(icon.Props{
+					Size: 14,
+				})
+				<span class="font-semibold text-sm">{ fmt.Sprintf("%d%%", improvement) }</span>
+				<span class="text-xs hidden sm:inline">{ improvementType }</span>
+			</div>
+		</div>
+		<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+			<div class="space-y-1.5">
+				<div class="flex items-center justify-between mb-1">
+					<span class="text-xs md:text-sm text-muted-foreground">Before</span>
+					<span class="font-medium text-xs md:text-sm">{ before }</span>
+				</div>
+				@progress.Progress(progress.Props{
+					Value:   85,
+					Max:     100,
+					Size:    progress.SizeSm,
+					Variant: progress.VariantDanger,
+				})
+			</div>
+			<div class="space-y-1.5">
+				<div class="flex items-center justify-between mb-1">
+					<span class="text-xs md:text-sm text-muted-foreground">After</span>
+					<span class="font-medium text-xs md:text-sm text-foreground">{ after }</span>
+				</div>
+				@progress.Progress(progress.Props{
+					Value:   100 - improvement,
+					Max:     100,
+					Size:    progress.SizeSm,
+					Variant: progress.VariantSuccess,
+				})
+			</div>
+		</div>
+	</div>
+}

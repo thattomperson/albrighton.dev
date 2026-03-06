@@ -1,0 +1,122 @@
+package countdown
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+)
+
+templ Countdown004() {
+	@Countdown004Script()
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10" id="countdown004-container">
+		@card.Card(card.Props{
+			Class: "w-full max-w-3xl shadow-sm",
+		}) {
+			@card.Content() {
+				<div class="flex flex-col gap-6 md:gap-8 items-center justify-between">
+					<div class="text-center space-y-2 md:w-2/5">
+						<div class="flex justify-center">
+							@badge.Badge(badge.Props{
+								Variant: badge.VariantOutline,
+								Class:   "mb-2",
+							}) {
+								Coming Soon
+							}
+						</div>
+						<h2 class="text-2xl font-bold tracking-tight">New Collection Launch</h2>
+						<p class="text-muted-foreground">Be the first to explore our new exclusive collection dropping soon.</p>
+						<div class="pt-4">
+							@button.Button(button.Props{
+								Variant: button.VariantDefault,
+								Class:   "mt-2",
+							}) {
+								Notify Me
+							}
+						</div>
+					</div>
+					<div class="w-full md:w-3/5">
+						<div class="grid grid-cols-2 sm:flex sm:justify-center gap-4 sm:gap-1 lg:gap-3">
+							<div class="flex justify-center gap-1">
+								@Countdown004FlipDigit("0", "Days", true, "countdown004-days-1")
+								@Countdown004FlipDigit("0", "Days", true, "countdown004-days-2")
+							</div>
+							<div class="flex justify-center gap-1">
+								@Countdown004FlipDigit("0", "Hours", false, "countdown004-hours-1")
+								@Countdown004FlipDigit("0", "Hours", false, "countdown004-hours-2")
+							</div>
+							<div class="flex justify-center gap-1">
+								@Countdown004FlipDigit("0", "Minutes", false, "countdown004-minutes-1")
+								@Countdown004FlipDigit("0", "Minutes", false, "countdown004-minutes-2")
+							</div>
+							<div class="flex justify-center gap-1">
+								@Countdown004FlipDigit("0", "Seconds", false, "countdown004-seconds-1")
+								@Countdown004FlipDigit("0", "Seconds", false, "countdown004-seconds-2")
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		}
+	</div>
+}
+
+templ Countdown004FlipDigit(value, label string, highlight bool, id string) {
+	<div class="flex flex-col items-center">
+		<div class={ "bg-background shadow-md rounded p-2 border", templ.KV("border-primary", highlight), templ.KV("border-border", !highlight) }>
+			<div class="bg-accent flex items-center justify-center w-8 h-12 sm:w-10 sm:h-14 lg:w-12 lg:h-16 rounded font-mono">
+				<span id={ id } class="text-lg sm:text-xl lg:text-2xl font-bold">{ value }</span>
+			</div>
+		</div>
+		<span class="text-xs mt-1 text-muted-foreground">{ label }</span>
+	</div>
+}
+
+// JavaScript logic for the countdown timer with flip animation
+templ Countdown004Script() {
+	<script nonce={ templ.GetNonce(ctx) }>
+		// EASY TO CUSTOMIZE:
+		// Set your target date here (30 days from now by default)
+		const targetDate004 = new Date();
+		targetDate004.setDate(targetDate004.getDate() + 30);
+		
+		// Initialize countdown
+		function initCountdown004() {
+			// Update countdown every second
+			const countdownInterval = setInterval(function() {
+				const now = new Date().getTime();
+				const distance = targetDate004.getTime() - now;
+				
+				// Calculate time units
+				const days = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+				const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+				const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+				const seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+				
+				// Update the countdown elements - first digit of days
+				document.getElementById('countdown004-days-1').textContent = days[0];
+				document.getElementById('countdown004-days-2').textContent = days[1];
+				
+				// Update hours
+				document.getElementById('countdown004-hours-1').textContent = hours[0];
+				document.getElementById('countdown004-hours-2').textContent = hours[1];
+				
+				// Update minutes
+				document.getElementById('countdown004-minutes-1').textContent = minutes[0];
+				document.getElementById('countdown004-minutes-2').textContent = minutes[1];
+				
+				// Update seconds
+				document.getElementById('countdown004-seconds-1').textContent = seconds[0];
+				document.getElementById('countdown004-seconds-2').textContent = seconds[1];
+				
+				// If the countdown is over
+				if (distance < 0) {
+					clearInterval(countdownInterval);
+					document.getElementById('countdown004-container').innerHTML = "<div class='text-center py-4'>Collection is now available!</div>";
+				}
+			}, 1000);
+		}
+		
+		// Start the countdown when the page loads
+		document.addEventListener('DOMContentLoaded', initCountdown004);
+	</script>
+}

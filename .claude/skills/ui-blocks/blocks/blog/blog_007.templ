@@ -1,0 +1,181 @@
+package blog
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+)
+
+templ Blog007() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10 ">
+		<div class="w-full max-w-6xl">
+			@Blog007Header()
+			@Blog007Newsletter()
+			@Blog007MinimalList()
+		</div>
+	</section>
+}
+
+templ Blog007Header() {
+	<div class="text-center mb-12">
+		<div class="inline-flex items-center gap-2 mb-4">
+			@icon.Newspaper(icon.Props{
+				Size:  32,
+				Class: "text-primary",
+			})
+		</div>
+		<h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">The Developer Blog</h2>
+		<p class="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+			Technical insights, tutorials, and updates from our engineering team.
+		</p>
+	</div>
+}
+
+templ Blog007Newsletter() {
+	<div class="max-w-2xl mx-auto mb-16">
+		@card.Card(card.Props{
+			Class: "",
+		}) {
+			<div class="flex flex-col sm:flex-row gap-4 items-center p-6">
+				<div class="flex-1 text-center sm:text-left">
+					<h3 class="font-semibold mb-1">Subscribe to our newsletter</h3>
+					<p class="text-sm text-muted-foreground">Get the latest posts delivered right to your inbox.</p>
+				</div>
+				<div class="flex w-full sm:w-auto gap-2">
+					@input.Input(input.Props{
+						Placeholder: "Enter your email",
+						Type:        "email",
+						Class:       "w-full sm:w-64",
+					})
+					@button.Button() {
+						Subscribe
+					}
+				</div>
+			</div>
+		}
+	</div>
+}
+
+templ Blog007MinimalList() {
+	<div class="max-w-4xl mx-auto">
+		<div class="space-y-0 divide-y">
+			@Blog007MinimalPost(
+				"The Future of Server-Side Rendering",
+				"Exploring the evolution of SSR and its impact on modern web development.",
+				"Mar 20, 2024",
+				"15 min",
+				[]string{"SSR", "Performance", "Architecture"},
+				true,
+			)
+			@Blog007MinimalPost(
+				"Optimizing Database Queries in Production",
+				"Practical techniques for improving database performance at scale.",
+				"Mar 18, 2024",
+				"12 min",
+				[]string{"Database", "Optimization", "SQL"},
+				false,
+			)
+			@Blog007MinimalPost(
+				"Building Type-Safe APIs with Go",
+				"How to leverage Go's type system for robust API development.",
+				"Mar 15, 2024",
+				"10 min",
+				[]string{"Go", "API", "Types"},
+				false,
+			)
+			@Blog007MinimalPost(
+				"Microservices Communication Patterns",
+				"Best practices for inter-service communication in distributed systems.",
+				"Mar 13, 2024",
+				"18 min",
+				[]string{"Microservices", "Architecture", "Patterns"},
+				false,
+			)
+			@Blog007MinimalPost(
+				"CI/CD Pipeline Optimization",
+				"Strategies to speed up your deployment pipeline without sacrificing quality.",
+				"Mar 10, 2024",
+				"8 min",
+				[]string{"DevOps", "CI/CD", "Automation"},
+				false,
+			)
+			@Blog007MinimalPost(
+				"Understanding Memory Management in Go",
+				"Deep dive into Go's garbage collector and memory allocation.",
+				"Mar 8, 2024",
+				"20 min",
+				[]string{"Go", "Performance", "Memory"},
+				false,
+			)
+		</div>
+		<div class="text-center mt-12">
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+			}) {
+				<span class="flex items-center gap-2">
+					View Archive
+					@icon.Archive(icon.Props{
+						Size: 18,
+					})
+				</span>
+			}
+		</div>
+	</div>
+}
+
+templ Blog007MinimalPost(title, description, date, readTime string, tags []string, featured bool) {
+	<article class="py-8 group">
+		<div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+			<div class="flex-1">
+				<div class="flex items-center gap-3 mb-3">
+					if featured {
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantDefault,
+						}) {
+							@icon.Star(icon.Props{
+								Size: 12,
+							})
+							Featured
+						}
+					}
+					<time class="text-sm text-muted-foreground">{ date }</time>
+					<span class="text-sm text-muted-foreground">•</span>
+					<span class="text-sm text-muted-foreground">{ readTime } read</span>
+				</div>
+				<h3 class="text-2xl font-semibold mb-2 hover:text-primary cursor-pointer">
+					{ title }
+				</h3>
+				<p class="text-muted-foreground mb-4 line-clamp-2">
+					{ description }
+				</p>
+				<div class="flex flex-wrap gap-2">
+					for _, tag := range tags {
+						<span class="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
+							#{ tag }
+						</span>
+					}
+				</div>
+			</div>
+			<div class="flex items-center gap-2 lg:ml-8">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+				}) {
+					@icon.Bookmark(icon.Props{
+						Size: 18,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+				}) {
+					@icon.Share2(icon.Props{
+						Size: 18,
+					})
+				}
+			</div>
+		</div>
+	</article>
+}

@@ -1,0 +1,60 @@
+package feature
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Feature002() {
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="py-16 lg:py-24 max-w-7xl">
+			@Feature002Header()
+			@Feature002Grid()
+		</div>
+	</div>
+}
+
+templ Feature002Header() {
+	<h2 class="mb-6 text-3xl font-semibold lg:text-4xl">
+		Discover <span class="text-primary">Powerful Features</span>
+	</h2>
+	@button.Button() {
+		Get Started
+		@icon.ArrowRight(icon.Props{
+			Size:  16,
+			Class: "ml-2",
+		})
+	}
+}
+
+templ Feature002Grid() {
+	<div class="mt-12 grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
+		@Feature002Item("01", "Seamless Integrations", "Connect your favorite tools and services effortlessly for a unified workflow.", "5 Minute")
+		@Feature002Item("02", "Advanced Analytics", "Gain deep insights with powerful analytics to make data-driven decisions.", "3 Minute")
+		@Feature002Item("03", "Smart Search & Filters", "Find exactly what you need with intelligent search and filtering options.", "4 Minute")
+		@Feature002Item("04", "Enhanced Security", "Protect your data with top-notch security features and encryption.", "8 Minute")
+	</div>
+}
+
+templ Feature002Item(number, title, description, time string) {
+	<div class="flex">
+		@separator.Separator(separator.Props{
+			Orientation: separator.OrientationVertical,
+			Class:       "mr-6 bg-primary/20",
+		})
+		<div>
+			<h1 class="mb-16 text-9xl text-primary/20">{ number }</h1>
+			<p class="text-md mb-2 font-semibold">{ title }</p>
+			<p class="text-md mb-6 text-muted-foreground">{ description }</p>
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantOutline,
+				Class:   "py-2 border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors",
+			}) {
+				@icon.Clock(icon.Props{Size: 14})
+				{ time }
+			}
+		</div>
+	</div>
+}

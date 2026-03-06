@@ -1,0 +1,167 @@
+package sidebar
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/breadcrumb"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/sidebar"
+)
+
+templ Sidebar001() {
+	@sidebar.Layout() {
+		@sidebar.Sidebar() {
+			@sidebar.Header() {
+				@sidebar.Menu() {
+					@sidebar.MenuItem() {
+						@sidebar.MenuButton(sidebar.MenuButtonProps{
+							Href: "#",
+						}) {
+							@icon.Layers(icon.Props{Class: "size-4"})
+							<span class="font-semibold">Acme Inc</span>
+						}
+					}
+				}
+			}
+			@sidebar.Content() {
+				@sidebar.Group() {
+					@sidebar.GroupLabel() {
+						Main
+					}
+					@sidebar.Menu() {
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href:     "#",
+								IsActive: true,
+							}) {
+								@icon.LayoutDashboard(icon.Props{Class: "size-4"})
+								<span>Dashboard</span>
+							}
+						}
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.FolderOpen(icon.Props{Class: "size-4"})
+								<span>Projects</span>
+								@sidebar.MenuBadge() {
+									12
+								}
+							}
+						}
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.Users(icon.Props{Class: "size-4"})
+								<span>Team</span>
+							}
+						}
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.Calendar(icon.Props{Class: "size-4"})
+								<span>Calendar</span>
+								@sidebar.MenuBadge() {
+									3
+								}
+							}
+						}
+					}
+				}
+				@sidebar.Separator()
+				@sidebar.Group() {
+					@sidebar.GroupLabel() {
+						Tools
+					}
+					@sidebar.Menu() {
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.ChartBar(icon.Props{Class: "size-4"})
+								<span>Analytics</span>
+							}
+						}
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.Settings(icon.Props{Class: "size-4"})
+								<span>Settings</span>
+							}
+						}
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.CircleQuestionMark(icon.Props{Class: "size-4"})
+								<span>Help</span>
+							}
+						}
+					}
+				}
+			}
+			@sidebar.Footer() {
+				@card.Card(card.Props{
+					Class: "bg-muted/50",
+				}) {
+					@card.Content(card.ContentProps{
+						Class: "p-3",
+					}) {
+						<p class="text-sm font-medium mb-1">Upgrade to Pro</p>
+						<p class="text-xs text-muted-foreground mb-3">
+							Unlock advanced features and analytics.
+						</p>
+						@button.Button(button.Props{
+							FullWidth: true,
+						}) {
+							Upgrade
+						}
+					}
+				}
+			}
+		}
+		@sidebar.Inset() {
+			<div class="flex h-full flex-col">
+				<!-- Navbar -->
+				<header class="flex items-center h-14 px-4 border-b border-border bg-background">
+					@sidebar.Trigger()
+					<!-- Separator -->
+					<div class="h-6 w-px bg-border mx-3"></div>
+					<!-- Breadcrumbs -->
+					@breadcrumb.Breadcrumb() {
+						@breadcrumb.List() {
+							@breadcrumb.Item() {
+								@breadcrumb.Link(breadcrumb.LinkProps{Href: "#"}) {
+									Home
+								}
+							}
+							@breadcrumb.Item() {
+								@breadcrumb.Separator()
+							}
+							@breadcrumb.Item() {
+								@breadcrumb.Link(breadcrumb.LinkProps{Href: "#"}) {
+									Dashboard
+								}
+							}
+							@breadcrumb.Item() {
+								@breadcrumb.Separator()
+							}
+							@breadcrumb.Item() {
+								@breadcrumb.Page() {
+									Overview
+								}
+							}
+						}
+					}
+				</header>
+				<!-- Main Content -->
+				<div class="flex-1 overflow-y-auto p-6">
+					<!-- Content goes here -->
+				</div>
+			</div>
+		}
+	}
+}

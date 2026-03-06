@@ -1,0 +1,213 @@
+package ai
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+	"github.com/templui/templui-pro/internal/ui/components/skeleton"
+	"github.com/templui/templui-pro/internal/ui/components/textarea"
+)
+
+templ AI001() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		@card.Card(card.Props{Class: "w-full max-w-4xl max-h-svh flex flex-col"}) {
+			@card.Header(card.HeaderProps{
+				Class: "mb-2",
+			}) {
+				@AI001Header()
+			}
+			@separator.Separator()
+			@card.Content(card.ContentProps{Class: "flex-1 overflow-scroll p-0"}) {
+				@AI001Messages()
+			}
+			@separator.Separator()
+			@card.Content() {
+				@AI001Input()
+			}
+		}
+	</section>
+}
+
+templ AI001Header() {
+	<div class="flex items-center justify-between">
+		<div class="flex items-center gap-3">
+			<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+				@icon.Bot(icon.Props{
+					Size:  20,
+					Class: "text-primary-foreground",
+				})
+			</div>
+			<div>
+				@card.Title() {
+					AI Assistant
+				}
+				@card.Description() {
+					Always here to help
+				}
+			</div>
+		</div>
+		<div class="flex items-center gap-2">
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.RotateCcw(icon.Props{
+					Size: 18,
+				})
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Settings(icon.Props{
+					Size: 18,
+				})
+			}
+		</div>
+	</div>
+}
+
+templ AI001Messages() {
+	<div class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
+		@AI001UserMessage("Can you explain goroutines?")
+		@AI001AIMessage(
+			true,
+			false,
+		)
+		@AI001UserMessage("Show me a practical example")
+		@AI001AIMessage(false, true)
+	</div>
+}
+
+templ AI001UserMessage(message string) {
+	<div class="flex gap-3 justify-end">
+		<div class="max-w-[90%] sm:max-w-[80%] md:max-w-[70%] space-y-2">
+			<div class="flex items-center gap-2 justify-end">
+				<p class="font-medium text-sm">You</p>
+				@avatar.Avatar(avatar.Props{
+					Class: "h-8 w-8",
+				}) {
+					@avatar.Image(avatar.ImageProps{
+						Src: "/assets/img/avatar-gh-1.png",
+						Alt: "User",
+					})
+				}
+			</div>
+			<div class="bg-primary text-primary-foreground rounded-lg p-4">
+				<p class="text-sm whitespace-pre-wrap">{ message }</p>
+			</div>
+		</div>
+	</div>
+}
+
+templ AI001AIMessage(showActions, isStreaming bool) {
+	<div class="flex gap-3">
+		<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+			@icon.Bot(icon.Props{
+				Size:  20,
+				Class: "text-primary-foreground",
+			})
+		</div>
+		<div class="flex-1 max-w-[90%] sm:max-w-[85%] space-y-2">
+			<p class="font-medium text-sm">AI Assistant</p>
+			<div class="bg-muted rounded-lg p-3 md:p-4">
+				if isStreaming {
+					<div class="space-y-2">
+						@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-3/4 bg-muted-foreground/20"})
+						@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-full bg-muted-foreground/20"})
+						@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-5/6 bg-muted-foreground/20"})
+					</div>
+				} else {
+					<div class="space-y-2">
+						@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-3/4 bg-muted-foreground/20 animate-none"})
+						@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-full bg-muted-foreground/20 animate-none"})
+						@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-5/6 bg-muted-foreground/20 animate-none"})
+					</div>
+				}
+			</div>
+			if showActions {
+				<div class="flex items-center gap-2">
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+						Class:   "h-8 w-8",
+					}) {
+						@icon.Copy(icon.Props{
+							Size: 14,
+						})
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+						Class:   "h-8 w-8",
+					}) {
+						@icon.ThumbsUp(icon.Props{
+							Size: 14,
+						})
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+						Class:   "h-8 w-8",
+					}) {
+						@icon.ThumbsDown(icon.Props{
+							Size: 14,
+						})
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+						Class:   "h-8 w-8",
+					}) {
+						@icon.RefreshCw(icon.Props{
+							Size: 14,
+						})
+					}
+				</div>
+			}
+		</div>
+	</div>
+}
+
+templ AI001Input() {
+	<div>
+		@textarea.Textarea(textarea.Props{
+			Placeholder: "Ask me anything...",
+			Class:       "min-h-[100px] border-0 resize-none focus:ring-0",
+			Rows:        4,
+		})
+		<div class="flex items-center justify-between p-3">
+			<div class="flex items-center gap-2">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@icon.Paperclip(icon.Props{
+						Size: 16,
+					})
+				}
+				<span class="text-xs text-muted-foreground hidden sm:inline">Attach files</span>
+			</div>
+			@button.Button(button.Props{
+				Size: button.SizeSm,
+			}) {
+				Send
+				@icon.Send(icon.Props{
+					Size:  14,
+					Class: "ml-1",
+				})
+			}
+		</div>
+	</div>
+	<div class="flex items-center justify-center gap-2 sm:gap-4 text-xs text-muted-foreground">
+		<span>GPT-4</span>
+		<span>•</span>
+		<span class="hidden sm:inline">2,048 tokens</span>
+		<span class="sm:hidden">2k</span>
+		<span>•</span>
+		<button class="hover:text-foreground">Clear</button>
+	</div>
+}

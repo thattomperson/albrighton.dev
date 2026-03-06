@@ -1,0 +1,418 @@
+package ai
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/selectbox"
+	"github.com/templui/templui-pro/internal/ui/components/sheet"
+	"github.com/templui/templui-pro/internal/ui/components/slider"
+	"github.com/templui/templui-pro/internal/ui/components/textarea"
+)
+
+templ AI002() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		@card.Card(card.Props{Class: "w-full max-w-5xl h-[500px] md:h-[600px] lg:h-[700px] flex relative overflow-hidden"}) {
+			<!-- Desktop sidebar -->
+			<div class="hidden md:block">
+				@AI002Sidebar()
+			</div>
+			<!-- Mobile sidebar drawer -->
+			@sheet.Sheet(sheet.Props{Side: sheet.SideLeft}) {
+				@sheet.Trigger(sheet.TriggerProps{
+					Class: "md:hidden absolute top-4 left-4 z-10",
+				}) {
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+					}) {
+						@icon.Menu(icon.Props{Size: 20})
+					}
+				}
+				@sheet.Content(sheet.ContentProps{
+					Class:           "p-4",
+					HideCloseButton: true,
+				}) {
+					@AI002SidebarContent()
+				}
+			}
+			<div class="flex-1 flex flex-col border-r">
+				@AI002Header()
+				@AI002Messages()
+				@AI002Input()
+			</div>
+			<!-- Desktop settings panel -->
+			<div class="hidden lg:block">
+				@AI002Settings()
+			</div>
+		}
+	</section>
+}
+
+templ AI002Sidebar() {
+	<div class="w-64 border-r bg-muted/20 p-4 space-y-4">
+		@AI002SidebarContent()
+	</div>
+}
+
+templ AI002SidebarContent() {
+	<div class="space-y-4">
+		<div class="flex items-center justify-between">
+			@card.Title(card.TitleProps{Class: "text-base"}) {
+				Chat History
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+				Class:   "h-8 w-8",
+			}) {
+				@icon.Plus(icon.Props{
+					Size: 16,
+				})
+			}
+		</div>
+		<div class="space-y-2">
+			@AI002HistoryItem("Go Context Explanation", "2 hours ago", true)
+			@AI002HistoryItem("Python Data Analysis", "Yesterday", false)
+			@AI002HistoryItem("SQL Query Optimization", "2 days ago", false)
+			@AI002HistoryItem("Docker Best Practices", "3 days ago", false)
+			@AI002HistoryItem("API Design Patterns", "Last week", false)
+		</div>
+	</div>
+}
+
+templ AI002HistoryItem(title, time string, isActive bool) {
+	<button
+		class={
+			"w-full text-left p-3 rounded-lg transition-colors",
+			templ.KV("bg-background border", isActive),
+			templ.KV("hover:bg-muted", !isActive),
+		}
+	>
+		<p class="text-sm font-medium truncate">{ title }</p>
+		<p class="text-xs text-muted-foreground">{ time }</p>
+	</button>
+}
+
+templ AI002Header() {
+	<div class="p-4 border-b space-y-3">
+		<div class="flex items-center justify-between">
+			<h2 class="font-semibold pl-10 md:pl-0">AI Chat</h2>
+			<div class="flex items-center gap-2">
+				<!-- Mobile settings trigger -->
+				@sheet.Sheet() {
+					@sheet.Trigger(sheet.TriggerProps{
+						Class: "lg:hidden",
+					}) {
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Size:    button.SizeIcon,
+						}) {
+							@icon.Settings(icon.Props{Size: 18})
+						}
+					}
+					<!-- Mobile settings drawer -->
+					@sheet.Content(sheet.ContentProps{
+						Class:           "p-4",
+						HideCloseButton: true,
+					}) {
+						@AI002SettingsContent()
+					}
+				}
+				@dropdown.Dropdown() {
+					@dropdown.Trigger() {
+						@button.Button(button.Props{
+							Variant: button.VariantOutline,
+							Size:    button.SizeSm,
+							Class:   "gap-2",
+						}) {
+							<div class="w-2 h-2 bg-green-500 rounded-full"></div>
+							GPT-4
+							@icon.ChevronDown(icon.Props{
+								Size: 14,
+							})
+						}
+					}
+					@dropdown.Content(dropdown.ContentProps{
+						Class: "w-56",
+					}) {
+						@dropdown.Label() {
+							Available Models
+						}
+						@dropdown.Separator()
+						@dropdown.Group() {
+							@dropdown.Item() {
+								<div class="flex items-center justify-between w-full">
+									<span>GPT-4</span>
+									@badge.Badge(badge.Props{
+										Variant: badge.VariantSecondary,
+										Class:   "text-xs",
+									}) {
+										Powerful
+									}
+								</div>
+							}
+							@dropdown.Item() {
+								<div class="flex items-center justify-between w-full">
+									<span>GPT-3.5 Turbo</span>
+									@badge.Badge(badge.Props{
+										Variant: badge.VariantSecondary,
+										Class:   "text-xs",
+									}) {
+										Fast
+									}
+								</div>
+							}
+							@dropdown.Item() {
+								<div class="flex items-center justify-between w-full">
+									<span>Claude 3</span>
+									@badge.Badge(badge.Props{
+										Variant: badge.VariantSecondary,
+										Class:   "text-xs",
+									}) {
+										Creative
+									}
+								</div>
+							}
+							@dropdown.Item() {
+								<div class="flex items-center justify-between w-full">
+									<span>Llama 2</span>
+									@badge.Badge(badge.Props{
+										Variant: badge.VariantSecondary,
+										Class:   "text-xs",
+									}) {
+										Open
+									}
+								</div>
+							}
+						}
+					}
+				}
+			</div>
+		</div>
+	</div>
+}
+
+templ AI002Messages() {
+	<div class="flex-1 overflow-y-auto p-6 space-y-6">
+		@AI002Message(
+			"user",
+			"Which AI model should I use?",
+			"",
+		)
+		@AI002Message(
+			"ai",
+			"**GPT-4** → Complex tasks, best quality\n**GPT-3.5** → Fast & affordable\n**Claude 3** → Creative writing\n**Llama 2** → Open source, local",
+			"GPT-4",
+		)
+		@AI002Message(
+			"user",
+			"I need help with coding",
+			"",
+		)
+		@AI002Message(
+			"ai",
+			"For coding: **GPT-4** is best for complex debugging.\nFor simple tasks: **GPT-3.5** is faster and cheaper.",
+			"GPT-4",
+		)
+	</div>
+}
+
+templ AI002Message(role, content, model string) {
+	<div class={ templ.KV("flex gap-3", true), templ.KV("justify-end", role == "user") }>
+		if role == "user" {
+			<div class="max-w-[85%] sm:max-w-[75%] md:max-w-[70%]">
+				<div class="bg-primary text-primary-foreground rounded-lg p-3 sm:p-4">
+					<p class="text-sm whitespace-pre-wrap">{ content }</p>
+				</div>
+			</div>
+		} else {
+			<div class="w-8 h-8 bg-muted rounded-lg flex items-center justify-center flex-shrink-0">
+				@icon.Bot(icon.Props{
+					Size: 18,
+				})
+			</div>
+			<div class="flex-1 max-w-[85%] sm:max-w-[75%] md:max-w-[70%] space-y-2">
+				<div class="flex items-center gap-2">
+					<span class="text-xs text-muted-foreground">{ model }</span>
+				</div>
+				<div class="bg-muted rounded-lg p-3 sm:p-4">
+					<div class="prose prose-sm max-w-none dark:prose-invert">
+						@templ.Raw(content)
+					</div>
+				</div>
+				<div class="flex items-center gap-2">
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+						Class:   "h-7 w-7",
+					}) {
+						@icon.Copy(icon.Props{
+							Size: 12,
+						})
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+						Class:   "h-7 w-7",
+					}) {
+						@icon.RefreshCw(icon.Props{
+							Size: 12,
+						})
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+						Class:   "h-7 w-7",
+					}) {
+						@icon.Share(icon.Props{
+							Size: 12,
+						})
+					}
+				</div>
+			</div>
+		}
+	</div>
+}
+
+templ AI002Settings() {
+	<div class="w-80 p-4 space-y-4 bg-muted/10">
+		@AI002SettingsContent()
+	</div>
+}
+
+templ AI002SettingsContent() {
+	<div class="space-y-4">
+		@card.Title() {
+			Model Settings
+		}
+		<div class="space-y-3">
+			<div>
+				<label class="text-sm font-medium">Temperature</label>
+				<div class="mt-2">
+					@slider.Slider(slider.Props{
+						Class: "w-full",
+					}) {
+						@slider.Input(slider.InputProps{
+							Value: 70,
+							Max:   100,
+							Step:  1,
+						})
+					}
+				</div>
+				<div class="flex justify-between mt-1">
+					<span class="text-xs text-muted-foreground">Precise</span>
+					<span class="text-xs">0.7</span>
+					<span class="text-xs text-muted-foreground">Creative</span>
+				</div>
+			</div>
+			<div>
+				<label class="text-sm font-medium">Max Tokens</label>
+				<div class="mt-2">
+					@slider.Slider(slider.Props{
+						Class: "w-full",
+					}) {
+						@slider.Input(slider.InputProps{
+							Value: 2048,
+							Max:   4096,
+							Step:  256,
+						})
+					}
+				</div>
+				<span class="text-xs text-muted-foreground">2048 tokens</span>
+			</div>
+			<div>
+				<label class="text-sm font-medium">System Prompt</label>
+				@textarea.Textarea(textarea.Props{
+					Placeholder: "You are a helpful AI assistant...",
+					Class:       "mt-2 min-h-[100px] text-xs",
+					Rows:        4,
+				})
+			</div>
+			<div>
+				<label class="text-sm font-medium">Response Format</label>
+				@selectbox.SelectBox(selectbox.Props{
+					Class: "mt-2",
+				}) {
+					@selectbox.Trigger() {
+						@selectbox.Value(selectbox.ValueProps{
+							Placeholder: "Select a format",
+						})
+					}
+					@selectbox.Content() {
+						@selectbox.Item(selectbox.ItemProps{Value: "text"}) {
+							Text
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "markdown"}) {
+							Markdown
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "code"}) {
+							Code
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "json"}) {
+							JSON
+						}
+					}
+				}
+			</div>
+		</div>
+		<div class="pt-4 border-t space-y-2">
+			<div class="flex justify-between text-sm">
+				<span class="text-muted-foreground">Tokens used</span>
+				<span>1,234 / 10,000</span>
+			</div>
+			<div class="flex justify-between text-sm">
+				<span class="text-muted-foreground">Cost</span>
+				<span>$0.42</span>
+			</div>
+		</div>
+	</div>
+}
+
+templ AI002Input() {
+	<div class="p-4 border-t">
+		<div class="border rounded-lg">
+			@textarea.Textarea(textarea.Props{
+				Placeholder: "Ask anything... (@ to mention, / for commands)",
+				Class:       "min-h-[80px] border-0 resize-none focus:ring-0",
+				Rows:        3,
+			})
+			<div class="flex items-center justify-between p-3 border-t bg-muted/50">
+				<div class="flex items-center gap-2">
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+						Class:   "h-8 w-8",
+					}) {
+						@icon.Paperclip(icon.Props{
+							Size: 16,
+						})
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+						Class:   "h-8 w-8",
+					}) {
+						@icon.Code(icon.Props{
+							Size: 16,
+						})
+					}
+				</div>
+				<div class="flex items-center gap-2">
+					<span class="text-xs text-muted-foreground">⌘ Enter to send</span>
+					@button.Button(button.Props{
+						Size: button.SizeSm,
+					}) {
+						Send
+						@icon.Send(icon.Props{
+							Size:  14,
+							Class: "ml-1",
+						})
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+}

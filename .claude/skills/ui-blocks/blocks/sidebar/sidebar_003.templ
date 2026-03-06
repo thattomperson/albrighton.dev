@@ -1,0 +1,220 @@
+package sidebar
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/checkbox"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/sidebar"
+	"github.com/templui/templui-pro/internal/ui/components/slider"
+)
+
+templ Sidebar003() {
+	@sidebar.Layout() {
+		@sidebar.Sidebar() {
+			@sidebar.Header() {
+				@sidebar.Menu() {
+					@sidebar.MenuItem() {
+						@sidebar.MenuButton(sidebar.MenuButtonProps{
+							Size: sidebar.MenuButtonSizeLg,
+							Href: "#",
+						}) {
+							@icon.ShoppingBag(icon.Props{Class: "size-5 text-primary"})
+							<div class="flex flex-col">
+								<span class="text-sm font-bold">Electronics Store</span>
+								<span class="text-xs text-muted-foreground">Filter Products</span>
+							</div>
+						}
+					}
+				}
+				<!-- Search -->
+				<div class="relative mt-2">
+					@input.Input(input.Props{
+						Type:        "search",
+						Placeholder: "Search products...",
+						Class:       "pl-10",
+					})
+					<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+						@icon.Search(icon.Props{Size: 16, Class: "text-muted-foreground"})
+					</div>
+				</div>
+			}
+			@sidebar.Content() {
+				@sidebar.Group() {
+					@Sidebar003CategoryFilter()
+				}
+				@sidebar.Separator()
+				@sidebar.Group() {
+					@Sidebar003PriceFilter()
+				}
+				@sidebar.Separator()
+				@sidebar.Group() {
+					@Sidebar003BrandFilter()
+				}
+				@sidebar.Separator()
+				@sidebar.Group() {
+					@Sidebar003RatingFilter()
+				}
+				@sidebar.Separator()
+				@sidebar.Group() {
+					@Sidebar003FeatureFilter()
+				}
+				@sidebar.Separator()
+				@sidebar.Group() {
+					<div class="space-y-3">
+						@button.Button(button.Props{
+							FullWidth: true,
+						}) {
+							Apply Filters
+						}
+						@button.Button(button.Props{
+							Variant:   button.VariantGhost,
+							FullWidth: true,
+						}) {
+							Clear All
+						}
+					</div>
+				}
+			}
+		}
+		@sidebar.Inset() {
+			<div class="flex h-full flex-col">
+				<div class="flex h-14 items-center gap-4 px-6">
+					@sidebar.Trigger()
+					<span class="text-sm text-muted-foreground">Product Filters</span>
+				</div>
+				<div class="flex-1 overflow-y-auto p-6">
+					<!-- Content goes here -->
+				</div>
+			</div>
+		}
+	}
+}
+
+templ Sidebar003CategoryFilter() {
+	<div class="space-y-3">
+		<h3 class="text-sm font-semibold">Categories</h3>
+		<div class="space-y-2">
+			@Sidebar003FilterOption("Electronics", "125", true)
+			@Sidebar003FilterOption("Computers", "89", false)
+			@Sidebar003FilterOption("Audio", "34", false)
+			@Sidebar003FilterOption("Accessories", "67", false)
+			@Sidebar003FilterOption("Gaming", "23", false)
+		</div>
+	</div>
+}
+
+templ Sidebar003PriceFilter() {
+	<div class="space-y-3">
+		<h3 class="text-sm font-semibold">Price Range</h3>
+		<div class="flex flex-col items-center gap-4">
+			@slider.Slider() {
+				@slider.Input(slider.InputProps{
+					Min:   0,
+					Max:   1000,
+					Step:  10,
+					Value: 50,
+					Name:  "price-min",
+				})
+			}
+			@slider.Slider() {
+				@slider.Input(slider.InputProps{
+					Min:   0,
+					Max:   1000,
+					Step:  10,
+					Value: 500,
+					Name:  "price-max",
+				})
+			}
+		</div>
+		<div class="flex items-center justify-between text-sm text-muted-foreground">
+			<span>$0</span>
+			<span>$1000</span>
+		</div>
+		<div class="flex items-center space-x-3">
+			@input.Input(input.Props{
+				Type:        "number",
+				Placeholder: "Min",
+				Class:       "flex-1",
+			})
+			<span class="text-muted-foreground">to</span>
+			@input.Input(input.Props{
+				Type:        "number",
+				Placeholder: "Max",
+				Class:       "flex-1",
+			})
+		</div>
+	</div>
+}
+
+templ Sidebar003BrandFilter() {
+	<div class="space-y-3">
+		<h3 class="text-sm font-semibold">Brands</h3>
+		<div class="space-y-2">
+			@Sidebar003FilterOption("Apple", "45", false)
+			@Sidebar003FilterOption("Samsung", "38", true)
+			@Sidebar003FilterOption("Sony", "29", false)
+			@Sidebar003FilterOption("LG", "22", false)
+			@Sidebar003FilterOption("Dell", "18", false)
+		</div>
+	</div>
+}
+
+templ Sidebar003RatingFilter() {
+	<div class="space-y-3">
+		<h3 class="text-sm font-semibold">Customer Rating</h3>
+		<div class="space-y-2">
+			@Sidebar003RatingOption("★★★★★", "4.5+", false)
+			@Sidebar003RatingOption("★★★★☆", "4.0+", true)
+			@Sidebar003RatingOption("★★★☆☆", "3.0+", false)
+			@Sidebar003RatingOption("★★☆☆☆", "2.0+", false)
+		</div>
+	</div>
+}
+
+templ Sidebar003FeatureFilter() {
+	<div class="space-y-3">
+		<h3 class="text-sm font-semibold">Features</h3>
+		<div class="space-y-2">
+			@Sidebar003FilterOption("Free Shipping", "", false)
+			@Sidebar003FilterOption("On Sale", "", true)
+			@Sidebar003FilterOption("In Stock", "", false)
+			@Sidebar003FilterOption("New Arrivals", "", false)
+		</div>
+	</div>
+}
+
+templ Sidebar003FilterOption(id, count string, checked bool) {
+	<div class="flex items-center space-x-3">
+		@checkbox.Checkbox(checkbox.Props{
+			ID:      id,
+			Checked: checked,
+		})
+		@label.Label(label.Props{
+			For:   id,
+			Class: "flex-1 text-sm flex items-center justify-between",
+		}) {
+			<span>{ id }</span>
+			if count != "" {
+				<span class="text-muted-foreground">({ count })</span>
+			}
+		}
+	</div>
+}
+
+templ Sidebar003RatingOption(stars, id string, checked bool) {
+	<div class="flex items-center space-x-3">
+		@checkbox.Checkbox(checkbox.Props{
+			ID:      id,
+			Checked: checked,
+		})
+		@label.Label(label.Props{
+			For:   id,
+			Class: "flex-1 text-sm flex items-center gap-2",
+		}) {
+			<span class="text-primary">{ stars }</span>
+			<span>{ id }</span>
+		}
+	</div>
+}

@@ -1,0 +1,181 @@
+package timeline
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Timeline003() {
+	<section class="w-full py-12 md:py-16 lg:py-20">
+		<div class="container mx-auto px-4 md:px-6">
+			@Timeline003Header()
+			@Timeline003Milestones()
+		</div>
+	</section>
+}
+
+templ Timeline003Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+			Project Milestones
+		</h2>
+		<p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+			Track our progress as we work towards delivering exceptional results for your project.
+		</p>
+	</div>
+}
+
+templ Timeline003Milestones() {
+	<div class="max-w-5xl mx-auto">
+		<div class="grid gap-6 md:gap-8">
+			@Timeline003Milestone(
+				"Planning & Research",
+				"Define project scope, requirements, and create detailed roadmap",
+				"completed",
+				icon.File,
+				"Jan 15, 2024",
+				"100%",
+			)
+			@Timeline003Milestone(
+				"Design & Prototyping",
+				"Create wireframes, mockups, and interactive prototypes",
+				"completed",
+				icon.Palette,
+				"Feb 28, 2024",
+				"100%",
+			)
+			@Timeline003Milestone(
+				"Development Phase",
+				"Build core features and implement functionality",
+				"in-progress",
+				icon.Code,
+				"In Progress",
+				"65%",
+			)
+			@Timeline003Milestone(
+				"Testing & QA",
+				"Comprehensive testing and quality assurance",
+				"upcoming",
+				icon.Shield,
+				"Planned",
+				"0%",
+			)
+			@Timeline003Milestone(
+				"Deployment & Launch",
+				"Deploy to production and official launch",
+				"upcoming",
+				icon.Rocket,
+				"Q2 2024",
+				"0%",
+			)
+		</div>
+	</div>
+}
+
+templ Timeline003Milestone(title string, description string, status string, iconFunc func(...icon.Props) templ.Component, date string, progress string) {
+	<div class="relative flex gap-4 md:gap-6">
+		<!-- Icon Column -->
+		<div class="flex flex-col items-center">
+			if status == "completed" {
+				<div class="w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center relative z-10 bg-primary text-primary-foreground">
+					@iconFunc(icon.Props{
+						Size: 20,
+					})
+				</div>
+			} else if status == "in-progress" {
+				<div class="w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center relative z-10 bg-primary/20 text-primary animate-pulse">
+					@iconFunc(icon.Props{
+						Size: 20,
+					})
+				</div>
+			} else {
+				<div class="w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center relative z-10 bg-muted text-muted-foreground">
+					@iconFunc(icon.Props{
+						Size: 20,
+					})
+				</div>
+			}
+			<!-- Connecting Line -->
+			<div class="flex-1 w-px bg-border mt-2"></div>
+		</div>
+		<!-- Content -->
+		<div class="flex-1 pb-8">
+			@card.Card() {
+				@card.Content() {
+					<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-3">
+						<div class="flex-1">
+							<h3 class="text-base md:text-lg font-semibold mb-1">{ title }</h3>
+							<p class="text-xs md:text-sm text-muted-foreground">{ description }</p>
+						</div>
+						<div class="flex-shrink-0">
+							@Timeline003Status(status)
+						</div>
+					</div>
+					<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mt-4">
+						<div class="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
+							@icon.Calendar(icon.Props{
+								Size: 14,
+							})
+							<span>{ date }</span>
+						</div>
+						<div class="flex flex-col md:flex-row md:items-center gap-2 w-full md:w-auto">
+							<span class="text-xs md:text-sm font-medium">{ progress }</span>
+							@Timeline003Progress(progress, status)
+						</div>
+					</div>
+				}
+			}
+		</div>
+	</div>
+}
+
+templ Timeline003Status(status string) {
+	switch status {
+		case "completed":
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantDefault,
+			}) {
+				<span class="flex items-center gap-1">
+					@icon.Check(icon.Props{
+						Size: 12,
+					})
+					Completed
+				</span>
+			}
+		case "in-progress":
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantSecondary,
+			}) {
+				<span class="flex items-center gap-1">
+					@icon.Clock(icon.Props{
+						Size: 12,
+					})
+					In Progress
+				</span>
+			}
+		case "upcoming":
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantOutline,
+			}) {
+				<span class="flex items-center gap-1">
+					@icon.Calendar(icon.Props{
+						Size: 12,
+					})
+					Upcoming
+				</span>
+			}
+	}
+}
+
+templ Timeline003Progress(progress string, status string) {
+	<div class="w-full md:w-24 h-2 bg-muted rounded-full overflow-hidden">
+		if status == "completed" {
+			<div class="h-full transition-all bg-primary" style={ "width: " + progress }></div>
+		} else if status == "in-progress" {
+			<div class="h-full transition-all bg-primary/60" style={ "width: " + progress }></div>
+		} else {
+			<div class="h-full transition-all bg-muted-foreground/20" style={ "width: " + progress }></div>
+		}
+	</div>
+}

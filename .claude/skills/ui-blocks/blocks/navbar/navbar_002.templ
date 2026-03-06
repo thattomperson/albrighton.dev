@@ -1,0 +1,254 @@
+package navbar
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+	"github.com/templui/templui-pro/internal/ui/components/sheet"
+)
+
+templ Navbar002() {
+	@sheet.Sheet(sheet.Props{
+		Side: sheet.SideLeft,
+	}) {
+		@Navbar002Desktop()
+		@Navbar002MobileDrawer()
+	}
+}
+
+templ Navbar002MobileDrawer() {
+	@sheet.Content() {
+		@Navbar002DrawerContent()
+	}
+}
+
+templ Navbar002DrawerContent() {
+	<div class="flex flex-col h-full">
+		<div class="flex items-center justify-between p-4 border-b bg-background">
+			@Navbar002Logo()
+		</div>
+		<nav class="flex-1 p-4 overflow-y-auto bg-background">
+			<div class="space-y-1">
+				@Navbar002MobileMenuItems()
+			</div>
+		</nav>
+		<div class="p-4 border-t space-y-2 bg-background">
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Class:   "w-full justify-center",
+			}) {
+				Sign In
+			}
+			@button.Button(button.Props{
+				Class: "w-full justify-center",
+			}) {
+				Get Started
+			}
+		</div>
+	</div>
+}
+
+templ Navbar002Desktop() {
+	<nav class="sticky top-0 w-full border-b shadow-sm">
+		<div class="container mx-auto px-4">
+			<div class="flex h-16 items-center justify-between">
+				@Navbar002Logo()
+				<div class="hidden lg:flex items-center space-x-1">
+					@Navbar002MenuItems()
+				</div>
+				<div class="hidden lg:flex items-center space-x-3">
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Class:   "h-9 px-4 text-sm font-medium",
+					}) {
+						Sign In
+					}
+					@button.Button(button.Props{
+						Class: "h-9 px-6 text-sm font-medium",
+					}) {
+						Get Started
+					}
+				</div>
+				<div class="lg:hidden">
+					@sheet.Trigger() {
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Size:    button.SizeIcon,
+							Class:   "h-9 w-9",
+						}) {
+							@icon.Menu(icon.Props{Size: 20})
+						}
+					}
+				</div>
+			</div>
+		</div>
+	</nav>
+}
+
+templ Navbar002Logo() {
+	<div class="flex items-center space-x-2">
+		@icon.Layers()
+		<span class="text-xl font-bold">Acme Inc</span>
+	</div>
+}
+
+templ Navbar002MenuItems() {
+	<a href="#" class="px-3 py-2 text-sm font-medium">
+		Home
+	</a>
+	@Navbar002ProductsDropdown()
+	@Navbar002SolutionsDropdown()
+	<a href="#" class="px-3 py-2 text-sm font-medium">
+		Pricing
+	</a>
+	<a href="#" class="px-3 py-2 text-sm font-medium">
+		About
+	</a>
+}
+
+templ Navbar002ProductsDropdown() {
+	@dropdown.Dropdown(dropdown.Props{
+		ID: "products-dropdown",
+	}) {
+		@dropdown.Trigger() {
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+			}) {
+				Products
+				@icon.ChevronDown(icon.Props{Size: 16, Class: "ml-1"})
+			}
+		}
+		@dropdown.Content(dropdown.ContentProps{
+			Class: "w-64 p-2",
+		}) {
+			@dropdown.Item(dropdown.ItemProps{
+				Class: "p-3 rounded-md",
+			}) {
+				<div class="flex items-start space-x-3">
+					@icon.Globe(icon.Props{Size: 20, Class: "mt-0.5 text-muted-foreground"})
+					<div>
+						<div class="font-medium">Web Platform</div>
+						<div class="text-sm text-muted-foreground">Build modern web applications</div>
+					</div>
+				</div>
+			}
+			@dropdown.Item(dropdown.ItemProps{
+				Class: "p-3 rounded-md",
+			}) {
+				<div class="flex items-start space-x-3">
+					@icon.Smartphone(icon.Props{Size: 20, Class: "mt-0.5 text-muted-foreground"})
+					<div>
+						<div class="font-medium">Mobile SDK</div>
+						<div class="text-sm text-muted-foreground">Native mobile development</div>
+					</div>
+				</div>
+			}
+			@dropdown.Item(dropdown.ItemProps{
+				Class: "p-3 rounded-md",
+			}) {
+				<div class="flex items-start space-x-3">
+					@icon.Database(icon.Props{Size: 20, Class: "mt-0.5 text-muted-foreground"})
+					<div>
+						<div class="font-medium">API Services</div>
+						<div class="text-sm text-muted-foreground">Scalable backend solutions</div>
+					</div>
+				</div>
+			}
+		}
+	}
+}
+
+templ Navbar002SolutionsDropdown() {
+	@dropdown.Dropdown(dropdown.Props{
+		ID: "solutions-dropdown",
+	}) {
+		@dropdown.Trigger() {
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+			}) {
+				Solutions
+				@icon.ChevronDown(icon.Props{Size: 16, Class: "ml-1"})
+			}
+		}
+		@dropdown.Content(dropdown.ContentProps{
+			Class: "w-48 p-1",
+		}) {
+			@dropdown.Item() {
+				Enterprise
+			}
+			@dropdown.Item() {
+				Startups
+			}
+			@dropdown.Item() {
+				Developers
+			}
+			@dropdown.Item() {
+				Agencies
+			}
+		}
+	}
+}
+
+templ Navbar002MobileMenuItems() {
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		Home
+	</a>
+	@Navbar002MobileProducts()
+	@separator.Separator(separator.Props{Class: "my-2"})
+	@Navbar002MobileSolutions()
+	@separator.Separator(separator.Props{Class: "my-2"})
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		Pricing
+	</a>
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		About
+	</a>
+}
+
+templ Navbar002MobileProducts() {
+	<div class="py-2">
+		<div class="px-3 py-2 text-sm font-semibold text-muted-foreground">Products</div>
+		<div class="ml-4 space-y-1">
+			<a href="#" class="block px-3 py-2 rounded-md text-sm transition-colors hover:bg-accent hover:text-accent-foreground">
+				<div class="flex items-center space-x-3">
+					@icon.Globe(icon.Props{Size: 16, Class: "text-muted-foreground"})
+					<div>
+						<div class="font-medium">Web Platform</div>
+						<div class="text-xs text-muted-foreground">Build modern web applications</div>
+					</div>
+				</div>
+			</a>
+			<a href="#" class="block px-3 py-2 rounded-md text-sm transition-colors hover:bg-accent hover:text-accent-foreground">
+				<div class="flex items-center space-x-3">
+					@icon.Smartphone(icon.Props{Size: 16, Class: "text-muted-foreground"})
+					<div>
+						<div class="font-medium">Mobile SDK</div>
+						<div class="text-xs text-muted-foreground">Native mobile development</div>
+					</div>
+				</div>
+			</a>
+			<a href="#" class="block px-3 py-2 rounded-md text-sm transition-colors hover:bg-accent hover:text-accent-foreground">
+				<div class="flex items-center space-x-3">
+					@icon.Database(icon.Props{Size: 16, Class: "text-muted-foreground"})
+					<div>
+						<div class="font-medium">API Services</div>
+						<div class="text-xs text-muted-foreground">Scalable backend solutions</div>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+}
+
+templ Navbar002MobileSolutions() {
+	<div class="py-2">
+		<div class="px-3 py-2 text-sm font-semibold text-muted-foreground">Solutions</div>
+		<div class="ml-4 space-y-1">
+			<a href="#" class="block px-3 py-2 rounded-md text-sm transition-colors hover:bg-accent hover:text-accent-foreground">Enterprise</a>
+			<a href="#" class="block px-3 py-2 rounded-md text-sm transition-colors hover:bg-accent hover:text-accent-foreground">Startups</a>
+			<a href="#" class="block px-3 py-2 rounded-md text-sm transition-colors hover:bg-accent hover:text-accent-foreground">Developers</a>
+			<a href="#" class="block px-3 py-2 rounded-md text-sm transition-colors hover:bg-accent hover:text-accent-foreground">Agencies</a>
+		</div>
+	</div>
+}

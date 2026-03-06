@@ -1,0 +1,82 @@
+package newsletter
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+)
+
+templ Newsletter003() {
+	<section class="w-full py-12 md:py-16 lg:py-20">
+		<div class="container mx-auto px-4">
+			<div class="mx-auto max-w-3xl text-center">
+				@Newsletter003Header()
+				@Newsletter003Benefits()
+				@Newsletter003Form()
+			</div>
+		</div>
+	</section>
+}
+
+templ Newsletter003Header() {
+	<div class="space-y-4 mb-8">
+		<h2 class="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+			Join our newsletter
+		</h2>
+		<p class="text-muted-foreground text-lg">
+			Be the first to know about new features and updates
+		</p>
+	</div>
+}
+
+templ Newsletter003Benefits() {
+	<div class="grid sm:grid-cols-3 gap-4 mb-10 text-left max-w-2xl mx-auto">
+		<div class="flex gap-3">
+			@icon.Zap(icon.Props{
+				Size:  20,
+				Class: "text-primary mt-0.5 flex-shrink-0",
+			})
+			<div>
+				<div class="font-medium text-sm">Early Access</div>
+				<div class="text-sm text-muted-foreground">Get before everyone else</div>
+			</div>
+		</div>
+		<div class="flex gap-3">
+			@icon.Gift(icon.Props{
+				Size:  20,
+				Class: "text-primary mt-0.5 flex-shrink-0",
+			})
+			<div>
+				<div class="font-medium text-sm">Exclusive Content</div>
+				<div class="text-sm text-muted-foreground">Tips, tutorials & resources</div>
+			</div>
+		</div>
+		<div class="flex gap-3">
+			@icon.Shield(icon.Props{
+				Size:  20,
+				Class: "text-primary mt-0.5 flex-shrink-0",
+			})
+			<div>
+				<div class="font-medium text-sm">No Spam</div>
+				<div class="text-sm text-muted-foreground">Quality updates only</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ Newsletter003Form() {
+	<div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+		@input.Input(input.Props{
+			Type:        input.TypeEmail,
+			Name:        "email",
+			Placeholder: "Enter your email address",
+			Class:       "flex-1",
+		})
+		@button.Button() {
+			<span class="flex items-center gap-2">
+				Subscribe
+				@icon.ArrowRight(icon.Props{Size: 16})
+			</span>
+		}
+	</div>
+}

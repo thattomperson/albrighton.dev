@@ -1,0 +1,82 @@
+package hero
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Hero002() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		@Hero002Background()
+		@Hero002Content()
+	</section>
+}
+
+templ Hero002Background() {
+	<div class="absolute inset-0 w-full h-full">
+		<div class="absolute inset-0 bg-black/60 z-10"></div>
+		<video
+			class="w-full h-full object-cover"
+			autoplay
+			loop
+			muted
+			playsinline
+		>
+			<source src="https://cdn.pixabay.com/video/2018/05/15/16224-270577444_large.mp4" type="video/mp4"/>
+			Your browser does not support the video tag.
+		</video>
+	</div>
+}
+
+templ Hero002Content() {
+	<div class="relative z-20 container py-24 md:py-32 lg:py-40">
+		<div class="max-w-3xl">
+			@Hero002Badge()
+			@Hero002Headline()
+			@Hero002Buttons()
+		</div>
+	</div>
+}
+
+templ Hero002Badge() {
+	@badge.Badge(badge.Props{
+		Variant: badge.VariantOutline,
+		Class:   "mb-4 bg-black/30 backdrop-blur-sm border-white/20 text-white/90",
+	}) {
+		New Feature
+	}
+}
+
+templ Hero002Headline() {
+	<h1 class="text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
+		Create stunning landing pages with video backgrounds
+	</h1>
+	<p class="text-lg text-white/80 mb-8 max-w-xl">
+		Engage your audience with dynamic, full-screen video backgrounds that showcase your product in action, all without compromising on load times.
+	</p>
+}
+
+templ Hero002Buttons() {
+	<div class="flex flex-wrap gap-2">
+		@button.Button(button.Props{
+			Size:  "lg",
+			Class: "font-medium",
+		}) {
+			Get Started
+			@icon.ArrowRight(icon.Props{
+				Class: "ml-2 h-4 w-4",
+			})
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+			Size:    "lg",
+			Class:   "font-medium bg-black/30 backdrop-blur-sm border-white/20 text-white hover:bg-white/10 hover:text-white",
+		}) {
+			@icon.Play(icon.Props{
+				Class: "mr-2 h-4 w-4",
+			})
+			Watch Demo
+		}
+	</div>
+}

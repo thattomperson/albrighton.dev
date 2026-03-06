@@ -1,0 +1,163 @@
+package social
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Social003() {
+	<section class="w-full py-12 md:py-16 lg:py-20">
+		<div class="container mx-auto px-4 md:px-6">
+			@Social003Header()
+			@Social003Tweets()
+		</div>
+	</section>
+}
+
+templ Social003Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+			What People Are Saying
+		</h2>
+		<p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+			Real feedback from our community. See why developers and designers love using our products.
+		</p>
+	</div>
+}
+
+templ Social003Tweets() {
+	<div class="max-w-6xl mx-auto">
+		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+			@Social003Tweet(
+				"Sarah Chen",
+				"@sarahchen_dev",
+				true,
+				"Just integrated @templui - amazing DX! 🚀",
+				"12.5K",
+				"234",
+				"892",
+			)
+			@Social003Tweet(
+				"Mike Rodriguez",
+				"@mikecodes",
+				false,
+				"Perfect for our A/B testing dashboard.",
+				"8.2K",
+				"145",
+				"567",
+			)
+			@Social003Tweet(
+				"Emma Wilson",
+				"@emmawilson_ux",
+				true,
+				"6 months with @templui. Ship speed 10x.",
+				"15.8K",
+				"389",
+				"1.2K",
+			)
+			@Social003Tweet(
+				"Alex Turner",
+				"@alexturner",
+				false,
+				"Not generic. Actually good.",
+				"6.7K",
+				"98",
+				"432",
+			)
+			@Social003Tweet(
+				"Lisa Park",
+				"@lisa_designs",
+				true,
+				"Productivity through the roof with @templui.",
+				"9.3K",
+				"167",
+				"778",
+			)
+			@Social003Tweet(
+				"David Kumar",
+				"@davidkumar_dev",
+				false,
+				"Launched. Client happy. Thanks @templui.",
+				"11.2K",
+				"298",
+				"934",
+			)
+		</div>
+	</div>
+}
+
+templ Social003Tweet(name string, handle string, verified bool, content string, likes string, replies string, retweets string) {
+	@card.Card(card.Props{
+		Class: "group hover:shadow-lg transition-all hover:scale-[1.02] h-full flex flex-col",
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "flex-1 flex flex-col",
+		}) {
+			<div>
+				<div class="flex items-start gap-3 mb-4">
+					@avatar.Avatar(avatar.Props{
+						Class: "w-12 h-12",
+					}) {
+						@avatar.Fallback() {
+							{ string(name[0]) }
+						}
+					}
+					<div class="flex-1">
+						<div class="flex items-center gap-1">
+							<span class="font-semibold">{ name }</span>
+							if verified {
+								@icon.BadgeCheck(icon.Props{
+									Size:  16,
+									Class: "text-muted-foreground",
+								})
+							}
+						</div>
+						<p class="text-sm text-muted-foreground">{ handle }</p>
+					</div>
+					@icon.Twitter(icon.Props{
+						Size:  20,
+						Class: "text-muted-foreground",
+					})
+				</div>
+				<div class="mb-4">
+					<p class="text-sm leading-relaxed">{ content }</p>
+				</div>
+				<div class="mb-4">
+					<p class="text-xs text-muted-foreground">2:45 PM · Mar 21, 2024</p>
+				</div>
+			</div>
+			<div class="mt-auto">
+				@separator.Separator(separator.Props{
+					Class: "mb-4",
+				})
+				<div class="flex items-center gap-6">
+					<button class="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+						@icon.Heart(icon.Props{
+							Size: 16,
+						})
+						<span>{ likes }</span>
+					</button>
+					<button class="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+						@icon.MessageCircle(icon.Props{
+							Size: 16,
+						})
+						<span>{ replies }</span>
+					</button>
+					<button class="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+						@icon.Repeat(icon.Props{
+							Size: 16,
+						})
+						<span>{ retweets }</span>
+					</button>
+					<button class="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors ml-auto">
+						@icon.Share(icon.Props{
+							Size: 16,
+						})
+					</button>
+				</div>
+			</div>
+		}
+	}
+}

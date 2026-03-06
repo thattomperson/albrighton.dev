@@ -1,0 +1,85 @@
+package faq
+
+import "github.com/templui/templui-pro/internal/ui/components/accordion"
+
+templ FAQ001() {
+	<section class="py-24 px-4 sm:px-6 lg:px-8">
+		<div class="mx-auto max-w-3xl">
+			@FAQ001Header()
+			@FAQ001Questions()
+		</div>
+	</section>
+}
+
+templ FAQ001Header() {
+	<div class="text-center mb-16">
+		<h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+			Frequently asked questions
+		</h2>
+		<p class="text-lg text-muted-foreground">
+			Everything you need to know about our product and billing.
+		</p>
+	</div>
+}
+
+templ FAQ001Questions() {
+	@accordion.Accordion(accordion.Props{
+		Class: "[&_summary_svg]:text-primary [&_details[open]_summary]:text-primary [&_summary:hover]:text-primary/80",
+	}) {
+		@accordion.Item() {
+			@accordion.Trigger() {
+				How do I reset my password?
+			}
+			@accordion.Content() {
+				<p class="text-muted-foreground">
+					You can reset your password by clicking "Forgot password" on the sign-in page. 
+					You'll receive an email with a link to reset your password securely.
+				</p>
+			}
+		}
+		@accordion.Item() {
+			@accordion.Trigger() {
+				What payment methods do you accept?
+			}
+			@accordion.Content() {
+				<p class="text-muted-foreground">
+					We accept all major credit cards (Visa, Mastercard, American Express), PayPal, 
+					bank transfers, and digital wallets. All payments are processed securely.
+				</p>
+			}
+		}
+		@accordion.Item() {
+			@accordion.Trigger() {
+				How can I cancel my subscription?
+			}
+			@accordion.Content() {
+				<p class="text-muted-foreground">
+					You can cancel your subscription anytime in your account settings. 
+					Your cancellation will take effect at the end of your current billing period.
+				</p>
+			}
+		}
+		@accordion.Item() {
+			@accordion.Trigger() {
+				Is there a mobile app available?
+			}
+			@accordion.Content() {
+				<p class="text-muted-foreground">
+					Yes, our mobile app is available for both iOS and Android. 
+					You can download it for free from the App Store or Google Play Store.
+				</p>
+			}
+		}
+		@accordion.Item() {
+			@accordion.Trigger() {
+				How do I contact support?
+			}
+			@accordion.Content() {
+				<p class="text-muted-foreground">
+					Our support team is available Monday-Friday, 9 AM to 6 PM via support@example.com. 
+					For urgent inquiries, you can also use our live chat feature.
+				</p>
+			}
+		}
+	}
+}

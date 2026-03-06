@@ -1,0 +1,78 @@
+package ecommerce
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+// Product001 - Simple Product Card
+templ Product001() {
+	<div class="flex items-center justify-center min-h-[400px] p-6 md:p-10">
+		@Product001ProductCard()
+	</div>
+}
+
+templ Product001ProductCard() {
+	@card.Card(card.Props{
+		Class: "w-full max-w-sm overflow-hidden hover:shadow-lg transition-shadow duration-200",
+	}) {
+		<div class="aspect-square relative overflow-hidden bg-muted">
+			@Product001ProductImage()
+			@Product001Badge()
+		</div>
+		@card.Content() {
+			<div class="space-y-4">
+				@Product001ProductInfo()
+				@Product001Actions()
+			</div>
+		}
+	}
+}
+
+templ Product001ProductImage() {
+	<img
+		src="/assets/img/placeholder.svg"
+		alt="Product"
+		class="w-full h-full object-cover"
+	/>
+}
+
+templ Product001Badge() {
+	<div class="absolute top-2 right-2">
+		@badge.Badge(badge.Props{
+			Variant: badge.VariantSecondary,
+		}) {
+			New
+		}
+	</div>
+}
+
+templ Product001ProductInfo() {
+	<div>
+		<h3 class="font-semibold text-lg">Premium Watch</h3>
+		<p class="text-sm text-muted-foreground">Elegant timepiece for modern professionals</p>
+		<div class="mt-2 flex items-baseline gap-2">
+			<span class="text-2xl font-bold">$299</span>
+			<span class="text-sm text-muted-foreground line-through">$399</span>
+		</div>
+	</div>
+}
+
+templ Product001Actions() {
+	<div class="flex gap-2">
+		@button.Button(button.Props{
+			Class: "flex-1",
+		}) {
+			@icon.ShoppingCart(icon.Props{Size: 16, Class: "mr-2"})
+			Add to Cart
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+			Size:    button.SizeIcon,
+		}) {
+			@icon.Heart(icon.Props{Size: 16})
+		}
+	</div>
+}

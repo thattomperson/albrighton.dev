@@ -1,0 +1,143 @@
+package timeline
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Timeline002() {
+	<section class="w-full py-12 md:py-16 lg:py-20">
+		<div class="container mx-auto px-4 md:px-6">
+			@Timeline002Header()
+			@Timeline002Timeline()
+		</div>
+	</section>
+}
+
+templ Timeline002Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+			Company Timeline
+		</h2>
+		<p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+			Our journey from inception to innovation.
+		</p>
+	</div>
+}
+
+templ Timeline002Timeline() {
+	<div class="relative max-w-full">
+		<div class="flex items-center justify-end mb-4 text-xs text-muted-foreground md:hidden">
+			<span class="flex items-center gap-1">
+				Scroll to explore
+				@icon.MoveHorizontal(icon.Props{
+					Size: 14,
+				})
+			</span>
+		</div>
+		<div class="overflow-x-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent pb-8">
+			<div class="relative inline-flex items-start min-w-max px-8">
+				<div class="absolute top-12 left-4 right-4 h-0.5 bg-border"></div>
+				<div class="flex gap-6">
+					@Timeline002Item(
+						"2021",
+						"Q1",
+						"Company Founded",
+						"Started with a vision to revolutionize the industry.",
+						false,
+					)
+					@Timeline002Item(
+						"2021",
+						"Q4",
+						"Team Formation",
+						"Assembled core team of engineers and designers.",
+						false,
+					)
+					@Timeline002Item(
+						"2022",
+						"Q2",
+						"Beta Release",
+						"Launched private beta with 500 early access users.",
+						false,
+					)
+					@Timeline002Item(
+						"2022",
+						"Q4",
+						"Series A Funding",
+						"Secured $15M in Series A funding from top-tier investors.",
+						false,
+					)
+					@Timeline002Item(
+						"2023",
+						"Q2",
+						"Product Launch",
+						"Released our flagship product to market with immediate success.",
+						false,
+					)
+					@Timeline002Item(
+						"2023",
+						"Q4",
+						"1 Million Users",
+						"Celebrated reaching 1 million active users worldwide.",
+						true,
+					)
+					@Timeline002Item(
+						"2024",
+						"Q1",
+						"Series B Funding",
+						"Raised $50M to accelerate product development and market expansion.",
+						true,
+					)
+					@Timeline002Item(
+						"2024",
+						"Q3",
+						"Global Expansion",
+						"Launched operations in 15 new countries across Europe and Asia.",
+						true,
+					)
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ Timeline002Item(year string, quarter string, title string, description string, isHighlight bool) {
+	<div class="relative flex flex-col items-center text-center w-56 flex-shrink-0">
+		<div class="mb-6">
+			<div class="text-sm font-medium">{ year }</div>
+			<div class="text-xs text-muted-foreground">{ quarter }</div>
+		</div>
+		<div class="relative">
+			if isHighlight {
+				<div class="w-4 h-4 rounded-full border-2 border-primary bg-primary">
+					<div class="absolute inset-0 w-4 h-4 rounded-full bg-primary animate-ping"></div>
+				</div>
+			} else {
+				<div class="w-4 h-4 rounded-full border-2 border-muted-foreground bg-background"></div>
+			}
+		</div>
+		<div class="mt-6 w-full">
+			if isHighlight {
+				@card.Card(card.Props{
+					Class: "border-primary/30 bg-primary/5",
+				}) {
+					@card.Content(card.ContentProps{
+						Class: "p-3",
+					}) {
+						<h3 class="font-semibold mb-1 text-sm">{ title }</h3>
+						<p class="text-xs text-muted-foreground line-clamp-2">{ description }</p>
+					}
+				}
+			} else {
+				@card.Card() {
+					@card.Content(card.ContentProps{
+						Class: "p-3",
+					}) {
+						<h3 class="font-semibold mb-1 text-sm">{ title }</h3>
+						<p class="text-xs text-muted-foreground line-clamp-2">{ description }</p>
+					}
+				}
+			}
+		</div>
+	</div>
+}

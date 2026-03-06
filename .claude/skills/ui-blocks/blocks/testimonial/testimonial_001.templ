@@ -1,0 +1,80 @@
+package testimonial
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/rating"
+)
+
+templ Testimonial001() {
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="max-w-7xl py-16 lg:py-24">
+			@Testimonial001Header()
+			@Testimonial001Grid()
+		</div>
+	</div>
+}
+
+templ Testimonial001Header() {
+	<div class="text-center max-w-3xl mx-auto mb-16">
+		<h2 class="text-3xl font-bold tracking-tight sm:text-4xl">
+			Trusted by thousands of developers
+		</h2>
+		<p class="mt-4 text-xl text-muted-foreground">
+			See what our customers have to say about our components and platform.
+		</p>
+	</div>
+}
+
+templ Testimonial001Grid() {
+	<div class="grid gap-8 lg:grid-cols-3 sm:grid-cols-2">
+		@Testimonial001Card(3.0, "These components have saved me countless hours of work. The API is intuitive and the documentation is excellent. Highly recommended!", "Sarah Johnson", "Lead Developer, TechCorp", "/assets/img/avatar-gh-1.png", "SJ")
+		@Testimonial001Card(5.0, "The attention to detail in these components is impressive. Everything from accessibility to performance has been thoroughly considered.", "David Chen", "Frontend Architect, StartupX", "/assets/img/avatar-gh-4.png", "DC")
+		@Testimonial001Card(4.0, "Our team has been able to ship features faster than ever before thanks to this component library. The customization options are fantastic.", "Michelle Rodriguez", "CTO, BuildFast", "", "MR")
+	</div>
+}
+
+templ Testimonial001Card(ratingValue float64, content, name, role, avatarSrc, initials string) {
+	@card.Card() {
+		@card.Content(card.ContentProps{
+			Class: "h-full flex flex-col justify-between gap-6 p-6",
+		}) {
+			<div class="space-y-4">
+				@rating.Rating(rating.Props{
+					Value:    ratingValue,
+					ReadOnly: true,
+				}) {
+					@rating.Group() {
+						for i := 1; i <= 5; i++ {
+							@rating.Item(rating.ItemProps{
+								Value: i,
+							})
+						}
+					}
+				}
+				<p class="text-muted-foreground leading-relaxed">
+					{ content }
+				</p>
+			</div>
+			@Testimonial001Author(name, role, avatarSrc, initials)
+		}
+	}
+}
+
+templ Testimonial001Author(name, role, avatarSrc, initials string) {
+	<div class="flex gap-3 items-center">
+		@avatar.Avatar() {
+			@avatar.Image(avatar.ImageProps{
+				Src: avatarSrc,
+				Alt: name,
+			})
+			@avatar.Fallback() {
+				{ initials }
+			}
+		}
+		<div>
+			<div class="font-semibold">{ name }</div>
+			<div class="text-sm text-muted-foreground">{ role }</div>
+		</div>
+	</div>
+}

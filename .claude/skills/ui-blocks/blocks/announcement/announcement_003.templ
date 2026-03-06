@@ -1,0 +1,30 @@
+package announcement
+
+import "github.com/templui/templui-pro/internal/ui/components/icon"
+import "github.com/templui/templui-pro/internal/ui/components/button"
+
+templ Announcement003() {
+	<div class="bg-muted/10 w-full border-y border-border">
+		<div class="container mx-auto px-4 py-2 flex flex-col sm:flex-row items-center justify-center sm:justify-between">
+			<div class="flex items-center gap-2">
+				@icon.Cookie(icon.Props{Size: 18})
+				<p class="text-sm text-muted-foreground">
+					This site uses cookies to improve your experience. <a href="#" class="underline text-foreground hover:text-primary transition-colors">Privacy Policy</a>
+				</p>
+			</div>
+			<div class="flex items-center gap-2 ml-0 sm:ml-4 mt-2 sm:mt-0">
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+					Class:   "h-8",
+				}) {
+					Decline
+				}
+				@button.Button(button.Props{
+					Class: "h-8",
+				}) {
+					Accept All
+				}
+			</div>
+		</div>
+	</div>
+}

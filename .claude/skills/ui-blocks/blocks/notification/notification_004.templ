@@ -1,0 +1,206 @@
+package notification
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	iconcomp "github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Notification004() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-3xl">
+			@Notification004Timeline()
+		</div>
+	</section>
+}
+
+templ Notification004Timeline() {
+	<div class="space-y-4">
+		<div class="flex items-center justify-between">
+			<h3 class="text-lg font-semibold">Activity Feed</h3>
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Size:    button.SizeSm,
+			}) {
+				@iconcomp.Funnel(iconcomp.Props{
+					Size:  14,
+					Class: "mr-1",
+				})
+				Filter
+			}
+		</div>
+		<div class="relative">
+			<div class="absolute left-6 top-0 bottom-0 w-0.5 bg-border"></div>
+			<div class="space-y-6">
+				@Notification004TimelineItem(
+					"/assets/img/avatar-gh-1.png",
+					"Sarah Chen",
+					"pushed to",
+					"main",
+					"2 minutes ago",
+					"git",
+					true,
+					`<div class="bg-muted rounded-lg p-3 mt-2 font-mono text-xs">
+						<div>feat: Add user authentication flow</div>
+						<div class="text-muted-foreground mt-1">+245 -12 • 8 files changed</div>
+					</div>`,
+				)
+				@Notification004TimelineItem(
+					"/assets/img/avatar-gh-2.png",
+					"Alex Rivera",
+					"commented on",
+					"PR #142",
+					"15 minutes ago",
+					"comment",
+					false,
+					`<div class="bg-muted rounded-lg p-3 mt-2 text-sm">
+						"Great implementation! Just one suggestion about the error handling in the login component..."
+					</div>`,
+				)
+				@Notification004TimelineItem(
+					"/assets/img/avatar-gh-3.png",
+					"Emily Davis",
+					"created",
+					"New Issue: Update documentation",
+					"1 hour ago",
+					"issue",
+					false,
+					`<div class="flex items-center gap-2 mt-2">
+						<span class="inline-flex items-center gap-1 text-xs bg-muted text-muted-foreground px-2 py-1 rounded-full">
+							<span class="w-2 h-2 bg-muted-foreground rounded-full"></span>
+							Documentation
+						</span>
+						<span class="inline-flex items-center gap-1 text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+							Priority: Medium
+						</span>
+					</div>`,
+				)
+				@Notification004TimelineItem(
+					"/assets/img/avatar-gh-3.png",
+					"Deploy Bot",
+					"deployed to",
+					"production",
+					"2 hours ago",
+					"deploy",
+					false,
+					`<div class="bg-primary/5 border border-primary/20 rounded-lg p-3 mt-2 text-sm">
+						<div class="flex items-center gap-2 text-primary">
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+							</svg>
+							Deployment successful
+						</div>
+						<div class="text-xs text-primary/80 mt-1">Version 2.4.1 • Build #1234</div>
+					</div>`,
+				)
+				@Notification004TimelineItem(
+					"/assets/img/avatar-gh-4.png",
+					"Marcus Johnson",
+					"merged",
+					"PR #141: Refactor auth module",
+					"3 hours ago",
+					"merge",
+					false,
+					"",
+				)
+			</div>
+		</div>
+		<div class="flex justify-center pt-4">
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+			}) {
+				Load More
+				@iconcomp.ChevronDown(iconcomp.Props{
+					Size:  16,
+					Class: "ml-1",
+				})
+			}
+		</div>
+	</div>
+}
+
+templ Notification004TimelineItem(avatarUrl, name, action, target, time, eventType string, highlight bool, extraContent string) {
+	<div class="relative flex gap-4">
+		<div class="relative z-10">
+			if avatarUrl != "" {
+				@avatar.Avatar(avatar.Props{
+					Class: "h-12 w-12 border-4 border-background",
+				}) {
+					@avatar.Image(avatar.ImageProps{
+						Src: avatarUrl,
+						Alt: name,
+					})
+				}
+			} else {
+				<div class="w-12 h-12 bg-muted rounded-full border-4 border-background flex items-center justify-center">
+					switch eventType {
+						case "deploy":
+							@iconcomp.Rocket(iconcomp.Props{
+								Size:  20,
+								Class: "text-muted-foreground",
+							})
+						default:
+							@iconcomp.Bot(iconcomp.Props{
+								Size:  20,
+								Class: "text-muted-foreground",
+							})
+					}
+				</div>
+			}
+		</div>
+		<div
+			class={
+				"flex-1 pb-6",
+				templ.KV("bg-muted/20 -mx-4 px-4 py-3 rounded-lg", highlight),
+			}
+		>
+			<div class="flex items-start justify-between gap-2">
+				<div>
+					<p class="text-sm">
+						<span class="font-medium">{ name }</span>
+						<span class="text-muted-foreground">{ action } </span>
+						<span class="font-medium">{ target }</span>
+					</p>
+					<div class="flex items-center gap-2 mt-1">
+						<span class="text-xs text-muted-foreground">{ time }</span>
+						switch eventType {
+							case "git":
+								@iconcomp.GitCompare(iconcomp.Props{
+									Size:  12,
+									Class: "text-muted-foreground",
+								})
+							case "comment":
+								@iconcomp.MessageSquare(iconcomp.Props{
+									Size:  12,
+									Class: "text-muted-foreground",
+								})
+							case "issue":
+								@iconcomp.CircleDot(iconcomp.Props{
+									Size:  12,
+									Class: "text-muted-foreground",
+								})
+							case "merge":
+								@iconcomp.GitMerge(iconcomp.Props{
+									Size:  12,
+									Class: "text-muted-foreground",
+								})
+						}
+					</div>
+				</div>
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@iconcomp.Dot(iconcomp.Props{
+						Size: 14,
+					})
+				}
+			</div>
+			switch  {
+				case extraContent != "":
+					@templ.Raw(extraContent)
+			}
+		</div>
+	</div>
+}

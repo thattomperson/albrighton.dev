@@ -1,0 +1,134 @@
+package faq
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/accordion"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+)
+
+templ FAQ004() {
+	<section class="py-24 px-4 sm:px-6 lg:px-8">
+		<div class="mx-auto max-w-4xl">
+			@FAQ004Header()
+			@FAQ004Questions()
+			@FAQ004CTA()
+		</div>
+	</section>
+}
+
+templ FAQ004Header() {
+	<div class="text-center mb-16">
+		<h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+			How can we help you?
+		</h2>
+		<p class="text-lg text-muted-foreground mb-8">
+			Search our FAQ or contact us directly
+		</p>
+		<!-- Search Bar -->
+		<div class="max-w-md mx-auto">
+			@input.Input(input.Props{
+				Type:        "search",
+				Placeholder: "Search questions...",
+				Class:       "w-full focus:border-primary focus:ring-primary",
+			})
+		</div>
+	</div>
+}
+
+templ FAQ004Questions() {
+	<div class="mb-16">
+		@accordion.Accordion(accordion.Props{
+			Class: "[&_summary_svg]:text-primary [&_details[open]_summary]:text-primary [&_summary:hover]:text-primary/80 [&_details[open]]:border-primary/20",
+		}) {
+			@accordion.Item() {
+				@accordion.Trigger() {
+					How do I get started with the platform?
+				}
+				@accordion.Content() {
+					<p class="text-muted-foreground">
+						After registration, our onboarding assistant will guide you through the first steps. 
+						You can also watch our tutorial video or read the documentation.
+					</p>
+				}
+			}
+			@accordion.Item() {
+				@accordion.Trigger() {
+					Can I import existing data?
+				}
+				@accordion.Content() {
+					<p class="text-muted-foreground">
+						Yes, we support importing from CSV, Excel, and various other formats. 
+						The import wizard helps you format your data correctly.
+					</p>
+				}
+			}
+			@accordion.Item() {
+				@accordion.Trigger() {
+					What integrations are available?
+				}
+				@accordion.Content() {
+					<p class="text-muted-foreground">
+						We offer integrations with 50+ popular tools like Slack, Zapier, 
+						Google Workspace, Microsoft 365, and many more.
+					</p>
+				}
+			}
+			@accordion.Item() {
+				@accordion.Trigger() {
+					How does team collaboration work?
+				}
+				@accordion.Content() {
+					<p class="text-muted-foreground">
+						Teams can collaborate on projects, leave comments, 
+						assign tasks, and track progress in real-time.
+					</p>
+				}
+			}
+			@accordion.Item() {
+				@accordion.Trigger() {
+					Do you offer training or webinars?
+				}
+				@accordion.Content() {
+					<p class="text-muted-foreground">
+						Yes, we offer regular free webinars and have an extensive 
+						library of video tutorials and guides.
+					</p>
+				}
+			}
+		}
+	</div>
+}
+
+templ FAQ004CTA() {
+	@card.Card() {
+		@card.Header(card.HeaderProps{
+			Class: "text-center mb-6",
+		}) {
+			@card.Title(card.TitleProps{
+				Class: "text-2xl font-semibold mb-2",
+			}) {
+				Still have questions?
+			}
+			@card.Description(card.DescriptionProps{
+				Class: "text-lg",
+			}) {
+				Our support team is here to help
+			}
+		}
+		@card.Content(card.ContentProps{
+			Class: "flex flex-col sm:flex-row gap-4 justify-center",
+		}) {
+			@button.Button(button.Props{
+				Variant: button.VariantDefault,
+			}) {
+				Contact support
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+			}) {
+				Start live chat
+			}
+		}
+	}
+}

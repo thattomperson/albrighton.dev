@@ -1,0 +1,95 @@
+package ecommerce
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+// Cart003 - Empty Cart State
+templ Cart003() {
+	<div class="flex items-center justify-center min-h-screen p-6">
+		<div class="text-center max-w-md">
+			@Cart003EmptyState()
+		</div>
+	</div>
+}
+
+templ Cart003EmptyState() {
+	<div class="space-y-6">
+		@Cart003Icon()
+		@Cart003Content()
+		@Cart003Actions()
+	</div>
+}
+
+templ Cart003Icon() {
+	<div class="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto">
+		@icon.ShoppingCart(icon.Props{Size: 40, Class: "text-muted-foreground"})
+	</div>
+}
+
+templ Cart003Content() {
+	<div class="space-y-2">
+		<h2 class="text-2xl font-semibold">Your cart is empty</h2>
+		<p class="text-muted-foreground">
+			Looks like you haven't added any items to your cart yet. 
+			Start shopping and discover amazing products!
+		</p>
+	</div>
+}
+
+templ Cart003Actions() {
+	<div class="space-y-3">
+		@button.Button(button.Props{
+			Class: "w-full sm:w-auto",
+		}) {
+			Start Shopping
+		}
+		<div class="text-sm text-muted-foreground">
+			or
+			<a href="#" class="underline underline-offset-4 hover:text-foreground">
+				view your wishlist
+			</a>
+		</div>
+	</div>
+}
+
+// Alternative empty cart design with product suggestions
+templ Cart003WithSuggestions() {
+	<div class="min-h-screen p-6 md:p-10">
+		<div class="max-w-4xl mx-auto">
+			<div class="text-center py-12">
+				@Cart003EmptyState()
+			</div>
+			<div class="mt-12">
+				@Cart003Suggestions()
+			</div>
+		</div>
+	</div>
+}
+
+templ Cart003Suggestions() {
+	<div class="space-y-4">
+		<h3 class="text-lg font-semibold">Popular Products</h3>
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+			@Cart003SuggestionCard("Wireless Mouse", "$29.99", "/assets/img/placeholder.svg")
+			@Cart003SuggestionCard("USB-C Hub", "$49.99", "/assets/img/placeholder.svg")
+			@Cart003SuggestionCard("Phone Case", "$19.99", "/assets/img/placeholder.svg")
+			@Cart003SuggestionCard("Desk Lamp", "$39.99", "/assets/img/placeholder.svg")
+		</div>
+	</div>
+}
+
+templ Cart003SuggestionCard(name string, price string, imageUrl string) {
+	<div class="group cursor-pointer">
+		<div class="aspect-square rounded-lg overflow-hidden bg-muted mb-2">
+			<img
+				src={ imageUrl }
+				alt={ name }
+				class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+			/>
+		</div>
+		<h4 class="font-medium text-sm">{ name }</h4>
+		<p class="text-sm text-muted-foreground">{ price }</p>
+	</div>
+}

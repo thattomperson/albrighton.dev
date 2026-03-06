@@ -1,0 +1,188 @@
+package contact
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/selectbox"
+	"github.com/templui/templui-pro/internal/ui/components/textarea"
+)
+
+templ Contact004() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-2xl">
+			@Contact004Header()
+			@Contact004Form()
+		</div>
+	</section>
+}
+
+templ Contact004Header() {
+	<div class="text-center mb-10">
+		<h2 class="text-3xl font-bold tracking-tight mb-4">How can we help?</h2>
+		<p class="text-muted-foreground text-lg">
+			Choose the department that best fits your needs and we'll route your message to the right team.
+		</p>
+	</div>
+}
+
+templ Contact004Form() {
+	<form class="space-y-6 bg-card rounded-lg border p-6 md:p-8">
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+			@Contact004FirstNameField()
+			@Contact004LastNameField()
+		</div>
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+			@Contact004EmailField()
+			@Contact004PhoneField()
+		</div>
+		@Contact004CompanyField()
+		@Contact004DepartmentSelect()
+		@Contact004SubjectField()
+		@Contact004MessageField()
+		@Contact004SubmitButton()
+	</form>
+}
+
+templ Contact004FirstNameField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact4-firstname"}) {
+			First Name
+		}
+		@input.Input(input.Props{
+			ID:          "contact4-firstname",
+			Name:        "firstname",
+			Placeholder: "John",
+		})
+	</div>
+}
+
+templ Contact004LastNameField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact4-lastname"}) {
+			Last Name
+		}
+		@input.Input(input.Props{
+			ID:          "contact4-lastname",
+			Name:        "lastname",
+			Placeholder: "Doe",
+		})
+	</div>
+}
+
+templ Contact004EmailField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact4-email"}) {
+			Email
+		}
+		@input.Input(input.Props{
+			ID:          "contact4-email",
+			Name:        "email",
+			Type:        input.TypeEmail,
+			Placeholder: "john@example.com",
+		})
+	</div>
+}
+
+templ Contact004PhoneField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact4-phone"}) {
+			Phone
+		}
+		@input.Input(input.Props{
+			ID:          "contact4-phone",
+			Name:        "phone",
+			Type:        input.TypeTel,
+			Placeholder: "+1 (555) 123-4567",
+		})
+	</div>
+}
+
+templ Contact004CompanyField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact4-company"}) {
+			Company (optional)
+		}
+		@input.Input(input.Props{
+			ID:          "contact4-company",
+			Name:        "company",
+			Placeholder: "Your Company Inc.",
+		})
+	</div>
+}
+
+templ Contact004DepartmentSelect() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact4-department"}) {
+			Department
+		}
+		@selectbox.SelectBox() {
+			@selectbox.Trigger(selectbox.TriggerProps{
+				Name: "department",
+				ID:   "contact4-department",
+			}) {
+				@selectbox.Value(selectbox.ValueProps{
+					Placeholder: "Select a department",
+				})
+			}
+			@selectbox.Content() {
+				@selectbox.Item(selectbox.ItemProps{Value: "sales"}) {
+					Sales
+				}
+				@selectbox.Item(selectbox.ItemProps{Value: "support"}) {
+					Technical Support
+				}
+				@selectbox.Item(selectbox.ItemProps{Value: "billing"}) {
+					Billing & Payments
+				}
+				@selectbox.Item(selectbox.ItemProps{Value: "partnership"}) {
+					Partnership
+				}
+				@selectbox.Item(selectbox.ItemProps{Value: "media"}) {
+					Media & Press
+				}
+				@selectbox.Item(selectbox.ItemProps{Value: "general"}) {
+					General Inquiry
+				}
+			}
+		}
+	</div>
+}
+
+templ Contact004SubjectField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact4-subject"}) {
+			Subject
+		}
+		@input.Input(input.Props{
+			ID:          "contact4-subject",
+			Name:        "subject",
+			Placeholder: "Brief description of your inquiry",
+		})
+	</div>
+}
+
+templ Contact004MessageField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact4-message"}) {
+			Message
+		}
+		@textarea.Textarea(textarea.Props{
+			ID:          "contact4-message",
+			Name:        "message",
+			Placeholder: "Please provide as much detail as possible...",
+			Rows:        6,
+		})
+	</div>
+}
+
+templ Contact004SubmitButton() {
+	<div class="flex items-center justify-between pt-4">
+		<p class="text-sm text-muted-foreground">
+			We typically respond within 24 hours
+		</p>
+		@button.Button() {
+			Submit Inquiry
+		}
+	</div>
+}

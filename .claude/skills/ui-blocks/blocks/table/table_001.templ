@@ -1,0 +1,134 @@
+package table
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/pagination"
+	"github.com/templui/templui-pro/internal/ui/components/table"
+)
+
+templ Table001() {
+	<section class="w-full max-w-6xl mx-auto p-6 md:p-8">
+		<div class="space-y-4">
+			@Table001Header()
+			@Table001Table()
+			@Table001Pagination()
+		</div>
+	</section>
+}
+
+templ Table001Header() {
+	<div>
+		<h2 class="text-2xl font-bold tracking-tight">Team Members</h2>
+		<p class="text-muted-foreground">A list of all team members including their name, email, department and status.</p>
+	</div>
+}
+
+templ Table001Table() {
+	<div class="rounded-md border">
+		@table.Table() {
+			@table.Header() {
+				@table.Row() {
+					@table.Head() {
+						Name 
+					}
+					@table.Head() {
+						Email 
+					}
+					@table.Head() {
+						Department 
+					}
+					@table.Head() {
+						Location 
+					}
+					@table.Head(table.HeadProps{Class: "text-right"}) {
+						Joined 
+					}
+				}
+			}
+			@table.Body() {
+				@Table001Row("Alex Johnson", "alex.johnson@example.com", "Engineering", "San Francisco", "Jan 2023")
+				@Table001Row("Sarah Chen", "sarah.chen@example.com", "Design", "New York", "Mar 2023")
+				@Table001Row("Michael Brown", "michael.brown@example.com", "Marketing", "London", "Feb 2023")
+				@Table001Row("Emma Wilson", "emma.wilson@example.com", "Sales", "Tokyo", "Apr 2023")
+				@Table001Row("James Miller", "james.miller@example.com", "Engineering", "Berlin", "Jan 2023")
+				@Table001Row("Lisa Anderson", "lisa.anderson@example.com", "Product", "Sydney", "May 2023")
+				@Table001Row("Robert Taylor", "robert.taylor@example.com", "Finance", "Toronto", "Mar 2023")
+				@Table001Row("Maria Garcia", "maria.garcia@example.com", "HR", "Madrid", "Feb 2023")
+			}
+		}
+	</div>
+}
+
+templ Table001Row(name, email, department, location, joined string) {
+	@table.Row() {
+		@table.Cell(table.CellProps{Class: "font-medium"}) {
+			{ name }
+		}
+		@table.Cell() {
+			{ email }
+		}
+		@table.Cell() {
+			{ department }
+		}
+		@table.Cell() {
+			{ location }
+		}
+		@table.Cell(table.CellProps{Class: "text-right"}) {
+			{ joined }
+		}
+	}
+}
+
+templ Table001Pagination() {
+	<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+		<div class="text-sm text-muted-foreground text-center sm:text-left">
+			Showing 1-8 of 32 entries
+		</div>
+		@pagination.Pagination() {
+			@pagination.Content() {
+				@pagination.Item() {
+					@pagination.Previous(pagination.PreviousProps{
+						Href:     "?page=1",
+						Disabled: true,
+					})
+				}
+				@pagination.Item() {
+					@pagination.Link(pagination.LinkProps{
+						Href:     "?page=1",
+						IsActive: true,
+					}) {
+						1
+					}
+				}
+				@pagination.Item() {
+					@pagination.Link(pagination.LinkProps{
+						Href: "?page=2",
+					}) {
+						2
+					}
+				}
+				@pagination.Item(pagination.ItemProps{Class: "hidden sm:block"}) {
+					@pagination.Link(pagination.LinkProps{
+						Href: "?page=3",
+					}) {
+						3
+					}
+				}
+				@pagination.Item(pagination.ItemProps{Class: "hidden sm:block"}) {
+					@pagination.Link(pagination.LinkProps{
+						Href: "?page=4",
+					}) {
+						4
+					}
+				}
+				@pagination.Item() {
+					@pagination.Ellipsis()
+				}
+				@pagination.Item() {
+					@pagination.Next(pagination.NextProps{
+						Href: "?page=2",
+					})
+				}
+			}
+		}
+	</div>
+}

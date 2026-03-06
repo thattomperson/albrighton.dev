@@ -1,0 +1,45 @@
+package ai
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/textarea"
+)
+
+templ AI008() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-3xl">
+			@AI008SimplePrompt()
+		</div>
+	</section>
+}
+
+templ AI008SimplePrompt() {
+	@card.Card() {
+		@card.Header(card.HeaderProps{Class: "pb-4"}) {
+			@card.Title(card.TitleProps{Class: "text-base"}) {
+				Simple AI Prompt Input
+			}
+		}
+		@card.Content(card.ContentProps{Class: "pt-0"}) {
+			@textarea.Textarea(textarea.Props{
+				Placeholder: "Ask me anything...",
+				Class:       "min-h-[100px] border-0 resize-none focus:ring-0 p-4",
+				Rows:        4,
+			})
+			<div class="flex items-center justify-between p-3">
+				<span class="text-xs text-muted-foreground">AI Assistant is ready to help</span>
+				@button.Button(button.Props{
+					Size: button.SizeSm,
+				}) {
+					Send
+					@icon.Send(icon.Props{
+						Size:  14,
+						Class: "ml-1",
+					})
+				}
+			</div>
+		}
+	}
+}

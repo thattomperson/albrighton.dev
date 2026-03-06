@@ -1,0 +1,133 @@
+package footer
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Footer004() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<footer class="bg-background border-t w-full max-w-7xl">
+			<div class="px-4 py-12 sm:px-6 lg:px-8">
+				@Footer004Main()
+				@separator.Separator(separator.Props{Class: "my-8"})
+				@Footer004Bottom()
+			</div>
+		</footer>
+	</section>
+}
+
+templ Footer004Main() {
+	<div class="grid gap-8 lg:grid-cols-4">
+		@Footer004Company()
+		@Footer004Products()
+		@Footer004Support()
+		@Footer004Legal()
+	</div>
+}
+
+templ Footer004Company() {
+	<div class="lg:col-span-2">
+		<div class="flex items-center gap-2 mb-4">
+			@icon.Layers(icon.Props{Class: "text-primary"})
+			<span class="text-2xl font-bold">Acme Inc</span>
+		</div>
+		<p class="text-muted-foreground mb-6 max-w-md">
+			We build beautiful, accessible UI components and design systems 
+			that help developers create better user experiences faster.
+		</p>
+		@Footer004Contact()
+		@Footer004Social()
+	</div>
+}
+
+templ Footer004Contact() {
+	<div class="space-y-3 mb-6">
+		<div class="flex items-center gap-3 text-sm">
+			<span class="text-primary">📧</span>
+			<span class="text-muted-foreground">hello@acme.com</span>
+		</div>
+		<div class="flex items-center gap-3 text-sm">
+			<span class="text-primary">📍</span>
+			<span class="text-muted-foreground">San Francisco, CA</span>
+		</div>
+		<div class="flex items-center gap-3 text-sm">
+			<span class="text-primary">📞</span>
+			<span class="text-muted-foreground">+1 (555) 123-4567</span>
+		</div>
+	</div>
+}
+
+templ Footer004Social() {
+	<div>
+		<p class="text-sm font-medium mb-3">Follow us</p>
+		<div class="flex items-center gap-4">
+			<a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+				@icon.Github(icon.Props{
+					Class: "size-5",
+				})
+			</a>
+			<a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+				@icon.Twitter(icon.Props{
+					Class: "size-5",
+				})
+			</a>
+		</div>
+	</div>
+}
+
+templ Footer004Products() {
+	<div>
+		<h3 class="text-sm font-semibold mb-4">Products</h3>
+		<div class="flex flex-col gap-2">
+			@Footer004Link("UI Components", "#")
+			@Footer004Link("Design Blocks", "#")
+			@Footer004Link("Website Templates", "#")
+			@Footer004Link("Icon Library", "#")
+			@Footer004Link("Design System", "#")
+		</div>
+	</div>
+}
+
+templ Footer004Support() {
+	<div>
+		<h3 class="text-sm font-semibold mb-4">Support</h3>
+		<div class="flex flex-col gap-2">
+			@Footer004Link("Documentation", "#")
+			@Footer004Link("Help Center", "#")
+			@Footer004Link("Community", "#")
+			@Footer004Link("Contact Support", "#")
+			@Footer004Link("System Status", "#")
+		</div>
+	</div>
+}
+
+templ Footer004Legal() {
+	<div>
+		<h3 class="text-sm font-semibold mb-4">Legal</h3>
+		<div class="flex flex-col gap-2">
+			@Footer004Link("Privacy Policy", "#")
+			@Footer004Link("Terms of Service", "#")
+			@Footer004Link("Cookie Policy", "#")
+			@Footer004Link("GDPR", "#")
+			@Footer004Link("Licensing", "#")
+		</div>
+	</div>
+}
+
+templ Footer004Bottom() {
+	<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+		<p class="text-sm text-muted-foreground">
+			© 2024 Acme Inc Inc. All rights reserved.
+		</p>
+		<p class="text-sm text-muted-foreground">
+			Made with <span class="text-primary">❤️</span> in San Francisco
+		</p>
+	</div>
+}
+
+templ Footer004Link(text, href string) {
+	<a href={ templ.URL(href) } class="text-sm text-muted-foreground hover:text-primary transition-colors">
+		{ text }
+	</a>
+}

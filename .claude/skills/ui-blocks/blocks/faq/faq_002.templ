@@ -1,0 +1,108 @@
+package faq
+
+import "github.com/templui/templui-pro/internal/ui/components/accordion"
+
+templ FAQ002() {
+	<section class="py-24 px-4 sm:px-6 lg:px-8">
+		<div class="mx-auto max-w-7xl">
+			@FAQ002Header()
+			@FAQ002Questions()
+		</div>
+	</section>
+}
+
+templ FAQ002Header() {
+	<div class="text-center mb-16">
+		<h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+			FAQ
+		</h2>
+		<p class="text-lg text-muted-foreground">
+			Everything you need to know
+		</p>
+	</div>
+}
+
+templ FAQ002Questions() {
+	<div class="grid gap-8 lg:grid-cols-2">
+		<!-- Left Column -->
+		<div>
+			@accordion.Accordion(accordion.Props{
+				Class: "[&_summary_svg]:text-primary [&_details[open]_summary]:text-primary [&_summary:hover]:text-primary/80",
+			}) {
+				@accordion.Item() {
+					@accordion.Trigger() {
+						What's included in the free plan?
+					}
+					@accordion.Content() {
+						<p class="text-muted-foreground">
+							The free plan includes access to basic features, 
+							up to 3 projects, and email support.
+						</p>
+					}
+				}
+				@accordion.Item() {
+					@accordion.Trigger() {
+						Can I upgrade at any time?
+					}
+					@accordion.Content() {
+						<p class="text-muted-foreground">
+							Yes, you can upgrade to a premium plan at any time. 
+							The upgrade takes effect immediately and is prorated.
+						</p>
+					}
+				}
+				@accordion.Item() {
+					@accordion.Trigger() {
+						Do you offer a money-back guarantee?
+					}
+					@accordion.Content() {
+						<p class="text-muted-foreground">
+							We offer a 30-day money-back guarantee with no questions asked. 
+							If you're not satisfied, we'll refund the full amount.
+						</p>
+					}
+				}
+			}
+		</div>
+		<!-- Right Column -->
+		<div>
+			@accordion.Accordion(accordion.Props{
+				Class: "[&_summary_svg]:text-primary [&_details[open]_summary]:text-primary [&_summary:hover]:text-primary/80",
+			}) {
+				@accordion.Item() {
+					@accordion.Trigger() {
+						Is my data stored securely?
+					}
+					@accordion.Content() {
+						<p class="text-muted-foreground">
+							Yes, all data is encrypted and regularly backed up. 
+							We're GDPR compliant and use ISO 27001 certified data centers.
+						</p>
+					}
+				}
+				@accordion.Item() {
+					@accordion.Trigger() {
+						Can I invite team members?
+					}
+					@accordion.Content() {
+						<p class="text-muted-foreground">
+							Yes, all premium plans allow you to invite team members. 
+							The number of team members varies by plan.
+						</p>
+					}
+				}
+				@accordion.Item() {
+					@accordion.Trigger() {
+						Is there API access?
+					}
+					@accordion.Content() {
+						<p class="text-muted-foreground">
+							Yes, we provide a comprehensive REST API for all premium plans. 
+							API documentation is available in your dashboard.
+						</p>
+					}
+				}
+			}
+		</div>
+	</div>
+}

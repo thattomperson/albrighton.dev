@@ -1,0 +1,154 @@
+package navbar
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/sheet"
+)
+
+templ Navbar004() {
+	@sheet.Sheet(sheet.Props{
+		Side: sheet.SideLeft,
+	}) {
+		<div class="relative min-h-screen bg-gradient-to-br from-primary to-secondary text-secondary">
+			@Navbar004Desktop()
+			@Navbar004HeroContent()
+		</div>
+		@Navbar004MobileDrawer()
+	}
+}
+
+templ Navbar004MobileDrawer() {
+	@sheet.Content() {
+		@Navbar004DrawerContent()
+	}
+}
+
+templ Navbar004DrawerContent() {
+	<div class="flex flex-col h-full">
+		<div class="flex items-center justify-between p-4 border-b bg-background">
+			<div class="flex items-center space-x-2">
+				@icon.Layers(icon.Props{Size: 24})
+				<span class="text-xl font-bold">Acme Inc</span>
+			</div>
+		</div>
+		<nav class="flex-1 p-4 bg-background">
+			<div class="flex flex-col space-y-3">
+				@Navbar004MobileMenuItems()
+			</div>
+		</nav>
+		<div class="p-4 border-t space-y-2 bg-background">
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "w-full justify-center",
+			}) {
+				Sign In
+			}
+			@button.Button(button.Props{
+				Class: "w-full justify-center",
+			}) {
+				Get Started
+			}
+		</div>
+	</div>
+}
+
+templ Navbar004Desktop() {
+	<nav class="sticky top-0 w-full transition-all duration-300">
+		<div class="container mx-auto px-4">
+			<div class="flex h-20 items-center justify-between">
+				@Navbar004Logo()
+				<div class="hidden md:flex items-center space-x-8">
+					@Navbar004MenuItems()
+				</div>
+				<div class="hidden md:flex items-center space-x-4">
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Class:   "text-white/90 hover:text-white hover:bg-white/10 border border-white/20",
+					}) {
+						Sign In
+					}
+					@button.Button(button.Props{
+						Class: "bg-background text-foreground hover:bg-muted shadow-lg",
+					}) {
+						Get Started
+					}
+				</div>
+				<div class="md:hidden">
+					@sheet.Trigger() {
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Size:    button.SizeIcon,
+							Class:   "h-10 w-10 text-white hover:bg-white/10",
+						}) {
+							@icon.Menu(icon.Props{Size: 20})
+						}
+					}
+				</div>
+			</div>
+		</div>
+	</nav>
+}
+
+templ Navbar004Logo() {
+	<div class="flex items-center space-x-2">
+		<div class="transition-colors duration-300">
+			@icon.Layers(icon.Props{Size: 32})
+		</div>
+		<span class="text-xl font-bold transition-colors duration-300">
+			Acme Inc
+		</span>
+	</div>
+}
+
+templ Navbar004MenuItems() {
+	<a href="#" class="text-sm font-medium transition-colors duration-300">
+		Home
+	</a>
+	<a href="#" class="text-sm font-medium transition-colors duration-300">
+		About
+	</a>
+	<a href="#" class="text-sm font-medium transition-colors duration-300">
+		Services
+	</a>
+	<a href="#" class="text-sm font-medium transition-colors duration-300">
+		Portfolio
+	</a>
+	<a href="#" class="text-sm font-medium transition-colors duration-300">
+		Contact
+	</a>
+}
+
+templ Navbar004MobileMenuItems() {
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		Home
+	</a>
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		About
+	</a>
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		Services
+	</a>
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		Portfolio
+	</a>
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		Contact
+	</a>
+}
+
+templ Navbar004HeroContent() {
+	<div class="flex items-center justify-center min-h-screen text-center px-4">
+		<div class="max-w-3xl">
+			<h1 class="text-5xl md:text-6xl font-bold text-white mb-6">
+				Beautiful Transparent Navbar
+			</h1>
+			<p class="text-xl text-white/80 mb-8">
+				This navbar becomes solid when you scroll. Perfect for hero sections and landing pages.
+			</p>
+			@button.Button() {
+				See It In Action
+			}
+		</div>
+	</div>
+}

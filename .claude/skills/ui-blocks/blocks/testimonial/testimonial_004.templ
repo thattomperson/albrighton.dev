@@ -1,0 +1,84 @@
+package testimonial
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/aspectratio"
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/rating"
+)
+
+templ Testimonial004() {
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10 bg-muted/20">
+		<div class="py-16 lg:py-24 max-w-6xl w-full">
+			@Testimonial004Header()
+			@Testimonial004VideoTestimonials()
+		</div>
+	</div>
+}
+
+templ Testimonial004Header() {
+	<div class="text-center mb-16">
+		<h2 class="text-4xl font-bold mb-6">
+			Real Stories, Real Results
+		</h2>
+		<p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+			Hear directly from our customers about their success stories
+		</p>
+	</div>
+}
+
+templ Testimonial004VideoTestimonials() {
+	<div class="grid gap-8 lg:grid-cols-2">
+		@Testimonial004VideoCard("How we scaled from 10 to 1000 users", "Jessica Parker", "CEO, GrowthCo", "/assets/img/avatar-gh-1.png", 4.2, "Startup Success", "/assets/img/placeholder.svg")
+		@Testimonial004VideoCard("Reducing deployment time by 90%", "Tom Wilson", "Lead DevOps", "/assets/img/avatar-gh-2.png", 5.0, "Technical Excellence", "/assets/img/placeholder.svg")
+		@Testimonial004VideoCard("Building better UIs faster", "Maria Garcia", "Design Lead", "/assets/img/avatar-gh-3.png", 4.3, "Design Innovation", "/assets/img/placeholder.svg")
+		@Testimonial004VideoCard("Enterprise security made simple", "Robert Chen", "CISO", "/assets/img/avatar-gh-6.png", 3.2, "Security Focus", "/assets/img/placeholder.svg")
+	</div>
+}
+
+templ Testimonial004VideoCard(title, name, position, avatarSrc string, ratingValue float64, category string, imgSrc string) {
+	@card.Card(card.Props{
+		Class: "group hover:shadow-xl transition-all duration-300 overflow-hidden",
+	}) {
+		@aspectratio.AspectRatio(aspectratio.Props{
+			Ratio: aspectratio.RatioVideo,
+		}) {
+			<img
+				src={ imgSrc }
+				alt="Card image"
+				class="h-full w-full object-cover"
+			/>
+		}
+		@card.Content() {
+			@rating.Rating(rating.Props{
+				Value:     ratingValue,
+				ReadOnly:  true,
+				Precision: 0.1,
+				Class:     "mb-4",
+			}) {
+				@rating.Group() {
+					for i := 1; i <= 5; i++ {
+						@rating.Item(rating.ItemProps{
+							Value: i,
+							Style: rating.StyleStar,
+						})
+					}
+				}
+			}
+			<h3 class="text-lg font-semibold mb-3 group-hover:text-primary transition-colors">
+				{ title }
+			</h3>
+			<div class="flex items-center gap-3">
+				@avatar.Avatar() {
+					@avatar.Image(avatar.ImageProps{
+						Src: avatarSrc,
+					})
+				}
+				<div>
+					<div class="font-medium">{ name }</div>
+					<div class="text-sm text-muted-foreground">{ position }</div>
+				</div>
+			</div>
+		}
+	}
+}

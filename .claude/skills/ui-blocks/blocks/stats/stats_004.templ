@@ -1,0 +1,42 @@
+package stats
+
+import (
+	"fmt"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Stats004() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+		@Stats004Card("Wireless Headphones", "$129.99", 342, icon.Headphones(icon.Props{Size: 20, Class: "text-primary"}), "bg-primary/10")
+		@Stats004Card("Smart Watch", "$299.99", 287, icon.Watch(icon.Props{Size: 20, Class: "text-primary"}), "bg-primary/10")
+		@Stats004Card("Laptop Stand", "$79.99", 256, icon.Laptop(icon.Props{Size: 20, Class: "text-primary"}), "bg-primary/10")
+		@Stats004Card("USB-C Cable", "$19.99", 198, icon.Cable(icon.Props{Size: 20, Class: "text-primary"}), "bg-primary/10")
+		@Stats004Card("Phone Case", "$24.99", 167, icon.Smartphone(icon.Props{Size: 20, Class: "text-primary"}), "bg-primary/10")
+		@Stats004Card("Keyboard", "$89.99", 143, icon.Keyboard(icon.Props{Size: 20, Class: "text-primary"}), "bg-primary/10")
+	</div>
+}
+
+templ Stats004Card(name, price string, sales int, iconElement templ.Component, bgColor string) {
+	@card.Card() {
+		@card.Content(card.ContentProps{
+			Class: "p-6",
+		}) {
+			<div class="flex items-center justify-between">
+				<div class="flex items-center space-x-4">
+					<div class={ "h-12 w-12 rounded-lg flex items-center justify-center " + bgColor }>
+						@iconElement
+					</div>
+					<div>
+						<p class="font-medium text-sm">{ name }</p>
+						<p class="text-xs text-muted-foreground">{ fmt.Sprintf("%d", sales) } sold</p>
+					</div>
+				</div>
+				<div class="text-right">
+					<p class="font-semibold text-lg">{ price }</p>
+					<p class="text-xs text-primary">+12%</p>
+				</div>
+			</div>
+		}
+	}
+}

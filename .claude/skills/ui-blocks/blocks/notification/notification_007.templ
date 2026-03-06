@@ -1,0 +1,283 @@
+package notification
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Notification007() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-4xl space-y-8">
+			@Notification007BellVariations()
+			@Notification007BadgePositions()
+			@Notification007AnimatedBells()
+			@Notification007ButtonIntegrations()
+		</div>
+	</section>
+}
+
+templ Notification007BellVariations() {
+	<div class="space-y-4">
+		<h3 class="text-lg font-semibold">Bell Icon Variations</h3>
+		<div class="flex flex-wrap gap-6">
+			@Notification007BellWithBadge("3", "default", false)
+			@Notification007BellWithBadge("12", "destructive", false)
+			@Notification007BellWithBadge("99+", "default", false)
+			@Notification007BellWithDot()
+			@Notification007BellEmpty()
+			@Notification007BellOff()
+		</div>
+	</div>
+}
+
+templ Notification007BellWithBadge(count, variant string, pulse bool) {
+	<div class="flex flex-col items-center gap-2">
+		<div class="relative">
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Bell(icon.Props{
+					Size: 20,
+				})
+			}
+			<span
+				class={
+					"absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-xs font-medium text-white",
+					templ.KV("bg-primary", variant == "default"),
+					templ.KV("bg-destructive", variant == "destructive"),
+				}
+			>
+				if pulse {
+					<span class="absolute inset-0 rounded-full bg-current animate-ping opacity-75"></span>
+				}
+				<span class="relative">{ count }</span>
+			</span>
+		</div>
+		<span class="text-xs text-muted-foreground">{ count }</span>
+	</div>
+}
+
+templ Notification007BellWithDot() {
+	<div class="flex flex-col items-center gap-2">
+		<div class="relative">
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Bell(icon.Props{
+					Size: 20,
+				})
+			}
+			<span class="absolute top-0 right-0 w-2 h-2 bg-destructive rounded-full"></span>
+		</div>
+		<span class="text-xs text-muted-foreground">Dot only</span>
+	</div>
+}
+
+templ Notification007BellEmpty() {
+	<div class="flex flex-col items-center gap-2">
+		<div class="relative">
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Bell(icon.Props{
+					Size: 20,
+				})
+			}
+		</div>
+		<span class="text-xs text-muted-foreground">No badge</span>
+	</div>
+}
+
+templ Notification007BellOff() {
+	<div class="flex flex-col items-center gap-2">
+		<div class="relative">
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.BellOff(icon.Props{
+					Size:  20,
+					Class: "text-muted-foreground",
+				})
+			}
+		</div>
+		<span class="text-xs text-muted-foreground">Muted</span>
+	</div>
+}
+
+templ Notification007BadgePositions() {
+	<div class="space-y-4">
+		<h3 class="text-lg font-semibold">Badge Positions</h3>
+		<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+			@Notification007PositionDemo("Top Right", "-top-1 -right-1")
+			@Notification007PositionDemo("Top Left", "-top-1 -left-1")
+			@Notification007PositionDemo("Bottom Right", "-bottom-1 -right-1")
+			@Notification007PositionDemo("Bottom Left", "-bottom-1 -left-1")
+		</div>
+	</div>
+}
+
+templ Notification007PositionDemo(label, positionClass string) {
+	<div class="flex flex-col items-center gap-2">
+		<div class="relative p-2">
+			<div class="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
+				@icon.Bell(icon.Props{
+					Size: 24,
+				})
+			</div>
+			<span class={ "absolute w-3 h-3 bg-destructive rounded-full", positionClass }></span>
+		</div>
+		<span class="text-xs text-muted-foreground">{ label }</span>
+	</div>
+}
+
+templ Notification007AnimatedBells() {
+	<div class="space-y-4">
+		<h3 class="text-lg font-semibold">Animated Notifications</h3>
+		<div class="flex flex-wrap gap-8">
+			<div class="flex flex-col items-center gap-2">
+				<div class="relative">
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+						Class:   "group",
+					}) {
+						@icon.Bell(icon.Props{
+							Size:  20,
+							Class: "group-hover:animate-wiggle",
+						})
+					}
+					<span class="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-xs font-medium text-white">
+						<span class="absolute inset-0 rounded-full bg-destructive animate-ping opacity-75"></span>
+						<span class="relative">5</span>
+					</span>
+				</div>
+				<span class="text-xs text-muted-foreground">Pulsing badge</span>
+			</div>
+			<div class="flex flex-col items-center gap-2">
+				<div class="relative">
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+					}) {
+						<div class="animate-wiggle">
+							@icon.Bell(icon.Props{
+								Size: 20,
+							})
+						</div>
+					}
+					<span class="absolute -top-1 -right-1 h-5 min-w-5 flex items-center justify-center rounded-full bg-primary px-1 text-xs font-medium text-white">
+						2
+					</span>
+				</div>
+				<span class="text-xs text-muted-foreground">Ringing bell</span>
+			</div>
+			<div class="flex flex-col items-center gap-2">
+				<div class="relative group">
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+					}) {
+						@icon.Bell(icon.Props{
+							Size: 20,
+						})
+					}
+					<span class="absolute -top-1 -right-1 h-5 min-w-5 flex items-center justify-center rounded-full bg-primary px-1 text-xs font-medium text-white animate-bounce">
+						!
+					</span>
+				</div>
+				<span class="text-xs text-muted-foreground">Bouncing alert</span>
+			</div>
+		</div>
+		<style>
+			@keyframes wiggle {
+				0%, 100% { transform: rotate(0deg); }
+				25% { transform: rotate(-10deg); }
+				75% { transform: rotate(10deg); }
+			}
+			.animate-wiggle {
+				animation: wiggle 0.5s ease-in-out infinite;
+			}
+		</style>
+	</div>
+}
+
+templ Notification007ButtonIntegrations() {
+	<div class="space-y-4">
+		<h3 class="text-lg font-semibold">Button Integrations</h3>
+		<div class="flex flex-wrap gap-4">
+			<div class="relative">
+				@button.Button(button.Props{
+					Variant: button.VariantDefault,
+				}) {
+					@icon.Bell(icon.Props{
+						Size:  18,
+						Class: "mr-2",
+					})
+					Notifications
+					@badge.Badge(badge.Props{
+						Variant: badge.VariantSecondary,
+						Class:   "ml-2",
+					}) {
+						8
+					}
+				}
+			</div>
+			<div class="relative">
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+				}) {
+					@icon.Bell(icon.Props{
+						Size:  18,
+						Class: "mr-2",
+					})
+					View All
+					<span class="ml-2 w-2 h-2 bg-destructive rounded-full"></span>
+				}
+			</div>
+			<div class="relative inline-flex">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Class:   "relative",
+				}) {
+					@icon.Bell(icon.Props{
+						Size:  18,
+						Class: "mr-2",
+					})
+					Activity
+				}
+				<span class="absolute top-0 right-0 -mt-1 -mr-1 px-1.5 py-0.5 bg-destructive text-white text-xs font-medium rounded">
+					New
+				</span>
+			</div>
+			<div class="flex items-center border rounded-lg">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "rounded-r-none",
+				}) {
+					@icon.Inbox(icon.Props{
+						Size: 18,
+					})
+				}
+				<div class="h-8 w-px bg-border"></div>
+				<div class="relative">
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+						Class:   "rounded-l-none",
+					}) {
+						@icon.Bell(icon.Props{
+							Size: 18,
+						})
+					}
+					<span class="absolute -top-1 -right-1 w-2 h-2 bg-destructive rounded-full"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+}

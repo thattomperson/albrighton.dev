@@ -1,0 +1,198 @@
+package sidebar
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/collapsible"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/sidebar"
+)
+
+templ Sidebar004() {
+	@sidebar.Layout() {
+		@sidebar.Sidebar() {
+			@sidebar.Header() {
+				@sidebar.Menu() {
+					@sidebar.MenuItem() {
+						@sidebar.MenuButton(sidebar.MenuButtonProps{
+							Href: "#",
+						}) {
+							@icon.BookOpen(icon.Props{Class: "size-4"})
+							<span class="font-semibold">Documentation</span>
+							<span class="ml-auto text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded">v2.0</span>
+						}
+					}
+				}
+				<!-- Search -->
+				<div class="relative mt-2">
+					@input.Input(input.Props{
+						Type:        "search",
+						Placeholder: "Search docs...",
+						Class:       "pl-10 pr-8",
+					})
+					<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+						@icon.Search(icon.Props{Size: 16, Class: "text-muted-foreground"})
+					</div>
+					<div class="absolute inset-y-0 right-0 flex items-center pr-3">
+						<kbd class="hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-xs font-medium text-muted-foreground">
+							⌘K
+						</kbd>
+					</div>
+				</div>
+			}
+			@sidebar.Content() {
+				@sidebar.Group() {
+					@Sidebar004NavSection("Getting Started", []Sidebar004NavItem{
+						{Label: "Introduction", Active: false, Icon: "BookOpen"},
+						{Label: "Installation", Active: true, Icon: "Download"},
+						{Label: "Quick Start", Active: false, Icon: "Zap"},
+						{Label: "Configuration", Active: false, Icon: "Settings"},
+					}, true)
+					@Sidebar004NavSection("API Reference", []Sidebar004NavItem{
+						{Label: "Authentication", Active: false, Icon: "Key"},
+						{Label: "Endpoints", Active: false, Icon: "Globe"},
+						{Label: "Webhooks", Active: false, Icon: "Webhook"},
+						{Label: "Rate Limiting", Active: false, Icon: "Clock"},
+					}, false)
+					@Sidebar004NavSection("Guides", []Sidebar004NavItem{
+						{Label: "Building Apps", Active: false, Icon: "Code"},
+						{Label: "Best Practices", Active: false, Icon: "Star"},
+						{Label: "Deployment", Active: false, Icon: "Upload"},
+						{Label: "Troubleshooting", Active: false, Icon: "AlertCircle"},
+					}, false)
+					@Sidebar004NavSection("Examples", []Sidebar004NavItem{
+						{Label: "Templ", Active: false, Icon: "Code2"},
+						{Label: "HTMX", Active: false, Icon: "Code2"},
+						{Label: "Fiber", Active: false, Icon: "Code2"},
+						{Label: "Echo", Active: false, Icon: "Code2"},
+					}, false)
+					@Sidebar004NavSection("Resources", []Sidebar004NavItem{
+						{Label: "Migration Guide", Active: false, Icon: "ArrowRight"},
+						{Label: "FAQ", Active: false, Icon: "HelpCircle"},
+						{Label: "Support", Active: false, Icon: "MessageCircle"},
+					}, false)
+				}
+			}
+			@sidebar.Footer() {
+				@card.Card(card.Props{
+					Class: "bg-muted",
+				}) {
+					@card.Content(card.ContentProps{
+						Class: "space-y-3 p-3",
+					}) {
+						<div class="flex items-center space-x-2">
+							@icon.MessageCircle(icon.Props{Size: 16})
+							<span class="text-sm font-medium">Need Help?</span>
+						</div>
+						<p class="text-xs text-muted-foreground">
+							Join our community or contact support for assistance.
+						</p>
+						<div class="space-y-2">
+							@button.Button(button.Props{
+								Variant:   button.VariantOutline,
+								FullWidth: true,
+							}) {
+								Community
+							}
+							@button.Button(button.Props{
+								FullWidth: true,
+							}) {
+								Contact Support
+							}
+						</div>
+					}
+				}
+			}
+		}
+		@sidebar.Inset() {
+			<div class="flex h-full flex-col">
+				<div class="flex h-14 items-center gap-4 px-6">
+					@sidebar.Trigger()
+					<span class="text-sm text-muted-foreground">Documentation</span>
+				</div>
+				<div class="flex-1 overflow-y-auto p-6">
+					<!-- Content goes here -->
+				</div>
+			</div>
+		}
+	}
+}
+
+type Sidebar004NavItem struct {
+	Label  string
+	Active bool
+	Icon   string
+}
+
+templ Sidebar004NavSection(title string, items []Sidebar004NavItem, expanded bool) {
+	@collapsible.Collapsible(collapsible.Props{
+		Open:  expanded,
+		Class: "group/collapsible w-full",
+	}) {
+		@collapsible.Trigger() {
+			@sidebar.MenuButton() {
+				<span class="text-sm font-medium">{ title }</span>
+				@icon.ChevronRight(icon.Props{
+					Class: "ml-auto size-4 transition-transform group-data-[tui-collapsible-state=open]/collapsible:rotate-90",
+				})
+			}
+		}
+		@collapsible.Content() {
+			@sidebar.MenuSub() {
+				for _, item := range items {
+					@sidebar.MenuSubItem() {
+						@sidebar.MenuSubButton(sidebar.MenuSubButtonProps{
+							Href:     "#",
+							IsActive: item.Active,
+						}) {
+							@Sidebar004NavIcon(item.Icon, item.Active)
+							<span>{ item.Label }</span>
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+templ Sidebar004NavIcon(iconName string, active bool) {
+	<div class="h-4 w-4">
+		switch iconName {
+			case "BookOpen":
+				@icon.BookOpen(icon.Props{Size: 16})
+			case "Download":
+				@icon.Download(icon.Props{Size: 16})
+			case "Zap":
+				@icon.Zap(icon.Props{Size: 16})
+			case "Settings":
+				@icon.Settings(icon.Props{Size: 16})
+			case "Key":
+				@icon.Key(icon.Props{Size: 16})
+			case "Globe":
+				@icon.Globe(icon.Props{Size: 16})
+			case "Webhook":
+				@icon.Webhook(icon.Props{Size: 16})
+			case "Clock":
+				@icon.Clock(icon.Props{Size: 16})
+			case "Code":
+				@icon.Code(icon.Props{Size: 16})
+			case "Star":
+				@icon.Star(icon.Props{Size: 16})
+			case "Upload":
+				@icon.Upload(icon.Props{Size: 16})
+			case "AlertCircle":
+				@icon.CircleAlert(icon.Props{Size: 16})
+			case "Code2":
+				@icon.Code(icon.Props{Size: 16})
+			case "GitCommit":
+				@icon.GitBranch(icon.Props{Size: 16})
+			case "ArrowRight":
+				@icon.ArrowRight(icon.Props{Size: 16})
+			case "HelpCircle":
+				@icon.CircleQuestionMark(icon.Props{Size: 16})
+			case "MessageCircle":
+				@icon.MessageCircle(icon.Props{Size: 16})
+		}
+	</div>
+}

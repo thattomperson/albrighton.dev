@@ -1,0 +1,76 @@
+package stats
+
+import (
+	"fmt"
+	badgecomp "github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/chart"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Stats008() {
+	<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
+		@Stats008Card("Website Analytics", "Chart", []float64{1200, 1900, 3000, 5000, 2000, 3000, 4500})
+		@Stats008Card("Revenue Trends", "Chart", []float64{2800, 3200, 2900, 3600, 4100, 3800, 4200})
+		@Stats008Card("User Growth", "Chart", []float64{150, 280, 420, 680, 950, 1200, 1450})
+	</div>
+}
+
+templ Stats008Card(title, chartType string, data []float64) {
+	@card.Card() {
+		@card.Header() {
+			<div class="flex items-center justify-between">
+				<div>
+					<h3 class="font-semibold text-lg">{ title }</h3>
+					<p class="text-sm text-muted-foreground">Last 7 days</p>
+				</div>
+				@badgecomp.Badge(badgecomp.Props{
+					Variant: badgecomp.VariantSecondary,
+					Class:   "bg-primary/10 text-primary",
+				}) {
+					Live
+				}
+			</div>
+		}
+		@card.Content(card.ContentProps{
+			Class: "space-y-4",
+		}) {
+			<div class="grid grid-cols-3 gap-4 text-center">
+				<div>
+					<div class="text-xl font-bold">{ fmt.Sprintf("%.0f", data[len(data)-1]) }</div>
+					<div class="text-xs text-muted-foreground">Current</div>
+				</div>
+				<div>
+					<div class="text-xl font-bold">+15.3%</div>
+					<div class="text-xs text-muted-foreground">Growth</div>
+				</div>
+				<div>
+					<div class="text-xl font-bold">{ fmt.Sprintf("%.0f", (data[len(data)-1] + data[len(data)-2]) / 2) }</div>
+					<div class="text-xs text-muted-foreground">Average</div>
+				</div>
+			</div>
+			@separator.Separator()
+			<div class="h-32">
+				@chart.Chart(chart.Props{
+					Variant: chart.VariantLine,
+					Data: chart.Data{
+						Labels: []string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"},
+						Datasets: []chart.Dataset{
+							{
+								Label:           title,
+								Data:            data,
+								BorderColor:     "rgb(59,130,246)",
+								BackgroundColor: "rgba(59,130,246,0.1)",
+								Fill:            true,
+								Tension:         0.4,
+							},
+						},
+					},
+					Options: chart.Options{
+						Responsive: true,
+					},
+				})
+			</div>
+		}
+	}
+}

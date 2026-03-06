@@ -1,0 +1,179 @@
+package comparison
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Comparison001() {
+	@Comparison001Script()
+	<section class="w-full py-12 md:py-16 lg:py-20">
+		<div class="container mx-auto px-4 md:px-6">
+			@Comparison001Header()
+			@Comparison001Slider()
+			@Comparison001Features()
+		</div>
+	</section>
+}
+
+templ Comparison001Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+			See the Transformation
+		</h2>
+		<p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+			Drag the slider to compare before and after results. Experience the dramatic improvements firsthand.
+		</p>
+	</div>
+}
+
+templ Comparison001Slider() {
+	@card.Card(card.Props{
+		Class: "max-w-4xl mx-auto mb-12",
+	}) {
+		<div id="comparison001-container" class="relative rounded-lg overflow-hidden cursor-col-resize">
+			<div class="relative h-[400px] md:h-[500px] overflow-hidden">
+				<!-- Sharp Image (Left) -->
+				<img
+					id="comparison001-before"
+					src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=800&fit=crop"
+					alt="Before"
+					class="absolute inset-0 w-full h-full object-cover"
+					style="clip-path: inset(0 50% 0 0);"
+				/>
+				<!-- Blurred Image (Right) -->
+				<img
+					id="comparison001-after"
+					src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=800&fit=crop"
+					alt="After"
+					class="absolute inset-0 w-full h-full object-cover blur-md grayscale"
+					style="clip-path: inset(0 0 0 50%);"
+				/>
+				<!-- Slider Handle -->
+				<div
+					id="comparison001-handle"
+					class="absolute top-0 h-full flex flex-col justify-center items-center pointer-events-none"
+					style="left: calc(50% - 25px); width: 50px;"
+				>
+					<div class="w-0.5 flex-grow bg-white"></div>
+					<div class="w-12 h-12 md:w-10 md:h-10 bg-primary border-2 border-white rounded-full flex items-center justify-center shadow-lg pointer-events-auto cursor-col-resize">
+						@icon.MoveHorizontal(icon.Props{
+							Size:  20,
+							Class: "text-primary-foreground",
+						})
+					</div>
+					<div class="w-0.5 flex-grow bg-white"></div>
+				</div>
+				<!-- Labels -->
+				<div class="absolute top-4 left-4 z-10">
+					@badge.Badge(badge.Props{
+						Variant: badge.VariantSecondary,
+					}) {
+						Sharp
+					}
+				</div>
+				<div class="absolute top-4 right-4 z-10">
+					@badge.Badge() {
+						Blurred
+					}
+				</div>
+			</div>
+		</div>
+	}
+}
+
+templ Comparison001Features() {
+	<div class="max-w-4xl mx-auto">
+		<div class="grid md:grid-cols-3 gap-6">
+			@Comparison001Feature("Performance", "2x Faster", "Page load time reduced by 50%")
+			@Comparison001Feature("Conversion", "+35%", "Higher user engagement rate")
+			@Comparison001Feature("Experience", "4.9/5", "User satisfaction score")
+		</div>
+	</div>
+}
+
+templ Comparison001Feature(title string, value string, description string) {
+	<div class="text-center">
+		<h3 class="font-semibold text-lg mb-1">{ title }</h3>
+		<p class="text-2xl font-bold text-primary mb-2">{ value }</p>
+		<p class="text-sm text-muted-foreground">{ description }</p>
+	</div>
+}
+
+// JavaScript logic for the comparison slider
+templ Comparison001Script() {
+	<script nonce={ templ.GetNonce(ctx) }>
+		(function() {
+			function init() {
+				const container = document.getElementById('comparison001-container');
+				const handle = document.getElementById('comparison001-handle');
+				const beforeImg = document.getElementById('comparison001-before');
+				const afterImg = document.getElementById('comparison001-after');
+				
+				if (!container || !handle || !beforeImg || !afterImg) return;
+				
+				let isDragging = false;
+				const handleWidth = 50;
+				
+				function updatePosition(e) {
+					const rect = container.getBoundingClientRect();
+					const x = (e.clientX || e.touches?.[0]?.clientX) - rect.left;
+					
+					// Constrain mouse position
+					let mouseX = Math.max(0, Math.min(x, rect.width));
+					
+					// Calculate percentage
+					const percent = (mouseX / rect.width) * 100;
+					
+					// Update clip paths - before (left) shows up to mouse, after (right) shows from mouse
+					beforeImg.style.clipPath = 'inset(0 ' + (100 - percent) + '% 0 0)';
+					afterImg.style.clipPath = 'inset(0 0 0 ' + percent + '%)';
+					
+					// Update handle position
+					handle.style.left = 'calc(' + percent + '% - ' + (handleWidth/2) + 'px)';
+				}
+				
+				// Mouse events
+				container.addEventListener('mousedown', function(e) {
+					isDragging = true;
+					updatePosition(e);
+					e.preventDefault();
+				});
+				
+				document.addEventListener('mousemove', function(e) {
+					if (!isDragging) return;
+					updatePosition(e);
+				});
+				
+				document.addEventListener('mouseup', function() {
+					isDragging = false;
+				});
+				
+				// Touch events  
+				container.addEventListener('touchstart', function(e) {
+					isDragging = true;
+					updatePosition(e);
+					e.preventDefault();
+				});
+				
+				document.addEventListener('touchmove', function(e) {
+					if (!isDragging) return;
+					updatePosition(e);
+					e.preventDefault();
+				});
+				
+				document.addEventListener('touchend', function() {
+					isDragging = false;
+				});
+			}
+			
+			// Initialize
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', init);
+			} else {
+				init();
+			}
+		})();
+	</script>
+}

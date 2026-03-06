@@ -1,0 +1,147 @@
+package ai
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/slider"
+	"github.com/templui/templui-pro/internal/ui/components/textarea"
+)
+
+templ AI010() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-3xl">
+			@AI010AdvancedPrompt()
+		</div>
+	</section>
+}
+
+templ AI010AdvancedPrompt() {
+	@card.Card() {
+		@card.Header(card.HeaderProps{Class: "pb-4"}) {
+			@card.Title(card.TitleProps{Class: "text-base"}) {
+				Advanced AI Prompt
+			}
+		}
+		@card.Content(card.ContentProps{Class: "pt-0"}) {
+			<div class="space-y-4">
+				<!-- File Attachments -->
+				<div class="border-2 border-dashed rounded-lg p-4 text-center">
+					<div class="flex flex-col items-center gap-2">
+						@icon.Upload(icon.Props{
+							Size:  24,
+							Class: "text-muted-foreground",
+						})
+						<p class="text-sm text-muted-foreground">
+							Drop files here or click to upload
+						</p>
+						<p class="text-xs text-muted-foreground">
+							PDF, TXT, MD, CSV (max 10MB)
+						</p>
+					</div>
+				</div>
+				<!-- Advanced Settings -->
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+					<div class="space-y-2">
+						@label.Label(label.Props{
+							For:   "temperature",
+							Class: "text-xs",
+						}) {
+							Temperature
+						}
+						<div class="flex items-center gap-2">
+							@slider.Slider(slider.Props{
+								Class: "flex-1",
+							}) {
+								@slider.Input(slider.InputProps{
+									ID:    "temperature",
+									Min:   0,
+									Max:   2,
+									Step:  1,
+									Value: 1,
+								})
+							}
+							<span class="text-xs text-muted-foreground w-10">0.7</span>
+						</div>
+					</div>
+					<div class="space-y-2">
+						@label.Label(label.Props{
+							For:   "max-tokens",
+							Class: "text-xs",
+						}) {
+							Max Tokens
+						}
+						@input.Input(input.Props{
+							ID:          "max-tokens",
+							Type:        "number",
+							Placeholder: "2048",
+							Value:       "2048",
+							Class:       "h-8 text-sm",
+						})
+					</div>
+				</div>
+				<!-- Prompt Input -->
+				<div class="border rounded-lg">
+					<div class="p-3 border-b bg-muted/50">
+						<div class="flex items-center justify-between">
+							<span class="text-xs font-medium">System Message (Optional)</span>
+							<button class="text-xs text-muted-foreground hover:text-foreground">
+								Clear
+							</button>
+						</div>
+						@textarea.Textarea(textarea.Props{
+							Placeholder: "You are a helpful assistant...",
+							Class:       "min-h-[60px] mt-2 text-sm bg-background",
+							Rows:        2,
+						})
+					</div>
+					@textarea.Textarea(textarea.Props{
+						Placeholder: "Enter your prompt here...",
+						Class:       "min-h-[120px] rounded-none border-none",
+						Rows:        5,
+					})
+					<div class="flex flex-wrap gap-3 items-center justify-between p-3 border-t">
+						<div class="flex items-center gap-3">
+							@button.Button(button.Props{
+								Variant: button.VariantGhost,
+								Size:    button.SizeIcon,
+								Class:   "h-8 w-8",
+							}) {
+								@icon.Save(icon.Props{
+									Size: 16,
+								})
+							}
+							@button.Button(button.Props{
+								Variant: button.VariantGhost,
+								Size:    button.SizeIcon,
+								Class:   "h-8 w-8",
+							}) {
+								@icon.History(icon.Props{
+									Size: 16,
+								})
+							}
+							@button.Button(button.Props{
+								Variant: button.VariantGhost,
+								Size:    button.SizeIcon,
+								Class:   "h-8 w-8",
+							}) {
+								@icon.BookOpen(icon.Props{
+									Size: 16,
+								})
+							}
+						</div>
+						@button.Button() {
+							Generate Response
+							@icon.Sparkles(icon.Props{
+								Size:  16,
+								Class: "ml-2",
+							})
+						}
+					</div>
+				</div>
+			</div>
+		}
+	}
+}

@@ -1,0 +1,300 @@
+package ai
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/popover"
+	"github.com/templui/templui-pro/internal/utils"
+)
+
+templ AI006() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-4xl space-y-8">
+			@AI006UserQuery()
+			@AI006AIResponseWithCitations()
+			@AI006SourcesPanel()
+		</div>
+	</section>
+}
+
+templ AI006UserQuery() {
+	<div class="flex gap-3 justify-end">
+		<div class="max-w-[90%] sm:max-w-[80%] md:max-w-[70%] space-y-2">
+			<div class="flex items-center gap-2 justify-end">
+				<p class="font-medium text-sm">You</p>
+				@avatar.Avatar(avatar.Props{
+					Class: "h-8 w-8",
+				}) {
+					@avatar.Image(avatar.ImageProps{
+						Src: "/assets/img/avatar-gh-1.png",
+						Alt: "User",
+					})
+				}
+			</div>
+			<div class="bg-primary text-primary-foreground rounded-lg p-3 sm:p-4">
+				<p class="text-sm">How do I implement secure authentication?</p>
+			</div>
+		</div>
+	</div>
+}
+
+templ AI006AIResponseWithCitations() {
+	<div class="flex gap-3">
+		<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+			@icon.Bot(icon.Props{
+				Size:  20,
+				Class: "text-primary-foreground",
+			})
+		</div>
+		<div class="flex-1 max-w-[90%] sm:max-w-[85%] space-y-3">
+			<div class="flex items-center gap-2">
+				<p class="font-medium text-sm">AI Assistant</p>
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantSecondary,
+					Class:   "text-xs",
+				}) {
+					with sources
+				}
+			</div>
+			<div class="bg-muted rounded-lg p-3 sm:p-4">
+				<div class="prose prose-sm max-w-none dark:prose-invert">
+					<p class="mb-3">Here are the key authentication best practices:</p>
+					<div class="space-y-3">
+						<div>
+							<strong>JWT Tokens</strong> @AI006Citation("1", "OWASP")
+							<ul class="mt-1 text-sm space-y-1">
+								<li>• 15-30 min expiry</li>
+								<li>• HttpOnly cookies</li>
+								<li>• Strong secrets</li>
+							</ul>
+						</div>
+						<div>
+							<strong>OAuth 2.0</strong> @AI006Citation("3", "RFC 6749")
+							<ul class="mt-1 text-sm space-y-1">
+								<li>• Use PKCE flow</li>
+								<li>• Validate redirects</li>
+							</ul>
+						</div>
+						<div>
+							<strong>Security</strong> @AI006Citation("5", "NIST")
+							<ul class="mt-1 text-sm space-y-1">
+								<li>• Rate limiting</li>
+								<li>• HTTPS only</li>
+								<li>• Enable MFA</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="flex items-center gap-2 pt-3">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@icon.Copy(icon.Props{
+						Size: 14,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@icon.ThumbsUp(icon.Props{
+						Size: 14,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@icon.Share(icon.Props{
+						Size: 14,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeSm,
+					Class:   "ml-auto",
+				}) {
+					@icon.FileText(icon.Props{
+						Size:  14,
+						Class: "mr-1",
+					})
+					View 6 Sources
+				}
+			</div>
+		</div>
+	</div>
+}
+
+templ AI006Citation(number, source string) {
+	@popover.Trigger(popover.TriggerProps{
+		For: "chat-13-popover",
+	}) {
+		<sup class="inline-flex items-center">
+			<button class="text-primary hover:underline text-xs font-medium ml-0.5">
+				[{ number }]
+			</button>
+		</sup>
+	}
+	@popover.Content(popover.ContentProps{
+		ID:    "chat-13-popover",
+		Class: "w-80 p-0",
+	}) {
+		<div class="p-4 space-y-3">
+			<div class="flex items-start justify-between">
+				<h4 class="font-medium text-sm">{ source }</h4>
+				<button class="text-muted-foreground hover:text-foreground">
+					@icon.ExternalLink(icon.Props{
+						Size: 14,
+					})
+				</button>
+			</div>
+			<p class="text-sm text-muted-foreground">
+				Comprehensive security guidelines for JSON Web Token implementation in production applications.
+			</p>
+			<div class="flex items-center gap-4 text-xs text-muted-foreground">
+				<span>Last updated: 2024</span>
+				<span>High reliability</span>
+			</div>
+		</div>
+	}
+}
+
+templ AI006SourcesPanel() {
+	@card.Card() {
+		@card.Header() {
+			<div class="flex items-center justify-between">
+				@card.Title() {
+					Sources & References
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+					Size:    button.SizeSm,
+				}) {
+					@icon.Download(icon.Props{
+						Size:  14,
+						Class: "mr-1",
+					})
+					Export
+				}
+			</div>
+		}
+		@card.Content(card.ContentProps{Class: "pt-0"}) {
+			<div class="grid gap-3">
+				@AI006SourceCard(
+					"1",
+					"OWASP JWT Security Cheat Sheet",
+					"owasp.org",
+					"Comprehensive security guidelines for JSON Web Token implementation in production applications.",
+					"Security Guide",
+					true,
+				)
+				@AI006SourceCard(
+					"2",
+					"Auth0 Best Practices Guide",
+					"auth0.com",
+					"Industry best practices for authentication and authorization in modern applications.",
+					"Documentation",
+					true,
+				)
+				@AI006SourceCard(
+					"3",
+					"RFC 6749 - OAuth 2.0 Framework",
+					"ietf.org",
+					"The OAuth 2.0 authorization framework specification.",
+					"Standard",
+					false,
+				)
+				@AI006SourceCard(
+					"4",
+					"OAuth Security Best Current Practice",
+					"datatracker.ietf.org",
+					"Security considerations and best practices for OAuth 2.0 implementations.",
+					"RFC Draft",
+					false,
+				)
+				@AI006SourceCard(
+					"5",
+					"NIST Digital Identity Guidelines",
+					"nist.gov",
+					"Federal guidelines for digital identity and authentication.",
+					"Government Standard",
+					false,
+				)
+				@AI006SourceCard(
+					"6",
+					"Microsoft Identity Platform Best Practices",
+					"microsoft.com",
+					"Security best practices for modern authentication scenarios.",
+					"Technical Guide",
+					false,
+				)
+			</div>
+		}
+	}
+}
+
+templ AI006SourceCard(number, title, domain, description, category string, isPrimary bool) {
+	@card.Card(card.Props{
+		Class: utils.If(isPrimary, "border-primary"),
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "p-4",
+		}) {
+			<div class="flex items-start gap-3">
+				<div
+					class={
+						"w-8 h-8 rounded flex items-center justify-center text-sm font-medium",
+						templ.KV("bg-primary text-primary-foreground", isPrimary),
+						templ.KV("bg-muted", !isPrimary),
+					}
+				>
+					{ number }
+				</div>
+				<div class="flex-1 space-y-2">
+					<div class="flex items-start justify-between">
+						<div>
+							<h4 class="font-medium text-sm">{ title }</h4>
+							<p class="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+								@icon.Globe(icon.Props{
+									Size: 10,
+								})
+								{ domain }
+							</p>
+						</div>
+						<div class="flex items-center gap-1">
+							@badge.Badge(badge.Props{
+								Variant: badge.VariantSecondary,
+								Class:   "text-xs",
+							}) {
+								{ category }
+							}
+							<button class="p-1 hover:bg-muted rounded">
+								@icon.ExternalLink(icon.Props{
+									Size:  14,
+									Class: "text-muted-foreground",
+								})
+							</button>
+						</div>
+					</div>
+					<p class="text-sm text-muted-foreground">{ description }</p>
+					if isPrimary {
+						<div class="flex items-center gap-2 text-xs text-primary">
+							@icon.Zap(icon.Props{
+								Size: 12,
+							})
+							<span>Primary source for this response</span>
+						</div>
+					}
+				</div>
+			</div>
+		}
+	}
+}

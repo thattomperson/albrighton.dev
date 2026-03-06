@@ -1,0 +1,109 @@
+package hero
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/rating"
+)
+
+templ Hero007() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="max-w-xl text-center">
+			@Hero007Header()
+			@Hero007Actions()
+			@Hero007Social()
+		</div>
+	</section>
+}
+
+templ Hero007Header() {
+	@badge.Badge() {
+		New features available
+	}
+	<h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+		<span class="block">Take your product to</span>
+		<span class="block">the next level</span>
+	</h1>
+	<p class="mt-6 text-xl text-muted-foreground max-w-lg mx-auto">
+		Our platform helps you build beautiful, fast, and accessible web applications with our collection of reusable components.
+	</p>
+}
+
+templ Hero007Actions() {
+	<div class="mt-10 flex justify-center gap-4">
+		@button.Button() {
+			Get Access
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+		}) {
+			<div class="flex items-center gap-1.5">
+				@icon.Play(icon.Props{Size: 16})
+				Watch Demo
+			</div>
+		}
+	</div>
+}
+
+templ Hero007Social() {
+	<div class="mt-12 flex flex-wrap justify-center items-center gap-4">
+		<div class="flex -space-x-4 *:ring-2 *:ring-background">
+			@avatar.Avatar() {
+				@avatar.Image(avatar.ImageProps{
+					Src: "/assets/img/avatar-gh-1.png",
+					Alt: "User avatar",
+				})
+				@avatar.Fallback() {
+					U1
+				}
+			}
+			@avatar.Avatar() {
+				@avatar.Image(avatar.ImageProps{
+					Src: "/assets/img/avatar-gh-2.png",
+					Alt: "User avatar",
+				})
+				@avatar.Fallback() {
+					U2
+				}
+			}
+			@avatar.Avatar() {
+				@avatar.Image(avatar.ImageProps{
+					Src: "/assets/img/avatar-gh-3.png",
+					Alt: "User avatar",
+				})
+				@avatar.Fallback() {
+					U3
+				}
+			}
+			@avatar.Avatar(avatar.Props{
+				Class: "bg-muted text-muted-foreground",
+			}) {
+				@avatar.Fallback() {
+					+2
+				}
+			}
+		</div>
+		<div class="flex flex-col items-start">
+			<span class="text-sm font-medium">Trusted by 5000+ customers</span>
+			<div class="flex items-center mt-1">
+				@rating.Rating(rating.Props{
+					Value:     4.3,
+					ReadOnly:  true,
+					Precision: 0.5,
+					Class:     "text-primary",
+				}) {
+					@rating.Group() {
+						@rating.Item(rating.ItemProps{Value: 1, Style: rating.StyleStar})
+						@rating.Item(rating.ItemProps{Value: 2, Style: rating.StyleStar})
+						@rating.Item(rating.ItemProps{Value: 3, Style: rating.StyleStar})
+						@rating.Item(rating.ItemProps{Value: 4, Style: rating.StyleStar})
+						@rating.Item(rating.ItemProps{Value: 5, Style: rating.StyleStar})
+					}
+				}
+				<span class="ml-1 text-xs text-muted-foreground">4.3/5</span>
+			</div>
+		</div>
+	</div>
+}

@@ -1,0 +1,66 @@
+package stats
+
+import (
+	"fmt"
+	badgecomp "github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+)
+
+templ Stats011() {
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
+		@Stats011Card("127.4K", "Monthly Active Users", "Globe", 95, "text-primary", "border-primary/20")
+		@Stats011Card("$890K", "Quarterly Revenue", "TrendingUp", 87, "text-primary", "border-primary/20")
+		@Stats011Card("4.9/5", "Customer Rating", "Star", 98, "text-primary", "border-primary/20")
+		@Stats011Card("99.9%", "System Uptime", "Shield", 100, "text-primary", "border-primary/20")
+	</div>
+}
+
+templ Stats011Card(bigNumber, title, iconName string, progressValue int, iconColor, borderColor string) {
+	@card.Card(card.Props{
+		Class: "relative overflow-hidden " + borderColor + " border-2 transition-all duration-300",
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "p-8 space-y-6",
+		}) {
+			<div class="flex items-start justify-between">
+				<div class="space-y-2">
+					<div class="text-5xl md:text-6xl font-black">
+						{ bigNumber }
+					</div>
+					<div class="text-lg font-semibold">
+						{ title }
+					</div>
+				</div>
+				<div class={ "h-16 w-16 rounded-2xl bg-secondary flex items-center justify-center" }>
+					switch iconName {
+						case "Globe":
+							@icon.Globe(icon.Props{Size: 28, Class: iconColor})
+						case "TrendingUp":
+							@icon.TrendingUp(icon.Props{Size: 28, Class: iconColor})
+						case "Star":
+							@icon.Star(icon.Props{Size: 28, Class: iconColor})
+						case "Shield":
+							@icon.Shield(icon.Props{Size: 28, Class: iconColor})
+					}
+				</div>
+			</div>
+			<div class="space-y-3">
+				<div class="flex items-center justify-between">
+					<span class="text-sm font-medium">Progress</span>
+					<span class={ "text-sm font-bold " + iconColor }>{ fmt.Sprintf("%d", progressValue) }%</span>
+				</div>
+				@progress.Progress(progress.Props{
+					Value: progressValue,
+				})
+			</div>
+			@badgecomp.Badge(badgecomp.Props{
+				Variant: badgecomp.VariantSecondary,
+				Class:   "bg-primary/70 text-primary-foreground",
+			}) {
+				Target achieved
+			}
+		}
+	}
+}

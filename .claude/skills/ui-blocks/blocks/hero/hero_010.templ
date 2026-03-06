@@ -1,0 +1,121 @@
+package hero
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Hero010() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="container relative flex flex-col items-center justify-center space-y-4 py-16 md:py-24 lg:space-y-14 lg:py-32">
+			@Hero010Header()
+			@Hero010Waitlist()
+			@Hero010Features()
+			@Hero010Countdown()
+		</div>
+	</section>
+}
+
+templ Hero010Header() {
+	@badge.Badge(badge.Props{
+		Variant: badge.VariantOutline,
+		Class:   "relative flex items-center justify-center rounded-full px-3 py-1.5 bg-background",
+	}) {
+		<div class="absolute -inset-1 rounded-full bg-primary/10 blur-md"></div>
+		<span class="font-medium text-sm animate-pulse">Coming Soon</span>
+	}
+	<div class="space-y-4 text-center">
+		<h1 class="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl xl:text-7xl max-w-4xl">
+			<span class="block">Something amazing is cooking</span>
+			<span class="mt-2 block bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+				Join our exclusive waitlist
+			</span>
+		</h1>
+		<p class="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed">
+			Be the first to experience our revolutionary new platform. Early access members will receive special benefits and pricing.
+		</p>
+	</div>
+}
+
+templ Hero010Waitlist() {
+	<div class="mx-auto w-full max-w-lg space-y-6">
+		@separator.Separator(separator.Props{Class: "my-6"}) {
+			<span class="text-sm font-medium">Enter your email below</span>
+		}
+		<div class="relative">
+			<div class="flex items-center overflow-hidden rounded-lg border shadow-sm focus-within:ring-1 focus-within:ring-primary">
+				@input.Input(input.Props{
+					Type:        "email",
+					Placeholder: "your@email.com",
+					Class:       "flex-1 border-0 bg-transparent shadow-none focus-visible:ring-0 focus-visible:ring-offset-0",
+				})
+				@button.Button(button.Props{Class: "rounded-l-none"}) {
+					Join Waitlist
+				}
+			</div>
+			<div class="mt-3 flex justify-between text-sm">
+				<div class="flex items-center text-muted-foreground">
+					@icon.Lock(icon.Props{Class: "mr-1 h-3 w-3"})
+					<span>We respect your privacy</span>
+				</div>
+				<div class="font-medium">
+					<span class="text-primary">723</span>
+					<span class="text-muted-foreground">people waiting</span>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ Hero010Features() {
+	<div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 max-w-4xl">
+		@Hero010FeatureCard("Early Access", "Get exclusive access to our platform before anyone else.", icon.Zap)
+		@Hero010FeatureCard("Exclusive Benefits", "Special pricing and premium features", icon.Gift)
+		@Hero010FeatureCard("Priority Support", "Get answers to your questions faster", icon.MessageSquare)
+	</div>
+}
+
+templ Hero010FeatureCard(title, desc string, iconFunc func(...icon.Props) templ.Component) {
+	@card.Card() {
+		@card.Content(card.ContentProps{Class: "p-4"}) {
+			<div class="flex justify-center gap-2">
+				@avatar.Avatar(avatar.Props{
+					Class: "h-8 w-8 bg-primary/10 flex-shrink-0",
+				}) {
+					@iconFunc(icon.Props{Size: 16})
+				}
+				<div class="flex flex-col">
+					<p class="font-medium">{ title }</p>
+					<p class="text-sm mt-2 text-muted-foreground">{ desc }</p>
+				</div>
+			</div>
+		}
+	}
+}
+
+templ Hero010Countdown() {
+	<div class="w-full max-w-lg flex flex-col items-center pt-6">
+		<p class="text-sm text-muted-foreground mb-2">Launching in:</p>
+		<div class="flex gap-4 justify-center">
+			for _, unit := range []struct {
+				Value string
+				Label string
+			}{
+				{Value: "10", Label: "Days"},
+				{Value: "08", Label: "Hours"},
+				{Value: "45", Label: "Minutes"},
+				{Value: "30", Label: "Seconds"},
+			} {
+				<div class="flex flex-col items-center">
+					<span class="text-3xl font-bold text-foreground tabular-nums">{ unit.Value }</span>
+					<span class="text-xs text-muted-foreground">{ unit.Label }</span>
+				</div>
+			}
+		</div>
+	</div>
+}

@@ -1,0 +1,297 @@
+package blog
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+	"github.com/templui/templui-pro/internal/ui/components/skeleton"
+)
+
+templ Blog009() {
+	<article class="min-h-svh">
+		<div class="mx-auto max-w-6xl px-6 py-12">
+			<div class="grid gap-12 lg:grid-cols-3">
+				<div class="lg:col-span-2">
+					@Blog009Header()
+					@Blog009Content()
+					@separator.Separator(separator.Props{
+						Class: "my-8",
+					})
+					@Blog009AuthorBio()
+				</div>
+				@Blog009Sidebar()
+			</div>
+		</div>
+	</article>
+}
+
+templ Blog009Header() {
+	<header class="mb-8">
+		<div class="flex flex-wrap gap-2 mb-4">
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantDefault,
+			}) {
+				Tutorial
+			}
+			<time class="text-sm text-muted-foreground">December 15, 2024</time>
+		</div>
+		<h1 class="text-4xl font-bold tracking-tight mb-4">
+			Modern Web Development with Go and Templ
+		</h1>
+		<p class="text-xl text-muted-foreground">
+			Explore the latest patterns and best practices for building modern Go web applications.
+		</p>
+	</header>
+}
+
+templ Blog009Content() {
+	<div class="prose prose-neutral max-w-none dark:prose-invert space-y-6">
+		// Lead paragraph
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-5 w-full mb-2 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-5 w-4/5 mb-6 animate-none",
+		})
+		// H2: Component Architecture
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-8 w-2/5 mb-4 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-4 w-full mb-2 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-4 w-5/6 mb-6 animate-none",
+		})
+		// H3: Custom Hooks
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-6 w-1/4 mb-3 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-4 w-4/5 mb-4 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-4 w-1/4 mb-2 animate-none font-semibold",
+		})
+		// List items
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-1/3 mb-2 ml-6 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-2/5 mb-2 ml-6 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-1/3 mb-6 ml-6 animate-none",
+		})
+		// H3: State Management
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-6 w-1/3 mb-3 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-4 w-3/4 mb-4 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-4 w-1/4 mb-2 animate-none font-semibold",
+		})
+		// List items
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-2/5 mb-2 ml-6 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-1/3 mb-2 ml-6 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-2/5 mb-8 ml-6 animate-none",
+		})
+		// H2: Performance Optimization
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-8 w-2/5 mb-4 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-4 w-5/6 mb-4 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-4 w-1/4 mb-2 animate-none font-semibold",
+		})
+		// List items
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-3/5 mb-2 ml-6 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-2/3 mb-2 ml-6 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-1/2 mb-6 ml-6 animate-none",
+		})
+		// H3: Code Splitting
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-6 w-1/4 mb-3 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-4 w-3/4 mb-4 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-4 w-1/5 mb-2 animate-none font-semibold",
+		})
+		// List items
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-1/3 mb-2 ml-6 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-2/5 mb-2 ml-6 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-1/3 mb-8 ml-6 animate-none",
+		})
+		// H2: Testing Strategies
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-8 w-1/3 mb-4 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-4 w-4/5 mb-4 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-4 w-1/4 mb-2 animate-none font-semibold",
+		})
+		// List items
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-3/5 mb-2 ml-6 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-2/3 mb-2 ml-6 animate-none",
+		})
+		@skeleton.Skeleton(skeleton.Props{
+			Class: "h-3 w-1/2 ml-6 animate-none",
+		})
+	</div>
+}
+
+templ Blog009AuthorBio() {
+	<div class="flex items-start gap-4">
+		@avatar.Avatar(avatar.Props{
+			Class: "h-16 w-16",
+		}) {
+			@avatar.Image(avatar.ImageProps{
+				Src: "/assets/img/avatar-gh-2.png",
+				Alt: "Sarah Johnson",
+			})
+			@avatar.Fallback() {
+				SJ
+			}
+		}
+		<div class="flex-1">
+			<h3 class="font-semibold">Sarah Johnson</h3>
+			<p class="text-sm text-muted-foreground mb-2">
+				Senior Go Developer with 8+ years of experience building scalable web applications.
+				Passionate about Go, Templ, and modern server-side rendering.
+			</p>
+			<div class="flex gap-2">
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+				}) {
+					@icon.Twitter(icon.Props{
+						Size: 16,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+				}) {
+					@icon.Github(icon.Props{
+						Size: 16,
+					})
+				}
+			</div>
+		</div>
+	</div>
+}
+
+templ Blog009Sidebar() {
+	<aside class="space-y-6">
+		@Blog009TableOfContents()
+		@Blog009RelatedArticles()
+		@Blog009Newsletter()
+	</aside>
+}
+
+templ Blog009TableOfContents() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title(card.TitleProps{
+				Class: "text-base",
+			}) {
+				Table of Contents
+			}
+		}
+		@card.Content() {
+			<nav class="space-y-2">
+				@Blog009TOCLink("#component-architecture", "Component Architecture", false)
+				@Blog009TOCLink("#custom-hooks", "Custom Hooks", true)
+				@Blog009TOCLink("#state-management", "State Management", true)
+				@Blog009TOCLink("#performance-optimization", "Performance Optimization", false)
+				@Blog009TOCLink("#code-splitting", "Code Splitting", true)
+				@Blog009TOCLink("#testing-strategies", "Testing Strategies", false)
+			</nav>
+		}
+	}
+}
+
+templ Blog009TOCLink(href, text string, isNested bool) {
+	<a href={ templ.SafeURL(href) } class={ "block text-sm hover:text-primary/80", templ.KV("pl-4", isNested) }>
+		{ text }
+	</a>
+}
+
+templ Blog009RelatedArticles() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title(card.TitleProps{
+				Class: "text-base",
+			}) {
+				Related Articles
+			}
+		}
+		@card.Content(card.ContentProps{
+			Class: "space-y-4",
+		}) {
+			@Blog009RelatedArticleLink("Advanced Go Patterns", "5 min read")
+			@Blog009RelatedArticleLink("Type-Safe Templates with Templ", "8 min read")
+			@Blog009RelatedArticleLink("Server-Side Rendering with Go", "12 min read")
+		}
+	}
+}
+
+templ Blog009RelatedArticleLink(title, readTime string) {
+	<div>
+		<h4 class="font-medium text-sm hover:text-primary/80 cursor-pointer">
+			{ title }
+		</h4>
+		<p class="text-xs text-muted-foreground">{ readTime }</p>
+	</div>
+}
+
+templ Blog009Newsletter() {
+	@card.Card(card.Props{
+		Class: "bg-muted/50",
+	}) {
+		@card.Header() {
+			@card.Title(card.TitleProps{
+				Class: "text-base",
+			}) {
+				Stay Updated
+			}
+			@card.Description() {
+				Get the latest articles delivered to your inbox.
+			}
+		}
+		@card.Content() {
+			@button.Button(button.Props{
+				Class: "w-full",
+			}) {
+				Subscribe
+			}
+		}
+	}
+}

@@ -1,0 +1,141 @@
+package ecommerce
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/aspectratio"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+// Shop002 - Category Grid
+templ Shop002() {
+	<div class="min-h-screen p-6 md:p-10">
+		<div class="max-w-7xl mx-auto">
+			@Shop002Header()
+			@Shop002CategoryGrid()
+		</div>
+	</div>
+}
+
+templ Shop002Header() {
+	<div class="text-center mb-12">
+		<h1 class="text-3xl font-bold mb-4">Shop by Category</h1>
+		<p class="text-lg text-muted-foreground">
+			Find exactly what you're looking for
+		</p>
+	</div>
+}
+
+templ Shop002CategoryGrid() {
+	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+		@Shop002CategoryCard(
+			"Electronics",
+			"1,234 products",
+			"/assets/img/placeholder.svg",
+			icon.Smartphone,
+		)
+		@Shop002CategoryCard(
+			"Fashion",
+			"856 products",
+			"/assets/img/placeholder.svg",
+			icon.Shirt,
+		)
+		@Shop002CategoryCard(
+			"Home & Garden",
+			"643 products",
+			"/assets/img/placeholder.svg",
+			icon.House,
+		)
+		@Shop002CategoryCard(
+			"Sports & Outdoors",
+			"412 products",
+			"/assets/img/placeholder.svg",
+			icon.Dumbbell,
+		)
+		@Shop002CategoryCard(
+			"Books & Media",
+			"789 products",
+			"/assets/img/placeholder.svg",
+			icon.Book,
+		)
+		@Shop002CategoryCard(
+			"Toys & Games",
+			"321 products",
+			"/assets/img/placeholder.svg",
+			icon.Gamepad2,
+		)
+		@Shop002CategoryCard(
+			"Health & Beauty",
+			"567 products",
+			"/assets/img/placeholder.svg",
+			icon.Heart,
+		)
+		@Shop002CategoryCard(
+			"Automotive",
+			"234 products",
+			"/assets/img/placeholder.svg",
+			icon.Car,
+		)
+	</div>
+}
+
+templ Shop002CategoryCard(title string, count string, imageUrl string, iconFunc func(...icon.Props) templ.Component) {
+	<a href="#" class="group">
+		@card.Card(card.Props{
+			Class: "overflow-hidden hover:shadow-lg transition-all duration-200",
+		}) {
+			@aspectratio.AspectRatio(aspectratio.Props{
+				Ratio: aspectratio.RatioVideo,
+			}) {
+				<div class="relative w-full h-full">
+					<img
+						src={ imageUrl }
+						alt={ title }
+						class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+					/>
+					<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+				</div>
+			}
+			@card.Content() {
+				<div class="flex items-start justify-between">
+					<div>
+						<h3 class="font-semibold text-lg group-hover:text-primary transition-colors">
+							{ title }
+						</h3>
+						<p class="text-sm text-muted-foreground">{ count }</p>
+					</div>
+					<div class="text-muted-foreground">
+						@iconFunc(icon.Props{Size: 20})
+					</div>
+				</div>
+			}
+		}
+	</a>
+}
+
+// Alternative minimalist category design
+templ Shop002MinimalCategories() {
+	<div class="min-h-screen p-6 md:p-10">
+		<div class="max-w-5xl mx-auto">
+			<h2 class="text-2xl font-bold mb-8">Browse Categories</h2>
+			<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+				@Shop002MinimalCard("Electronics", icon.Smartphone)
+				@Shop002MinimalCard("Fashion", icon.Shirt)
+				@Shop002MinimalCard("Home", icon.House)
+				@Shop002MinimalCard("Sports", icon.Dumbbell)
+				@Shop002MinimalCard("Books", icon.Book)
+				@Shop002MinimalCard("Toys", icon.Gamepad2)
+			</div>
+		</div>
+	</div>
+}
+
+templ Shop002MinimalCard(title string, iconFunc func(...icon.Props) templ.Component) {
+	<a href="#" class="group">
+		<div class="p-4 sm:p-6 border rounded-lg hover:border-primary hover:bg-muted/50 transition-all duration-200 text-center">
+			<div class="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 text-muted-foreground group-hover:text-primary transition-colors flex items-center justify-center">
+				@iconFunc(icon.Props{Size: 32, Class: "w-8 h-8 sm:w-10 sm:h-10"})
+			</div>
+			<h3 class="font-medium">{ title }</h3>
+		</div>
+	</a>
+}

@@ -1,0 +1,133 @@
+package footer
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Footer001() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<footer class="bg-background border-t w-full max-w-7xl">
+			<div class="px-4 py-12 sm:px-6 lg:px-8">
+				@Footer001Main()
+				@separator.Separator(separator.Props{Class: "my-8"})
+				@Footer001Bottom()
+			</div>
+		</footer>
+	</section>
+}
+
+templ Footer001Main() {
+	<div class="grid grid-cols-1 gap-8 lg:grid-cols-5">
+		@Footer001Brand()
+		@Footer001Products()
+		@Footer001Company()
+		@Footer001Resources()
+		@Footer001Newsletter()
+	</div>
+}
+
+templ Footer001Brand() {
+	<div class="lg:col-span-2">
+		<div class="flex items-center gap-2 mb-4">
+			@icon.Layers(icon.Props{Class: "text-primary"})
+			<span class="text-xl font-bold">Acme Inc</span>
+		</div>
+		<p class="text-sm text-muted-foreground mb-6 max-w-md">
+			Beautiful UI components and blocks built with Tailwind CSS. 
+			Perfect for modern web applications and websites.
+		</p>
+		@Footer001Social()
+	</div>
+}
+
+templ Footer001Social() {
+	<div class="flex items-center gap-4">
+		<a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+			@icon.Github(icon.Props{
+				Class: "size-5",
+			})
+		</a>
+		<a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+			@icon.Twitter(icon.Props{
+				Class: "size-5",
+			})
+		</a>
+	</div>
+}
+
+templ Footer001Products() {
+	<div>
+		<h3 class="text-sm font-semibold mb-4">Products</h3>
+		<div class="flex flex-col gap-2">
+			@Footer001Link("Components", "#")
+			@Footer001Link("Blocks", "#")
+			@Footer001Link("Templates", "#")
+			@Footer001Link("Icons", "#")
+		</div>
+	</div>
+}
+
+templ Footer001Company() {
+	<div>
+		<h3 class="text-sm font-semibold mb-4">Company</h3>
+		<div class="flex flex-col gap-2">
+			@Footer001Link("About", "#")
+			@Footer001Link("Blog", "#")
+			@Footer001Link("Careers", "#")
+			@Footer001Link("Contact", "#")
+		</div>
+	</div>
+}
+
+templ Footer001Resources() {
+	<div>
+		<h3 class="text-sm font-semibold mb-4">Resources</h3>
+		<div class="flex flex-col gap-2">
+			@Footer001Link("Documentation", "#")
+			@Footer001Link("Help Center", "#")
+			@Footer001Link("Community", "#")
+			@Footer001Link("Status", "#")
+		</div>
+	</div>
+}
+
+templ Footer001Newsletter() {
+	<div class="lg:col-span-2">
+		<h3 class="text-sm font-semibold mb-4">Stay updated</h3>
+		<p class="text-sm text-muted-foreground mb-4">
+			Get the latest updates and news delivered to your inbox.
+		</p>
+		<div class="flex gap-2">
+			@input.Input(input.Props{
+				Type:        "email",
+				Placeholder: "Enter your email",
+				Class:       "flex-1",
+			})
+			@button.Button() {
+				Subscribe
+			}
+		</div>
+	</div>
+}
+
+templ Footer001Bottom() {
+	<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+		<p class="text-sm text-muted-foreground">
+			© 2024 Acme Inc. All rights reserved.
+		</p>
+		<div class="flex flex-col gap-2">
+			@Footer001Link("Privacy Policy", "#")
+			@Footer001Link("Terms of Service", "#")
+			@Footer001Link("Cookie Policy", "#")
+		</div>
+	</div>
+}
+
+templ Footer001Link(text, href string) {
+	<a href={ templ.URL(href) } class="text-sm text-muted-foreground hover:text-primary transition-colors">
+		{ text }
+	</a>
+}

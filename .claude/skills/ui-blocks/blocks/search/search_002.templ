@@ -1,0 +1,81 @@
+package search
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/selectbox"
+)
+
+templ Search002() {
+	<section class="w-full max-w-4xl mx-auto p-6">
+		@Search002SearchForm()
+	</section>
+}
+
+templ Search002SearchForm() {
+	<div class="space-y-4">
+		<div class="flex flex-col md:flex-row gap-2">
+			<div class="flex-1">
+				@input.Input(input.Props{
+					Type:        input.TypeSearch,
+					Name:        "q",
+					Placeholder: "What are you looking for?",
+				})
+			</div>
+			<div class="w-full md:w-48">
+				@selectbox.SelectBox() {
+					@selectbox.Trigger(selectbox.TriggerProps{
+						Name: "category",
+					}) {
+						@selectbox.Value(selectbox.ValueProps{
+							Placeholder: "All Categories",
+						})
+					}
+					@selectbox.Content() {
+						@selectbox.Item(selectbox.ItemProps{Value: ""}) {
+							All Categories
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "products"}) {
+							Products
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "articles"}) {
+							Articles
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "help"}) {
+							Help & Support
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "news"}) {
+							News
+						}
+					}
+				}
+			</div>
+			@button.Button() {
+				<span class="flex items-center gap-2">
+					@icon.Search()
+					<span class="hidden md:inline">Search</span>
+				</span>
+			}
+		</div>
+		@Search002PopularSearches()
+	</div>
+}
+
+templ Search002PopularSearches() {
+	<div class="flex flex-wrap gap-2 pt-2">
+		<span class="text-sm text-muted-foreground">Popular:</span>
+		<button name="q" value="documentation" class="text-sm text-primary hover:underline">
+			documentation
+		</button>
+		<button name="q" value="components" class="text-sm text-primary hover:underline">
+			components
+		</button>
+		<button name="q" value="pricing" class="text-sm text-primary hover:underline">
+			pricing
+		</button>
+		<button name="q" value="api" class="text-sm text-primary hover:underline">
+			api
+		</button>
+	</div>
+}

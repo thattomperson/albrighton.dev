@@ -1,0 +1,161 @@
+package calendar
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/datepicker"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/selectbox"
+)
+
+// Calendar004 - Date Range Selection
+// A form with start and end date pickers for selecting date ranges
+templ Calendar004() {
+	<div class="flex items-center justify-center min-h-svh w-full">
+		<div class="w-full max-w-lg">
+			@card.Card(card.Props{
+				Class: "p-6",
+			}) {
+				@card.Header(card.HeaderProps{
+					Class: "pb-6",
+				}) {
+					<h3 class="text-lg font-semibold">Select Date Range</h3>
+					<p class="text-sm text-muted-foreground">Choose your check-in and check-out dates</p>
+				}
+				@card.Content(card.ContentProps{
+					Class: "pt-0",
+				}) {
+					@Calendar004DateRangeForm()
+				}
+			}
+		</div>
+	</div>
+}
+
+templ Calendar004DateRangeForm() {
+	<form class="space-y-6">
+		// Date range selection row
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+			// Start date
+			<div class="space-y-2">
+				@label.Label(label.Props{
+					For: "start-date",
+				}) {
+					Check-in Date
+				}
+				@datepicker.DatePicker(datepicker.Props{
+					ID:          "start-date",
+					Name:        "start_date",
+					Placeholder: "Select start date",
+				})
+			</div>
+			// End date
+			<div class="space-y-2">
+				@label.Label(label.Props{
+					For: "end-date",
+				}) {
+					Check-out Date
+				}
+				@datepicker.DatePicker(datepicker.Props{
+					ID:          "end-date",
+					Name:        "end_date",
+					Placeholder: "Select end date",
+				})
+			</div>
+		</div>
+		// Duration display
+		<div class="rounded-lg bg-muted/50 p-4">
+			<div class="flex items-center justify-between">
+				<div class="flex items-center gap-2">
+					@icon.Calendar(icon.Props{Size: 16, Class: "text-muted-foreground"})
+					<span class="text-sm font-medium">Duration</span>
+				</div>
+				<span class="text-sm text-muted-foreground" id="duration-display">
+					Select dates to see duration
+				</span>
+			</div>
+		</div>
+		// Guest selection
+		<div class="space-y-4">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				// Adults
+				<div class="space-y-2">
+					@label.Label(label.Props{
+						For: "adults",
+					}) {
+						Adults
+					}
+					@selectbox.SelectBox() {
+						@selectbox.Trigger(selectbox.TriggerProps{
+							Name: "adults",
+							ID:   "adults",
+						}) {
+							@selectbox.Value(selectbox.ValueProps{
+								Placeholder: "2 Adults",
+							})
+						}
+						@selectbox.Content() {
+							@selectbox.Group() {
+								@selectbox.Item(selectbox.ItemProps{Value: "1"}) {
+									1 Adult
+								}
+								@selectbox.Item(selectbox.ItemProps{Value: "2", Selected: true}) {
+									2 Adults
+								}
+								@selectbox.Item(selectbox.ItemProps{Value: "3"}) {
+									3 Adults
+								}
+								@selectbox.Item(selectbox.ItemProps{Value: "4"}) {
+									4 Adults
+								}
+							}
+						}
+					}
+				</div>
+				// Children
+				<div class="space-y-2">
+					@label.Label(label.Props{
+						For: "children",
+					}) {
+						Children
+					}
+					@selectbox.SelectBox() {
+						@selectbox.Trigger(selectbox.TriggerProps{
+							Name: "children",
+							ID:   "children",
+						}) {
+							@selectbox.Value(selectbox.ValueProps{
+								Placeholder: "No Children",
+							})
+						}
+						@selectbox.Content() {
+							@selectbox.Group() {
+								@selectbox.Item(selectbox.ItemProps{Value: "0", Selected: true}) {
+									No Children
+								}
+								@selectbox.Item(selectbox.ItemProps{Value: "1"}) {
+									1 Child
+								}
+								@selectbox.Item(selectbox.ItemProps{Value: "2"}) {
+									2 Children
+								}
+								@selectbox.Item(selectbox.ItemProps{Value: "3"}) {
+									3 Children
+								}
+							}
+						}
+					}
+				</div>
+			</div>
+		</div>
+		// Search button
+		<div class="pt-4">
+			@button.Button(button.Props{
+				Class: "w-full",
+			}) {
+				Search Availability
+			}
+		</div>
+	</form>
+}

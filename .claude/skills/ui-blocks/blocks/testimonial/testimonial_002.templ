@@ -1,0 +1,110 @@
+package testimonial
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Testimonial002() {
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="py-16 lg:py-24 max-w-6xl w-full">
+			@Testimonial002Header()
+			@Testimonial002HeroTestimonial()
+			@Testimonial002SideTestimonials()
+		</div>
+	</div>
+}
+
+templ Testimonial002Header() {
+	<div class="text-center mb-12">
+		@badge.Badge(badge.Props{
+			Class: "mb-4",
+		}) {
+			@icon.Heart(icon.Props{Size: 14})
+			Customer Love
+		}
+		<h2 class="text-4xl font-bold mb-4">
+			What our customers say
+		</h2>
+		<p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+			Join thousands of satisfied customers who trust our platform
+		</p>
+	</div>
+}
+
+templ Testimonial002HeroTestimonial() {
+	<div class="mb-16">
+		@card.Card(card.Props{
+			Class: "bg-card/80 backdrop-blur-sm border-2 border-primary/20",
+		}) {
+			@card.Content(card.ContentProps{
+				Class: "p-12 text-center",
+			}) {
+				<div class="mb-8">
+					@icon.Quote(icon.Props{Size: 48, Class: "mx-auto mb-6"})
+					<blockquote class="text-2xl font-medium leading-relaxed mb-8">
+						"This platform has completely transformed how we build and deploy applications. The developer experience is unmatched, and our team productivity has increased by 300%."
+					</blockquote>
+				</div>
+				<div class="flex items-center justify-center gap-4">
+					@avatar.Avatar(avatar.Props{
+						Class: "h-16 w-16",
+					}) {
+						@avatar.Image(avatar.ImageProps{
+							Src: "/assets/img/avatar-gh-1.png",
+						})
+					}
+					<div class="text-left">
+						<div class="font-semibold text-lg">Alex Chen</div>
+						<div class="text-muted-foreground">CTO, TechFlow Inc.</div>
+						<div class="flex items-center gap-1 mt-1">
+							for i := 0; i < 5; i++ {
+								@icon.Star(icon.Props{Size: 16, Class: "text-yellow-500 fill-yellow-500"})
+							}
+						</div>
+					</div>
+				</div>
+			}
+		}
+	</div>
+}
+
+templ Testimonial002SideTestimonials() {
+	<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+		@Testimonial002SmallCard("Game changer for our startup!", "Emma Wilson", "Founder, StartupLab", "/assets/img/avatar-gh-2.png")
+		@Testimonial002SmallCard("Best investment we've made this year.", "Michael Brown", "Lead Dev, CodeBase", "/assets/img/avatar-gh-3.png")
+		@Testimonial002SmallCard("Incredible support and documentation.", "Sarah Davis", "PM, WebCorp", "/assets/img/avatar-gh-5.png")
+	</div>
+}
+
+templ Testimonial002SmallCard(quote, name, title, avatarSrc string) {
+	@card.Card() {
+		@card.Content(card.ContentProps{
+			Class: "p-6",
+		}) {
+			<div class="flex items-center gap-1 mb-4">
+				for i := 0; i < 5; i++ {
+					@icon.Star(icon.Props{Size: 14, Class: "text-yellow-500 fill-yellow-500"})
+				}
+			</div>
+			<p class="text-sm text-muted-foreground mb-4 italic">
+				"{ quote }"
+			</p>
+			<div class="flex items-center gap-3">
+				@avatar.Avatar(avatar.Props{
+					Class: "h-8 w-8",
+				}) {
+					@avatar.Image(avatar.ImageProps{
+						Src: avatarSrc,
+					})
+				}
+				<div>
+					<div class="font-medium text-sm">{ name }</div>
+					<div class="text-xs text-muted-foreground">{ title }</div>
+				</div>
+			</div>
+		}
+	}
+}

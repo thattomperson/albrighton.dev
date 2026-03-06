@@ -1,0 +1,142 @@
+package sidebar
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/calendar"
+	"github.com/templui/templui-pro/internal/ui/components/checkbox"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/sidebar"
+	"github.com/templui/templui-pro/internal/utils"
+)
+
+templ Sidebar005() {
+	@sidebar.Layout() {
+		@sidebar.Sidebar(sidebar.Props{
+			Variant: sidebar.VariantInset,
+		}) {
+			@sidebar.Header() {
+				@sidebar.Menu() {
+					@sidebar.MenuItem() {
+						@sidebar.MenuButton(sidebar.MenuButtonProps{
+							Size: sidebar.MenuButtonSizeLg,
+							Href: "#",
+						}) {
+							<div class="flex items-center gap-2 w-full">
+								<div class="size-8 bg-gradient-to-br from-violet-500 to-pink-500 rounded-full flex items-center justify-center">
+									@icon.User(icon.Props{Class: "size-4 text-white"})
+								</div>
+								<div class="flex-1">
+									<span class="font-semibold block">Personal Hub</span>
+									<span class="text-xs text-muted-foreground">Organize your day</span>
+								</div>
+							</div>
+						}
+					}
+				}
+			}
+			@sidebar.Content() {
+				@sidebar.Group() {
+					@sidebar.GroupLabel() {
+						Calendar
+					}
+					@calendar.Calendar(calendar.Props{
+						Class: "w-full bg-muted/50 rounded-lg p-2",
+					})
+				}
+				@sidebar.Separator()
+				@Sidebar005CategorySection("Personal", []Sidebar005Task{
+					{Label: "Morning routine", Completed: true},
+					{Label: "Read for 30 minutes", Completed: false},
+					{Label: "Exercise", Completed: true},
+					{Label: "Plan weekend trip", Completed: false},
+				})
+				@sidebar.Separator()
+				@Sidebar005CategorySection("Work", []Sidebar005Task{
+					{Label: "Team standup meeting", Completed: true},
+					{Label: "Review pull requests", Completed: false},
+					{Label: "Prepare presentation", Completed: false},
+					{Label: "Update project docs", Completed: true},
+				})
+				@sidebar.Separator()
+				@Sidebar005CategorySection("Family", []Sidebar005Task{
+					{Label: "Call parents", Completed: false},
+					{Label: "Plan dinner with friends", Completed: false},
+					{Label: "Kids soccer practice", Completed: true},
+					{Label: "Grocery shopping", Completed: false},
+				})
+			}
+			@sidebar.Footer() {
+				<div class="text-center">
+					<p class="text-xs text-muted-foreground">Stay organized, stay focused</p>
+					<div class="flex items-center justify-center space-x-1 mt-2">
+						<div class="w-2 h-2 bg-primary rounded-full"></div>
+						<span class="text-xs text-muted-foreground">All synced</span>
+					</div>
+				</div>
+			}
+		}
+		@sidebar.Inset() {
+			<div class="flex h-full flex-col">
+				<div class="flex h-14 items-center gap-4 px-6">
+					@sidebar.Trigger()
+					<span class="text-sm text-muted-foreground">Personal Hub</span>
+				</div>
+				<div class="flex-1 overflow-y-auto p-6">
+					<!-- Content goes here -->
+				</div>
+			</div>
+		}
+	}
+}
+
+type Sidebar005Task struct {
+	Label     string
+	Completed bool
+}
+
+templ Sidebar005CategorySection(title string, tasks []Sidebar005Task) {
+	@sidebar.Group() {
+		<div class="flex items-center space-x-2 mb-2">
+			@Sidebar005CategoryIcon(title)
+			<h4 class="text-sm font-medium text-foreground">{ title }</h4>
+		</div>
+		<div class="space-y-2 ml-6">
+			for _, task := range tasks {
+				@Sidebar005TaskItem(task)
+			}
+		</div>
+	}
+}
+
+templ Sidebar005TaskItem(task Sidebar005Task) {
+	<div class="flex items-center space-x-3 group">
+		@checkbox.Checkbox(checkbox.Props{
+			ID:      task.Label,
+			Checked: task.Completed,
+			Class:   "data-[state=checked]:bg-primary data-[state=checked]:border-primary",
+		})
+		@label.Label(label.Props{
+			For: task.Label,
+			Class: utils.TwMerge(
+				"text-sm transition-colors",
+				utils.If(task.Completed, "text-muted-foreground line-through"),
+				utils.If(!task.Completed, "text-foreground group-hover:text-primary"),
+			),
+		}) {
+			{ task.Label }
+		}
+	</div>
+}
+
+templ Sidebar005CategoryIcon(category string) {
+	<div class="h-4 w-4 text-muted-foreground">
+		switch category {
+			case "Personal":
+				@icon.User(icon.Props{Size: 16})
+			case "Work":
+				@icon.Briefcase(icon.Props{Size: 16})
+			case "Family":
+				@icon.Heart(icon.Props{Size: 16})
+		}
+	</div>
+}

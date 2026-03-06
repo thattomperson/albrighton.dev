@@ -1,0 +1,43 @@
+package cookie
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Cookie001() {
+	<div class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+		@card.Card(card.Props{
+			Class: "max-w-md mx-auto",
+		}) {
+			@card.Content(card.ContentProps{
+				Class: "p-6",
+			}) {
+				<div class="flex items-start space-x-4">
+					<div class="flex-shrink-0 text-primary">
+						@icon.Cookie(icon.Props{Size: 24})
+					</div>
+					<div class="flex-1 space-y-4">
+						<div>
+							<h3 class="text-lg font-semibold">We use <span class="text-primary">cookies</span></h3>
+							<p class="text-sm text-muted-foreground mt-2">
+								We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic.
+							</p>
+						</div>
+						<div class="flex space-x-3">
+							@button.Button() {
+								Accept All
+							}
+							@button.Button(button.Props{
+								Variant: button.VariantOutline,
+							}) {
+								Decline
+							}
+						</div>
+					</div>
+				</div>
+			}
+		}
+	</div>
+}

@@ -1,0 +1,271 @@
+package account
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/table"
+)
+
+templ BillingSubscription001() {
+	<div class="container mx-auto px-4 py-8">
+		<div class="max-w-6xl mx-auto">
+			@BillingSubscription001Header()
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+				@BillingSubscription001CurrentPlanCard()
+				@BillingSubscription001UsageCard()
+				@BillingSubscription001NextBillingCard()
+			</div>
+			<div class="space-y-6">
+				@BillingSubscription001PaymentMethods()
+				@BillingSubscription001BillingHistory()
+			</div>
+		</div>
+	</div>
+}
+
+templ BillingSubscription001Header() {
+	<div class="mb-8">
+		<h2 class="text-3xl font-bold text-foreground mb-2">Billing & Subscription</h2>
+		<p class="text-muted-foreground">Manage your subscription, payment methods, and billing information</p>
+	</div>
+}
+
+templ BillingSubscription001CurrentPlanCard() {
+	@card.Card() {
+		@card.Content(card.ContentProps{Class: "p-6"}) {
+			<div class="flex items-start justify-between mb-4">
+				<div>
+					<p class="text-sm text-muted-foreground">Current Plan</p>
+					<h3 class="text-2xl font-bold">Professional</h3>
+				</div>
+				@badge.Badge(badge.Props{Variant: badge.VariantSecondary}) {
+					Active
+				}
+			</div>
+			<div class="space-y-2 mb-4">
+				<div class="flex items-center gap-2 text-sm">
+					@icon.Check(icon.Props{Size: 16, Class: "text-muted-foreground"})
+					<span>Unlimited projects</span>
+				</div>
+				<div class="flex items-center gap-2 text-sm">
+					@icon.Check(icon.Props{Size: 16, Class: "text-muted-foreground"})
+					<span>Priority support</span>
+				</div>
+				<div class="flex items-center gap-2 text-sm">
+					@icon.Check(icon.Props{Size: 16, Class: "text-muted-foreground"})
+					<span>Advanced analytics</span>
+				</div>
+			</div>
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "w-full",
+			}) {
+				Change Plan
+			}
+		}
+	}
+}
+
+templ BillingSubscription001UsageCard() {
+	@card.Card() {
+		@card.Content(card.ContentProps{Class: "p-6"}) {
+			<p class="text-sm text-muted-foreground mb-2">Monthly Usage</p>
+			<h3 class="text-2xl font-bold mb-4">$89 / $99</h3>
+			<div class="space-y-3">
+				<div>
+					<div class="flex justify-between text-sm mb-1 gap-2">
+						<span>API Calls</span>
+						<span class="text-right">850K / 1M</span>
+					</div>
+					<div class="w-full bg-muted rounded-full h-2">
+						<div class="bg-muted-foreground h-2 rounded-full" style="width: 85%"></div>
+					</div>
+				</div>
+				<div>
+					<div class="flex justify-between text-sm mb-1 gap-2">
+						<span>Storage</span>
+						<span class="text-right">45 GB / 100 GB</span>
+					</div>
+					<div class="w-full bg-muted rounded-full h-2">
+						<div class="bg-muted-foreground h-2 rounded-full" style="width: 45%"></div>
+					</div>
+				</div>
+			</div>
+		}
+	}
+}
+
+templ BillingSubscription001NextBillingCard() {
+	@card.Card() {
+		@card.Content(card.ContentProps{Class: "p-6"}) {
+			<p class="text-sm text-muted-foreground mb-2">Next Billing Date</p>
+			<h3 class="text-2xl font-bold mb-4">Jan 15, 2024</h3>
+			<div class="space-y-2 text-sm">
+				<div class="flex justify-between">
+					<span class="text-muted-foreground">Subscription</span>
+					<span>$99.00</span>
+				</div>
+				<div class="flex justify-between">
+					<span class="text-muted-foreground">Add-ons</span>
+					<span>$0.00</span>
+				</div>
+				<div class="flex justify-between pt-2 border-t font-medium">
+					<span>Total</span>
+					<span>$99.00</span>
+				</div>
+			</div>
+		}
+	}
+}
+
+templ BillingSubscription001PaymentMethods() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Payment Methods
+			}
+			@card.Description() {
+				Add or remove payment methods for your subscription
+			}
+		}
+		@card.Content() {
+			<div class="space-y-4">
+				@BillingSubscription001PaymentMethodItem(
+					"•••• 4242",
+					"Visa",
+					"12/2025",
+					true,
+				)
+				@BillingSubscription001PaymentMethodItem(
+					"•••• 5555",
+					"Mastercard",
+					"09/2024",
+					false,
+				)
+			</div>
+		}
+		@card.Footer() {
+			@button.Button() {
+				@icon.Plus(icon.Props{Size: 16})
+				<span class="ml-2">Add Payment Method</span>
+			}
+		}
+	}
+}
+
+templ BillingSubscription001PaymentMethodItem(last4, brand, expiry string, isDefault bool) {
+	<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg gap-3">
+		<div class="flex items-center gap-3">
+			<div class="p-2 bg-muted rounded flex-shrink-0">
+				@icon.CreditCard(icon.Props{Size: 20})
+			</div>
+			<div class="min-w-0">
+				<div class="flex flex-wrap items-center gap-2">
+					<p class="font-medium">{ brand } { last4 }</p>
+					if isDefault {
+						@badge.Badge(badge.Props{Variant: badge.VariantSecondary}) {
+							Default
+						}
+					}
+				</div>
+				<p class="text-sm text-muted-foreground">Expires { expiry }</p>
+			</div>
+		</div>
+		<div class="flex flex-wrap items-center gap-2">
+			if !isDefault {
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+				}) {
+					Make Default
+				}
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+			}) {
+				Remove
+			}
+		</div>
+	</div>
+}
+
+templ BillingSubscription001BillingHistory() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Billing History
+			}
+			@card.Description() {
+				Download invoices and view past payments
+			}
+		}
+		@card.Content(card.ContentProps{Class: "p-0"}) {
+			<div class="overflow-x-auto">
+				@table.Table() {
+					@table.Header() {
+						@table.Row() {
+							@table.Head() {
+								Invoice 
+							}
+							@table.Head() {
+								Date 
+							}
+							@table.Head() {
+								Amount 
+							}
+							@table.Head() {
+								Status 
+							}
+							@table.Head(table.HeadProps{Class: "text-right"}) {
+								Actions 
+							}
+						}
+					}
+					@table.Body() {
+						@BillingSubscription001InvoiceRow("INV-2024-001", "Jan 1, 2024", "$99.00", "Paid")
+						@BillingSubscription001InvoiceRow("INV-2023-012", "Dec 1, 2023", "$99.00", "Paid")
+						@BillingSubscription001InvoiceRow("INV-2023-011", "Nov 1, 2023", "$99.00", "Paid")
+						@BillingSubscription001InvoiceRow("INV-2023-010", "Oct 1, 2023", "$99.00", "Paid")
+						@BillingSubscription001InvoiceRow("INV-2023-009", "Sep 1, 2023", "$99.00", "Paid")
+					}
+				}
+			</div>
+		}
+		@card.Footer() {
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+			}) {
+				View All Invoices
+			}
+		}
+	}
+}
+
+templ BillingSubscription001InvoiceRow(invoice, date, amount, status string) {
+	@table.Row() {
+		@table.Cell() {
+			<span class="font-medium">{ invoice }</span>
+		}
+		@table.Cell() {
+			{ date }
+		}
+		@table.Cell() {
+			{ amount }
+		}
+		@table.Cell() {
+			@badge.Badge(badge.Props{Variant: badge.VariantSecondary}) {
+				{ status }
+			}
+		}
+		@table.Cell(table.CellProps{Class: "text-right"}) {
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Class:   "text-xs sm:text-sm",
+			}) {
+				@icon.Download(icon.Props{Size: 14})
+				<span class="ml-1 hidden sm:inline">Download</span>
+			}
+		}
+	}
+}

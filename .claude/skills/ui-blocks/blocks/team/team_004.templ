@@ -1,0 +1,145 @@
+package team
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Team004() {
+	<section class="py-24 bg-gradient-to-b from-muted/50 to-background">
+		<div class="container mx-auto px-4">
+			@Team004Header()
+			@Team004DepartmentCards()
+		</div>
+	</section>
+}
+
+templ Team004Header() {
+	<div class="text-center mb-16">
+		<h2 class="text-4xl md:text-5xl font-bold mb-6">
+			Departments & Teams
+		</h2>
+		<p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+			Our cross-functional teams work together seamlessly to deliver exceptional results. Each department brings specialized expertise while maintaining strong collaboration.
+		</p>
+	</div>
+}
+
+templ Team004DepartmentCards() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+		@Team004DepartmentCard(
+			"Engineering",
+			"Building robust and scalable solutions",
+			"12",
+			[]Team004_Member{
+				{"/assets/img/avatar-gh-2.png", "Michael Chen", "CTO"},
+				{"/assets/img/avatar-gh-4.png", "David Kim", "Lead Developer"},
+				{"/assets/img/avatar-gh-1.png", "Sarah Wilson", "Backend Engineer"},
+			},
+		)
+		@Team004DepartmentCard(
+			"Design",
+			"Creating beautiful and intuitive experiences",
+			"8",
+			[]Team004_Member{
+				{"/assets/img/avatar-gh-3.png", "Emily Rodriguez", "Head of Design"},
+				{"/assets/img/avatar-gh-5.png", "Jessica Park", "UX Designer"},
+				{"/assets/img/avatar-gh-7.png", "Maria Garcia", "UI Designer"},
+			},
+		)
+		@Team004DepartmentCard(
+			"Product",
+			"Driving product strategy and innovation",
+			"6",
+			[]Team004_Member{
+				{"/assets/img/avatar-gh-6.png", "Alex Thompson", "Product Director"},
+				{"/assets/img/avatar-gh-1.png", "Anna Lee", "Product Manager"},
+				{"/assets/img/avatar-gh-2.png", "James Wilson", "Product Analyst"},
+			},
+		)
+		@Team004DepartmentCard(
+			"Marketing",
+			"Growing our brand and community",
+			"5",
+			[]Team004_Member{
+				{"/assets/img/avatar-gh-4.png", "Mark Johnson", "Marketing Director"},
+				{"/assets/img/avatar-gh-6.png", "Lisa Chen", "Content Manager"},
+				{"/assets/img/avatar-gh-3.png", "Tom Rodriguez", "Social Media"},
+			},
+		)
+		@Team004DepartmentCard(
+			"Sales",
+			"Building relationships and driving growth",
+			"7",
+			[]Team004_Member{
+				{"/assets/img/avatar-gh-5.png", "Jennifer Park", "Sales Director"},
+				{"/assets/img/avatar-gh-7.png", "Robert Kim", "Account Executive"},
+				{"/assets/img/avatar-gh-1.png", "Susan Davis", "Sales Development"},
+			},
+		)
+		@Team004DepartmentCard(
+			"Operations",
+			"Ensuring seamless business operations",
+			"4",
+			[]Team004_Member{
+				{"/assets/img/avatar-gh-2.png", "Kevin Lee", "Operations Director"},
+				{"/assets/img/avatar-gh-4.png", "Nancy Wilson", "HR Manager"},
+				{"/assets/img/avatar-gh-6.png", "Paul Thompson", "Finance Manager"},
+			},
+		)
+	</div>
+}
+
+type Team004_Member struct {
+	Avatar string
+	Name   string
+	Role   string
+}
+
+templ Team004DepartmentCard(department, description, memberCount string, members []Team004_Member) {
+	@card.Card(card.Props{
+		Class: "hover:shadow-lg transition-shadow",
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "p-6",
+		}) {
+			<div class="mb-4">
+				@badge.Badge() {
+					{ memberCount } members
+				}
+			</div>
+			<h3 class="text-2xl font-bold mb-2">{ department }</h3>
+			<p class="text-muted-foreground mb-6">{ description }</p>
+			<div class="space-y-3 mb-6">
+				for _, member := range members {
+					<div class="flex items-center gap-3">
+						@avatar.Avatar(avatar.Props{
+							Class: "w-8 h-8",
+						}) {
+							@avatar.Image(avatar.ImageProps{
+								Src: member.Avatar,
+								Alt: member.Name,
+							})
+						}
+						<div>
+							<p class="font-medium text-sm">{ member.Name }</p>
+							<p class="text-xs text-muted-foreground">{ member.Role }</p>
+						</div>
+					</div>
+				}
+			</div>
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "w-full",
+			}) {
+				<span class="flex items-center justify-center gap-2">
+					View Team
+					@icon.ArrowRight(icon.Props{Size: 16})
+				</span>
+			}
+		}
+	}
+}

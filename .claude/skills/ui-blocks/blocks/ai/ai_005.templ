@@ -1,0 +1,145 @@
+package ai
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ AI005() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-4xl space-y-8">
+			@AI005UserQuery()
+			@AI005AIResponseWithCitations()
+		</div>
+	</section>
+}
+
+templ AI005UserQuery() {
+	<div class="flex gap-3 justify-end">
+		<div class="max-w-[90%] sm:max-w-[80%] md:max-w-[70%] space-y-2">
+			<div class="flex items-center gap-2 justify-end">
+				<p class="font-medium text-sm">You</p>
+				@avatar.Avatar(avatar.Props{
+					Class: "h-8 w-8",
+				}) {
+					@avatar.Image(avatar.ImageProps{
+						Src: "/assets/img/avatar-gh-1.png",
+						Alt: "User",
+					})
+				}
+			</div>
+			<div class="bg-primary text-primary-foreground rounded-lg p-3 sm:p-4">
+				<p class="text-sm">What are the latest developments in quantum computing?</p>
+			</div>
+		</div>
+	</div>
+}
+
+templ AI005AIResponseWithCitations() {
+	<div class="flex gap-3">
+		<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+			@icon.Bot(icon.Props{
+				Size:  20,
+				Class: "text-primary-foreground",
+			})
+		</div>
+		<div class="flex-1 max-w-[90%] sm:max-w-[85%] space-y-3">
+			<div class="flex items-center gap-2">
+				<p class="font-medium text-sm">AI Assistant</p>
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantSecondary,
+					Class:   "text-xs",
+				}) {
+					cited response
+				}
+			</div>
+			<div class="bg-muted rounded-lg p-3 sm:p-4">
+				<div class="prose prose-sm max-w-none dark:prose-invert">
+					<p class="mb-3">
+						Quantum computing has seen significant breakthroughs in 2024. IBM announced their 1,121-qubit 
+						Condor processor<sup class="text-primary text-xs ml-0.5">[1]</sup>, marking a major milestone 
+						in scalability. Google's latest error correction techniques have achieved a 99.9% fidelity 
+						rate<sup class="text-primary text-xs ml-0.5">[2]</sup>, bringing us closer to fault-tolerant 
+						quantum computers.
+					</p>
+					<p class="mb-3">
+						The most exciting development is in quantum advantage applications. Recent demonstrations show 
+						quantum computers solving optimization problems 100x faster than classical computers in specific 
+						domains<sup class="text-primary text-xs ml-0.5">[3]</sup>. This has immediate applications in:
+					</p>
+					<ul class="list-disc pl-6 mb-3 space-y-1">
+						<li>Drug discovery and molecular simulation</li>
+						<li>Financial portfolio optimization</li>
+						<li>Cryptography and security</li>
+						<li>Machine learning acceleration</li>
+					</ul>
+					<p>
+						Investment in quantum computing reached $2.4 billion in 2024<sup class="text-primary text-xs ml-0.5">[4]</sup>, 
+						with major tech companies and governments racing to achieve quantum supremacy in practical applications.
+					</p>
+				</div>
+				<div class="mt-4 pt-4 border-t space-y-2">
+					<p class="text-xs font-medium text-muted-foreground">Sources:</p>
+					<div class="text-xs space-y-1">
+						<div class="flex items-start gap-2">
+							<span class="text-primary font-medium">[1]</span>
+							<span class="text-muted-foreground">IBM Research - "Condor: Breaking the 1000-qubit barrier" (2024)</span>
+						</div>
+						<div class="flex items-start gap-2">
+							<span class="text-primary font-medium">[2]</span>
+							<span class="text-muted-foreground">Nature - "Quantum error correction at 99.9% fidelity" (2024)</span>
+						</div>
+						<div class="flex items-start gap-2">
+							<span class="text-primary font-medium">[3]</span>
+							<span class="text-muted-foreground">Science - "Quantum advantage in real-world optimization" (2024)</span>
+						</div>
+						<div class="flex items-start gap-2">
+							<span class="text-primary font-medium">[4]</span>
+							<span class="text-muted-foreground">McKinsey - "Quantum Technology Monitor 2024"</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="flex items-center gap-2 pt-3">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@icon.Copy(icon.Props{
+						Size: 14,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@icon.ThumbsUp(icon.Props{
+						Size: 14,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@icon.ThumbsDown(icon.Props{
+						Size: 14,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@icon.Share(icon.Props{
+						Size: 14,
+					})
+				}
+			</div>
+		</div>
+	</div>
+}

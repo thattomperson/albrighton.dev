@@ -1,0 +1,68 @@
+package gallery
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+)
+
+templ Gallery002() {
+	<section class="w-full p-6 md:p-10">
+		<div class="max-w-7xl mx-auto">
+			@Gallery002Header()
+			@Gallery002Masonry()
+		</div>
+	</section>
+}
+
+templ Gallery002Header() {
+	<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-12">
+		<div>
+			<h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-2">
+				Portfolio <span class="text-primary">Showcase</span>
+			</h2>
+			<p class="text-lg text-muted-foreground">
+				Creative works in masonry layout
+			</p>
+		</div>
+		<div class="mt-4 md:mt-0">
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantSecondary,
+				Class:   "border-primary/20 text-primary",
+			}) {
+				12 Projects
+			}
+		</div>
+	</div>
+}
+
+templ Gallery002Masonry() {
+	<div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+		@Gallery002Item("/assets/img/placeholder.svg", "Architecture", "h-[400px]")
+		@Gallery002Item("/assets/img/placeholder.svg", "Interior Design", "h-[300px]")
+		@Gallery002Item("/assets/img/placeholder.svg", "Product Design", "h-[500px]")
+		@Gallery002Item("/assets/img/placeholder.svg", "Typography", "h-[350px]")
+		@Gallery002Item("/assets/img/placeholder.svg", "Branding", "h-[450px]")
+		@Gallery002Item("/assets/img/placeholder.svg", "Digital Art", "h-[400px]")
+		@Gallery002Item("/assets/img/placeholder.svg", "Photography", "h-[320px]")
+		@Gallery002Item("/assets/img/placeholder.svg", "3D Design", "h-[480px]")
+	</div>
+}
+
+templ Gallery002Item(src, title, heightClass string) {
+	@card.Card(card.Props{
+		Class: "group relative overflow-hidden break-inside-avoid",
+	}) {
+		<div class={ "relative overflow-hidden", heightClass }>
+			<img
+				src={ src }
+				alt={ title }
+				class="h-full w-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-75"
+			/>
+			<div class="absolute inset-0 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+				<div class="bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-lg px-4 py-2 border border-primary/20">
+					<span class="text-sm font-medium text-primary">{ title }</span>
+				</div>
+			</div>
+		</div>
+	}
+}

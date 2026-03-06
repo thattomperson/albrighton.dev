@@ -1,0 +1,31 @@
+package search
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+)
+
+templ Search001() {
+	<section class="w-full max-w-2xl mx-auto p-6">
+		@Search001SearchForm()
+	</section>
+}
+
+templ Search001SearchForm() {
+	<form class="flex flex-col sm:flex-row gap-2">
+		<div class="flex-1">
+			@input.Input(input.Props{
+				Type:        input.TypeSearch,
+				Name:        "q",
+				Placeholder: "Search products, articles, or help topics...",
+			})
+		</div>
+		@button.Button() {
+			<span class="flex items-center gap-2">
+				@icon.Search(icon.Props{Size: 18})
+				<span class="hidden sm:inline">Search</span>
+			</span>
+		}
+	</form>
+}

@@ -1,0 +1,243 @@
+package ecommerce
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/checkbox"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/selectbox"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+	"github.com/templui/templui-pro/internal/ui/components/sheet"
+	"github.com/templui/templui-pro/internal/ui/components/slider"
+)
+
+// Shop001 - Shop Layout with Sidebar Filters
+templ Shop001() {
+	@sheet.Sheet(sheet.Props{
+		Side: sheet.SideLeft,
+	}) {
+		<div class="min-h-screen bg-background">
+			<!-- Mobile Filter Button -->
+			<div class="lg:hidden border-b p-4">
+				@sheet.Trigger() {
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+						Class:   "w-full",
+					}) {
+						@icon.Funnel(icon.Props{Size: 16, Class: "mr-2"})
+						Filters
+					}
+				}
+			</div>
+			<div class="flex">
+				<!-- Desktop Sidebar -->
+				@Shop001Sidebar()
+				@Shop001MainContent()
+			</div>
+		</div>
+		<!-- Mobile Filter Drawer -->
+		@sheet.Content(sheet.ContentProps{
+			HideCloseButton: true,
+		}) {
+			@sheet.Header() {
+				@sheet.Title() {
+					Filters
+				}
+			}
+			<div class="p-6 space-y-6">
+				@Shop001CategoryFilter("mobile")
+				@separator.Separator()
+				@Shop001PriceFilter("mobile")
+				@separator.Separator()
+				@Shop001BrandFilter("mobile")
+				@separator.Separator()
+				@Shop001RatingFilter("mobile")
+			</div>
+		}
+	}
+}
+
+templ Shop001Sidebar() {
+	<aside class="w-64 border-r bg-background p-6 hidden lg:block">
+		<div class="space-y-6">
+			@Shop001FilterHeader()
+			@Shop001CategoryFilter("desktop")
+			@separator.Separator()
+			@Shop001PriceFilter("desktop")
+			@separator.Separator()
+			@Shop001BrandFilter("desktop")
+			@separator.Separator()
+			@Shop001RatingFilter("desktop")
+		</div>
+	</aside>
+}
+
+templ Shop001FilterHeader() {
+	<div class="flex items-center justify-between">
+		<h3 class="font-semibold">Filters</h3>
+		<button class="text-sm text-muted-foreground hover:text-foreground">
+			Clear all
+		</button>
+	</div>
+}
+
+templ Shop001CategoryFilter(prefix string) {
+	<div class="space-y-3">
+		<h4 class="text-sm font-medium">Category</h4>
+		<div class="space-y-2">
+			@Shop001CheckboxItem(prefix+"-electronics", "Electronics", "124")
+			@Shop001CheckboxItem(prefix+"-clothing", "Clothing", "89")
+			@Shop001CheckboxItem(prefix+"-accessories", "Accessories", "67")
+			@Shop001CheckboxItem(prefix+"-home", "Home & Garden", "45")
+			@Shop001CheckboxItem(prefix+"-sports", "Sports", "32")
+		</div>
+	</div>
+}
+
+templ Shop001CheckboxItem(id string, labelText string, count string) {
+	<div class="flex items-center justify-between">
+		<div class="flex items-center space-x-2">
+			@checkbox.Checkbox(checkbox.Props{ID: id})
+			@label.Label(label.Props{
+				For:   id,
+				Class: "text-sm font-normal cursor-pointer",
+			}) {
+				{ labelText }
+			}
+		</div>
+		<span class="text-xs text-muted-foreground">({ count })</span>
+	</div>
+}
+
+templ Shop001PriceFilter(prefix string) {
+	<div class="space-y-3">
+		<h4 class="text-sm font-medium">Price Range</h4>
+		<div class="space-y-4">
+			@slider.Input(slider.InputProps{
+				Min:   0,
+				Max:   1000,
+				Step:  10,
+				Value: 100,
+				Class: "w-full",
+			})
+			<div class="flex items-center justify-between text-sm">
+				<span>$0</span>
+				<span>$1000</span>
+			</div>
+		</div>
+	</div>
+}
+
+templ Shop001BrandFilter(prefix string) {
+	<div class="space-y-3">
+		<h4 class="text-sm font-medium">Brand</h4>
+		<div class="space-y-2">
+			@Shop001CheckboxItem(prefix+"-apple", "Apple", "23")
+			@Shop001CheckboxItem(prefix+"-samsung", "Samsung", "19")
+			@Shop001CheckboxItem(prefix+"-sony", "Sony", "15")
+			@Shop001CheckboxItem(prefix+"-nike", "Nike", "28")
+			@Shop001CheckboxItem(prefix+"-adidas", "Adidas", "21")
+		</div>
+	</div>
+}
+
+templ Shop001RatingFilter(prefix string) {
+	<div class="space-y-3">
+		<h4 class="text-sm font-medium">Customer Rating</h4>
+		<div class="space-y-2">
+			@Shop001RatingOption(prefix+"-4-stars", "4 stars & up")
+			@Shop001RatingOption(prefix+"-3-stars", "3 stars & up")
+			@Shop001RatingOption(prefix+"-2-stars", "2 stars & up")
+			@Shop001RatingOption(prefix+"-1-star", "1 star & up")
+		</div>
+	</div>
+}
+
+templ Shop001RatingOption(id string, labelText string) {
+	<div class="flex items-center space-x-2">
+		@checkbox.Checkbox(checkbox.Props{ID: id})
+		@label.Label(label.Props{
+			For:   id,
+			Class: "text-sm font-normal cursor-pointer flex items-center gap-1",
+		}) {
+			<div class="flex">
+				for i := 0; i < 4; i++ {
+					@icon.Star(icon.Props{Size: 12, Class: "fill-current text-yellow-500"})
+				}
+			</div>
+			<span>{ labelText }</span>
+		}
+	</div>
+}
+
+templ Shop001MainContent() {
+	<main class="flex-1 p-6">
+		<div class="space-y-6">
+			@Shop001Header()
+			@Shop001ProductGrid()
+		</div>
+	</main>
+}
+
+templ Shop001Header() {
+	<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+		<div>
+			<h1 class="text-xl sm:text-2xl font-bold">All Products</h1>
+			<p class="text-sm text-muted-foreground mt-1">Showing 24 of 156 products</p>
+		</div>
+		<div class="flex items-center gap-2 sm:gap-4">
+			<div class="flex items-center gap-2">
+				<span class="text-sm text-muted-foreground hidden sm:inline">Sort by:</span>
+				@selectbox.SelectBox() {
+					@selectbox.Trigger(selectbox.TriggerProps{
+						Class: "w-32 sm:w-40",
+					}) {
+						@selectbox.Value(selectbox.ValueProps{
+							Placeholder: "Featured",
+						})
+					}
+					@selectbox.Content() {
+						@selectbox.Item(selectbox.ItemProps{Value: "featured"}) {
+							Featured
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "price-low"}) {
+							Price: Low to High
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "price-high"}) {
+							Price: High to Low
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "rating"}) {
+							Customer Rating
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "newest"}) {
+							Newest
+						}
+					}
+				}
+			</div>
+			<div class="flex gap-1">
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+					Size:    button.SizeIcon,
+				}) {
+					@icon.LayoutGrid(icon.Props{Size: 16})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+				}) {
+					@icon.List(icon.Props{Size: 16})
+				}
+			</div>
+		</div>
+	</div>
+}
+
+templ Shop001ProductGrid() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+		<!-- Products would be dynamically loaded here -->
+		<div class="text-center col-span-full py-12 text-muted-foreground">
+			Products will be displayed here
+		</div>
+	</div>
+}

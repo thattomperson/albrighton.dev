@@ -1,0 +1,145 @@
+package faq
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/accordion"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+)
+
+templ FAQ003() {
+	<section class="py-24 px-4 sm:px-6 lg:px-8">
+		<div class="mx-auto max-w-4xl">
+			@FAQ003Header()
+			@FAQ003BillingSection()
+			@FAQ003AccountSection()
+			@FAQ003TechnicalSection()
+		</div>
+	</section>
+}
+
+templ FAQ003Header() {
+	<div class="text-center mb-16">
+		<h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+			Help & Support
+		</h2>
+		<p class="text-lg text-muted-foreground">
+			Find answers to your questions quickly
+		</p>
+	</div>
+}
+
+templ FAQ003BillingSection() {
+	<div class="mb-12">
+		<div class="flex items-center gap-3 mb-6">
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantSecondary,
+				Class:   "px-3 py-1 border-primary/20 bg-primary/5 text-primary",
+			}) {
+				Billing
+			}
+		</div>
+		@accordion.Accordion(accordion.Props{
+			Class: "[&_summary_svg]:text-primary [&_details[open]]:border-primary/20 [&_details[open]_summary]:text-primary",
+		}) {
+			@accordion.Item() {
+				@accordion.Trigger() {
+					When will my account be charged?
+				}
+				@accordion.Content() {
+					<p class="text-muted-foreground">
+						Your account is automatically charged at the beginning of each billing period. 
+						You'll receive an email reminder 3 days before.
+					</p>
+				}
+			}
+			@accordion.Item() {
+				@accordion.Trigger() {
+					Can I get an invoice?
+				}
+				@accordion.Content() {
+					<p class="text-muted-foreground">
+						Yes, all invoices are automatically sent via email and are 
+						also available in your account dashboard.
+					</p>
+				}
+			}
+		}
+	</div>
+}
+
+templ FAQ003AccountSection() {
+	<div class="mb-12">
+		<div class="flex items-center gap-3 mb-6">
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantSecondary,
+				Class:   "px-3 py-1 border-primary/20 bg-primary/5 text-primary",
+			}) {
+				Account
+			}
+		</div>
+		@accordion.Accordion(accordion.Props{
+			Class: "[&_summary_svg]:text-primary [&_details[open]]:border-primary/20 [&_details[open]_summary]:text-primary",
+		}) {
+			@accordion.Item() {
+				@accordion.Trigger() {
+					How do I change my email address?
+				}
+				@accordion.Content() {
+					<p class="text-muted-foreground">
+						You can change your email address in account settings. 
+						You'll need to verify the new email address before the change takes effect.
+					</p>
+				}
+			}
+			@accordion.Item() {
+				@accordion.Trigger() {
+					Can I delete my account?
+				}
+				@accordion.Content() {
+					<p class="text-muted-foreground">
+						Yes, you can delete your account anytime in settings. 
+						Please note that all your data will be permanently deleted.
+					</p>
+				}
+			}
+		}
+	</div>
+}
+
+templ FAQ003TechnicalSection() {
+	<div>
+		<div class="flex items-center gap-3 mb-6">
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantSecondary,
+				Class:   "px-3 py-1 border-primary/20 bg-primary/5 text-primary",
+			}) {
+				Technical
+			}
+		</div>
+		@accordion.Accordion(accordion.Props{
+			Class: "[&_summary_svg]:text-primary [&_details[open]]:border-primary/20 [&_details[open]_summary]:text-primary",
+		}) {
+			@accordion.Item() {
+				@accordion.Trigger() {
+					Which browsers are supported?
+				}
+				@accordion.Content() {
+					<p class="text-muted-foreground">
+						We support all modern browsers: Chrome, Firefox, Safari, Edge. 
+						The latest 2 versions are fully supported.
+					</p>
+				}
+			}
+			@accordion.Item() {
+				@accordion.Trigger() {
+					Are there any system requirements?
+				}
+				@accordion.Content() {
+					<p class="text-muted-foreground">
+						No, since this is a web-based application, you only need 
+						a modern browser and internet connection.
+					</p>
+				}
+			}
+		}
+	</div>
+}

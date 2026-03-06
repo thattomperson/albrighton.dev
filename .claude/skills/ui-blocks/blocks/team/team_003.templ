@@ -1,0 +1,127 @@
+package team
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+)
+
+templ Team003() {
+	<section class="py-24 bg-background">
+		<div class="container mx-auto px-4">
+			@Team003Header()
+			@Team003TeamShowcase()
+		</div>
+	</section>
+}
+
+templ Team003Header() {
+	<div class="text-center mb-16">
+		@badge.Badge() {
+			Team Showcase
+		}
+		<h2 class="text-4xl md:text-5xl font-bold mb-6 mt-4">
+			The minds behind innovation
+		</h2>
+		<p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+			Get to know the talented individuals who make our vision a reality. Each member brings unique skills and perspectives to our collaborative environment.
+		</p>
+	</div>
+}
+
+templ Team003TeamShowcase() {
+	<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+		@Team003MainProfile()
+		@Team003TeamStats()
+	</div>
+	<div class="mt-16">
+		@Team003TeamList()
+	</div>
+}
+
+templ Team003MainProfile() {
+	<div class="text-center lg:text-left">
+		<div class="mb-8">
+			@avatar.Avatar(avatar.Props{
+				Class: "w-32 h-32 mx-auto lg:mx-0",
+			}) {
+				@avatar.Image(avatar.ImageProps{
+					Src: "/assets/img/avatar-gh-1.png",
+					Alt: "Sarah Johnson",
+				})
+			}
+		</div>
+		<h3 class="text-3xl font-bold mb-2">Sarah Johnson</h3>
+		<p class="text-primary font-medium text-lg mb-4">CEO & Founder</p>
+		<p class="text-muted-foreground mb-6 leading-relaxed">
+			"Our team is our greatest asset. Every day, I'm inspired by the creativity, dedication, and passion that each member brings to their work. Together, we're not just building products – we're shaping the future of digital experiences."
+		</p>
+		<div class="grid grid-cols-3 gap-4 text-center">
+			@Team003Stat("15+", "Years Experience")
+			@Team003Stat("50+", "Team Members")
+			@Team003Stat("100+", "Projects Delivered")
+		</div>
+	</div>
+}
+
+templ Team003TeamStats() {
+	<div class="space-y-8">
+		<div>
+			<h4 class="text-2xl font-semibold mb-6">Our Values</h4>
+			<div class="space-y-4">
+				@Team003Value("Innovation First", "We constantly push boundaries and explore new possibilities to deliver cutting-edge solutions.")
+				@Team003Value("Collaboration", "Great ideas come from diverse perspectives working together towards a common goal.")
+				@Team003Value("Quality Focus", "We believe in doing things right the first time and never compromising on excellence.")
+				@Team003Value("Customer Success", "Every decision we make is guided by how it will impact and benefit our customers.")
+			</div>
+		</div>
+	</div>
+}
+
+templ Team003Stat(number, label string) {
+	@card.Card(card.Props{
+		Class: "bg-muted/50 text-center flex flex-col items-center justify-center",
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "p-4",
+		}) {
+			<div class="text-2xl font-bold text-primary">{ number }</div>
+			<div class="text-sm text-muted-foreground">{ label }</div>
+		}
+	}
+}
+
+templ Team003Value(title, description string) {
+	<div class="border-l-4 border-primary pl-4">
+		<h5 class="font-semibold mb-1">{ title }</h5>
+		<p class="text-muted-foreground text-sm">{ description }</p>
+	</div>
+}
+
+templ Team003TeamList() {
+	<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+		@Team003TeamMemberMini("/assets/img/avatar-gh-2.png", "Michael Chen", "CTO")
+		@Team003TeamMemberMini("/assets/img/avatar-gh-3.png", "Emily Rodriguez", "Head of Design")
+		@Team003TeamMemberMini("/assets/img/avatar-gh-4.png", "David Kim", "Lead Developer")
+		@Team003TeamMemberMini("/assets/img/avatar-gh-5.png", "Jessica Park", "Product Manager")
+		@Team003TeamMemberMini("/assets/img/avatar-gh-6.png", "Alex Thompson", "Marketing Director")
+		@Team003TeamMemberMini("/assets/img/avatar-gh-7.png", "Maria Garcia", "Customer Success")
+	</div>
+}
+
+templ Team003TeamMemberMini(imageSrc, name, role string) {
+	<div class="text-center group">
+		<div class="mb-3">
+			@avatar.Avatar(avatar.Props{
+				Class: "w-16 h-16 mx-auto group-hover:scale-105 transition-transform",
+			}) {
+				@avatar.Image(avatar.ImageProps{
+					Src: imageSrc,
+					Alt: name,
+				})
+			}
+		</div>
+		<h4 class="font-medium text-sm mb-1">{ name }</h4>
+		<p class="text-xs text-muted-foreground">{ role }</p>
+	</div>
+}

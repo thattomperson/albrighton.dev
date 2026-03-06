@@ -1,0 +1,38 @@
+package stats
+
+import (
+	"fmt"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+)
+
+templ Stats006() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+		@Stats006Card("Frontend", 87, "border-l-primary/50", "Templ", "12 tasks")
+		@Stats006Card("Backend", 64, "border-l-primary/50", "Go", "8 tasks")
+		@Stats006Card("Database", 45, "border-l-primary/50", "PostgreSQL", "5 tasks")
+		@Stats006Card("DevOps", 78, "border-l-primary/50", "Docker", "3 tasks")
+	</div>
+}
+
+templ Stats006Card(title string, progressValue int, color, tech, tasks string) {
+	@card.Card(card.Props{
+		Class: "border border-l-4 " + color,
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "p-6 space-y-4",
+		}) {
+			<div class="flex items-center justify-between">
+				<h4 class="font-semibold text-lg">{ title }</h4>
+				<span class="text-lg font-bold">{ fmt.Sprintf("%d", progressValue) }%</span>
+			</div>
+			@progress.Progress(progress.Props{
+				Value: progressValue,
+			})
+			<div class="flex justify-between text-sm text-muted-foreground">
+				<span>{ tech }</span>
+				<span>{ tasks }</span>
+			</div>
+		}
+	}
+}

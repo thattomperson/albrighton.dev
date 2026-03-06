@@ -1,0 +1,92 @@
+package hero
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Hero001() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="flex flex-col items-center py-16 md:py-24 text-center">
+			@Hero001Badge()
+			@Hero001Headline()
+			@Hero001Buttons()
+			@Hero001Stats()
+			@Hero001Preview()
+		</div>
+	</section>
+}
+
+templ Hero001Badge() {
+	@badge.Badge() {
+		New Features Available
+	}
+}
+
+templ Hero001Headline() {
+	<h1 class="max-w-4xl text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-center mb-6">
+		Transform your <span>digital experience</span>
+	</h1>
+	<p class="max-w-2xl text-xl md:text-2xl text-muted-foreground mb-10">
+		Build stunning web applications with our modern UI component library. Fast, accessible, and designed for real projects.
+	</p>
+}
+
+templ Hero001Buttons() {
+	<div class="flex flex-col sm:flex-row gap-2 mb-16">
+		@button.Button() {
+			<span class="flex items-center gap-2">
+				Get Started
+				@icon.ArrowRight(icon.Props{
+					Size: 18,
+				})
+			</span>
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+		}) {
+			View Components
+		}
+	</div>
+}
+
+templ Hero001Stats() {
+	<div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 text-center">
+		<div class="flex flex-col">
+			<span class="text-3xl md:text-4xl font-bold">1200+</span>
+			<span class="text-sm text-muted-foreground">Components</span>
+		</div>
+		<div class="flex flex-col">
+			<span class="text-3xl md:text-4xl font-bold">10k+</span>
+			<span class="text-sm text-muted-foreground">Downloads</span>
+		</div>
+		<div class="flex flex-col">
+			<span class="text-3xl md:text-4xl font-bold">95%</span>
+			<span class="text-sm text-muted-foreground">Satisfaction</span>
+		</div>
+		<div class="flex flex-col">
+			<span class="text-3xl md:text-4xl font-bold">24/7</span>
+			<span class="text-sm text-muted-foreground">Support</span>
+		</div>
+	</div>
+}
+
+templ Hero001Preview() {
+	<div class="hidden sm:block relative mt-16 w-full max-w-4xl mx-auto border rounded-xl overflow-hidden">
+		<div class="bg-muted p-2 flex items-center border-b">
+			<div class="flex space-x-1 mr-4">
+				<div class="w-3 h-3 rounded-full bg-muted-foreground/20"></div>
+				<div class="w-3 h-3 rounded-full bg-muted-foreground/20"></div>
+				<div class="w-3 h-3 rounded-full bg-muted-foreground/20"></div>
+			</div>
+			<div class="flex-1 bg-muted-foreground/10 rounded-md h-5"></div>
+		</div>
+		<div class="h-[240px] bg-background flex items-center justify-center p-4">
+			<div class="text-center">
+				<span class="text-lg font-medium text-muted-foreground">Interactive Preview</span>
+				<p class="text-sm text-muted-foreground">Coming soon</p>
+			</div>
+		</div>
+	</div>
+}

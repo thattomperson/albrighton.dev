@@ -1,0 +1,51 @@
+package stats
+
+import (
+	badgecomp "github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Stats001() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+		@Stats001Card("Total Revenue", "$54,239", "+12.5%", "DollarSign", "text-primary")
+		@Stats001Card("Active Users", "8,947", "+8.2%", "Users", "text-primary")
+		@Stats001Card("Total Orders", "1,254", "+24.1%", "ShoppingCart", "text-primary")
+		@Stats001Card("Conversion Rate", "3.24%", "+0.3%", "TrendingUp", "text-primary")
+	</div>
+}
+
+templ Stats001Card(title, value, change, iconName, iconColor string) {
+	@card.Card(card.Props{
+		Class: "relative overflow-hidden",
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "p-6",
+		}) {
+			<div class="flex items-start justify-between">
+				<div class="space-y-1">
+					<p class="text-sm font-medium text-muted-foreground">{ title }</p>
+					<h3 class="text-2xl font-bold">{ value }</h3>
+					@badgecomp.Badge(badgecomp.Props{
+						Variant: badgecomp.VariantDefault,
+						Class:   "bg-primary/10 text-primary",
+					}) {
+						{ change }
+					}
+				</div>
+				<div class={ "p-2 rounded-lg flex items-center justify-center border" }>
+					switch iconName {
+						case "DollarSign":
+							@icon.DollarSign(icon.Props{Size: 18, Class: iconColor})
+						case "Users":
+							@icon.Users(icon.Props{Size: 18, Class: iconColor})
+						case "ShoppingCart":
+							@icon.ShoppingCart(icon.Props{Size: 18, Class: iconColor})
+						case "TrendingUp":
+							@icon.TrendingUp(icon.Props{Size: 18, Class: iconColor})
+					}
+				</div>
+			</div>
+		}
+	}
+}

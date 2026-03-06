@@ -1,0 +1,65 @@
+package hero
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Hero003() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="flex flex-col items-center justify-center space-y-4 text-center">
+			@Hero003Header()
+			@Hero003SocialProof()
+		</div>
+	</section>
+}
+
+templ Hero003Header() {
+	<div class="container flex flex-col items-center justify-center space-y-8 text-center">
+		<h1 class="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+			Trusted by Thousands
+		</h1>
+		<p class="mx-auto max-w-[600px] text-muted-foreground md:text-lg">
+			Join the growing community of developers building amazing applications faster than ever before.
+		</p>
+		<div class="pt-2">
+			@button.Button(button.Props{
+				Size:  "lg",
+				Class: "px-8",
+			}) {
+				<div class="flex items-center gap-2">
+					@icon.Rocket(icon.Props{Class: "h-4 w-4"})
+					Get Started Today
+				</div>
+			}
+		</div>
+	</div>
+}
+
+templ Hero003SocialProof() {
+	<div class="container mt-12">
+		@separator.Separator(separator.Props{Class: "my-8"})
+		<div class="flex flex-col items-center space-y-6">
+			<span class="text-sm font-medium text-muted-foreground">
+				Powering the best teams worldwide
+			</span>
+			<div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-6 pt-2 opacity-80">
+				@icon.MicVocal()
+				@icon.IceCreamCone()
+				@icon.CakeSlice()
+				@icon.Beer()
+				@icon.Bean()
+			</div>
+			<div class="flex items-center gap-2 pt-4 text-sm text-muted-foreground">
+				@avatar.Avatar(avatar.Props{
+					Class: "bg-foreground text-background",
+				}) {
+					99k
+				}
+				<span>Satisfied customers and counting</span>
+			</div>
+		</div>
+	</div>
+}

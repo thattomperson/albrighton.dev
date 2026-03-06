@@ -1,0 +1,203 @@
+package profile
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ ProfileView001() {
+	<div class="container mx-auto px-4 py-8">
+		<div class="max-w-4xl mx-auto">
+			@ProfileView001Header()
+			@ProfileView001About()
+			@ProfileView001Activity()
+		</div>
+	</div>
+}
+
+templ ProfileView001Header() {
+	<div class="relative">
+		<div class="bg-gradient-to-r from-muted to-background rounded-t-lg h-20 sm:h-24 md:h-32"></div>
+		<div class="absolute left-1/2 -translate-x-1/2 -bottom-12">
+			<div class="relative">
+				@avatar.Avatar(avatar.Props{
+					Class: "border-4 border-background w-20 h-20 sm:w-24 sm:h-24",
+				}) {
+					@avatar.Image(avatar.ImageProps{
+						Src: "/assets/img/avatar-gh-1.png",
+						Alt: "Profile picture",
+					})
+				}
+				<div class="absolute bottom-1 right-1 bg-green-500 w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 sm:border-3 border-background"></div>
+			</div>
+		</div>
+	</div>
+	<div class="bg-card rounded-b-lg border px-4 md:px-6 pb-4 sm:pb-6 pt-14 sm:pt-16">
+		<div class="text-center">
+			<div class="flex items-center justify-center gap-2 flex-wrap">
+				<h1 class="text-lg sm:text-xl font-semibold">John Doe</h1>
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantSecondary,
+					Class:   "h-5 text-xs",
+				}) {
+					PRO
+				}
+				@icon.CircleCheck(icon.Props{Size: 16, Class: "text-muted-foreground"})
+			</div>
+			<p class="text-sm text-muted-foreground mt-1">{ "@johndoe" } • Senior Developer</p>
+			<div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mt-2 text-sm text-muted-foreground">
+				<span class="flex items-center gap-1">
+					@icon.MapPin(icon.Props{Size: 14})
+					San Francisco
+				</span>
+				<span class="flex items-center gap-1">
+					@icon.Link(icon.Props{Size: 14})
+					<a href="#" class="hover:text-foreground transition-colors">johndoe.dev</a>
+				</span>
+			</div>
+			<div class="flex flex-col sm:flex-row justify-center gap-2 mt-4">
+				@button.Button(button.Props{
+					Variant: button.VariantDefault,
+					Size:    button.SizeSm,
+					Class:   "w-full sm:w-auto",
+				}) {
+					@icon.UserPlus(icon.Props{Size: 14})
+					<span class="ml-1.5">Follow</span>
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+					Size:    button.SizeSm,
+					Class:   "w-full sm:w-auto",
+				}) {
+					@icon.Mail(icon.Props{Size: 14})
+					<span class="ml-1.5">Message</span>
+				}
+			</div>
+		</div>
+		<div class="flex items-center justify-center gap-3 sm:gap-6 md:gap-8 mt-4 sm:mt-6 pt-4 sm:pt-6 border-t">
+			@ProfileView001Stat("Followers", "2.4K")
+			@ProfileView001Stat("Following", "543")
+			@ProfileView001Stat("Projects", "42")
+			@ProfileView001Stat("Stars", "1.2K")
+		</div>
+	</div>
+}
+
+templ ProfileView001Stat(label, value string) {
+	<div>
+		<div class="text-base sm:text-lg font-semibold">{ value }</div>
+		<div class="text-xs text-muted-foreground">{ label }</div>
+	</div>
+}
+
+templ ProfileView001About() {
+	@card.Card(card.Props{Class: "mt-4 sm:mt-6"}) {
+		@card.Header() {
+			@card.Title() {
+				About
+			}
+		}
+		@card.Content() {
+			<p class="text-sm sm:text-base text-muted-foreground mb-4">
+				Passionate full-stack developer with 8+ years of experience building scalable web applications. 
+				I love working with modern technologies and contributing to open-source projects. Currently focused 
+				on cloud-native architectures and developer tooling.
+			</p>
+			<div class="space-y-3">
+				<div class="flex items-start gap-2">
+					@icon.Briefcase(icon.Props{Size: 16, Class: "text-muted-foreground flex-shrink-0"})
+					<span class="text-sm">Senior Developer at <a href="#" class="font-medium hover:underline">Acme Inc.</a></span>
+				</div>
+				<div class="flex items-start gap-2">
+					@icon.GraduationCap(icon.Props{Size: 16, Class: "text-muted-foreground flex-shrink-0"})
+					<span class="text-sm">Computer Science, Stanford University</span>
+				</div>
+				<div class="flex items-start gap-2">
+					@icon.Heart(icon.Props{Size: 16, Class: "text-muted-foreground flex-shrink-0"})
+					<span class="text-sm">Go, Templ, HTMX, Kubernetes</span>
+				</div>
+			</div>
+			<div class="flex gap-3 mt-4 pt-4 border-t flex-wrap">
+				<a href="#" class="text-muted-foreground hover:text-foreground">
+					@icon.Github(icon.Props{Size: 20})
+				</a>
+				<a href="#" class="text-muted-foreground hover:text-foreground">
+					@icon.Twitter(icon.Props{Size: 20})
+				</a>
+				<a href="#" class="text-muted-foreground hover:text-foreground">
+					@icon.Linkedin(icon.Props{Size: 20})
+				</a>
+				<a href="#" class="text-muted-foreground hover:text-foreground">
+					@icon.Globe(icon.Props{Size: 20})
+				</a>
+			</div>
+		}
+	}
+}
+
+templ ProfileView001Activity() {
+	@card.Card(card.Props{Class: "mt-4 sm:mt-6"}) {
+		@card.Header() {
+			@card.Title() {
+				Recent Activity
+			}
+		}
+		@card.Content() {
+			<div class="space-y-4">
+				@ProfileView001ActivityItem(
+					icon.GitBranch(icon.Props{Size: 16}),
+					"Pushed to main in templui/core",
+					"2 hours ago",
+					"feat: add dark mode support for all components",
+				)
+				@ProfileView001ActivityItem(
+					icon.Star(icon.Props{Size: 16}),
+					"Starred templui/templui-pro",
+					"5 hours ago",
+					"",
+				)
+				@ProfileView001ActivityItem(
+					icon.MessageSquare(icon.Props{Size: 16}),
+					"Commented on issue #42",
+					"1 day ago",
+					"Great work on this! Just a small suggestion about the API design...",
+				)
+				@ProfileView001ActivityItem(
+					icon.GitPullRequest(icon.Props{Size: 16}),
+					"Opened pull request in gofiber/fiber",
+					"3 days ago",
+					"fix: improve error handling in middleware",
+				)
+			</div>
+			<div class="mt-4 pt-4 border-t">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Class:   "w-full",
+				}) {
+					View all activity
+					@icon.ArrowRight(icon.Props{Size: 16, Class: "ml-2"})
+				}
+			</div>
+		}
+	}
+}
+
+templ ProfileView001ActivityItem(iconComponent templ.Component, action, time, detail string) {
+	<div class="flex gap-3">
+		<div class="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 bg-muted rounded-full flex items-center justify-center">
+			{ children... }
+		</div>
+		<div class="flex-1 min-w-0">
+			<p class="text-sm">
+				<span class="font-medium">{ action }</span>
+				<span class="text-muted-foreground sm:ml-2 text-xs block sm:inline">{ time }</span>
+			</p>
+			if detail != "" {
+				<p class="text-sm text-muted-foreground mt-1 line-clamp-2">{ detail }</p>
+			}
+		</div>
+	</div>
+}

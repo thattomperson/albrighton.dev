@@ -1,0 +1,96 @@
+package auth
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/form"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ SignIn002() {
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		@card.Card(card.Props{
+			Class: "w-full max-w-sm",
+		}) {
+			@card.Header() {
+				@card.Title() {
+					Sign in
+				}
+				@card.Description() {
+					Choose your preferred sign in method
+				}
+			}
+			@card.Content(card.ContentProps{
+				Class: "space-y-4",
+			}) {
+				<div class="grid grid-cols-2 gap-4">
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+						Class:   "w-full",
+					}) {
+						@icon.Code(icon.Props{
+							Size:  16,
+							Class: "mr-2",
+						})
+						GitHub
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+						Class:   "w-full",
+					}) {
+						@icon.Mail(icon.Props{
+							Size:  16,
+							Class: "mr-2",
+						})
+						Google
+					}
+				</div>
+				@separator.Separator(separator.Props{
+					Class: "my-4",
+				}) {
+					Or continue with
+				}
+				@form.Item() {
+					@form.Label(form.LabelProps{
+						For: "sign-in-002-email",
+					}) {
+						Email
+					}
+					@input.Input(input.Props{
+						ID:          "sign-in-002-email",
+						Type:        "email",
+						Placeholder: "name@example.com",
+					})
+				}
+				@form.Item() {
+					@form.Label(form.LabelProps{
+						For: "sign-in-002-password",
+					}) {
+						Password
+					}
+					@input.Input(input.Props{
+						ID:          "sign-in-002-password",
+						Type:        "password",
+						Placeholder: "••••••••",
+					})
+				}
+			}
+			@card.Footer(card.FooterProps{
+				Class: "flex flex-col gap-8",
+			}) {
+				@button.Button(button.Props{
+					Class: "w-full",
+					Type:  button.TypeSubmit,
+				}) {
+					Sign In
+				}
+				<div class="text-center text-sm">
+					Don't have an account?
+					<a href="#" class="text-primary underline underline-offset-4 hover:text-primary/80">Sign up</a>
+				</div>
+			}
+		}
+	</div>
+}

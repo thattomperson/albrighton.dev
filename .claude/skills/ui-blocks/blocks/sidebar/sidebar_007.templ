@@ -1,0 +1,188 @@
+package sidebar
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/calendar"
+	"github.com/templui/templui-pro/internal/ui/components/checkbox"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/sidebar"
+)
+
+templ Sidebar007() {
+	@sidebar.Layout() {
+		@sidebar.Inset() {
+			<div class="flex h-full flex-col">
+				<header class="flex items-center h-14 px-4 border-b border-border bg-background">
+					@sidebar.Trigger()
+				</header>
+				<div class="flex-1 overflow-y-auto p-6">
+					<!-- Content goes here -->
+				</div>
+			</div>
+		}
+		@sidebar.Sidebar(sidebar.Props{
+			Side: sidebar.SideRight,
+		}) {
+			@sidebar.Header() {
+				@Sidebar007UserNav()
+			}
+			@sidebar.Content() {
+				@Sidebar007DatePicker()
+				@sidebar.Separator()
+				@Sidebar007Calendars()
+			}
+			@sidebar.Footer() {
+				@sidebar.Menu() {
+					@sidebar.MenuItem() {
+						@sidebar.MenuButton(sidebar.MenuButtonProps{
+							Href: "#",
+						}) {
+							@icon.Plus(icon.Props{Class: "size-4"})
+							<span>New Calendar</span>
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+templ Sidebar007UserNav() {
+	@dropdown.Dropdown() {
+		@dropdown.Trigger() {
+			@sidebar.Menu() {
+				@sidebar.MenuItem() {
+					@sidebar.MenuButton(sidebar.MenuButtonProps{
+						Size: sidebar.MenuButtonSizeLg,
+					}) {
+						<div class="flex items-center gap-2 w-full">
+							@avatar.Avatar(avatar.Props{Class: "size-8"}) {
+								@avatar.Image(avatar.ImageProps{Src: "https://avatars.githubusercontent.com/u/26936893?v=4"})
+								@avatar.Fallback() {
+									JD
+								}
+							}
+							<div class="flex flex-1 flex-col gap-0.5 overflow-hidden">
+								<span class="truncate font-semibold">John Doe</span>
+								<span class="truncate text-xs text-muted-foreground">john@example.com</span>
+							</div>
+							@icon.ChevronsUpDown(icon.Props{Class: "ml-auto size-4"})
+						</div>
+					}
+				}
+			}
+		}
+		@dropdown.Content(dropdown.ContentProps{
+			Class: "w-56",
+		}) {
+			@dropdown.Label() {
+				My Account
+			}
+			@dropdown.Separator()
+			@dropdown.Item() {
+				@icon.User(icon.Props{Class: "mr-2 size-4"})
+				Profile
+			}
+			@dropdown.Item() {
+				@icon.CreditCard(icon.Props{Class: "mr-2 size-4"})
+				Billing
+			}
+			@dropdown.Item() {
+				@icon.Settings(icon.Props{Class: "mr-2 size-4"})
+				Settings
+			}
+			@dropdown.Separator()
+			@dropdown.Item() {
+				@icon.LogOut(icon.Props{Class: "mr-2 size-4"})
+				Log out
+			}
+		}
+	}
+}
+
+templ Sidebar007DatePicker() {
+	@sidebar.Group() {
+		@calendar.Calendar()
+	}
+}
+
+type Sidebar007CalendarGroup struct {
+	Name  string
+	Items []string
+}
+
+templ Sidebar007Calendars() {
+	{{
+		calendarGroups := []Sidebar007CalendarGroup{
+			{
+				Name:  "My Calendars",
+				Items: []string{"Personal", "Work", "Family"},
+			},
+			{
+				Name:  "Favorites",
+				Items: []string{"Holidays", "Birthdays"},
+			},
+			{
+				Name:  "Other",
+				Items: []string{"Travel", "Reminders", "Deadlines"},
+			},
+		}
+	}}
+	for _, group := range calendarGroups {
+		@sidebar.Group() {
+			@sidebar.GroupLabel() {
+				{ group.Name }
+			}
+			@sidebar.Menu() {
+				for _, item := range group.Items {
+					@sidebar.MenuItem() {
+						@Sidebar007CalendarItem(item)
+					}
+				}
+			}
+		}
+	}
+}
+
+templ Sidebar007CalendarItem(name string) {
+	<div class="flex items-center gap-2 px-2 py-1.5 text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-md">
+		@checkbox.Checkbox(checkbox.Props{
+			ID:      "calendar-" + name,
+			Checked: name == "Personal" || name == "Work" || name == "Holidays",
+		})
+		@label.Label(label.Props{
+			For:   "calendar-" + name,
+			Class: "flex-1",
+		}) {
+			{ name }
+		}
+		@Sidebar007CalendarColor(name)
+	</div>
+}
+
+templ Sidebar007CalendarColor(name string) {
+	{{ var colorClass string }}
+	switch name {
+		case "Personal":
+			{{ colorClass = "bg-blue-500" }}
+		case "Work":
+			{{ colorClass = "bg-green-500" }}
+		case "Family":
+			{{ colorClass = "bg-purple-500" }}
+		case "Holidays":
+			{{ colorClass = "bg-red-500" }}
+		case "Birthdays":
+			{{ colorClass = "bg-pink-500" }}
+		case "Travel":
+			{{ colorClass = "bg-yellow-500" }}
+		case "Reminders":
+			{{ colorClass = "bg-orange-500" }}
+		case "Deadlines":
+			{{ colorClass = "bg-rose-500" }}
+		default:
+			{{ colorClass = "bg-gray-500" }}
+	}
+	<div class={ "size-3 rounded-full", colorClass }></div>
+}

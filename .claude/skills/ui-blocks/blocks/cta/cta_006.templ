@@ -1,0 +1,174 @@
+package cta
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ CTA006() {
+	<section class="px-6 md:px-10 py-16 md:py-24">
+		<div class="mx-auto max-w-7xl">
+			@CTA006Header()
+			@CTA006Cards()
+		</div>
+	</section>
+}
+
+templ CTA006Header() {
+	<div class="text-center mb-12">
+		<h2 class="mb-4 text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+			Choose your path to success
+		</h2>
+		<p class="mx-auto max-w-2xl text-lg md:text-xl text-muted-foreground">
+			Whether you're a startup or enterprise, we have the perfect solution for your needs.
+		</p>
+	</div>
+}
+
+templ CTA006Cards() {
+	<div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+		@card.Card() {
+			@card.Header() {
+				<div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+					@icon.Rocket(icon.Props{
+						Size:  24,
+						Class: "text-primary",
+					})
+				</div>
+				@card.Title() {
+					For Startups
+				}
+				@card.Description() {
+					Perfect for small teams and growing businesses
+				}
+			}
+			@card.Content() {
+				<ul class="space-y-2 mb-6">
+					<li class="flex items-center gap-2">
+						@icon.Check(icon.Props{
+							Size:  16,
+							Class: "text-primary",
+						})
+						<span class="text-sm">Up to 10 team members</span>
+					</li>
+					<li class="flex items-center gap-2">
+						@icon.Check(icon.Props{
+							Size:  16,
+							Class: "text-primary",
+						})
+						<span class="text-sm">Essential features</span>
+					</li>
+					<li class="flex items-center gap-2">
+						@icon.Check(icon.Props{
+							Size:  16,
+							Class: "text-primary",
+						})
+						<span class="text-sm">Email support</span>
+					</li>
+				</ul>
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+					Class:   "w-full",
+				}) {
+					Start free trial
+				}
+			}
+		}
+		@card.Card(card.Props{
+			Class: "border-primary",
+		}) {
+			@card.Header() {
+				<div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+					@icon.TrendingUp(icon.Props{
+						Size:  24,
+						Class: "text-primary",
+					})
+				</div>
+				@card.Title() {
+					For Business
+				}
+				@card.Description() {
+					Ideal for established companies and teams
+				}
+			}
+			@card.Content() {
+				<ul class="space-y-2 mb-6">
+					<li class="flex items-center gap-2">
+						@icon.Check(icon.Props{
+							Size:  16,
+							Class: "text-primary",
+						})
+						<span class="text-sm">Unlimited team members</span>
+					</li>
+					<li class="flex items-center gap-2">
+						@icon.Check(icon.Props{
+							Size:  16,
+							Class: "text-primary",
+						})
+						<span class="text-sm">Advanced features</span>
+					</li>
+					<li class="flex items-center gap-2">
+						@icon.Check(icon.Props{
+							Size:  16,
+							Class: "text-primary",
+						})
+						<span class="text-sm">Priority support</span>
+					</li>
+				</ul>
+				@button.Button(button.Props{
+					Class: "w-full",
+				}) {
+					Get started
+				}
+			}
+		}
+		@card.Card() {
+			@card.Header() {
+				<div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+					@icon.Building2(icon.Props{
+						Size:  24,
+						Class: "text-primary",
+					})
+				</div>
+				@card.Title() {
+					For Enterprise
+				}
+				@card.Description() {
+					Custom solutions for large organizations
+				}
+			}
+			@card.Content() {
+				<ul class="space-y-2 mb-6">
+					<li class="flex items-center gap-2">
+						@icon.Check(icon.Props{
+							Size:  16,
+							Class: "text-primary",
+						})
+						<span class="text-sm">Custom deployment</span>
+					</li>
+					<li class="flex items-center gap-2">
+						@icon.Check(icon.Props{
+							Size:  16,
+							Class: "text-primary",
+						})
+						<span class="text-sm">Dedicated support</span>
+					</li>
+					<li class="flex items-center gap-2">
+						@icon.Check(icon.Props{
+							Size:  16,
+							Class: "text-primary",
+						})
+						<span class="text-sm">SLA guarantee</span>
+					</li>
+				</ul>
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+					Class:   "w-full",
+				}) {
+					Contact sales
+				}
+			}
+		}
+	</div>
+}

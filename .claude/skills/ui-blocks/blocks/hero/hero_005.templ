@@ -1,0 +1,85 @@
+package hero
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Hero005() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="flex flex-col items-center justify-center space-y-4 text-center">
+			@Hero005Header()
+			@Hero005Features()
+			@Hero005Actions()
+		</div>
+	</section>
+}
+
+templ Hero005Header() {
+	@badge.Badge(badge.Props{
+		Class: "bg-muted px-3 py-1 rounded-lg text-sm font-medium",
+	}) {
+		@icon.Sparkles(icon.Props{
+			Size:  16,
+			Class: "text-primary fill-primary",
+		})
+		<span class="text-primary">New Features</span>
+	}
+	<h1 class="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
+		Powerful Features for Modern Teams
+	</h1>
+	<p class="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+		Everything you need to streamline your workflow and boost productivity
+	</p>
+}
+
+templ Hero005Features() {
+	<div class="mx-auto flex w-full flex-col gap-4 mt-8">
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+			@Hero005FeatureCard("Lightning Fast", "Experience blazing performance with our optimized architecture and efficient caching strategy.", icon.Zap)
+			@Hero005FeatureCard("Enterprise Security", "Bank-grade encryption and compliance with industry standards keep your data protected at all times.", icon.Shield)
+			@Hero005FeatureCard("Seamless Integration", "Connect with your favorite tools and services through our extensive API and pre-built integrations.", icon.RefreshCw)
+		</div>
+	</div>
+}
+
+templ Hero005FeatureCard(title string, description string, iconFunc func(...icon.Props) templ.Component) {
+	@card.Card(card.Props{Class: "flex flex-col h-full"}) {
+		@card.Header() {
+			<div class="flex items-center justify-center gap-2">
+				@avatar.Avatar(avatar.Props{
+					Class: "bg-primary/10",
+				}) {
+					@iconFunc(icon.Props{Class: "h-5 w-5"})
+				}
+				@card.Title(card.TitleProps{Class: "text-xl"}) {
+					{ title }
+				}
+			</div>
+		}
+		@card.Content() {
+			<p class="text-muted-foreground">{ description }</p>
+		}
+	}
+}
+
+templ Hero005Actions() {
+	<div class="flex flex-col gap-2 min-[400px]:flex-row pt-8">
+		@button.Button(button.Props{
+			Size:  "lg",
+			Class: "font-medium",
+		}) {
+			Get Started
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+			Size:    "lg",
+			Class:   "font-medium",
+		}) {
+			View Documentation
+		}
+	</div>
+}

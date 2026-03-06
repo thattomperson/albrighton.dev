@@ -1,0 +1,94 @@
+package countdown
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+)
+
+templ Countdown003() {
+	@Countdown003Script()
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		@card.Card(card.Props{
+			Class: "w-full max-w-lg",
+		}) {
+			@card.Header() {
+				@card.Title() {
+					Flash Sale Ends Soon
+				}
+				@card.Description() {
+					Get up to 50% off on premium templates
+				}
+			}
+			@card.Content() {
+				<div id="countdown003-container" class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-6">
+					@Countdown003CountdownDigit("00", "Days", "countdown003-days")
+					@Countdown003CountdownDigit("00", "Hours", "countdown003-hours")
+					@Countdown003CountdownDigit("00", "Minutes", "countdown003-minutes")
+					@Countdown003CountdownDigit("00", "Seconds", "countdown003-seconds")
+				</div>
+			}
+			@card.Footer(card.FooterProps{
+				Class: "flex justify-center",
+			}) {
+				@button.Button(button.Props{
+					Variant: button.VariantDefault,
+					Class:   "px-8",
+				}) {
+					Shop Now
+				}
+			}
+		}
+	</div>
+}
+
+templ Countdown003CountdownDigit(value, label string, id string) {
+	<div class="flex flex-col items-center">
+		@avatar.Avatar(avatar.Props{
+			Class: "w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 mb-2",
+		}) {
+			<span id={ id } class="text-lg sm:text-xl font-bold">{ value }</span>
+		}
+		<span class="text-xs font-medium text-muted-foreground">{ label }</span>
+	</div>
+}
+
+// JavaScript logic for the countdown timer
+templ Countdown003Script() {
+	<script nonce={ templ.GetNonce(ctx) }>
+		// EASY TO CUSTOMIZE:
+		// Set your target date here (30 days from now by default)
+		const targetDate003 = new Date();
+		targetDate003.setDate(targetDate003.getDate() + 30);
+		
+		// Initialize countdown
+		function initCountdown003() {
+			// Update countdown every second
+			const countdownInterval = setInterval(function() {
+				const now = new Date().getTime();
+				const distance = targetDate003.getTime() - now;
+				
+				// Calculate time units
+				const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+				const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+				const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+				
+				// Update the countdown elements
+				document.getElementById('countdown003-days').textContent = days.toString().padStart(2, '0');
+				document.getElementById('countdown003-hours').textContent = hours.toString().padStart(2, '0');
+				document.getElementById('countdown003-minutes').textContent = minutes.toString().padStart(2, '0');
+				document.getElementById('countdown003-seconds').textContent = seconds.toString().padStart(2, '0');
+				
+				// If the countdown is over
+				if (distance < 0) {
+					clearInterval(countdownInterval);
+					document.getElementById('countdown003-container').innerHTML = "<div class='text-center py-4'>Sale has ended!</div>";
+				}
+			}, 1000);
+		}
+		
+		// Start the countdown when the page loads
+		document.addEventListener('DOMContentLoaded', initCountdown003);
+	</script>
+}

@@ -1,0 +1,144 @@
+package feature
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Feature005() {
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="py-16 lg:py-24 max-w-7xl w-full">
+			@Feature005Header()
+			<div class="grid gap-8 lg:grid-cols-12 items-center">
+				@Feature005Terminal()
+				@Feature005Metrics()
+			</div>
+		</div>
+	</div>
+}
+
+templ Feature005Header() {
+	<div class="text-center mb-16">
+		@badge.Badge(badge.Props{
+			Variant: badge.VariantDefault,
+			Class:   "mb-4",
+		}) {
+			@icon.Zap(icon.Props{Size: 14})
+			Performance First
+		}
+		<h2 class="text-4xl font-bold mb-6">
+			Built for Scale and Speed
+		</h2>
+		<p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+			Enterprise-grade performance with developer-friendly APIs. From prototypes to production at scale.
+		</p>
+	</div>
+}
+
+templ Feature005Metrics() {
+	<div class="lg:col-span-5 space-y-8">
+		<div class="space-y-6">
+			@Feature005MetricCard("< 5ms", "Average response time", "99.9% uptime SLA", icon.Zap)
+			@Feature005MetricCard("0.5KB", "Minimal bundle impact", "Tree-shaking optimized", icon.Minimize)
+			@Feature005MetricCard("SSR Ready", "Server-side rendering", "Zero client-side JS required", icon.Server)
+		</div>
+		@button.Button() {
+			View Performance Docs
+			@icon.ExternalLink(icon.Props{Size: 16, Class: "ml-2"})
+		}
+	</div>
+}
+
+templ Feature005Terminal() {
+	<div class="lg:col-span-7">
+		@card.Card() {
+			@card.Content(card.ContentProps{
+				Class: "p-4",
+			}) {
+				<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5"></div>
+				<div class="relative">
+					<div class="flex items-center justify-between mb-4">
+						<div class="flex items-center gap-2">
+							@icon.Terminal(icon.Props{Size: 16})
+							<span class="text-sm font-mono">Performance Metrics</span>
+						</div>
+						<div class="flex gap-2">
+							<div class="w-3 h-3 rounded-full bg-destructive"></div>
+							<div class="w-3 h-3 rounded-full bg-muted"></div>
+							<div class="w-3 h-3 rounded-full bg-primary"></div>
+						</div>
+					</div>
+					<div class="space-y-3 font-mono text-sm">
+						<div class="text-muted-foreground">
+							<span>$</span> go build
+						</div>
+						<div>
+							✓ Build completed in 2.1s
+						</div>
+						<div class="text-muted-foreground">
+							<span>$</span> bundlesize check
+						</div>
+						<div>
+							✓ All bundles under size limit
+						</div>
+						@card.Card() {
+							@card.Content(card.ContentProps{
+								Class: "grid grid-cols-2 gap-4 p-3 bg-muted/20",
+							}) {
+								<div>
+									<div class="text-muted-foreground text-xs">Bundle Size</div>
+									<div class="text-foreground font-semibold">12.5 KB</div>
+								</div>
+								<div>
+									<div class="text-muted-foreground text-xs">Gzipped</div>
+									<div class="text-foreground font-semibold">4.2 KB</div>
+								</div>
+								<div>
+									<div class="text-muted-foreground text-xs">Load Time</div>
+									<div class="text-foreground font-semibold">&lt; 100ms</div>
+								</div>
+								<div>
+									<div class="text-muted-foreground text-xs">Lighthouse</div>
+									<div class="font-semibold">100/100</div>
+								</div>
+							}
+						}
+					</div>
+				</div>
+				<div class="grid gap-4 sm:grid-cols-2 mt-6">
+					@Feature005TechBadge("Web Vitals", "Perfect Core Web Vitals scores", icon.Activity)
+					@Feature005TechBadge("CDN Ready", "Global edge distribution", icon.Globe)
+					@Feature005TechBadge("Cache Optimized", "Smart caching strategies", icon.Database)
+					@Feature005TechBadge("Mobile First", "Optimized for all devices", icon.Smartphone)
+				</div>
+			}
+		}
+	</div>
+}
+
+templ Feature005MetricCard(value, title, description string, iconFunc func(...icon.Props) templ.Component) {
+	@card.Card() {
+		@card.Content(card.ContentProps{
+			Class: "gap-4 p-4",
+		}) {
+			<div class="flex items-center gap-2 mb-1">
+				@iconFunc(icon.Props{Size: 20})
+				<div class="text-2xl font-bold">{ value }</div>
+			</div>
+			<div class="text-sm text-muted-foreground">{ title }</div>
+			<div class="text-xs">{ description }</div>
+		}
+	}
+}
+
+templ Feature005TechBadge(title, description string, iconFunc func(...icon.Props) templ.Component) {
+	<div class="flex items-start gap-3 p-3 rounded-lg bg-muted/50 border">
+		@iconFunc(icon.Props{Size: 16, Class: "mt-0.5"})
+		<div>
+			<div class="font-medium text-sm">{ title }</div>
+			<div class="text-xs text-muted-foreground">{ description }</div>
+		</div>
+	</div>
+}

@@ -1,0 +1,217 @@
+package sidebar
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+	"github.com/templui/templui-pro/internal/ui/components/sidebar"
+)
+
+templ Sidebar002() {
+	@sidebar.Layout() {
+		@sidebar.Sidebar() {
+			@sidebar.Header() {
+				@sidebar.Menu() {
+					@sidebar.MenuItem() {
+						@sidebar.MenuButton(sidebar.MenuButtonProps{
+							Href: "#",
+						}) {
+							@icon.Layers(icon.Props{Class: "size-4"})
+							<span class="font-semibold">Acme Inc</span>
+						}
+					}
+				}
+			}
+			@sidebar.Content() {
+				@sidebar.Group() {
+					@sidebar.Menu() {
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href:     "#",
+								IsActive: true,
+							}) {
+								@icon.LayoutDashboard(icon.Props{Class: "size-4"})
+								<span>Overview</span>
+							}
+						}
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.ChartBar(icon.Props{Class: "size-4"})
+								<span>Analytics</span>
+							}
+						}
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.Users(icon.Props{Class: "size-4"})
+								<span>Customers</span>
+								@sidebar.MenuBadge() {
+									1,234
+								}
+							}
+						}
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.ShoppingCart(icon.Props{Class: "size-4"})
+								<span>Orders</span>
+								@sidebar.MenuBadge() {
+									23
+								}
+							}
+						}
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.Package(icon.Props{Class: "size-4"})
+								<span>Products</span>
+								@sidebar.MenuBadge() {
+									56
+								}
+							}
+						}
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.CreditCard(icon.Props{Class: "size-4"})
+								<span>Billing</span>
+							}
+						}
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.Settings(icon.Props{Class: "size-4"})
+								<span>Settings</span>
+							}
+						}
+					}
+				}
+				@sidebar.Separator()
+				@sidebar.Group() {
+					@sidebar.GroupLabel() {
+						Quick Actions
+					}
+					@sidebar.Menu() {
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.Plus(icon.Props{Class: "size-4"})
+								<span>New Customer</span>
+							}
+						}
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.FileText(icon.Props{Class: "size-4"})
+								<span>Create Invoice</span>
+							}
+						}
+						@sidebar.MenuItem() {
+							@sidebar.MenuButton(sidebar.MenuButtonProps{
+								Href: "#",
+							}) {
+								@icon.MessageSquare(icon.Props{Class: "size-4"})
+								<span>Support</span>
+							}
+						}
+					}
+				}
+				@sidebar.Separator()
+				@sidebar.Group() {
+					@card.Card(card.Props{
+						Class: "bg-muted/50",
+					}) {
+						@card.Content(card.ContentProps{
+							Class: "p-3 space-y-2",
+						}) {
+							<div class="flex items-center justify-between">
+								<span class="text-sm font-medium">Storage Used</span>
+								<span class="text-sm text-muted-foreground">68%</span>
+							</div>
+							@progress.Progress(progress.Props{
+								Value: 68,
+							})
+							<p class="text-xs text-muted-foreground">
+								6.8 GB of 10 GB used
+							</p>
+						}
+					}
+				}
+			}
+			@sidebar.Footer() {
+				@sidebar.Menu() {
+					@sidebar.MenuItem() {
+						@dropdown.Dropdown() {
+							@dropdown.Trigger() {
+								@sidebar.MenuButton(sidebar.MenuButtonProps{
+									Size: sidebar.MenuButtonSizeLg,
+								}) {
+									@avatar.Avatar(avatar.Props{Class: "size-8"}) {
+										@avatar.Fallback() {
+											SJ
+										}
+									}
+									<div class="flex flex-col flex-1 text-left">
+										<span class="text-sm font-medium">Sarah Johnson</span>
+										<span class="text-xs text-muted-foreground">sarah@acme.com</span>
+									</div>
+									@icon.ChevronsUpDown(icon.Props{Class: "ml-auto size-4"})
+								}
+							}
+							@dropdown.Content(dropdown.ContentProps{
+								Class:     "w-56",
+								Placement: dropdown.PlacementTopEnd,
+							}) {
+								@dropdown.Label() {
+									Sarah Johnson
+								}
+								@dropdown.Separator()
+								@dropdown.Item() {
+									<span class="flex items-center">
+										@icon.User(icon.Props{Size: 16, Class: "mr-2"})
+										Profile
+									</span>
+								}
+								@dropdown.Item() {
+									<span class="flex items-center">
+										@icon.Settings(icon.Props{Size: 16, Class: "mr-2"})
+										Settings
+									</span>
+								}
+								@dropdown.Separator()
+								@dropdown.Item() {
+									<span class="flex items-center">
+										@icon.LogOut(icon.Props{Size: 16, Class: "mr-2"})
+										Sign out
+									</span>
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		@sidebar.Inset() {
+			<div class="flex h-full flex-col">
+				<div class="flex h-14 items-center gap-4 px-6">
+					@sidebar.Trigger()
+					<span class="text-sm text-muted-foreground">Admin Dashboard</span>
+				</div>
+				<div class="flex-1 overflow-y-auto p-6">
+					<!-- Content goes here -->
+				</div>
+			</div>
+		}
+	}
+}

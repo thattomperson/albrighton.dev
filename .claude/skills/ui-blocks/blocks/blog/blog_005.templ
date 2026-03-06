@@ -1,0 +1,145 @@
+package blog
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Blog005() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-6xl">
+			@Blog005Header()
+			@Blog005Timeline()
+		</div>
+	</section>
+}
+
+templ Blog005Header() {
+	<div class="max-w-3xl mx-auto text-center mb-12">
+		<h2 class="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">Recent <span class="text-primary">Updates</span></h2>
+		<p class="text-muted-foreground md:text-xl">
+			A chronological view of our latest articles and announcements
+		</p>
+	</div>
+}
+
+templ Blog005Timeline() {
+	<div class="max-w-3xl mx-auto">
+		<div class="relative">
+			<div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/20 via-primary/50 to-primary/20"></div>
+			@Blog005TimelineItem(
+				"Mar 20",
+				"2024",
+				"Introducing Our New Design System",
+				"We're excited to announce the launch of our comprehensive design system that will help maintain consistency across all our products.",
+				"Announcement",
+				true,
+			)
+			@Blog005TimelineItem(
+				"Mar 18",
+				"2024",
+				"Performance Optimization Techniques",
+				"Learn how we improved our application's performance by 40% through strategic optimizations and code refactoring.",
+				"Engineering",
+				false,
+			)
+			@Blog005TimelineItem(
+				"Mar 15",
+				"2024",
+				"Customer Success Story: TechCorp",
+				"See how TechCorp increased their productivity by 60% using our platform and custom integrations.",
+				"Case Study",
+				false,
+			)
+			@Blog005TimelineItem(
+				"Mar 12",
+				"2024",
+				"Security Best Practices Guide",
+				"A comprehensive guide to securing your applications with the latest security standards and practices.",
+				"Guide",
+				false,
+			)
+			@Blog005TimelineItem(
+				"Mar 10",
+				"2024",
+				"Q1 Product Roadmap",
+				"Get a sneak peek at what's coming in Q1 2024, including new features and improvements based on your feedback.",
+				"Product",
+				false,
+			)
+			@Blog005TimelineItem(
+				"Mar 8",
+				"2024",
+				"API v2.0 Released",
+				"Our new API version is now available with improved performance, better documentation, and new endpoints.",
+				"Release",
+				false,
+			)
+		</div>
+		<div class="text-center mt-12">
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "hover:border-primary hover:text-primary group",
+			}) {
+				Load More Articles
+				@icon.ChevronDown(icon.Props{
+					Size:  16,
+					Class: "ml-1 group-hover:translate-y-0.5 transition-transform",
+				})
+			}
+		</div>
+	</div>
+}
+
+templ Blog005TimelineItem(day, year, title, description, category string, isNew bool) {
+	<div class="relative flex items-start mb-8 group">
+		<div class="absolute left-8 w-4 h-4 bg-background border-2 border-primary rounded-full -translate-x-1/2 group-hover:scale-125 transition-transform"></div>
+		<div class="ml-20 flex-1">
+			<div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+				<time class="text-sm font-medium text-muted-foreground">
+					{ day }, { year }
+				</time>
+				if isNew {
+					<span class="inline-flex items-center gap-1 text-xs font-medium text-primary">
+						@icon.Sparkles(icon.Props{
+							Size: 12,
+						})
+						New
+					</span>
+				}
+				@separator.Separator(separator.Props{
+					Orientation: separator.OrientationVertical,
+					Class:       "hidden sm:block h-4",
+				})
+				<span class="text-sm text-muted-foreground">{ category }</span>
+			</div>
+			@card.Card(card.Props{
+				Class: "bg-muted/50 hover:bg-muted transition-colors",
+			}) {
+				@card.Header(card.HeaderProps{
+					Class: "pb-4",
+				}) {
+					@card.Title() {
+						{ title }
+					}
+					@card.Description() {
+						{ description }
+					}
+				}
+				@card.Footer() {
+					@button.Button(button.Props{
+						Class: "flex items-center gap-2 group",
+					}) {
+						Read More
+						@icon.ArrowRight(icon.Props{
+							Size:  14,
+							Class: "group-hover:translate-x-1 transition-transform",
+						})
+					}
+				}
+			}
+		</div>
+	</div>
+}

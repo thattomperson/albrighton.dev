@@ -1,0 +1,146 @@
+package search
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/checkbox"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/selectbox"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Search003() {
+	<section class="w-full max-w-6xl mx-auto p-6">
+		<div class="flex flex-col lg:flex-row gap-6">
+			@Search003FilterSidebar()
+			@Search003SearchMain()
+		</div>
+	</section>
+}
+
+templ Search003FilterSidebar() {
+	<aside class="w-full lg:w-64 space-y-6">
+		<h3 class="font-semibold text-lg">Filters</h3>
+		@Search003CategoryFilter()
+		@separator.Separator()
+		@Search003PriceFilter()
+		@separator.Separator()
+		@Search003RatingFilter()
+		<div class="flex gap-2">
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Size:    button.SizeSm,
+				Class:   "flex-1",
+				Type:    "button",
+			}) {
+				Clear Filters
+			}
+		</div>
+	</aside>
+}
+
+templ Search003SearchMain() {
+	<main class="flex-1">
+		<form class="space-y-4">
+			<div class="flex gap-2">
+				<div class="flex-1">
+					@input.Input(input.Props{
+						Type:        input.TypeSearch,
+						Name:        "q",
+						Placeholder: "Search products...",
+					})
+				</div>
+				@button.Button() {
+					<span class="flex items-center gap-2">
+						@icon.Search()
+						Search
+					</span>
+				}
+			</div>
+			<div class="flex items-center justify-between text-sm text-muted-foreground">
+				<span>Showing results for "wireless headphones"</span>
+				<div class="w-48">
+					@selectbox.SelectBox() {
+						@selectbox.Trigger(selectbox.TriggerProps{
+							Name: "sort",
+						}) {
+							@selectbox.Value(selectbox.ValueProps{
+								Placeholder: "Sort by relevance",
+							})
+						}
+						@selectbox.Content() {
+							@selectbox.Item(selectbox.ItemProps{Value: "relevance", Selected: true}) {
+								Sort by relevance
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "price_asc"}) {
+								Price: Low to High
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "price_desc"}) {
+								Price: High to Low
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "newest"}) {
+								Newest First
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "rating"}) {
+								Highest Rated
+							}
+						}
+					}
+				</div>
+			</div>
+		</form>
+	</main>
+}
+
+templ Search003CategoryFilter() {
+	<div class="space-y-3">
+		<h4 class="font-medium">Category</h4>
+		<div class="space-y-2">
+			@Search003FilterCheckbox("electronics", "Electronics", "148")
+			@Search003FilterCheckbox("accessories", "Accessories", "89")
+			@Search003FilterCheckbox("audio", "Audio", "56")
+			@Search003FilterCheckbox("computing", "Computing", "234")
+		</div>
+	</div>
+}
+
+templ Search003PriceFilter() {
+	<div class="space-y-3">
+		<h4 class="font-medium">Price Range</h4>
+		<div class="space-y-2">
+			@Search003FilterCheckbox("price_0_25", "Under $25", "67")
+			@Search003FilterCheckbox("price_25_50", "$25 - $50", "143")
+			@Search003FilterCheckbox("price_50_100", "$50 - $100", "234")
+			@Search003FilterCheckbox("price_100_plus", "$100+", "89")
+		</div>
+	</div>
+}
+
+templ Search003RatingFilter() {
+	<div class="space-y-3">
+		<h4 class="font-medium">Customer Rating</h4>
+		<div class="space-y-2">
+			@Search003FilterCheckbox("rating_4_plus", "4 Stars & Up", "312")
+			@Search003FilterCheckbox("rating_3_plus", "3 Stars & Up", "245")
+			@Search003FilterCheckbox("rating_2_plus", "2 Stars & Up", "156")
+		</div>
+	</div>
+}
+
+templ Search003FilterCheckbox(value, labelText, count string) {
+	<div class="flex items-center space-x-2">
+		@checkbox.Checkbox(checkbox.Props{
+			Name:  "filters",
+			Value: value,
+			ID:    value,
+		})
+		@label.Label(label.Props{
+			For:   value,
+			Class: "flex-1 text-sm cursor-pointer",
+		}) {
+			{ labelText }
+		}
+		<span class="text-xs text-muted-foreground">({ count })</span>
+	</div>
+}

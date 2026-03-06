@@ -1,0 +1,71 @@
+package footer
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Footer002() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<footer class="bg-background border-t w-full max-w-7xl">
+			<div class="px-4 py-8 sm:px-6 lg:px-8">
+				@Footer002Content()
+			</div>
+		</footer>
+	</section>
+}
+
+templ Footer002Content() {
+	<div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+		@Footer002Brand()
+		@Footer002Links()
+		@Footer002Social()
+	</div>
+	@separator.Separator(separator.Props{Class: "my-6"})
+	@Footer002Copyright()
+}
+
+templ Footer002Brand() {
+	<div class="flex items-center gap-2">
+		@icon.Layers(icon.Props{Class: "text-primary"})
+		<span class="font-semibold">Acme Inc</span>
+	</div>
+}
+
+templ Footer002Links() {
+	<nav class="flex items-center gap-6">
+		@Footer002Link("About", "#")
+		@Footer002Link("Blog", "#")
+		@Footer002Link("Docs", "#")
+		@Footer002Link("Support", "#")
+	</nav>
+}
+
+templ Footer002Social() {
+	<div class="flex items-center gap-3">
+		<a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+			@icon.Github(icon.Props{
+				Class: "size-5",
+			})
+		</a>
+		<a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+			@icon.Twitter(icon.Props{
+				Class: "size-5",
+			})
+		</a>
+	</div>
+}
+
+templ Footer002Copyright() {
+	<div class="text-center">
+		<p class="text-sm text-muted-foreground">
+			© 2024 Acme Inc. All rights reserved.
+		</p>
+	</div>
+}
+
+templ Footer002Link(text, href string) {
+	<a href={ templ.URL(href) } class="text-sm text-muted-foreground hover:text-primary transition-colors">
+		{ text }
+	</a>
+}

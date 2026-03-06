@@ -1,0 +1,107 @@
+package gallery
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Gallery005() {
+	<section class="w-full p-6 md:p-10">
+		<div class="max-w-7xl mx-auto">
+			@Gallery005Header()
+			@Gallery005Grid()
+			@Gallery005Modal()
+		</div>
+	</section>
+}
+
+templ Gallery005Header() {
+	<div class="mb-12">
+		<h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+			Interactive <span class="text-primary">Gallery</span>
+		</h2>
+		<p class="text-lg text-muted-foreground">
+			Click any image to view in lightbox mode
+		</p>
+	</div>
+}
+
+templ Gallery005Grid() {
+	<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+		@Gallery005Item("/assets/img/placeholder.svg", "Abstract Art")
+		@Gallery005Item("/assets/img/placeholder.svg", "Digital Creation")
+		@Gallery005Item("/assets/img/placeholder.svg", "Watercolor")
+		@Gallery005Item("/assets/img/placeholder.svg", "Mixed Media")
+		@Gallery005Item("/assets/img/placeholder.svg", "Contemporary")
+		@Gallery005Item("/assets/img/placeholder.svg", "Minimalist")
+		@Gallery005Item("/assets/img/placeholder.svg", "Geometric")
+		@Gallery005Item("/assets/img/placeholder.svg", "Texture Study")
+	</div>
+}
+
+templ Gallery005Item(src, title string) {
+	<div>
+		@card.Card(card.Props{
+			Class: "group relative aspect-square overflow-hidden cursor-pointer focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300",
+		}) {
+			<button
+				class="absolute inset-0 w-full h-full bg-transparent border-0 p-0"
+				data-lightbox="gallery"
+				data-src={ src }
+				data-title={ title }
+			>
+				<img
+					src={ src }
+					alt={ title }
+					class="h-full w-full object-cover transition-all duration-300 group-hover:scale-110 group-hover:brightness-90"
+				/>
+				<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+					@icon.Expand(icon.Props{
+						Size:  24,
+						Class: "text-primary drop-shadow-lg",
+					})
+				</div>
+			</button>
+		}
+	</div>
+}
+
+templ Gallery005Modal() {
+	<div class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-sm" data-lightbox-modal>
+		<button
+			class="absolute top-4 right-4 text-white/80 hover:text-primary transition-colors"
+			data-lightbox-close
+		>
+			@icon.X(icon.Props{
+				Size: 24,
+			})
+		</button>
+		<button
+			class="absolute left-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-primary transition-colors"
+			data-lightbox-prev
+		>
+			@icon.ChevronLeft(icon.Props{
+				Size: 32,
+			})
+		</button>
+		<button
+			class="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-primary transition-colors"
+			data-lightbox-next
+		>
+			@icon.ChevronRight(icon.Props{
+				Size: 32,
+			})
+		</button>
+		<div class="relative max-w-7xl max-h-[90vh] mx-4">
+			<img
+				src=""
+				alt=""
+				class="max-w-full max-h-[90vh] object-contain"
+				data-lightbox-image
+			/>
+			<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 text-white text-center">
+				<p class="text-lg font-medium" data-lightbox-title></p>
+			</div>
+		</div>
+	</div>
+}

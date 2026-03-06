@@ -1,0 +1,65 @@
+package newsletter
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+)
+
+templ Newsletter002() {
+	<section class="w-full py-12 md:py-16 lg:py-20">
+		<div class="container mx-auto px-4">
+			<div class="mx-auto max-w-6xl">
+				<div class="grid gap-8 md:grid-cols-2 md:gap-12 items-center">
+					@Newsletter002Content()
+					@Newsletter002Form()
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+templ Newsletter002Content() {
+	<div class="space-y-4">
+		<h2 class="text-3xl font-bold tracking-tight sm:text-4xl">
+			Stay in the <span class="text-primary">loop</span>
+		</h2>
+		<p class="text-muted-foreground text-lg">
+			Get the latest updates on new features, tips & tricks, and exclusive content delivered straight to your inbox.
+		</p>
+		<div class="flex items-center gap-2 text-sm text-muted-foreground">
+			@icon.CircleCheck(icon.Props{Size: 16, Class: "text-primary"})
+			<span>No spam, unsubscribe anytime</span>
+		</div>
+	</div>
+}
+
+templ Newsletter002Form() {
+	<div class="space-y-4">
+		<div class="space-y-3">
+			<div class="space-y-2">
+				@label.Label(label.Props{
+					For: "email-002",
+				}) {
+					Email address
+				}
+				@input.Input(input.Props{
+					ID:          "email-002",
+					Type:        input.TypeEmail,
+					Name:        "email",
+					Placeholder: "you@example.com",
+					Class:       "focus:border-primary",
+				})
+			</div>
+			@button.Button(button.Props{
+				Class: "w-full",
+			}) {
+				Subscribe to newsletter
+			}
+		</div>
+		<p class="text-xs text-muted-foreground">
+			By subscribing, you agree to our Privacy Policy and consent to receive updates from our company.
+		</p>
+	</div>
+}

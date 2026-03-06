@@ -1,0 +1,102 @@
+package navbar
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/sheet"
+)
+
+templ Navbar001() {
+	@sheet.Sheet(sheet.Props{
+		Side: sheet.SideLeft,
+	}) {
+		@Navbar001Desktop()
+		@Navbar001MobileDrawer()
+	}
+}
+
+templ Navbar001MobileDrawer() {
+	@sheet.Content() {
+		@Navbar001DrawerContent()
+	}
+}
+
+templ Navbar001DrawerContent() {
+	<div class="flex flex-col h-full">
+		<div class="flex items-center justify-between p-4 border-b bg-background">
+			@Navbar001Logo()
+		</div>
+		<nav class="flex-1 p-4 bg-background">
+			<div class="flex flex-col space-y-3">
+				@Navbar001MobileMenuItems()
+			</div>
+		</nav>
+	</div>
+}
+
+templ Navbar001Desktop() {
+	<nav class="sticky top-0 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+		<div class="container mx-auto px-4">
+			<div class="flex h-16 items-center justify-between">
+				@Navbar001Logo()
+				<div class="hidden md:flex items-center space-x-8">
+					@Navbar001MenuItems()
+				</div>
+				<div class="md:hidden">
+					@sheet.Trigger() {
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Size:    button.SizeIcon,
+							Class:   "h-9 w-9",
+						}) {
+							@icon.Menu(icon.Props{Size: 20})
+						}
+					}
+				</div>
+			</div>
+		</div>
+	</nav>
+}
+
+templ Navbar001Logo() {
+	<div class="flex items-center space-x-2">
+		@icon.Layers()
+		<span class="text-xl font-bold">Acme Inc</span>
+	</div>
+}
+
+templ Navbar001MenuItems() {
+	<a href="#" class="text-sm font-medium transition-colors hover:text-primary">
+		Home
+	</a>
+	<a href="#" class="text-sm font-medium transition-colors hover:text-primary">
+		Features
+	</a>
+	<a href="#" class="text-sm font-medium transition-colors hover:text-primary">
+		Pricing
+	</a>
+	<a href="#" class="text-sm font-medium transition-colors hover:text-primary">
+		About
+	</a>
+	<a href="#" class="text-sm font-medium transition-colors hover:text-primary">
+		Contact
+	</a>
+}
+
+templ Navbar001MobileMenuItems() {
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		Home
+	</a>
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		Features
+	</a>
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		Pricing
+	</a>
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		About
+	</a>
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		Contact
+	</a>
+}

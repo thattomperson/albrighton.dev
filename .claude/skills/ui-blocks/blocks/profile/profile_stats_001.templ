@@ -1,0 +1,226 @@
+package profile
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/chart"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+)
+
+templ ProfileStats001() {
+	<div class="container mx-auto px-4 py-8">
+		<div class="max-w-6xl mx-auto">
+			@ProfileStats001Header()
+			@ProfileStats001Overview()
+			@ProfileStats001Charts()
+			@ProfileStats001Achievements()
+		</div>
+	</div>
+}
+
+templ ProfileStats001Header() {
+	<div class="mb-8">
+		<h2 class="text-3xl font-bold mb-2">Profile Statistics</h2>
+		<p class="text-muted-foreground">Track your progress and performance metrics</p>
+	</div>
+}
+
+templ ProfileStats001Overview() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+		@ProfileStats001StatCard(
+			"Total Views",
+			"24.5K",
+			"+12% from last month",
+			icon.Eye(icon.Props{Size: 20}),
+			"text-muted-foreground bg-muted",
+		)
+		@ProfileStats001StatCard(
+			"Engagement Rate",
+			"68%",
+			"+5% from last month",
+			icon.TrendingUp(icon.Props{Size: 20}),
+			"text-muted-foreground bg-muted",
+		)
+		@ProfileStats001StatCard(
+			"Followers Growth",
+			"+342",
+			"This month",
+			icon.Users(icon.Props{Size: 20}),
+			"text-muted-foreground bg-muted",
+		)
+		@ProfileStats001StatCard(
+			"Content Created",
+			"156",
+			"All time",
+			icon.FileText(icon.Props{Size: 20}),
+			"text-muted-foreground bg-muted",
+		)
+	</div>
+}
+
+templ ProfileStats001StatCard(title, value, subtitle string, iconComponent templ.Component, colorClass string) {
+	@card.Card() {
+		@card.Content(card.ContentProps{Class: "p-4 sm:p-6"}) {
+			<div class="flex items-center justify-between mb-4">
+				<div class={ "p-2 rounded-lg", colorClass }>
+					{ children... }
+				</div>
+				@icon.EllipsisVertical(icon.Props{Size: 16, Class: "text-muted-foreground"})
+			</div>
+			<div>
+				<h3 class="text-2xl font-bold">{ value }</h3>
+				<p class="text-sm text-muted-foreground">{ title }</p>
+				<p class="text-xs text-muted-foreground mt-1">{ subtitle }</p>
+			</div>
+		}
+	}
+}
+
+templ ProfileStats001Charts() {
+	<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+		@card.Card() {
+			@card.Header() {
+				@card.Title() {
+					Activity Overview
+				}
+				@card.Description() {
+					Your activity over the last 7 days
+				}
+			}
+			@card.Content() {
+				@chart.Chart(chart.Props{
+					Variant: chart.VariantLine,
+					Data: chart.Data{
+						Labels: []string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"},
+						Datasets: []chart.Dataset{{
+							Label:           "Activities",
+							Data:            []float64{12, 19, 15, 25, 22, 30, 28},
+							BorderColor:     "oklch(var(--primary))",
+							BackgroundColor: "oklch(var(--primary) / 0.1)",
+							Tension:         0.4,
+						}},
+					},
+					Options: chart.Options{
+						Responsive: true,
+						Legend:     false,
+					},
+					Class: "h-64",
+				})
+			}
+		}
+		@card.Card() {
+			@card.Header() {
+				@card.Title() {
+					Content Distribution
+				}
+				@card.Description() {
+					Breakdown of your content types
+				}
+			}
+			@card.Content() {
+				@chart.Chart(chart.Props{
+					Variant: chart.VariantDoughnut,
+					Data: chart.Data{
+						Labels: []string{"Articles", "Projects", "Code Snippets", "Tutorials"},
+						Datasets: []chart.Dataset{{
+							Data: []float64{45, 30, 15, 10},
+							BackgroundColor: []string{
+								"oklch(var(--primary))",
+								"oklch(var(--primary) / 0.7)",
+								"oklch(var(--primary) / 0.5)",
+								"oklch(var(--primary) / 0.3)",
+							},
+						}},
+					},
+					Options: chart.Options{
+						Responsive: true,
+						Legend:     true,
+					},
+					Class: "h-64",
+				})
+			}
+		}
+	</div>
+}
+
+templ ProfileStats001Achievements() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Achievements & Milestones
+			}
+			@card.Description() {
+				Your progress towards various goals
+			}
+		}
+		@card.Content() {
+			<div class="space-y-6">
+				@ProfileStats001Achievement(
+					"Content Creator",
+					"Create 100 pieces of content",
+					75,
+					"75/100",
+					true,
+				)
+				@ProfileStats001Achievement(
+					"Community Builder",
+					"Reach 1000 followers",
+					85,
+					"850/1000",
+					false,
+				)
+				@ProfileStats001Achievement(
+					"Engagement Master",
+					"Maintain 50% engagement rate",
+					100,
+					"Completed",
+					true,
+				)
+				@ProfileStats001Achievement(
+					"Consistency King",
+					"Post daily for 30 days",
+					60,
+					"18/30 days",
+					false,
+				)
+			</div>
+		}
+	}
+}
+
+templ ProfileStats001Achievement(title, description string, progressValue int, progressText string, isCompleted bool) {
+	<div class="space-y-2">
+		<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+			<div class="flex items-center gap-3">
+				if isCompleted {
+					<div class="w-10 h-10 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center">
+						@icon.Trophy(icon.Props{Size: 20, Class: "text-primary"})
+					</div>
+				} else {
+					<div class="w-10 h-10 bg-muted rounded-full flex items-center justify-center">
+						@icon.Target(icon.Props{Size: 20, Class: "text-muted-foreground"})
+					</div>
+				}
+				<div>
+					<h4 class="font-medium flex flex-wrap items-center gap-2">
+						{ title }
+						if isCompleted {
+							@badge.Badge(badge.Props{
+								Class: "bg-primary/10 text-primary dark:bg-primary/20 text-xs",
+							}) {
+								Completed
+							}
+						}
+					</h4>
+					<p class="text-sm text-muted-foreground">{ description }</p>
+				</div>
+			</div>
+			<span class="text-sm font-medium text-right">{ progressText }</span>
+		</div>
+		@progress.Progress(progress.Props{
+			Value: progressValue,
+			Class: "h-2",
+		})
+	</div>
+}

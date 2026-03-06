@@ -1,0 +1,162 @@
+package contact
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/accordion"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/textarea"
+)
+
+templ Contact006() {
+	<section class="w-full py-12 md:py-20 px-6 md:px-10">
+		<div class="mx-auto max-w-4xl">
+			@Contact006Header()
+			@Contact006FAQ()
+			@Contact006ContactSection()
+		</div>
+	</section>
+}
+
+templ Contact006Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl font-bold tracking-tight mb-4">Frequently Asked Questions</h2>
+		<p class="text-muted-foreground text-lg">
+			Find answers to common questions about our products and services.
+		</p>
+	</div>
+}
+
+templ Contact006FAQ() {
+	<div class="mb-16">
+		@accordion.Accordion() {
+			@Contact006FAQItem(
+				"How do I get started?",
+				"Getting started is easy! Simply sign up for an account, choose your plan, and you'll have access to all our features immediately. Our onboarding wizard will guide you through the initial setup process.",
+			)
+			@Contact006FAQItem(
+				"What payment methods do you accept?",
+				"We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and bank transfers for enterprise customers. All payments are processed securely through our payment partner.",
+			)
+			@Contact006FAQItem(
+				"Can I cancel my subscription anytime?",
+				"Yes, you can cancel your subscription at any time. There are no cancellation fees, and you'll continue to have access to your account until the end of your current billing period.",
+			)
+			@Contact006FAQItem(
+				"Do you offer refunds?",
+				"We offer a 30-day money-back guarantee for all new customers. If you're not satisfied with our service within the first 30 days, we'll provide a full refund, no questions asked.",
+			)
+			@Contact006FAQItem(
+				"Is my data secure?",
+				"Absolutely. We use industry-standard encryption and security measures to protect your data. All data is encrypted in transit and at rest, and we perform regular security audits to ensure your information remains safe.",
+			)
+			@Contact006FAQItem(
+				"Do you provide customer support?",
+				"Yes, we provide 24/7 customer support via email and live chat for all paid plans. Enterprise customers also have access to phone support and a dedicated account manager.",
+			)
+		}
+	</div>
+}
+
+templ Contact006FAQItem(question, answer string) {
+	@accordion.Item() {
+		@accordion.Trigger() {
+			{ question }
+		}
+		@accordion.Content() {
+			<p class="text-muted-foreground">{ answer }</p>
+		}
+	}
+}
+
+templ Contact006ContactSection() {
+	<div class="bg-card rounded-lg border p-8 md:p-10">
+		@Contact006ContactHeader()
+		@Contact006ContactForm()
+	</div>
+}
+
+templ Contact006ContactHeader() {
+	<div class="text-center mb-8">
+		<h3 class="text-2xl font-semibold mb-2">Still have questions?</h3>
+		<p class="text-muted-foreground">
+			Can't find what you're looking for? Send us a message and we'll get back to you as soon as possible.
+		</p>
+	</div>
+}
+
+templ Contact006ContactForm() {
+	<form class="space-y-4 max-w-lg mx-auto">
+		<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+			@Contact006NameField()
+			@Contact006EmailField()
+		</div>
+		@Contact006TopicField()
+		@Contact006MessageField()
+		@Contact006SubmitButton()
+	</form>
+}
+
+templ Contact006NameField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact6-name"}) {
+			Name
+		}
+		@input.Input(input.Props{
+			ID:          "contact6-name",
+			Name:        "name",
+			Placeholder: "Your name",
+		})
+	</div>
+}
+
+templ Contact006EmailField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact6-email"}) {
+			Email
+		}
+		@input.Input(input.Props{
+			ID:          "contact6-email",
+			Name:        "email",
+			Type:        input.TypeEmail,
+			Placeholder: "you@example.com",
+		})
+	</div>
+}
+
+templ Contact006TopicField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact6-topic"}) {
+			Topic
+		}
+		@input.Input(input.Props{
+			ID:          "contact6-topic",
+			Name:        "topic",
+			Placeholder: "What's your question about?",
+		})
+	</div>
+}
+
+templ Contact006MessageField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact6-message"}) {
+			Question
+		}
+		@textarea.Textarea(textarea.Props{
+			ID:          "contact6-message",
+			Name:        "message",
+			Placeholder: "Please describe your question in detail...",
+			Rows:        4,
+		})
+	</div>
+}
+
+templ Contact006SubmitButton() {
+	<div class="pt-2">
+		@button.Button(button.Props{
+			Class: "w-full",
+		}) {
+			Send Question
+		}
+	</div>
+}

@@ -1,0 +1,137 @@
+package testimonial
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/carousel"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/rating"
+)
+
+templ Testimonial007() {
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="py-16 lg:py-24 max-w-6xl w-full">
+			@Testimonial007Header()
+			@Testimonial007CarouselSection()
+		</div>
+	</div>
+}
+
+templ Testimonial007Header() {
+	<div class="text-center mb-16">
+		<h2 class="text-4xl font-bold mb-6">
+			Stories from Our Community
+		</h2>
+		<p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+			Discover how developers worldwide are building amazing things with our platform
+		</p>
+	</div>
+}
+
+templ Testimonial007CarouselSection() {
+	@carousel.Carousel(carousel.Props{
+		Class: "max-w-4xl mx-auto pb-12",
+	}) {
+		@carousel.Content() {
+			@carousel.Item() {
+				@Testimonial007Slide(
+					"This platform has completely transformed our development workflow. We're shipping features 3x faster than before and our team loves the developer experience.",
+					"Alex Thompson",
+					"Engineering Director",
+					"TechFlow Inc.",
+					"/assets/img/avatar-gh-1.png",
+					5.0,
+				)
+			}
+			@carousel.Item() {
+				@Testimonial007Slide(
+					"The component library is incredible. Everything is so well thought out and the documentation is fantastic. It's saved us months of development time.",
+					"Sarah Chen",
+					"Lead Frontend Developer",
+					"BuildFast Startup",
+					"/assets/img/avatar-gh-2.png",
+					5.0,
+				)
+			}
+			@carousel.Item() {
+				@Testimonial007Slide(
+					"Best investment we've made for our development stack. The performance is outstanding and the customization options are endless.",
+					"Michael Rodriguez",
+					"CTO",
+					"InnovateNow",
+					"/assets/img/avatar-gh-3.png",
+					4.9,
+				)
+			}
+			@carousel.Item() {
+				@Testimonial007Slide(
+					"As a solo developer, this platform has been a game-changer. I can build professional-grade applications in a fraction of the time.",
+					"Emma Davis",
+					"Full Stack Developer",
+					"Freelancer",
+					"/assets/img/avatar-gh-4.png",
+					5.0,
+				)
+			}
+			@carousel.Item() {
+				@Testimonial007Slide(
+					"The attention to detail in accessibility and performance is remarkable. Our users have noticed the difference immediately.",
+					"David Kim",
+					"Product Manager",
+					"UserFirst Co.",
+					"/assets/img/avatar-gh-5.png",
+					4.8,
+				)
+			}
+		}
+		@carousel.Previous()
+		@carousel.Next()
+		@carousel.Indicators(carousel.IndicatorsProps{
+			Count: 5,
+		})
+	}
+}
+
+templ Testimonial007Slide(quote, name, title, company, avatarSrc string, ratingValue float64) {
+	@card.Card(card.Props{
+		Class: "w-full bg-gradient-to-br from-primary/5 to-secondary/5 border-0 shadow-lg",
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "h-full flex flex-col justify-between p-8 md:p-12",
+		}) {
+			<div class="flex-1 flex flex-col justify-center">
+				@icon.Quote(icon.Props{Size: 32, Class: "text-primary mb-6"})
+				<blockquote class="text-lg md:text-xl lg:text-2xl font-medium leading-relaxed text-center mb-8">
+					"{ quote }"
+				</blockquote>
+			</div>
+			<div class="flex flex-col items-center space-y-4">
+				@avatar.Avatar() {
+					@avatar.Image(avatar.ImageProps{
+						Src: avatarSrc,
+					})
+				}
+				<div class="text-center md:text-left">
+					<div class="font-semibold text-lg">{ name }</div>
+					<div class="text-muted-foreground">{ title }</div>
+					<div class="text-sm font-medium text-primary">{ company }</div>
+				</div>
+				@rating.Rating(rating.Props{
+					Value:     ratingValue,
+					ReadOnly:  true,
+					Precision: 0.1,
+					Class:     "text-primary",
+				}) {
+					@rating.Group() {
+						for i := 1; i <= 5; i++ {
+							@rating.Item(rating.ItemProps{
+								Value: i,
+								Style: rating.StyleStar,
+							})
+						}
+					}
+				}
+			</div>
+		}
+	}
+}

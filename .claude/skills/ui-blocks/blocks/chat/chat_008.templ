@@ -1,0 +1,38 @@
+package chat
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Chat008() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-2xl">
+			@Chat008SimpleInput()
+		</div>
+	</section>
+}
+
+templ Chat008SimpleInput() {
+	@card.Card() {
+		@card.Content(card.ContentProps{Class: "p-4"}) {
+			<h3 class="text-sm font-medium mb-4">Simple Chat Input</h3>
+			<div class="flex items-center gap-2">
+				<input
+					type="text"
+					placeholder="Type a message..."
+					class="flex-1 px-4 py-2 bg-background border rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+				/>
+				@button.Button(button.Props{
+					Size:  button.SizeIcon,
+					Class: "rounded-full",
+				}) {
+					@icon.Send(icon.Props{
+						Size: 18,
+					})
+				}
+			</div>
+		}
+	}
+}

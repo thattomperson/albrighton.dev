@@ -1,0 +1,67 @@
+package hero
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Hero008() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="grid lg:grid-cols-2 gap-8">
+			@Hero008Content()
+			@Hero008Image()
+		</div>
+	</section>
+}
+
+templ Hero008Content() {
+	<div class="flex items-center justify-center">
+		<div class="max-w-xl">
+			<div class="flex items-center gap-2 mb-6">
+				@badge.Badge() {
+					New
+				}
+				<span class="text-sm text-muted-foreground">Version 2.0 released</span>
+			</div>
+			<h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
+				Design. Build. <span>Deploy.</span>
+			</h1>
+			<p class="mt-4 text-lg text-muted-foreground">
+				Create stunning interfaces with our component library. Build faster, design better, and ship with confidence.
+			</p>
+			<div class="mt-8 flex flex-col sm:flex-row gap-2">
+				@button.Button() {
+					Get Started
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+				}) {
+					<div class="flex items-center justify-center gap-2">
+						Documentation
+						@icon.ArrowRight(icon.Props{Size: 16})
+					</div>
+				}
+			</div>
+			<div class="mt-8 border-t pt-6 border-border">
+				<p class="text-sm text-muted-foreground mb-2">Trusted by industry leaders</p>
+				<div class="flex flex-wrap gap-6">
+					<div class="text-muted-foreground font-semibold">Microsoft</div>
+					<div class="text-muted-foreground font-semibold">Amazon</div>
+					<div class="text-muted-foreground font-semibold">Apple</div>
+					<div class="text-muted-foreground font-semibold">Google</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ Hero008Image() {
+	<div class="relative h-[40vh] lg:h-auto bg-muted flex items-center justify-center gap-4">
+		<img
+			src="/assets/img/placeholder.svg"
+			alt="Hero Split"
+			class="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+		/>
+	</div>
+}

@@ -1,0 +1,119 @@
+package ecommerce
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/alert"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+// Checkout003 - Order Success Page
+templ Checkout003() {
+	<div class="min-h-screen flex items-center justify-center p-6">
+		<div class="w-full max-w-2xl space-y-8">
+			@Checkout003Success()
+			@Checkout003NextSteps()
+			@Checkout003Help()
+		</div>
+	</div>
+}
+
+templ Checkout003Success() {
+	<div class="text-center space-y-4">
+		<div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+			@icon.CircleCheck(icon.Props{Size: 40, Class: "text-green-600"})
+		</div>
+		<div class="space-y-2">
+			<h1 class="text-3xl font-bold">Order Placed Successfully!</h1>
+			<p class="text-lg text-muted-foreground">
+				Thank you for your purchase. Your order #12345 has been confirmed.
+			</p>
+		</div>
+		<div class="flex flex-col sm:flex-row gap-3 justify-center pt-4">
+			@button.Button(button.Props{
+				Class: "w-full sm:w-auto",
+			}) {
+				View Order Details
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "w-full sm:w-auto",
+			}) {
+				@icon.ArrowLeft(icon.Props{Size: 16, Class: "mr-2"})
+				Continue Shopping
+			}
+		</div>
+	</div>
+}
+
+templ Checkout003NextSteps() {
+	<div class="space-y-4">
+		<h2 class="text-xl font-semibold text-center">What happens next?</h2>
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+			@Checkout003Step(
+				icon.Mail,
+				"Order Confirmation",
+				"You'll receive an email confirmation with your order details and receipt.",
+			)
+			@Checkout003Step(
+				icon.Package,
+				"Order Processing",
+				"We'll prepare your items for shipping within 1-2 business days.",
+			)
+			@Checkout003Step(
+				icon.Truck,
+				"Delivery",
+				"Track your package with the tracking number we'll send via email.",
+			)
+		</div>
+	</div>
+}
+
+templ Checkout003Step(iconFunc func(...icon.Props) templ.Component, title string, description string) {
+	<div class="text-center space-y-3">
+		<div class="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto">
+			@iconFunc(icon.Props{Size: 20, Class: "text-muted-foreground"})
+		</div>
+		<div>
+			<h3 class="font-medium">{ title }</h3>
+			<p class="text-sm text-muted-foreground mt-1">{ description }</p>
+		</div>
+	</div>
+}
+
+templ Checkout003Help() {
+	@alert.Alert() {
+		@icon.Info(icon.Props{Size: 16})
+		@alert.Title() {
+			Need Help?
+		}
+		@alert.Description() {
+			If you have any questions about your order, please contact our customer support at
+			<a href="mailto:support@example.com" class="underline">support@example.com</a>
+			or call 1-800-123-4567.
+		}
+	}
+}
+
+// Alternative minimalist success design
+templ Checkout003Minimal() {
+	<div class="min-h-screen flex items-center justify-center p-6">
+		<div class="text-center max-w-md">
+			<div class="space-y-6">
+				@icon.CircleCheck(icon.Props{Size: 64, Class: "text-green-600 mx-auto"})
+				<div class="space-y-2">
+					<h1 class="text-2xl font-semibold">Payment Successful</h1>
+					<p class="text-muted-foreground">
+						Order #12345 • $743.60
+					</p>
+				</div>
+				<div class="pt-2">
+					@button.Button(button.Props{
+						Class: "w-full sm:w-auto",
+					}) {
+						Done
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+}

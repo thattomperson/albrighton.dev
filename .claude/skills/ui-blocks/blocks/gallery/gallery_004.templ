@@ -1,0 +1,98 @@
+package gallery
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+)
+
+templ Gallery004() {
+	<section class="w-full p-6 md:p-10">
+		<div class="max-w-7xl mx-auto">
+			@Gallery004Header()
+			@Gallery004Filters()
+			@Gallery004Grid()
+		</div>
+	</section>
+}
+
+templ Gallery004Header() {
+	<div class="text-center mb-8">
+		<h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+			Project <span class="text-primary">Portfolio</span>
+		</h2>
+		<p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+			Filter through our diverse range of creative projects
+		</p>
+	</div>
+}
+
+templ Gallery004Filters() {
+	<div class="flex flex-wrap justify-center gap-2 mb-12">
+		@button.Button(button.Props{
+			Variant: button.VariantDefault,
+		}) {
+			All
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+		}) {
+			Branding
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+		}) {
+			Web Design
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+		}) {
+			Photography
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+		}) {
+			Illustration
+		}
+	</div>
+}
+
+templ Gallery004Grid() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+		@Gallery004Item("/assets/img/placeholder.svg", "Brand Identity", "Branding", "Complete brand redesign for tech startup")
+		@Gallery004Item("/assets/img/placeholder.svg", "E-commerce Platform", "Web Design", "Modern online shopping experience")
+		@Gallery004Item("/assets/img/placeholder.svg", "Product Photography", "Photography", "Professional product shoot")
+		@Gallery004Item("/assets/img/placeholder.svg", "Digital Illustration", "Illustration", "Custom illustrations for mobile app")
+		@Gallery004Item("/assets/img/placeholder.svg", "Dashboard Design", "Web Design", "Analytics dashboard interface")
+		@Gallery004Item("/assets/img/placeholder.svg", "Marketing Campaign", "Branding", "Multi-channel marketing materials")
+	</div>
+}
+
+templ Gallery004Item(src, title, category, description string) {
+	@card.Card(card.Props{
+		Class: "group cursor-pointer border-0 shadow-none p-0 bg-transparent",
+	}) {
+		<div class="relative overflow-hidden rounded-lg mb-4">
+			<div class="aspect-[3/2] overflow-hidden bg-muted">
+				<img
+					src={ src }
+					alt={ title }
+					class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+				/>
+			</div>
+			<div class="absolute top-4 left-4">
+				@badge.Badge(badge.Props{
+					Class: "bg-primary/90 backdrop-blur-sm text-primary-foreground border-0 px-3 py-1 text-xs font-medium",
+				}) {
+					{ category }
+				}
+			</div>
+		</div>
+		<h3 class="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
+			{ title }
+		</h3>
+		<p class="text-sm text-muted-foreground">
+			{ description }
+		</p>
+	}
+}

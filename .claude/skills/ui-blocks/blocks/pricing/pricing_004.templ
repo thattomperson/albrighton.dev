@@ -1,0 +1,219 @@
+package pricing
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Pricing004() {
+	<section class="py-24 px-4 sm:px-6 lg:px-8">
+		<div class="mx-auto max-w-6xl">
+			@Pricing004Header()
+			@Pricing004Plans()
+		</div>
+	</section>
+}
+
+templ Pricing004Header() {
+	<div class="text-center mb-16">
+		<h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+			Pay for what you use
+		</h2>
+		<p class="text-lg text-muted-foreground">
+			Transparent usage-based pricing with no hidden fees
+		</p>
+	</div>
+}
+
+templ Pricing004Plans() {
+	<div class="grid gap-8 lg:grid-cols-2">
+		@Pricing004StarterCard()
+		@Pricing004ScaleCard()
+	</div>
+	<div class="mt-12">
+		@Pricing004EnterpriseCard()
+	</div>
+}
+
+templ Pricing004StarterCard() {
+	@card.Card(card.Props{Class: "flex flex-col h-full"}) {
+		<div class="flex flex-col justify-between h-full">
+			<div>
+				@card.Header() {
+					@card.Title() {
+						Starter
+					}
+					@card.Description() {
+						Perfect for small projects and testing
+					}
+				}
+				@card.Content() {
+					<div class="space-y-6">
+						<div class="text-center">
+							<span class="text-4xl font-bold">$0</span>
+							<span class="text-muted-foreground">/month</span>
+						</div>
+						@separator.Separator()
+						<div class="space-y-4">
+							<div>
+								<div class="flex justify-between text-sm mb-2">
+									<span>API Calls</span>
+									<span class="text-muted-foreground">1,000 / 10,000</span>
+								</div>
+								@progress.Progress(progress.Props{
+									Value: 10,
+								})
+							</div>
+							<div>
+								<div class="flex justify-between text-sm mb-2">
+									<span>Storage</span>
+									<span class="text-muted-foreground">2GB / 5GB</span>
+								</div>
+								@progress.Progress(progress.Props{
+									Value: 40,
+								})
+							</div>
+							<div>
+								<div class="flex justify-between text-sm mb-2">
+									<span>Users</span>
+									<span class="text-muted-foreground">1 / 3</span>
+								</div>
+								@progress.Progress(progress.Props{
+									Value: 33,
+								})
+							</div>
+						</div>
+						@separator.Separator()
+						<ul class="space-y-2 text-sm">
+							<li>• 10,000 API calls/month</li>
+							<li>• 5GB storage</li>
+							<li>• Up to 3 users</li>
+							<li>• Community support</li>
+						</ul>
+					</div>
+				}
+			</div>
+			@card.Footer(card.FooterProps{Class: "mt-auto"}) {
+				@button.Button(button.Props{
+					FullWidth: true,
+					Variant:   button.VariantOutline,
+				}) {
+					Get started free
+				}
+			}
+		</div>
+	}
+}
+
+templ Pricing004ScaleCard() {
+	@card.Card(card.Props{
+		Class: "ring-2 ring-primary flex flex-col h-full",
+	}) {
+		<div class="flex flex-col justify-between h-full">
+			<div>
+				@card.Header() {
+					@card.Title() {
+						Scale
+					}
+					@card.Description() {
+						Grow with flexible usage limits
+					}
+				}
+				@card.Content() {
+					<div class="space-y-6">
+						<div class="text-center">
+							<span class="text-4xl font-bold">$29</span>
+							<span class="text-muted-foreground">/month</span>
+						</div>
+						@separator.Separator()
+						<div class="space-y-4">
+							@card.Card(card.Props{
+								Class: "bg-muted/50",
+							}) {
+								@card.Content(card.ContentProps{
+									Class: "p-4",
+								}) {
+									<div class="text-sm font-medium mb-1">Usage-based pricing</div>
+									<div class="text-xs text-muted-foreground">
+										Pay only for what you use beyond the base plan
+									</div>
+								}
+							}
+							<div class="space-y-3 text-sm">
+								<div class="flex justify-between">
+									<span>API calls</span>
+									<span>$0.001 per call after 100K</span>
+								</div>
+								<div class="flex justify-between">
+									<span>Storage</span>
+									<span>$0.10 per GB after 50GB</span>
+								</div>
+								<div class="flex justify-between">
+									<span>Users</span>
+									<span>$5 per user after 10</span>
+								</div>
+							</div>
+						</div>
+						@separator.Separator()
+						<ul class="space-y-2 text-sm">
+							<li>• 100,000 API calls included</li>
+							<li>• 50GB storage included</li>
+							<li>• Up to 10 users included</li>
+							<li>• Priority support</li>
+							<li>• Advanced analytics</li>
+						</ul>
+					</div>
+				}
+			</div>
+			@card.Footer(card.FooterProps{Class: "mt-auto"}) {
+				@button.Button(button.Props{
+					FullWidth: true,
+					Variant:   button.VariantDefault,
+				}) {
+					Start trial
+				}
+			}
+		</div>
+	}
+}
+
+templ Pricing004EnterpriseCard() {
+	@card.Card(card.Props{
+		Class: "bg-muted/50",
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "grid lg:grid-cols-2 gap-8 p-8",
+		}) {
+			<div>
+				<h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+				<p class="text-muted-foreground mb-6">
+					Custom solutions for large organizations
+				</p>
+				<ul class="space-y-2 text-sm">
+					<li>• Unlimited everything</li>
+					<li>• Custom integrations</li>
+					<li>• Dedicated support</li>
+					<li>• SLA guarantees</li>
+					<li>• Advanced security</li>
+					<li>• Custom contracts</li>
+				</ul>
+			</div>
+			<div class="flex flex-col justify-center">
+				<div class="text-center mb-6">
+					<span class="text-3xl font-bold">Custom pricing</span>
+					<div class="text-sm text-muted-foreground mt-1">
+						Based on your specific needs
+					</div>
+				</div>
+				@button.Button(button.Props{
+					FullWidth: true,
+					Variant:   button.VariantDefault,
+				}) {
+					Contact sales
+				}
+			</div>
+		}
+	}
+}

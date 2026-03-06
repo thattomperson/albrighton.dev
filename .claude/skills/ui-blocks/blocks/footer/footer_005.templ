@@ -1,0 +1,109 @@
+package footer
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Footer005() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<footer class="bg-background border-t w-full max-w-7xl">
+			<div class="px-4 py-12 sm:px-6 lg:px-8">
+				@Footer005Main()
+				@separator.Separator(separator.Props{Class: "my-8"})
+				@Footer005Bottom()
+			</div>
+		</footer>
+	</section>
+}
+
+templ Footer005Main() {
+	<div class="text-center">
+		@Footer005Brand()
+		@Footer005Social()
+		@Footer005Links()
+	</div>
+}
+
+templ Footer005Brand() {
+	<div class="mb-8">
+		<div class="flex items-center justify-center gap-2 mb-4">
+			@icon.Layers(icon.Props{Class: "text-primary"})
+			<span class="text-2xl font-bold">Acme Inc</span>
+		</div>
+		<p class="text-muted-foreground max-w-md mx-auto">
+			Connect with us on social media for the latest updates, 
+			behind-the-scenes content, and community highlights.
+		</p>
+	</div>
+}
+
+templ Footer005Social() {
+	<div class="mb-8">
+		<h3 class="text-lg font-semibold mb-6">Follow our journey</h3>
+		<div class="flex items-center justify-center gap-6 mb-6">
+			@Footer005SocialButton("GitHub", "#", icon.Github(icon.Props{
+				Class: "size-5",
+			}))
+			@Footer005SocialButton("Twitter", "#", icon.Twitter(icon.Props{
+				Class: "size-5",
+			}))
+		</div>
+		<div class="flex flex-col gap-3 sm:flex-row sm:justify-center sm:gap-4">
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "sm:w-auto flex gap-2",
+			}) {
+				@icon.Mail(icon.Props{Class: "w-5 h-5"})
+				Subscribe to Newsletter
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Class:   "sm:w-auto flex gap-2",
+			}) {
+				@icon.MessageCircle(icon.Props{Class: "w-5 h-5"})
+				Join Discord Community
+			}
+		</div>
+	</div>
+}
+
+templ Footer005SocialButton(name, href string, icon templ.Component) {
+	<a
+		href={ templ.URL(href) }
+		class="flex flex-col items-center gap-2 p-4 rounded-lg border border-transparent hover:border-border hover:bg-muted/50 transition-all group"
+	>
+		<div class="text-muted-foreground group-hover:text-primary transition-colors">
+			@icon
+		</div>
+		<span class="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
+			{ name }
+		</span>
+	</a>
+}
+
+templ Footer005Links() {
+	<div class="grid grid-cols-2 gap-6 sm:flex sm:justify-center sm:gap-8">
+		@Footer005Link("About", "#")
+		@Footer005Link("Blog", "#")
+		@Footer005Link("Docs", "#")
+		@Footer005Link("Support", "#")
+		@Footer005Link("Privacy", "#")
+		@Footer005Link("Terms", "#")
+	</div>
+}
+
+templ Footer005Bottom() {
+	<div class="text-center">
+		<p class="text-sm text-muted-foreground">
+			© 2024 Acme Inc. Made with <span class="text-primary">❤️</span> { "for" } the developer community.
+		</p>
+	</div>
+}
+
+templ Footer005Link(text, href string) {
+	<a href={ templ.URL(href) } class="text-sm text-muted-foreground hover:text-primary transition-colors">
+		{ text }
+	</a>
+}

@@ -1,0 +1,226 @@
+package account
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/selectbox"
+)
+
+templ ActivityLog001() {
+	<div class="container mx-auto px-4 py-8">
+		<div class="max-w-6xl mx-auto">
+			@ActivityLog001Header()
+			@ActivityLog001Filters()
+			@ActivityLog001ActivityLog()
+		</div>
+	</div>
+}
+
+templ ActivityLog001Header() {
+	<div class="mb-8">
+		<h2 class="text-3xl font-bold text-foreground mb-2">Activity Log</h2>
+		<p class="text-muted-foreground">Track all activities and changes made to your account</p>
+	</div>
+}
+
+templ ActivityLog001Filters() {
+	@card.Card(card.Props{Class: "mb-6"}) {
+		@card.Content() {
+			<div class="flex flex-col md:flex-row gap-4">
+				<div class="flex-1">
+					@label.Label(label.Props{For: "account008-search", Class: "sr-only"}) {
+						Search
+					}
+					<div class="relative">
+						<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+							@icon.Search(icon.Props{Size: 16, Class: "text-muted-foreground"})
+						</div>
+						@input.Input(input.Props{
+							ID:          "account008-search",
+							Placeholder: "Search activities...",
+							Class:       "pl-10",
+						})
+					</div>
+				</div>
+				<div class="flex flex-wrap gap-2">
+					@selectbox.SelectBox() {
+						@selectbox.Trigger(selectbox.TriggerProps{
+							ID:    "account008-type",
+							Class: "w-full sm:w-[180px]",
+						}) {
+							@selectbox.Value(selectbox.ValueProps{
+								Placeholder: "All Activities",
+							})
+						}
+						@selectbox.Content() {
+							@selectbox.Item(selectbox.ItemProps{Value: "all"}) {
+								All Activities
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "account"}) {
+								Account Changes
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "security"}) {
+								Security Events
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "billing"}) {
+								Billing Updates
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "team"}) {
+								Team Activities
+							}
+						}
+					}
+					@selectbox.SelectBox() {
+						@selectbox.Trigger(selectbox.TriggerProps{
+							ID:    "account008-date",
+							Class: "w-full sm:w-[150px]",
+						}) {
+							@selectbox.Value(selectbox.ValueProps{
+								Placeholder: "Last 7 days",
+							})
+						}
+						@selectbox.Content() {
+							@selectbox.Item(selectbox.ItemProps{Value: "today"}) {
+								Today
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "week"}) {
+								Last 7 days
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "month"}) {
+								Last 30 days
+							}
+							@selectbox.Item(selectbox.ItemProps{Value: "year"}) {
+								Last year
+							}
+						}
+					}
+				</div>
+			</div>
+		}
+	}
+}
+
+templ ActivityLog001ActivityLog() {
+	@card.Card() {
+		@card.Content(card.ContentProps{Class: "p-0"}) {
+			<div class="divide-y">
+				@ActivityLog001ActivityItem(
+					icon.User(icon.Props{Size: 16}),
+					"Profile Updated",
+					"You updated your profile information",
+					"account",
+					"2 hours ago",
+					"127.0.0.1",
+				)
+				@ActivityLog001ActivityItem(
+					icon.Key(icon.Props{Size: 16}),
+					"API Key Generated",
+					"New production API key created: sk_live_...4242",
+					"security",
+					"5 hours ago",
+					"192.168.1.1",
+				)
+				@ActivityLog001ActivityItem(
+					icon.UserPlus(icon.Props{Size: 16}),
+					"Team Member Invited",
+					"Invited sarah@example.com as Editor",
+					"team",
+					"1 day ago",
+					"10.0.0.1",
+				)
+				@ActivityLog001ActivityItem(
+					icon.Shield(icon.Props{Size: 16}),
+					"Two-Factor Enabled",
+					"Two-factor authentication was enabled",
+					"security",
+					"3 days ago",
+					"172.16.0.1",
+				)
+				@ActivityLog001ActivityItem(
+					icon.CreditCard(icon.Props{Size: 16}),
+					"Payment Method Added",
+					"Added Visa ending in 4242",
+					"billing",
+					"5 days ago",
+					"192.168.0.1",
+				)
+				@ActivityLog001ActivityItem(
+					icon.LogIn(icon.Props{Size: 16}),
+					"New Login",
+					"Login from Chrome on macOS",
+					"security",
+					"1 week ago",
+					"8.8.8.8",
+				)
+				@ActivityLog001ActivityItem(
+					icon.Settings(icon.Props{Size: 16}),
+					"Settings Changed",
+					"Updated notification preferences",
+					"account",
+					"1 week ago",
+					"127.0.0.1",
+				)
+				@ActivityLog001ActivityItem(
+					icon.Mail(icon.Props{Size: 16}),
+					"Email Verified",
+					"Verified email address john@example.com",
+					"account",
+					"2 weeks ago",
+					"192.168.1.1",
+				)
+			</div>
+		}
+		@card.Footer() {
+			<div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-3">
+				<p class="text-sm text-muted-foreground">Showing 8 of 150 activities</p>
+				<div class="flex items-center gap-2">
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+					}) {
+						@icon.ChevronLeft(icon.Props{Size: 16})
+						Previous
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+					}) {
+						Next
+						@icon.ChevronRight(icon.Props{Size: 16})
+					}
+				</div>
+			</div>
+		}
+	}
+}
+
+templ ActivityLog001ActivityItem(iconComponent templ.Component, title, description, category, time, ipAddress string) {
+	<div class={ "p-4 hover:bg-muted/50 transition-colors" }>
+		<div class="flex items-start gap-3">
+			<div class="p-2 rounded-full flex-shrink-0 bg-muted">
+				@iconComponent
+			</div>
+			<div class="flex-1 min-w-0">
+				<div class="flex items-start justify-between gap-2">
+					<div class="flex-1">
+						<p class="font-medium">{ title }</p>
+						<p class="text-sm text-muted-foreground mt-1">{ description }</p>
+						<div class="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
+							<span>{ time }</span>
+							<span>•</span>
+							<span>IP: { ipAddress }</span>
+						</div>
+					</div>
+					@badge.Badge(badge.Props{
+						Variant: badge.VariantOutline,
+						Class:   "text-xs flex-shrink-0",
+					}) {
+						{ category }
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+}

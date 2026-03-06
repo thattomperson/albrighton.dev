@@ -1,0 +1,209 @@
+package feature
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/aspectratio"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/tabs"
+)
+
+templ Feature007() {
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="py-16 lg:py-24 max-w-7xl w-full">
+			@Feature007Header()
+			@Feature007TabsSection()
+		</div>
+	</div>
+}
+
+templ Feature007Header() {
+	<div class="text-center mb-16">
+		@badge.Badge(badge.Props{
+			Variant: badge.VariantDefault,
+			Class:   "mb-4",
+		}) {
+			@icon.Code(icon.Props{Size: 14})
+			Developer Experience
+		}
+		<h2 class="text-4xl font-bold mb-6">
+			Code Like Never Before
+		</h2>
+		<p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+			From idea to deployment in minutes. IntelliSense, hot reload, and powerful dev tools included.
+		</p>
+	</div>
+}
+
+templ Feature007TabsSection() {
+	@tabs.Tabs(tabs.Props{
+		Class: "w-full",
+	}) {
+		@tabs.List(tabs.ListProps{
+			Class: "mb-8 overflow-x-auto justify-start",
+		}) {
+			@tabs.Trigger(tabs.TriggerProps{
+				Value: "intellisense",
+				Class: "flex items-center gap-2",
+			}) {
+				@icon.Lightbulb(icon.Props{Size: 16})
+				IntelliSense
+			}
+			@tabs.Trigger(tabs.TriggerProps{
+				Value: "devtools",
+				Class: "flex items-center gap-2",
+			}) {
+				@icon.Settings(icon.Props{Size: 16})
+				Dev Tools
+			}
+			@tabs.Trigger(tabs.TriggerProps{
+				Value: "testing",
+				Class: "flex items-center gap-2",
+			}) {
+				@icon.Check(icon.Props{Size: 16})
+				Testing
+			}
+			@tabs.Trigger(tabs.TriggerProps{
+				Value: "deployment",
+				Class: "flex items-center gap-2",
+			}) {
+				@icon.Rocket(icon.Props{Size: 16})
+				Deploy
+			}
+		}
+		@tabs.Content(tabs.ContentProps{
+			Value: "intellisense",
+		}) {
+			@Feature007TabContent(
+				"Smart Code Completion",
+				"AI-powered suggestions that understand your project context and coding patterns.",
+				[]Feature007_Feature{
+					{Icon: icon.Zap, Title: "Context-Aware", Description: "Understands your entire codebase"},
+					{Icon: icon.Sparkles, Title: "AI-Powered", Description: "Machine learning suggestions"},
+					{Icon: icon.Code, Title: "Multi-Language", Description: "Works with 50+ languages"},
+					{Icon: icon.Clock, Title: "Real-Time", Description: "Instant suggestions as you type"},
+				},
+				"/assets/img/placeholder.svg",
+			)
+		}
+		@tabs.Content(tabs.ContentProps{
+			Value: "devtools",
+		}) {
+			@Feature007TabContent(
+				"Powerful Development Tools",
+				"Everything you need for productive development, debugging, and performance optimization.",
+				[]Feature007_Feature{
+					{Icon: icon.Search, Title: "Advanced Debugger", Description: "Step-through debugging with breakpoints"},
+					{Icon: icon.Activity, Title: "Performance Monitor", Description: "Real-time performance metrics"},
+					{Icon: icon.Terminal, Title: "Integrated Terminal", Description: "Built-in terminal with smart suggestions"},
+					{Icon: icon.Package, Title: "Extension Marketplace", Description: "Thousands of community extensions"},
+				},
+				"/assets/img/placeholder.svg",
+			)
+		}
+		@tabs.Content(tabs.ContentProps{
+			Value: "testing",
+		}) {
+			@Feature007TabContent(
+				"Automated Testing Suite",
+				"Write, run, and debug tests with confidence. Full coverage reports and CI/CD integration.",
+				[]Feature007_Feature{
+					{Icon: icon.Play, Title: "One-Click Testing", Description: "Run all tests with a single command"},
+					{Icon: icon.TrendingUp, Title: "Coverage Reports", Description: "Detailed test coverage analysis"},
+					{Icon: icon.GitBranch, Title: "CI/CD Integration", Description: "Seamless pipeline integration"},
+					{Icon: icon.Shield, Title: "Security Testing", Description: "Automated vulnerability scanning"},
+				},
+				"/assets/img/placeholder.svg",
+			)
+		}
+		@tabs.Content(tabs.ContentProps{
+			Value: "deployment",
+		}) {
+			@Feature007TabContent(
+				"One-Click Deployment",
+				"Deploy to any cloud provider with a single click. Automatic scaling, monitoring, and rollbacks.",
+				[]Feature007_Feature{
+					{Icon: icon.Cloud, Title: "Multi-Cloud", Description: "Deploy to AWS, Azure, GCP, and more"},
+					{Icon: icon.TrendingUp, Title: "Auto-Scaling", Description: "Intelligent resource management"},
+					{Icon: icon.Eye, Title: "Monitoring", Description: "Real-time application monitoring"},
+					{Icon: icon.RefreshCw, Title: "Instant Rollbacks", Description: "One-click rollback to previous versions"},
+				},
+				"/assets/img/placeholder.svg",
+			)
+		}
+	}
+}
+
+type Feature007_Feature struct {
+	Icon        func(...icon.Props) templ.Component
+	Title       string
+	Description string
+}
+
+templ Feature007TabContent(title, description string, features []Feature007_Feature, imageUrl string) {
+	<div class="grid gap-8 lg:grid-cols-2 items-center">
+		<div class="space-y-8">
+			<div>
+				<h3 class="text-3xl font-bold mb-4">{ title }</h3>
+				<p class="text-lg text-muted-foreground mb-8">{ description }</p>
+			</div>
+			<div class="grid gap-4 sm:grid-cols-2">
+				for _, feature := range features {
+					@card.Card() {
+						@card.Content(card.ContentProps{
+							Class: "p-4",
+						}) {
+							<div class="flex items-center gap-3 mb-2">
+								@feature.Icon(icon.Props{Size: 18})
+								<h4 class="font-semibold">{ feature.Title }</h4>
+							</div>
+							<p class="text-sm text-muted-foreground">{ feature.Description }</p>
+						}
+					}
+				}
+			</div>
+			<div class="flex gap-4">
+				@button.Button() {
+					Try Free Trial
+					@icon.ArrowRight(icon.Props{Size: 16, Class: "ml-2"})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantSecondary,
+				}) {
+					Watch Demo
+					@icon.Play(icon.Props{Size: 16, Class: "ml-2"})
+				}
+			</div>
+		</div>
+		<div class="relative">
+			<div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl transform rotate-3"></div>
+			@card.Card(card.Props{
+				Class: "relative bg-card shadow-2xl",
+			}) {
+				@aspectratio.AspectRatio(aspectratio.Props{
+					Ratio: aspectratio.RatioVideo,
+				}) {
+					<img
+						src={ imageUrl }
+						alt="Card image"
+						class="h-full w-full object-cover rounded-t-lg"
+					/>
+				}
+				@card.Content(card.ContentProps{
+					Class: "p-6",
+				}) {
+					<div class="flex items-center justify-between">
+						<div>
+							<div class="font-medium">Ready to get started?</div>
+							<div class="text-sm text-muted-foreground">Join 50,000+ developers</div>
+						</div>
+						@button.Button() {
+							Start Now
+						}
+					</div>
+				}
+			}
+		</div>
+	</div>
+}

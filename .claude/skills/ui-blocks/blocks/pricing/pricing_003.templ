@@ -1,0 +1,154 @@
+package pricing
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/table"
+)
+
+templ Pricing003() {
+	<section class="py-24 px-4 sm:px-6 lg:px-8">
+		<div class="mx-auto max-w-6xl">
+			@Pricing003Header()
+			@Pricing003Table()
+		</div>
+	</section>
+}
+
+templ Pricing003Header() {
+	<div class="text-center mb-16">
+		<h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+			Compare all features
+		</h2>
+		<p class="text-lg text-muted-foreground">
+			Choose the plan that fits your needs
+		</p>
+	</div>
+}
+
+templ Pricing003Table() {
+	<div class="overflow-x-auto">
+		@table.Table() {
+			@table.Header() {
+				@table.Row() {
+					@table.Head(table.HeadProps{Class: "w-1/4"}) {
+						Features
+					}
+					@table.Head(table.HeadProps{Class: "text-center"}) {
+						<div class="flex flex-col items-center gap-2 mb-4">
+							<span class="font-semibold">Starter</span>
+							<div>
+								<span class="text-2xl font-bold">$19</span>
+								<span class="text-xs text-muted-foreground">/month</span>
+							</div>
+						</div>
+					}
+					@table.Head(table.HeadProps{Class: "text-center bg-primary/5"}) {
+						<div class="flex flex-col items-center gap-2 mb-4">
+							<span class="font-semibold">Professional</span>
+							<div>
+								<span class="text-2xl font-bold">$49</span>
+								<span class="text-xs text-muted-foreground">/month</span>
+							</div>
+						</div>
+					}
+					@table.Head(table.HeadProps{Class: "text-center"}) {
+						<div class="flex flex-col items-center gap-2 mb-4">
+							<span class="font-semibold">Enterprise</span>
+							<div>
+								<span class="text-2xl font-bold">$99</span>
+								<span class="text-xs text-muted-foreground">/month</span>
+							</div>
+						</div>
+					}
+				}
+			}
+			@table.Body() {
+				@Pricing003FeatureRow("Team members", "5", "20", "Unlimited")
+				@Pricing003FeatureRow("Storage", "10GB", "100GB", "1TB")
+				@Pricing003FeatureRow("Projects", "3", "Unlimited", "Unlimited")
+				@Pricing003CheckRow("Basic support", true, true, true)
+				@Pricing003CheckRow("Priority support", false, true, true)
+				@Pricing003CheckRow("24/7 support", false, false, true)
+				@Pricing003CheckRow("Analytics", false, true, true)
+				@Pricing003CheckRow("API access", false, true, true)
+				@Pricing003CheckRow("Custom integrations", false, false, true)
+				@Pricing003CheckRow("Advanced security", false, false, true)
+				@table.Row() {
+					@table.Cell() {
+					}
+					@table.Cell(table.CellProps{Class: "text-center"}) {
+						@button.Button(button.Props{
+							Variant: button.VariantOutline,
+							Class:   "w-full",
+						}) {
+							Get started
+						}
+					}
+					@table.Cell(table.CellProps{Class: "text-center bg-primary/5"}) {
+						@button.Button(button.Props{
+							Variant: button.VariantDefault,
+							Class:   "w-full",
+						}) {
+							Get started
+						}
+					}
+					@table.Cell(table.CellProps{Class: "text-center"}) {
+						@button.Button(button.Props{
+							Variant: button.VariantOutline,
+							Class:   "w-full",
+						}) {
+							Contact sales
+						}
+					}
+				}
+			}
+		}
+	</div>
+}
+
+templ Pricing003FeatureRow(feature, starter, pro, enterprise string) {
+	@table.Row() {
+		@table.Cell(table.CellProps{Class: "font-medium"}) {
+			{ feature }
+		}
+		@table.Cell(table.CellProps{Class: "text-center"}) {
+			{ starter }
+		}
+		@table.Cell(table.CellProps{Class: "text-center bg-primary/5"}) {
+			{ pro }
+		}
+		@table.Cell(table.CellProps{Class: "text-center"}) {
+			{ enterprise }
+		}
+	}
+}
+
+templ Pricing003CheckRow(feature string, starter, pro, enterprise bool) {
+	@table.Row() {
+		@table.Cell(table.CellProps{Class: "font-medium"}) {
+			{ feature }
+		}
+		@table.Cell(table.CellProps{Class: "text-center"}) {
+			if starter {
+				@icon.Check(icon.Props{Size: 16, Class: "text-primary mx-auto"})
+			} else {
+				@icon.X(icon.Props{Size: 16, Class: "text-muted-foreground mx-auto"})
+			}
+		}
+		@table.Cell(table.CellProps{Class: "text-center bg-primary/5"}) {
+			if pro {
+				@icon.Check(icon.Props{Size: 16, Class: "text-primary mx-auto"})
+			} else {
+				@icon.X(icon.Props{Size: 16, Class: "text-muted-foreground mx-auto"})
+			}
+		}
+		@table.Cell(table.CellProps{Class: "text-center"}) {
+			if enterprise {
+				@icon.Check(icon.Props{Size: 16, Class: "text-primary mx-auto"})
+			} else {
+				@icon.X(icon.Props{Size: 16, Class: "text-muted-foreground mx-auto"})
+			}
+		}
+	}
+}

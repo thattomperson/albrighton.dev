@@ -1,0 +1,24 @@
+package announcement
+
+import "github.com/templui/templui-pro/internal/ui/components/icon"
+import "github.com/templui/templui-pro/internal/ui/components/badge"
+
+templ Announcement005() {
+	<div class="bg-secondary/90 w-full">
+		<div class="container mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+			<div class="flex items-center gap-2 flex-grow">
+				@icon.BadgePercent(icon.Props{Size: 18})
+				<p class="text-sm font-medium text-secondary-foreground">Black Friday Sale: Use code <span class="font-bold text-primary">BF2025</span> { `for 50% off all plans!` }</p>
+			</div>
+			<div class="flex items-center justify-end gap-3 flex-shrink-0">
+				<a href="#" class="text-xs underline hover:text-primary text-secondary-foreground transition-colors">View Deals</a>
+				@badge.Badge(badge.Props{
+					Class: "flex items-center gap-2",
+				}) {
+					Ends in:
+					<div class="font-mono font-bold">23:59:42</div>
+				}
+			</div>
+		</div>
+	</div>
+}

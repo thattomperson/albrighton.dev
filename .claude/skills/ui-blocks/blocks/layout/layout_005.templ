@@ -1,0 +1,132 @@
+// Layout005 - Footer Navigation + Bottom Drawer
+// Mobile-first layout with sticky footer navigation and bottom drawer
+package layout
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/sheet"
+)
+
+templ Layout005() {
+	@sheet.Sheet(sheet.Props{
+		Side: sheet.SideBottom,
+	}) {
+		<div class="min-h-screen bg-background flex flex-col">
+			<!-- Main Content -->
+			<main class="flex-1 pb-20">
+				<div class="container mx-auto px-4 lg:px-6 py-8">
+					<!-- Content goes here -->
+					<div class="h-64 bg-muted/50 rounded-lg mb-8"></div>
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+						for i := 0; i < 9; i++ {
+							<div class="h-48 bg-muted/50 rounded-lg"></div>
+						}
+					</div>
+				</div>
+			</main>
+			<!-- Mobile Footer Navigation -->
+			<nav class="fixed bottom-0 left-0 right-0 bg-background border-t z-30">
+				<div class="grid grid-cols-5 h-16 items-center">
+					<!-- Home -->
+					<button class="flex flex-col items-center justify-center gap-1 text-primary">
+						<div class="w-5 h-5 bg-primary rounded"></div>
+						<span class="text-xs">Home</span>
+					</button>
+					<!-- Search -->
+					<button class="flex flex-col items-center justify-center gap-1 text-muted-foreground">
+						<div class="w-5 h-5 bg-muted rounded"></div>
+						<span class="text-xs">Search</span>
+					</button>
+					<!-- Menu (Triggers Bottom Drawer) -->
+					@sheet.Trigger(sheet.TriggerProps{
+						Class: "flex justify-center",
+					}) {
+						@button.Button(button.Props{
+							Size:    button.SizeIcon,
+							Variant: button.VariantGhost,
+						}) {
+							@icon.Menu()
+						}
+					}
+					<!-- Notifications -->
+					<button class="flex flex-col items-center justify-center gap-1 text-muted-foreground">
+						<div class="w-5 h-5 bg-muted rounded"></div>
+						<span class="text-xs">Alerts</span>
+					</button>
+					<!-- Profile -->
+					<button class="flex flex-col items-center justify-center gap-1 text-muted-foreground">
+						<div class="w-5 h-5 bg-muted rounded-full"></div>
+						<span class="text-xs">Profile</span>
+					</button>
+				</div>
+			</nav>
+		</div>
+		<!-- Bottom Drawer -->
+		@sheet.Content(sheet.ContentProps{
+			Class:           "!h-[75vh] sm:!h-[75vh] p-6",
+			HideCloseButton: true,
+		}) {
+			@Layout005DrawerContent()
+		}
+	}
+}
+
+templ Layout005DrawerContent() {
+	<div class="space-y-4">
+		<!-- Drawer Handle -->
+		<div class="w-12 h-1 bg-muted rounded-full mx-auto -mt-2"></div>
+		<!-- Header -->
+		<div class="flex items-center justify-between">
+			<h2 class="text-lg font-semibold">Menu</h2>
+			@sheet.Close() {
+				@icon.X(icon.Props{Size: 20})
+			}
+		</div>
+		<!-- Navigation Section -->
+		<div class="pb-4">
+			<h3 class="text-sm font-bold text-muted-foreground mb-2">Navigation</h3>
+			<div class="space-y-2">
+				for i := 0; i < 5; i++ {
+					<div class="h-12 bg-muted/50 rounded-lg"></div>
+				}
+			</div>
+		</div>
+		<!-- Features Section -->
+		<div class="pb-4">
+			<h3 class="text-sm font-bold text-muted-foreground mb-2">Features</h3>
+			<div class="space-y-2">
+				for i := 0; i < 5; i++ {
+					<div class="h-12 bg-muted/50 rounded-lg"></div>
+				}
+			</div>
+		</div>
+		<!-- Settings Section -->
+		<div class="pb-4">
+			<h3 class="text-sm font-bold text-muted-foreground mb-2">Settings</h3>
+			<div class="space-y-2">
+				for i := 0; i < 5; i++ {
+					<div class="h-12 bg-muted/50 rounded-lg"></div>
+				}
+			</div>
+		</div>
+		<!-- Actions -->
+		<div class="pb-4">
+			<div class="space-y-2">
+				<div class="h-12 bg-muted rounded-lg"></div>
+				<div class="h-12 bg-primary rounded-lg"></div>
+			</div>
+		</div>
+		<!-- User Profile -->
+		<div class="border-t pt-4">
+			<div class="flex items-center gap-3">
+				<div class="h-10 w-10 bg-muted rounded-full"></div>
+				<div class="flex-1">
+					<div class="h-3 w-24 bg-muted rounded mb-1"></div>
+					<div class="h-2 w-20 bg-muted/50 rounded"></div>
+				</div>
+				<div class="h-8 w-8 bg-muted rounded"></div>
+			</div>
+		</div>
+	</div>
+}

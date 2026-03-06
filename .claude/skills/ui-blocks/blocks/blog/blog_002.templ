@@ -1,0 +1,131 @@
+package blog
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Blog002() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-5xl">
+			@Blog002Header()
+			@Blog002List()
+		</div>
+	</section>
+}
+
+templ Blog002Header() {
+	<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-12">
+		<div class="mb-4 md:mb-0">
+			<h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Blog <span class="text-primary">Posts</span></h2>
+			<p class="text-muted-foreground md:text-xl mt-2">
+				Thoughts, ideas, and insights from our team.
+			</p>
+		</div>
+		<div class="flex gap-2">
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "hover:border-primary hover:text-primary",
+			}) {
+				<span class="flex items-center gap-2">
+					@icon.Funnel(icon.Props{
+						Size: 16,
+					})
+					Filter
+				</span>
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "hover:border-primary hover:text-primary",
+			}) {
+				<span class="flex items-center gap-2">
+					@icon.Search(icon.Props{
+						Size: 16,
+					})
+					Search
+				</span>
+			}
+		</div>
+	</div>
+}
+
+templ Blog002List() {
+	<div class="space-y-8">
+		@Blog002Article(
+			"/assets/img/placeholder.svg",
+			"The Future of Web Development",
+			"Exploring emerging trends and technologies shaping the future of web development, from AI-powered tools to new frameworks.",
+			"Technology",
+			"15 min read",
+			"2 days ago",
+		)
+		@Blog002Article(
+			"/assets/img/placeholder.svg",
+			"Mastering Clean Code Principles",
+			"A deep dive into writing maintainable, readable, and efficient code that your future self and teammates will thank you for.",
+			"Best Practices",
+			"12 min read",
+			"5 days ago",
+		)
+		@Blog002Article(
+			"/assets/img/placeholder.svg",
+			"Building Scalable Microservices",
+			"Learn how to design and implement microservices architecture that can grow with your business needs.",
+			"Architecture",
+			"20 min read",
+			"1 week ago",
+		)
+		@Blog002Article(
+			"/assets/img/placeholder.svg",
+			"CSS Grid vs Flexbox: When to Use Which",
+			"A comprehensive comparison of CSS Grid and Flexbox, with practical examples and use cases for each.",
+			"CSS",
+			"8 min read",
+			"2 weeks ago",
+		)
+	</div>
+}
+
+templ Blog002Article(imageUrl, title, description, category, readTime, date string) {
+	@card.Card(card.Props{
+		Class: "hover:shadow-md transition-shadow overflow-hidden p-0 group",
+	}) {
+		<div class="grid md:grid-cols-3">
+			<div class="h-48 md:h-full relative">
+				<img
+					src={ imageUrl }
+					alt={ title }
+					class="absolute inset-0 object-cover w-full h-full"
+				/>
+			</div>
+			<div class="md:col-span-2 flex flex-col p-6">
+				<div class="flex items-center gap-2 mb-4">
+					@badge.Badge(badge.Props{
+						Variant: badge.VariantSecondary,
+						Class:   "hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer",
+					}) {
+						{ category }
+					}
+					<span class="text-sm text-muted-foreground">{ date }</span>
+				</div>
+				<h3 class="text-2xl font-semibold tracking-tight mb-2 group-hover:text-primary transition-colors">{ title }</h3>
+				<p class="text-muted-foreground mb-4">{ description }</p>
+				<div class="flex items-center justify-between mt-auto">
+					<span class="text-sm text-muted-foreground">{ readTime }</span>
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Class:   "flex items-center gap-2 hover:text-primary group",
+					}) {
+						Read Article
+						@icon.ArrowRight(icon.Props{
+							Size:  16,
+							Class: "group-hover:translate-x-1 transition-transform",
+						})
+					}
+				</div>
+			</div>
+		</div>
+	}
+}

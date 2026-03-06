@@ -1,0 +1,59 @@
+package stats
+
+import (
+	badgecomp "github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+)
+
+templ Stats005() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+		@Stats005Card("Website Traffic", "12.4K", 73, "Globe", "visitors", "text-primary", "bg-primary/10")
+		@Stats005Card("Email Opens", "4.2K", 43, "Mail", "opened", "text-primary", "bg-primary/10")
+		@Stats005Card("Social Reach", "8.9K", 85, "Share2", "followers", "text-primary", "bg-primary/10")
+		@Stats005Card("Conversions", "850", 12, "TrendingUp", "leads", "text-primary", "bg-primary/10")
+	</div>
+}
+
+templ Stats005Card(title string, value string, progressValue int, iconName string, subtitle string, iconColor string, iconBg string) {
+	@card.Card(card.Props{
+		Class: "relative overflow-hidden",
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "p-6",
+		}) {
+			<div class="flex items-start justify-between mb-4">
+				<div>
+					<div class="flex items-center space-x-2 mb-2">
+						<div class={ "h-8 w-8 rounded-lg flex items-center justify-center " + iconBg }>
+							switch iconName {
+								case "Globe":
+									@icon.Globe(icon.Props{Size: 16, Class: iconColor})
+								case "Mail":
+									@icon.Mail(icon.Props{Size: 16, Class: iconColor})
+								case "Share2":
+									@icon.Share2(icon.Props{Size: 16, Class: iconColor})
+								case "TrendingUp":
+									@icon.TrendingUp(icon.Props{Size: 16, Class: iconColor})
+							}
+						</div>
+						<h3 class="font-semibold text-sm">{ title }</h3>
+					</div>
+					<div class="space-y-1">
+						<div class="text-2xl font-bold">{ value }</div>
+						<div class="text-sm text-muted-foreground">{ subtitle }</div>
+					</div>
+				</div>
+				@badgecomp.Badge(badgecomp.Props{
+					Variant: badgecomp.VariantSecondary,
+				}) {
+					{ progressValue }%
+				}
+			</div>
+			@progress.Progress(progress.Props{
+				Value: progressValue,
+			})
+		}
+	}
+}

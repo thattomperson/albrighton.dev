@@ -1,0 +1,430 @@
+package chat
+
+import (
+	"fmt"
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/sheet"
+	"github.com/templui/templui-pro/internal/ui/components/tabs"
+)
+
+templ Chat007() {
+	@sheet.Sheet(sheet.Props{
+		Side: sheet.SideLeft,
+	}) {
+		<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+			@card.Card(card.Props{Class: "w-full max-w-6xl h-[700px] overflow-hidden"}) {
+				<div class="flex h-full">
+					<!-- Desktop Sidebar -->
+					<div class="hidden md:block">
+						@Chat007Sidebar()
+					</div>
+					@Chat007ChatArea()
+				</div>
+			}
+		</section>
+		<!-- Mobile Drawer -->
+		@sheet.Content(sheet.ContentProps{
+			Class:           "p-4",
+			HideCloseButton: true,
+		}) {
+			@Chat007SidebarContent()
+		}
+	}
+}
+
+templ Chat007Sidebar() {
+	<div class="w-80 border-r flex flex-col bg-muted/20">
+		@Chat007SidebarContent()
+	</div>
+}
+
+templ Chat007SidebarContent() {
+	<div class="flex flex-col h-full">
+		@Chat007SidebarHeader()
+		@Chat007SidebarTabs()
+	</div>
+}
+
+templ Chat007SidebarHeader() {
+	<div class="p-4 border-b">
+		<div class="flex items-center justify-between mb-4">
+			<h1 class="text-xl font-semibold">Chats</h1>
+			<div class="flex items-center gap-1">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+				}) {
+					@icon.Search(icon.Props{
+						Size: 18,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+				}) {
+					@icon.Pencil(icon.Props{
+						Size: 18,
+					})
+				}
+				<!-- Mobile Close Button -->
+				<div class="md:hidden">
+					@sheet.Close(sheet.CloseProps{
+						Class: "h-9 w-9 p-0",
+					}) {
+						@icon.X(icon.Props{
+							Size: 18,
+						})
+					}
+				</div>
+			</div>
+		</div>
+		@input.Input(input.Props{
+			Placeholder: "Search or start new chat",
+			Class:       "h-9",
+		})
+	</div>
+}
+
+templ Chat007SidebarTabs() {
+	@tabs.Tabs(tabs.Props{
+		Class: "flex-1 flex flex-col",
+	}) {
+		@tabs.List(tabs.ListProps{
+			Class: "grid w-full grid-cols-3 h-10",
+		}) {
+			@tabs.Trigger(tabs.TriggerProps{
+				Value:    "all",
+				Class:    "text-xs",
+				IsActive: true,
+			}) {
+				All
+			}
+			@tabs.Trigger(tabs.TriggerProps{
+				Value: "unread",
+				Class: "text-xs",
+			}) {
+				Unread
+			}
+			@tabs.Trigger(tabs.TriggerProps{
+				Value: "groups",
+				Class: "text-xs",
+			}) {
+				Groups
+			}
+		}
+		@tabs.Content(tabs.ContentProps{
+			Value:    "all",
+			Class:    "flex-1 overflow-y-auto m-0 p-0",
+			IsActive: true,
+		}) {
+			<div class="divide-y">
+				@Chat007ConversationItem(
+					"/assets/img/avatar-gh-1.png",
+					"Sarah Chen",
+					"Typing...",
+					"now",
+					true,
+					true,
+					0,
+				)
+				@Chat007ConversationItem(
+					"/assets/img/avatar-gh-2.png",
+					"Product Team",
+					"Emma: Ship it! 🚀",
+					"2m",
+					false,
+					true,
+					3,
+				)
+				@Chat007ConversationItem(
+					"/assets/img/avatar-gh-3.png",
+					"Alex Rivera",
+					"Thanks for the help!",
+					"1h",
+					true,
+					false,
+					0,
+				)
+				@Chat007ConversationItem(
+					"/assets/img/avatar-gh-4.png",
+					"Design Review",
+					"You: Looks good to me",
+					"3h",
+					false,
+					true,
+					0,
+				)
+				@Chat007ConversationItem(
+					"/assets/img/avatar-gh-5.png",
+					"Marcus Johnson",
+					"See you tomorrow",
+					"1d",
+					true,
+					false,
+					0,
+				)
+			</div>
+		}
+		@tabs.Content(tabs.ContentProps{
+			Value: "unread",
+			Class: "flex-1 overflow-y-auto m-0 p-0",
+		}) {
+			<div class="divide-y">
+				@Chat007ConversationItem(
+					"/assets/img/avatar-gh-1.png",
+					"Product Team",
+					"Emma: Ship it! 🚀",
+					"2m",
+					false,
+					true,
+					3,
+				)
+			</div>
+		}
+		@tabs.Content(tabs.ContentProps{
+			Value: "groups",
+			Class: "flex-1 overflow-y-auto m-0 p-0",
+		}) {
+			<div class="divide-y">
+				@Chat007ConversationItem(
+					"/assets/img/avatar-gh-2.png",
+					"Product Team",
+					"Emma: Ship it! 🚀",
+					"2m",
+					false,
+					true,
+					3,
+				)
+				@Chat007ConversationItem(
+					"/assets/img/avatar-gh-3.png",
+					"Design Review",
+					"You: Looks good to me",
+					"3h",
+					false,
+					true,
+					0,
+				)
+			</div>
+		}
+	}
+}
+
+templ Chat007ConversationItem(avatarUrl, name, lastMessage, time string, isOnline, isGroup bool, unreadCount int) {
+	<div class="flex items-center gap-3 px-4 py-3 hover:bg-muted/50 cursor-pointer transition-colors relative">
+		<div class="relative">
+			@avatar.Avatar(avatar.Props{
+				Class: "h-12 w-12",
+			}) {
+				@avatar.Image(avatar.ImageProps{
+					Src: avatarUrl,
+					Alt: name,
+				})
+				@avatar.Fallback() {
+					U
+				}
+			}
+			if isOnline && !isGroup {
+				<span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-background rounded-full"></span>
+			}
+		</div>
+		<div class="flex-1 min-w-0">
+			<div class="flex items-center justify-between mb-0.5">
+				<p class="font-medium text-sm truncate">{ name }</p>
+				<span
+					class={
+						"text-xs",
+						templ.KV("text-primary", unreadCount > 0),
+						templ.KV("text-muted-foreground", unreadCount == 0),
+					}
+				>{ time }</span>
+			</div>
+			<div class="flex items-center justify-between">
+				<p
+					class={
+						"text-sm truncate flex-1",
+						templ.KV("text-foreground", unreadCount > 0),
+						templ.KV("text-muted-foreground", unreadCount == 0),
+					}
+				>
+					if lastMessage == "Typing..." {
+						<span class="text-primary italic">{ lastMessage }</span>
+					} else {
+						{ lastMessage }
+					}
+				</p>
+				if unreadCount > 0 {
+					@badge.Badge(badge.Props{
+						Variant: badge.VariantDefault,
+						Class:   "h-5 min-w-5 px-1.5 ml-2",
+					}) {
+						{ fmt.Sprintf("%d", unreadCount) }
+					}
+				}
+			</div>
+		</div>
+	</div>
+}
+
+templ Chat007ChatArea() {
+	<div class="flex-1 flex flex-col">
+		@Chat007ChatHeader()
+		@Chat007ChatMessages()
+		@Chat007ChatInput()
+	</div>
+}
+
+templ Chat007ChatHeader() {
+	<div class="border-b px-4 md:px-6 py-4 flex items-center justify-between">
+		<div class="flex items-center gap-3">
+			<!-- Mobile Menu Button -->
+			@sheet.Trigger(sheet.TriggerProps{
+				Class: "md:hidden",
+			}) {
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+				}) {
+					@icon.Menu(icon.Props{
+						Size: 20,
+					})
+				}
+			}
+			@avatar.Avatar() {
+				@avatar.Image(avatar.ImageProps{
+					Src: "/assets/img/avatar-gh-1.png",
+					Alt: "Sarah Chen",
+				})
+				@avatar.Fallback() {
+					SC
+				}
+			}
+			<div>
+				<p class="font-semibold">Sarah Chen</p>
+				<p class="text-xs text-muted-foreground">Active now</p>
+			</div>
+		</div>
+		<div class="flex items-center gap-1">
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Phone(icon.Props{
+					Size: 18,
+				})
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Video(icon.Props{
+					Size: 18,
+				})
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Info(icon.Props{
+					Size: 18,
+				})
+			}
+		</div>
+	</div>
+}
+
+templ Chat007ChatMessages() {
+	<div class="flex-1 overflow-y-auto px-4 md:px-6 py-4 space-y-4">
+		<div class="flex justify-center">
+			<span class="text-xs text-muted-foreground bg-muted px-3 py-1 rounded-full">Today</span>
+		</div>
+		@Chat007Message("Hey! How's it going?", "9:00 AM", false, true)
+		@Chat007Message("Hi Sarah! I'm doing well, thanks. Working on the new feature", "9:02 AM", true, false)
+		@Chat007Message("That's great! Which feature are you working on?", "9:03 AM", false, false)
+		@Chat007Message("The real-time collaboration feature. It's coming along nicely!", "9:05 AM", true, false)
+		@Chat007Message("Awesome! Can't wait to see it in action", "9:06 AM", false, false)
+		@Chat007Message("I'll send you a demo link soon", "9:07 AM", true, true)
+		<div class="flex items-center gap-2 text-xs text-muted-foreground">
+			<span>Sarah is typing</span>
+			<span class="flex gap-0.5">
+				<span class="w-1 h-1 bg-muted-foreground rounded-full animate-bounce" style="animation-delay: 0ms;"></span>
+				<span class="w-1 h-1 bg-muted-foreground rounded-full animate-bounce" style="animation-delay: 150ms;"></span>
+				<span class="w-1 h-1 bg-muted-foreground rounded-full animate-bounce" style="animation-delay: 300ms;"></span>
+			</span>
+		</div>
+	</div>
+}
+
+templ Chat007Message(text, time string, isSent, isRead bool) {
+	<div class={ templ.KV("flex", true), templ.KV("justify-end", isSent), templ.KV("justify-start", !isSent) }>
+		<div class="max-w-[70%] space-y-1">
+			<div
+				class={
+					"rounded-2xl px-4 py-2",
+					templ.KV("bg-primary text-primary-foreground", isSent),
+					templ.KV("bg-muted", !isSent),
+				}
+			>
+				<p class="text-sm">{ text }</p>
+			</div>
+			<div
+				class={
+					"flex items-center gap-1 text-xs",
+					templ.KV("justify-end", isSent),
+					templ.KV("justify-start", !isSent),
+				}
+			>
+				<span class="text-muted-foreground">{ time }</span>
+				if isSent && isRead {
+					@icon.CheckCheck(icon.Props{
+						Size:  14,
+						Class: "text-primary",
+					})
+				} else if isSent {
+					@icon.Check(icon.Props{
+						Size:  14,
+						Class: "text-muted-foreground",
+					})
+				}
+			</div>
+		</div>
+	</div>
+}
+
+templ Chat007ChatInput() {
+	<div class="border-t px-4 md:px-6 py-4">
+		<div class="flex items-center gap-2">
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Smile(icon.Props{
+					Size: 20,
+				})
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Paperclip(icon.Props{
+					Size: 20,
+				})
+			}
+			@input.Input(input.Props{
+				Placeholder: "Type a message",
+				Class:       "flex-1",
+			})
+			@button.Button(button.Props{
+				Size: button.SizeIcon,
+			}) {
+				@icon.Send(icon.Props{
+					Size: 18,
+				})
+			}
+		</div>
+	</div>
+}

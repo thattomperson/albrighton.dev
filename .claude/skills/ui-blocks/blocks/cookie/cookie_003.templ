@@ -1,0 +1,74 @@
+package cookie
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+	switchcomp "github.com/templui/templui-pro/internal/ui/components/switch"
+)
+
+templ Cookie003() {
+	<div class="fixed bottom-4 left-4 right-4 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-full md:max-w-lg z-50">
+		@card.Card(card.Props{
+			Class: "shadow-xl",
+		}) {
+			@card.Header() {
+				<div class="flex items-center justify-between">
+					<div class="flex items-center space-x-2">
+						@icon.Cookie(icon.Props{Size: 20})
+						<h3 class="font-semibold">Manage Cookies</h3>
+					</div>
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+					}) {
+						@icon.X(icon.Props{Size: 16})
+					}
+				</div>
+			}
+			@card.Content(card.ContentProps{
+				Class: "space-y-4",
+			}) {
+				<p class="text-sm text-muted-foreground">
+					We use cookies to enhance your experience. Choose which cookies you'd like to accept.
+				</p>
+				@separator.Separator()
+				<div class="space-y-3">
+					@Cookie003Setting("Essential", "Required for the website to function properly", true, true)
+					@Cookie003Setting("Analytics", "Help us understand how you use our website", false, false)
+					@Cookie003Setting("Marketing", "Used to deliver personalized advertisements", false, false)
+					@Cookie003Setting("Preferences", "Remember your settings and preferences", false, false)
+				</div>
+			}
+			@card.Footer() {
+				<div class="flex flex-col sm:flex-row gap-2">
+					@button.Button(button.Props{
+						Class: "flex-1",
+					}) {
+						Save Preferences
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+						Class:   "flex-1",
+					}) {
+						Accept All
+					}
+				</div>
+			}
+		}
+	</div>
+}
+
+templ Cookie003Setting(title, description string, checked, disabled bool) {
+	<div class="flex items-start justify-between space-x-4">
+		<div class="flex-1">
+			<h4 class="text-sm font-medium">{ title }</h4>
+			<p class="text-xs text-muted-foreground mt-1">{ description }</p>
+		</div>
+		@switchcomp.Switch(switchcomp.Props{
+			Checked:  checked,
+			Disabled: disabled,
+		})
+	</div>
+}

@@ -1,0 +1,54 @@
+package feature
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Feature001() {
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="py-16 lg:py-24">
+			@Feature001Header()
+			@Feature001Grid()
+		</div>
+	</div>
+}
+
+templ Feature001Header() {
+	<div class="text-center max-w-3xl mx-auto mb-16">
+		<h2 class="text-3xl font-extrabold sm:text-4xl">
+			Everything you need to build <span class="text-primary">modern applications</span>
+		</h2>
+		<p class="mt-4 text-xl text-muted-foreground">
+			Our platform provides all the tools and components you need to create beautiful,
+			responsive, and accessible web applications.
+		</p>
+	</div>
+}
+
+templ Feature001Grid() {
+	<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+		@Feature001Item(icon.Camera, "Lightning Fast", "Our components are optimized for performance and have minimal bundle size impact.")
+		@Feature001Item(icon.Palette, "Customizable", "Every component can be easily customized to match your brand and design needs.")
+		@Feature001Item(icon.Shield, "Security First", "All components are built with security best practices to help keep your users safe.")
+	</div>
+}
+
+templ Feature001Item(iconFunc func(...icon.Props) templ.Component, title, description string) {
+	@card.Card() {
+		@card.Content() {
+			<div class="flex items-center gap-2 mb-4">
+				@avatar.Avatar(avatar.Props{
+					Class: "h-8 w-8 bg-primary/10 text-primary",
+				}) {
+					@iconFunc(icon.Props{
+						Size: 16,
+					})
+				}
+				<h3 class="text-xl font-medium">{ title }</h3>
+			</div>
+			<p class="text-muted-foreground">{ description }</p>
+		}
+	}
+}

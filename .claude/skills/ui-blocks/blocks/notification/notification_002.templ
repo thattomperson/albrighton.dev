@@ -1,0 +1,392 @@
+package notification
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/tabs"
+)
+
+templ Notification002() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full flex flex-col gap-8 items-center">
+			@Notification002Basic()
+			@Notification002Advanced()
+			@Notification002WithTabs()
+		</div>
+	</section>
+}
+
+templ Notification002Basic() {
+	@dropdown.Dropdown() {
+		@dropdown.Trigger() {
+			<div class="relative">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+				}) {
+					@icon.Bell(icon.Props{
+						Size: 20,
+					})
+				}
+				<span class="absolute -top-1 -right-1 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
+					3
+				</span>
+			</div>
+		}
+		@dropdown.Content(dropdown.ContentProps{
+			Class: "w-80",
+		}) {
+			<div class="p-4">
+				<h4 class="font-semibold mb-3">Notifications</h4>
+				<div class="space-y-3">
+					@Notification002Item(
+						"New message from Sarah",
+						"Hey, are you available for a quick call?",
+						"2m ago",
+						"message",
+						true,
+					)
+					@Notification002Item(
+						"Project deadline reminder",
+						"Design review meeting in 1 hour",
+						"15m ago",
+						"calendar",
+						true,
+					)
+					@Notification002Item(
+						"System update completed",
+						"Your system has been successfully updated",
+						"1h ago",
+						"system",
+						false,
+					)
+				</div>
+				<div class="mt-4 pt-4 border-t">
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Class:   "w-full justify-center text-sm",
+					}) {
+						View all notifications
+					}
+				</div>
+			</div>
+		}
+	}
+}
+
+templ Notification002Item(title, description, time, notifType string, unread bool) {
+	<div
+		class={
+			"flex gap-3 p-2 rounded-lg transition-colors cursor-pointer",
+			templ.KV("bg-muted/50", unread),
+			templ.KV("hover:bg-muted/50", !unread),
+		}
+	>
+		<div class="flex-shrink-0">
+			switch notifType {
+				case "message":
+					<div class="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+						@icon.MessageSquare(icon.Props{
+							Size:  16,
+							Class: "text-muted-foreground",
+						})
+					</div>
+				case "calendar":
+					<div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+						@icon.Calendar(icon.Props{
+							Size:  16,
+							Class: "text-primary",
+						})
+					</div>
+				default:
+					<div class="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+						@icon.Check(icon.Props{
+							Size:  16,
+							Class: "text-muted-foreground",
+						})
+					</div>
+			}
+		</div>
+		<div class="flex-1 min-w-0">
+			<div class="flex items-start justify-between gap-2">
+				<p
+					class={
+						"text-sm",
+						templ.KV("font-medium", unread),
+					}
+				>{ title }</p>
+				if unread {
+					<div class="w-2 h-2 bg-primary rounded-full mt-1.5"></div>
+				}
+			</div>
+			<p class="text-sm text-muted-foreground truncate">{ description }</p>
+			<p class="text-xs text-muted-foreground mt-1">{ time }</p>
+		</div>
+	</div>
+}
+
+templ Notification002Advanced() {
+	@dropdown.Dropdown() {
+		@dropdown.Trigger() {
+			<div class="relative">
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+					Class:   "gap-2",
+				}) {
+					@icon.Bell(icon.Props{
+						Size: 18,
+					})
+					Notifications
+					@badge.Badge(badge.Props{
+						Variant: badge.VariantDefault,
+						Class:   "ml-1 h-5 px-1.5 bg-primary text-primary-foreground",
+					}) {
+						12
+					}
+				}
+			</div>
+		}
+		@dropdown.Content(dropdown.ContentProps{
+			Class: "w-96",
+		}) {
+			<div class="flex items-center justify-between p-4 pb-2">
+				<h4 class="font-semibold">Notifications</h4>
+				<div class="flex items-center gap-2">
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+						Class:   "h-8 w-8",
+					}) {
+						@icon.Check(icon.Props{
+							Size: 16,
+						})
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+						Class:   "h-8 w-8",
+					}) {
+						@icon.Settings(icon.Props{
+							Size: 16,
+						})
+					}
+				</div>
+			</div>
+			<div class="px-4 pb-2">
+				<div class="flex gap-2">
+					@badge.Badge(badge.Props{
+						Variant: badge.VariantSecondary,
+						Class:   "cursor-pointer",
+					}) {
+						All (12)
+					}
+					@badge.Badge(badge.Props{
+						Variant: badge.VariantOutline,
+						Class:   "cursor-pointer",
+					}) {
+						Mentions (3)
+					}
+					@badge.Badge(badge.Props{
+						Variant: badge.VariantOutline,
+						Class:   "cursor-pointer",
+					}) {
+						Comments (5)
+					}
+				</div>
+			</div>
+			<div class="max-h-[400px] overflow-y-auto">
+				<div class="space-y-1 p-2">
+					@Notification002AdvancedItem(
+						"/assets/img/avatar-gh-1.png",
+						"Emily Davis",
+						"mentioned you in",
+						"Design System Discussion",
+						"@john can you review the color palette changes?",
+						"5m ago",
+						true,
+						"mention",
+					)
+					@Notification002AdvancedItem(
+						"/assets/img/avatar-gh-2.png",
+						"Alex Chen",
+						"commented on",
+						"API Documentation PR",
+						"Looks good! Just one small suggestion about the error handling section.",
+						"12m ago",
+						true,
+						"",
+					)
+					@Notification002AdvancedItem(
+						"/assets/img/avatar-gh-3.png",
+						"Sarah Miller",
+						"assigned you to",
+						"Update User Dashboard",
+						"Priority: High • Due: Tomorrow",
+						"1h ago",
+						false,
+						"assignment",
+					)
+				</div>
+			</div>
+			<div class="p-2 border-t">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Class:   "w-full justify-between text-sm",
+				}) {
+					<span>View all notifications</span>
+					@icon.ArrowRight(icon.Props{
+						Size: 16,
+					})
+				}
+			</div>
+		}
+	}
+}
+
+templ Notification002AdvancedItem(avatarUrl, name, action, target, content, time string, unread bool, notifType string) {
+	<div
+		class={
+			"flex gap-3 p-3 rounded-lg transition-colors cursor-pointer",
+			templ.KV("bg-muted/50", unread),
+			templ.KV("hover:bg-muted/30", !unread),
+		}
+	>
+		<div class="flex-shrink-0">
+			@avatar.Avatar(avatar.Props{
+				Class: "h-10 w-10",
+			}) {
+				@avatar.Image(avatar.ImageProps{
+					Src: avatarUrl,
+					Alt: name,
+				})
+			}
+		</div>
+		<div class="flex-1 min-w-0 space-y-1">
+			<p class="text-sm">
+				<span class="font-medium">{ name }</span>
+				<span class="text-muted-foreground">{ action } </span>
+				<span
+					class={
+						"font-medium",
+						templ.KV("text-primary", notifType == "mention" || notifType == "assignment"),
+					}
+				>{ target }</span>
+			</p>
+			<p class="text-sm text-muted-foreground line-clamp-2">{ content }</p>
+			<p class="text-xs text-muted-foreground">{ time }</p>
+		</div>
+		if unread {
+			<div class="flex-shrink-0">
+				<div class="w-2 h-2 bg-primary rounded-full"></div>
+			</div>
+		}
+	</div>
+}
+
+templ Notification002WithTabs() {
+	@dropdown.Dropdown() {
+		@dropdown.Trigger() {
+			@button.Button(button.Props{
+				Variant: button.VariantDefault,
+				Class:   "bg-primary hover:bg-primary/90",
+			}) {
+				@icon.Bell(icon.Props{
+					Size:  18,
+					Class: "mr-2",
+				})
+				<span>8 new</span>
+			}
+		}
+		@dropdown.Content(dropdown.ContentProps{
+			Class: "w-96 max-h-96 h-full justify-between",
+		}) {
+			<div class="p-4 pb-2">
+				<h4 class="font-semibold">Activity</h4>
+			</div>
+			@tabs.Tabs(tabs.Props{
+				Class: "w-full",
+			}) {
+				@tabs.List(tabs.ListProps{
+					Class: "grid w-full grid-cols-3",
+				}) {
+					@tabs.Trigger(tabs.TriggerProps{
+						Value:    "all",
+						Class:    "text-xs",
+						IsActive: true,
+					}) {
+						All
+					}
+					@tabs.Trigger(tabs.TriggerProps{
+						Value: "unread",
+						Class: "text-xs",
+					}) {
+						Unread (5)
+					}
+					@tabs.Trigger(tabs.TriggerProps{
+						Value: "archived",
+						Class: "text-xs",
+					}) {
+						Archived
+					}
+				}
+				@tabs.Content(tabs.ContentProps{
+					Value:    "all",
+					Class:    "max-h-[300px] overflow-y-auto m-0",
+					IsActive: true,
+				}) {
+					<div class="p-2 space-y-1">
+						@Notification002TabItem("New follower", "John Doe started following you", "2m")
+						@Notification002TabItem("Comment reply", "Sarah replied to your comment", "15m")
+						@Notification002TabItem("Mention", "You were mentioned in a post", "1h")
+					</div>
+				}
+				@tabs.Content(tabs.ContentProps{
+					Value: "unread",
+					Class: "max-h-[300px] overflow-y-auto m-0",
+				}) {
+					<div class="p-2 space-y-1">
+						@Notification002TabItem("New follower", "John Doe started following you", "2m")
+						@Notification002TabItem("Comment reply", "Sarah replied to your comment", "15m")
+					</div>
+				}
+				@tabs.Content(tabs.ContentProps{
+					Value: "archived",
+					Class: "m-0",
+				}) {
+					<div class="p-8 text-center text-muted-foreground">
+						<p class="text-sm">No archived notifications</p>
+					</div>
+				}
+			}
+			<div class="p-2 border-t flex gap-2">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeSm,
+					Class:   "flex-1",
+				}) {
+					Mark all read
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeSm,
+					Class:   "flex-1",
+				}) {
+					Settings
+				}
+			</div>
+		}
+	}
+}
+
+templ Notification002TabItem(title, description, time string) {
+	<div class="flex items-start justify-between gap-3 p-2 rounded hover:bg-muted/50 cursor-pointer">
+		<div class="space-y-0.5">
+			<p class="text-sm font-medium">{ title }</p>
+			<p class="text-sm text-muted-foreground">{ description }</p>
+		</div>
+		<span class="text-xs text-muted-foreground whitespace-nowrap">{ time }</span>
+	</div>
+}

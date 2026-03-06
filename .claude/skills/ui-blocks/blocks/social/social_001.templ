@@ -1,0 +1,130 @@
+package social
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Social001() {
+	<section class="w-full py-12 md:py-16 lg:py-20">
+		<div class="container mx-auto px-4 md:px-6">
+			@Social001Header()
+			@Social001Links()
+			@Social001CTA()
+		</div>
+	</section>
+}
+
+templ Social001Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+			Connect With Us
+		</h2>
+		<p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+			Follow us on social media to stay updated with our latest news, updates, and community highlights.
+		</p>
+	</div>
+}
+
+templ Social001Links() {
+	<div class="max-w-4xl mx-auto mb-12">
+		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+			@Social001LinkCard("Twitter", "280K", "Followers")
+			@Social001LinkCard("Instagram", "425K", "Followers")
+			@Social001LinkCard("Facebook", "1.2M", "Likes")
+			@Social001LinkCard("YouTube", "850K", "Subscribers")
+			@Social001LinkCard("LinkedIn", "150K", "Followers")
+			@Social001LinkCard("GitHub", "95K", "Stars")
+		</div>
+	</div>
+}
+
+templ Social001LinkCard(platform string, count string, label string) {
+	<a href="#">
+		@card.Card(card.Props{
+			Class: "group hover:shadow-lg transition-all hover:scale-105 h-full",
+		}) {
+			@card.Content() {
+				<div class="flex flex-col items-center text-center py-2">
+					<div class="w-12 h-12 rounded-lg bg-muted flex items-center justify-center mb-3">
+						switch platform {
+							case "Twitter":
+								@icon.Twitter(icon.Props{
+									Size:  24,
+									Class: "text-muted-foreground",
+								})
+							case "Instagram":
+								@icon.Instagram(icon.Props{
+									Size:  24,
+									Class: "text-muted-foreground",
+								})
+							case "Facebook":
+								@icon.Facebook(icon.Props{
+									Size:  24,
+									Class: "text-muted-foreground",
+								})
+							case "YouTube":
+								@icon.Youtube(icon.Props{
+									Size:  24,
+									Class: "text-muted-foreground",
+								})
+							case "LinkedIn":
+								@icon.Linkedin(icon.Props{
+									Size:  24,
+									Class: "text-muted-foreground",
+								})
+							case "GitHub":
+								@icon.Github(icon.Props{
+									Size:  24,
+									Class: "text-muted-foreground",
+								})
+						}
+					</div>
+					<h3 class="font-semibold text-sm mb-2">{ platform }</h3>
+					<div class="space-y-0.5">
+						<p class="text-xl font-bold">{ count }</p>
+						<p class="text-xs text-muted-foreground">{ label }</p>
+					</div>
+				</div>
+			}
+		}
+	</a>
+}
+
+templ Social001CTA() {
+	<div class="max-w-3xl mx-auto">
+		@card.Card(card.Props{
+			Class: "text-center",
+		}) {
+			@card.Content() {
+				<div class="py-4">
+					<h3 class="text-xl font-semibold mb-3">Join Our Community</h3>
+					<p class="text-muted-foreground mb-6 max-w-xl mx-auto">
+						Be part of a thriving community of developers, designers, and creators. Share ideas, get support, and stay inspired.
+					</p>
+					<div class="flex flex-col sm:flex-row gap-3 justify-center">
+						@button.Button() {
+							<span class="flex items-center gap-2">
+								@icon.Users(icon.Props{
+									Size: 16,
+								})
+								Join Discord Server
+							</span>
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantOutline,
+						}) {
+							<span class="flex items-center gap-2">
+								@icon.Mail(icon.Props{
+									Size: 16,
+								})
+								Subscribe to Newsletter
+							</span>
+						}
+					</div>
+				</div>
+			}
+		}
+	</div>
+}

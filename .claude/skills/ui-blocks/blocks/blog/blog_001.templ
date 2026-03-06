@@ -1,0 +1,127 @@
+package blog
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Blog001() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-7xl">
+			@Blog001Header()
+			@Blog001Grid()
+		</div>
+	</section>
+}
+
+templ Blog001Header() {
+	<div class="flex flex-col items-center space-y-4 text-center mb-12">
+		<div class="space-y-2">
+			<h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Latest <span class="text-primary">Articles</span></h2>
+			<p class="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+				Discover our latest insights, tutorials, and industry updates.
+			</p>
+		</div>
+	</div>
+}
+
+templ Blog001Grid() {
+	<div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+		@Blog001Card(
+			"Getting Started with Go Templates",
+			"Learn the basics of Go's powerful templating system and how to use it effectively in your web applications.",
+			"5 min read",
+			"Mar 16, 2024",
+			[]string{"Go", "Templates", "Tutorial"},
+		)
+		@Blog001Card(
+			"Building Modern UIs with HTMX",
+			"Explore how HTMX can simplify your frontend development while keeping the power on the server side.",
+			"8 min read",
+			"Mar 14, 2024",
+			[]string{"HTMX", "Frontend", "JavaScript"},
+		)
+		@Blog001Card(
+			"Tailwind CSS Best Practices",
+			"Tips and tricks for writing maintainable and scalable styles with Tailwind CSS in production applications.",
+			"6 min read",
+			"Mar 12, 2024",
+			[]string{"CSS", "Tailwind", "Design"},
+		)
+		@Blog001Card(
+			"SQLite in Production",
+			"Why SQLite might be the perfect database for your next project and how to use it effectively at scale.",
+			"10 min read",
+			"Mar 10, 2024",
+			[]string{"Database", "SQLite", "Performance"},
+		)
+		@Blog001Card(
+			"Authentication with JWT",
+			"Implementing secure authentication in Go applications using JSON Web Tokens and best security practices.",
+			"7 min read",
+			"Mar 8, 2024",
+			[]string{"Security", "JWT", "Authentication"},
+		)
+		@Blog001Card(
+			"Deploying Go Applications",
+			"A comprehensive guide to deploying Go applications to production with Docker and Kubernetes.",
+			"12 min read",
+			"Mar 6, 2024",
+			[]string{"DevOps", "Docker", "Kubernetes"},
+		)
+	</div>
+}
+
+templ Blog001Card(title, description, readTime, date string, tags []string) {
+	@card.Card(card.Props{
+		Class: "h-full flex flex-col",
+	}) {
+		@card.Header() {
+			<div class="flex flex-wrap gap-2 mb-3">
+				for _, tag := range tags {
+					@badge.Badge(badge.Props{
+						Variant: badge.VariantSecondary,
+						Class:   "hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer",
+					}) {
+						{ tag }
+					}
+				}
+			</div>
+			@card.Title(card.TitleProps{
+				Class: "line-clamp-2",
+			}) {
+				{ title }
+			}
+		}
+		@card.Content(card.ContentProps{
+			Class: "flex-1",
+		}) {
+			<p class="text-muted-foreground line-clamp-3 mb-4">
+				{ description }
+			</p>
+			<div class="flex items-center gap-2 text-sm text-muted-foreground">
+				<span>{ date }</span>
+				<span>•</span>
+				<span>{ readTime }</span>
+			</div>
+		}
+		@card.Footer(card.FooterProps{
+			Class: "pt-4",
+		}) {
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Class:   "w-full hover:text-primary group",
+			}) {
+				<span class="flex items-center justify-center gap-2">
+					Read More
+					@icon.ArrowRight(icon.Props{
+						Size:  16,
+						Class: "group-hover:translate-x-1 transition-transform",
+					})
+				</span>
+			}
+		}
+	}
+}

@@ -1,0 +1,157 @@
+package comparison
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Comparison003() {
+	<section class="w-full py-12 md:py-16 lg:py-20">
+		<div class="container mx-auto px-4 md:px-6">
+			@Comparison003Header()
+			@Comparison003Cards()
+		</div>
+	</section>
+}
+
+templ Comparison003Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+			Performance Comparison
+		</h2>
+		<p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+			Compare key metrics side by side to understand improvements and make data-driven decisions.
+		</p>
+	</div>
+}
+
+templ Comparison003Cards() {
+	<div class="max-w-6xl mx-auto mb-12 space-y-6">
+		<div class="grid md:grid-cols-2 gap-6">
+			@card.Card(card.Props{
+				Class: "relative",
+			}) {
+				@card.Header() {
+					@card.Title() {
+						Before Optimization
+					}
+					@card.Description() {
+						Original baseline metrics
+					}
+				}
+				@card.Content() {
+					@Comparison003Metrics(
+						[]Comparison003Metric{
+							{Label: "Load Time", Value: "3.2s", IconFunc: icon.Clock},
+							{Label: "Page Size", Value: "2.8 MB", IconFunc: icon.HardDrive},
+							{Label: "Performance Score", Value: "68", IconFunc: icon.Gauge},
+							{Label: "Conversion Rate", Value: "2.3%", IconFunc: icon.TrendingUp},
+						},
+						"baseline",
+					)
+				}
+			}
+			@card.Card(card.Props{
+				Class: "relative border-primary/30 bg-primary/5",
+			}) {
+				@card.Header() {
+					<div class="flex items-center justify-between">
+						<div>
+							@card.Title() {
+								After Optimization
+							}
+							@card.Description() {
+								Improved performance metrics
+							}
+						</div>
+						@badge.Badge() {
+							Best
+						}
+					</div>
+				}
+				@card.Content() {
+					@Comparison003Metrics(
+						[]Comparison003Metric{
+							{Label: "Load Time", Value: "0.8s", Change: "-75%", IconFunc: icon.Clock},
+							{Label: "Page Size", Value: "680 KB", Change: "-76%", IconFunc: icon.HardDrive},
+							{Label: "Performance Score", Value: "95", Change: "+40%", IconFunc: icon.Gauge},
+							{Label: "Conversion Rate", Value: "5.8%", Change: "+152%", IconFunc: icon.TrendingUp},
+						},
+						"improved",
+					)
+				}
+			}
+		</div>
+		<div class="max-w-2xl mx-auto">
+			@card.Card(card.Props{
+				Class: "relative text-center",
+			}) {
+				@card.Content() {
+					<div class="py-4">
+						<div class="inline-flex p-3 bg-primary/10 rounded-full mb-4">
+							@icon.Trophy(icon.Props{
+								Size:  32,
+								Class: "text-primary",
+							})
+						</div>
+						<h3 class="text-2xl font-bold mb-3">After Optimization Wins!</h3>
+						<p class="text-muted-foreground mb-6 max-w-xl mx-auto">
+							The optimized version shows significant improvements across all key metrics, 
+							with a 152% increase in conversion rate and 75% faster load times.
+						</p>
+						<div class="flex flex-col sm:flex-row gap-3 justify-center">
+							@button.Button() {
+								Deploy Optimized Version
+							}
+							@button.Button(button.Props{
+								Variant: button.VariantOutline,
+							}) {
+								View Detailed Report
+							}
+						</div>
+					</div>
+				}
+			}
+		</div>
+	</div>
+}
+
+type Comparison003Metric struct {
+	Label    string
+	Value    string
+	Change   string
+	IconFunc func(...icon.Props) templ.Component
+}
+
+templ Comparison003Metrics(metrics []Comparison003Metric, variant string) {
+	<div class="space-y-4">
+		for _, metric := range metrics {
+			<div class="flex items-center justify-between">
+				<div class="flex items-center gap-3">
+					<div class="p-2 rounded-lg bg-muted">
+						@metric.IconFunc(icon.Props{
+							Size: 16,
+						})
+					</div>
+					<span class="text-sm font-medium">{ metric.Label }</span>
+				</div>
+				<div class="flex items-center gap-2">
+					<span class="font-semibold">{ metric.Value }</span>
+					if metric.Change != "" {
+						if metric.Change[0] == '+' {
+							<span class="text-xs font-medium text-green-600 dark:text-green-400">
+								{ metric.Change }
+							</span>
+						} else {
+							<span class="text-xs font-medium text-blue-600 dark:text-blue-400">
+								{ metric.Change }
+							</span>
+						}
+					}
+				</div>
+			</div>
+		}
+	</div>
+}

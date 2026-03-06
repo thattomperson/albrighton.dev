@@ -1,0 +1,153 @@
+package notification
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	iconcomp "github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Notification009() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-3xl">
+			<h3 class="text-lg font-semibold mb-2">Compact Activity Feed</h3>
+			@card.Card(card.Props{Class: "overflow-hidden"}) {
+				<div class="bg-muted/50 px-4 py-2 flex items-center justify-between">
+					<span class="text-sm font-medium">Recent Activity</span>
+					<button class="text-xs text-muted-foreground hover:text-foreground">View all</button>
+				</div>
+				<div class="divide-y">
+					@Notification009CompactItem(
+						"code",
+						"New commit",
+						"Sarah pushed to main",
+						"Just now",
+						true,
+						false,
+					)
+					@Notification009CompactItem(
+						"message",
+						"Comment",
+						"Alex commented on your PR",
+						"5m ago",
+						true,
+						false,
+					)
+					@Notification009CompactItem(
+						"star",
+						"Starred",
+						"Emily starred your repository",
+						"12m ago",
+						false,
+						false,
+					)
+					@Notification009CompactItem(
+						"user",
+						"New follower",
+						"Marcus started following you",
+						"1h ago",
+						false,
+						false,
+					)
+					@Notification009CompactItem(
+						"alert",
+						"Build failed",
+						"CI/CD pipeline failed on main",
+						"2h ago",
+						false,
+						true,
+					)
+				</div>
+			}
+		</div>
+	</section>
+}
+
+templ Notification009CompactItem(iconType, title, description, time string, unread bool, isImportant bool) {
+	<div
+		class={
+			"flex items-center gap-3 px-4 py-3 hover:bg-muted/50 transition-colors",
+			templ.KV("bg-muted/50", unread),
+		}
+	>
+		<div class="flex-shrink-0">
+			switch iconType {
+				case "code":
+					<div class="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+						@iconcomp.Code(iconcomp.Props{
+							Size:  16,
+							Class: "text-muted-foreground",
+						})
+					</div>
+				case "message":
+					<div
+						class={
+							"w-8 h-8 rounded-full flex items-center justify-center",
+							templ.KV("bg-primary/10", unread),
+							templ.KV("bg-muted", !unread),
+						}
+					>
+						@iconcomp.MessageSquare(iconcomp.Props{
+							Size: 16,
+							Class: func() string {
+								if unread {
+									return "text-primary"
+								}
+								return "text-muted-foreground"
+							}(),
+						})
+					</div>
+				case "star":
+					<div class="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+						@iconcomp.Star(iconcomp.Props{
+							Size:  16,
+							Class: "text-muted-foreground",
+						})
+					</div>
+				case "user":
+					<div class="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+						@iconcomp.UserPlus(iconcomp.Props{
+							Size:  16,
+							Class: "text-muted-foreground",
+						})
+					</div>
+				default:
+					<div
+						class={
+							"w-8 h-8 rounded-full flex items-center justify-center",
+							templ.KV("bg-destructive/10", isImportant),
+							templ.KV("bg-muted", !isImportant),
+						}
+					>
+						@iconcomp.CircleAlert(iconcomp.Props{
+							Size: 16,
+							Class: func() string {
+								if isImportant {
+									return "text-destructive"
+								}
+								return "text-muted-foreground"
+							}(),
+						})
+					</div>
+			}
+		</div>
+		<div class="flex-1 min-w-0">
+			<div class="flex items-start justify-between gap-2">
+				<div class="min-w-0">
+					<p
+						class={
+							"text-sm font-medium",
+							templ.KV("text-destructive", isImportant),
+						}
+					>{ title }</p>
+					<p class="text-sm text-muted-foreground truncate">{ description }</p>
+				</div>
+				<div class="flex items-center gap-2">
+					<span class="text-xs text-muted-foreground whitespace-nowrap">{ time }</span>
+					switch unread {
+						case true:
+							<span class="w-2 h-2 bg-primary rounded-full"></span>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+}

@@ -1,0 +1,155 @@
+package countdown
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Countdown005() {
+	@Countdown005Script()
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10" id="countdown005-container">
+		@card.Card(card.Props{
+			Class: "w-full max-w-4xl overflow-hidden",
+		}) {
+			@card.Content() {
+				<div class="grid grid-cols-1 lg:grid-cols-2">
+					<!-- Left: Content and Countdown -->
+					<div class="p-4">
+						<div class="mb-6">
+							@badge.Badge(badge.Props{
+								Variant: badge.VariantSecondary,
+							}) {
+								Webinar
+							}
+						</div>
+						<h2 class="text-2xl font-bold mb-2">Advanced UI Design Patterns</h2>
+						<p class="text-muted-foreground mb-6">Learn how to create beautiful and accessible user interfaces from industry experts.</p>
+						<!-- Countdown -->
+						<div class="mb-8">
+							<p class="text-sm text-muted-foreground mb-3">Starts in:</p>
+							<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+								@Countdown005CountdownDigit("00", "Days", "countdown005-days")
+								@Countdown005CountdownDigit("00", "Hours", "countdown005-hours")
+								@Countdown005CountdownDigit("00", "Minutes", "countdown005-minutes")
+								@Countdown005CountdownDigit("00", "Seconds", "countdown005-seconds")
+							</div>
+						</div>
+						<!-- Speakers -->
+						<div class="mb-8">
+							<h3 class="text-sm font-medium mb-3">Featured Speakers:</h3>
+							<div class="flex space-x-2 sm:space-x-4">
+								<div class="flex flex-col items-center">
+									@avatar.Avatar() {
+										@avatar.Image(avatar.ImageProps{
+											Src: "/assets/img/avatar-gh-1.png",
+											Alt: "Sarah Johnson",
+										})
+										@avatar.Fallback() {
+											SJ
+										}
+									}
+									<span class="text-xs mt-2">Sarah J.</span>
+								</div>
+								<div class="flex flex-col items-center">
+									@avatar.Avatar() {
+										@avatar.Image(avatar.ImageProps{
+											Src: "/assets/img/avatar-gh-2.png",
+											Alt: "Michael Chen",
+										})
+										@avatar.Fallback() {
+											MC
+										}
+									}
+									<span class="text-xs mt-2">Michael C.</span>
+								</div>
+								<div class="flex flex-col items-center">
+									@avatar.Avatar() {
+										@avatar.Image(avatar.ImageProps{
+											Src: "/assets/img/avatar-gh-3.png",
+											Alt: "Lisa Wang",
+										})
+										@avatar.Fallback() {
+											LW
+										}
+									}
+									<span class="text-xs mt-2">Lisa W.</span>
+								</div>
+							</div>
+						</div>
+						@button.Button(button.Props{
+							Variant: button.VariantDefault,
+							Class:   "w-full",
+						}) {
+							Reserve Your Spot
+						}
+					</div>
+					<!-- Right: Image -->
+					<div class="relative h-full min-h-[300px] bg-accent">
+						<div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/assets/img/placeholder.svg');"></div>
+						<div class="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent"></div>
+						<div class="absolute bottom-6 left-6 right-6">
+							<div class="flex items-center space-x-2 text-sm">
+								<div class="bg-background/90 backdrop-blur-sm p-2 rounded-md">
+									@icon.Calendar(icon.Props{Size: 16})
+								</div>
+								<div class="bg-background/90 backdrop-blur-sm p-2 rounded-md text-sm">
+									July 15, 2025 • 2:00 PM EST
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		}
+	</div>
+}
+
+templ Countdown005CountdownDigit(value, label, id string) {
+	<div class="bg-accent/50 rounded-lg p-3 text-center">
+		<span id={ id } class="block text-lg sm:text-xl lg:text-2xl font-bold">{ value }</span>
+		<span class="text-xs text-muted-foreground">{ label }</span>
+	</div>
+}
+
+// JavaScript logic for the countdown timer
+templ Countdown005Script() {
+	<script nonce={ templ.GetNonce(ctx) }>
+		// EASY TO CUSTOMIZE:
+		// Set your target date here (30 days from now by default)
+		const targetDate005 = new Date();
+		targetDate005.setDate(targetDate005.getDate() + 30);
+		
+		// Initialize countdown
+		function initCountdown005() {
+			// Update countdown every second
+			const countdownInterval = setInterval(function() {
+				const now = new Date().getTime();
+				const distance = targetDate005.getTime() - now;
+				
+				// Calculate time units
+				const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+				const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+				const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+				
+				// Update the countdown elements
+				document.getElementById('countdown005-days').textContent = days.toString().padStart(2, '0');
+				document.getElementById('countdown005-hours').textContent = hours.toString().padStart(2, '0');
+				document.getElementById('countdown005-minutes').textContent = minutes.toString().padStart(2, '0');
+				document.getElementById('countdown005-seconds').textContent = seconds.toString().padStart(2, '0');
+				
+				// If the countdown is over
+				if (distance < 0) {
+					clearInterval(countdownInterval);
+					document.getElementById('countdown005-container').innerHTML = "<div class='text-center py-4'>The webinar has started!</div>";
+				}
+			}, 1000);
+		}
+		
+		// Start the countdown when the page loads
+		document.addEventListener('DOMContentLoaded', initCountdown005);
+	</script>
+}

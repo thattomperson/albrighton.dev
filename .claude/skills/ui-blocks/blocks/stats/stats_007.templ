@@ -1,0 +1,40 @@
+package stats
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Stats007() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 p-6">
+		@Stats007Card("Revenue", "$124.5K", "+12.3%", "positive", icon.TrendingUp(icon.Props{Size: 14, Class: "text-primary"}))
+		@Stats007Card("Orders", "1,234", "+5.7%", "positive", icon.ShoppingCart(icon.Props{Size: 14, Class: "text-primary"}))
+		@Stats007Card("Customers", "892", "+8.1%", "positive", icon.UserCheck(icon.Props{Size: 14, Class: "text-primary"}))
+		@Stats007Card("Conversion", "2.4%", "-0.3%", "negative", icon.Target(icon.Props{Size: 14, Class: "text-primary"}))
+	</div>
+}
+
+templ Stats007Card(title, value, change, trend string, iconElement templ.Component) {
+	@card.Card(card.Props{
+		Class: "border-0 bg-muted/30 hover:bg-muted/50 transition-colors duration-200",
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "p-4",
+		}) {
+			<div class="space-y-2">
+				<div class="flex items-center justify-between">
+					<span class="text-xs font-medium text-muted-foreground uppercase tracking-wide">{ title }</span>
+					@iconElement
+				</div>
+				<div class="flex items-baseline justify-between">
+					<span class="text-xl font-bold text-foreground">{ value }</span>
+					if trend == "positive" {
+						<span class="text-xs font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">{ change }</span>
+					} else {
+						<span class="text-xs font-medium text-destructive bg-destructive/10 px-2 py-0.5 rounded-full">{ change }</span>
+					}
+				</div>
+			</div>
+		}
+	}
+}

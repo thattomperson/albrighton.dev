@@ -1,0 +1,110 @@
+package faq
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/accordion"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ FAQ005() {
+	<section class="py-24 px-4 sm:px-6 lg:px-8 bg-background">
+		<div class="mx-auto max-w-3xl">
+			@FAQ005Header()
+			@FAQ005Questions()
+		</div>
+	</section>
+}
+
+templ FAQ005Header() {
+	<div class="text-center mb-16">
+		<div class="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-6">
+			@icon.Layers()
+		</div>
+		<h2 class="text-3xl font-bold tracking-tight sm:text-4xl">
+			Frequently Asked Questions
+		</h2>
+	</div>
+}
+
+templ FAQ005Questions() {
+	@accordion.Accordion(accordion.Props{
+		Class: "border-0 divide-y-0 space-y-4",
+	}) {
+		@accordion.Item(accordion.ItemProps{
+			Class: "bg-background border rounded-lg hover:shadow-md transition-shadow",
+		}) {
+			@accordion.Trigger(accordion.TriggerProps{
+				Class: "text-left font-medium hover:no-underline",
+			}) {
+				@FAQ005QuestionItem("1", "How much does it cost?")
+			}
+			@accordion.Content() {
+				<div class="pl-11">
+					<p class="text-muted-foreground">
+						We offer different pricing plans, from free to enterprise. 
+						The free plan includes all basic features for up to 5 users.
+					</p>
+				</div>
+			}
+		}
+		@accordion.Item(accordion.ItemProps{
+			Class: "bg-background border rounded-lg hover:shadow-md transition-shadow",
+		}) {
+			@accordion.Trigger(accordion.TriggerProps{
+				Class: "text-left font-medium hover:no-underline",
+			}) {
+				@FAQ005QuestionItem("2", "Do I need to install anything?")
+			}
+			@accordion.Content() {
+				<div class="pl-11">
+					<p class="text-muted-foreground">
+						No, it's a web-based solution. You can get started directly 
+						through your browser without installing anything.
+					</p>
+				</div>
+			}
+		}
+		@accordion.Item(accordion.ItemProps{
+			Class: "bg-background border rounded-lg hover:shadow-md transition-shadow",
+		}) {
+			@accordion.Trigger(accordion.TriggerProps{
+				Class: "text-left font-medium hover:no-underline",
+			}) {
+				@FAQ005QuestionItem("3", "How secure is my data?")
+			}
+			@accordion.Content() {
+				<div class="pl-11">
+					<p class="text-muted-foreground">
+						Your data is protected with state-of-the-art encryption technology. 
+						We are SOC 2 Type II certified and GDPR compliant.
+					</p>
+				</div>
+			}
+		}
+		@accordion.Item(accordion.ItemProps{
+			Class: "bg-background border rounded-lg hover:shadow-md transition-shadow",
+		}) {
+			@accordion.Trigger(accordion.TriggerProps{
+				Class: "text-left font-medium hover:no-underline",
+			}) {
+				@FAQ005QuestionItem("4", "Is there a trial period?")
+			}
+			@accordion.Content() {
+				<div class="pl-11">
+					<p class="text-muted-foreground">
+						Yes, you can try all premium features for 14 days free. 
+						No credit card required.
+					</p>
+				</div>
+			}
+		}
+	}
+}
+
+templ FAQ005QuestionItem(number, question string) {
+	<div class="flex items-center gap-3">
+		<div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+			<span class="text-primary text-sm font-semibold">{ number }</span>
+		</div>
+		{ question }
+	</div>
+}

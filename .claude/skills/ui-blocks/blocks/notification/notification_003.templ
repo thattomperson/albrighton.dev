@@ -1,0 +1,456 @@
+package notification
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/checkbox"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	iconcomp "github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/sheet"
+)
+
+templ Notification003() {
+	<section class="flex min-h-svh w-full items-center justify-center p-4 md:p-10">
+		<div class="w-full max-w-6xl">
+			@sheet.Sheet(sheet.Props{
+				Side: sheet.SideLeft,
+			}) {
+				@card.Card(card.Props{Class: "overflow-hidden"}) {
+					@Notification003Header()
+					<div class="flex h-auto md:h-[600px]">
+						<!-- Desktop sidebar -->
+						<div class="hidden md:block">
+							@Notification003Sidebar()
+						</div>
+						@Notification003Content()
+					</div>
+				}
+				<!-- Mobile sidebar drawer -->
+				@sheet.Content(sheet.ContentProps{
+					HideCloseButton: true,
+				}) {
+					@Notification003SidebarContent()
+				}
+			}
+		</div>
+	</section>
+}
+
+templ Notification003Header() {
+	<div class="border-b px-4 md:px-6 py-3 md:py-4">
+		<div class="flex items-center justify-between">
+			<div class="flex items-center gap-3">
+				<!-- Mobile menu trigger -->
+				@sheet.Trigger(sheet.TriggerProps{
+					Class: "md:hidden",
+				}) {
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+					}) {
+						@iconcomp.Menu(iconcomp.Props{Size: 20})
+					}
+				}
+				<div class="min-w-0">
+					<h1 class="text-lg md:text-2xl font-semibold truncate">Notifications</h1>
+					<p class="text-sm text-muted-foreground mt-1 hidden md:block">Manage and review all your notifications</p>
+				</div>
+			</div>
+			<div class="flex items-center gap-1 md:gap-2">
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+					Size:    button.SizeSm,
+					Class:   "hidden sm:flex",
+				}) {
+					@iconcomp.Check(iconcomp.Props{
+						Size:  16,
+						Class: "mr-1",
+					})
+					Mark all read
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+					Size:    button.SizeIcon,
+					Class:   "sm:hidden",
+				}) {
+					@iconcomp.Check(iconcomp.Props{
+						Size: 16,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+					Size:    button.SizeIcon,
+				}) {
+					@iconcomp.Settings(iconcomp.Props{
+						Size: 16,
+					})
+				}
+			</div>
+		</div>
+	</div>
+}
+
+templ Notification003Sidebar() {
+	<div class="w-64 border-r bg-muted/10">
+		@Notification003SidebarContent()
+	</div>
+}
+
+templ Notification003SidebarContent() {
+	<div class="p-4 space-y-4">
+		<div class="relative">
+			@input.Input(input.Props{
+				Placeholder: "Search notifications...",
+				Class:       "pl-8 h-9",
+			})
+			<div class="absolute left-2.5 top-2.5">
+				@iconcomp.Search(iconcomp.Props{
+					Size:  14,
+					Class: "text-muted-foreground",
+				})
+			</div>
+		</div>
+		<div class="space-y-1">
+			@Notification003SidebarItem("All", "inbox", 24, true)
+			@Notification003SidebarItem("Unread", "circle-dot", 8, false)
+			@Notification003SidebarItem("Mentions", "at-sign", 3, false)
+			@Notification003SidebarItem("Comments", "message-square", 5, false)
+			@Notification003SidebarItem("Likes", "heart", 12, false)
+			@Notification003SidebarItem("System", "bell", 4, false)
+		</div>
+		<div class="pt-4 border-t">
+			<p class="text-xs font-medium text-muted-foreground mb-2">FILTERS</p>
+			<div class="space-y-2">
+				<div class="flex items-center space-x-2">
+					@checkbox.Checkbox(checkbox.Props{
+						ID:      "filter-today",
+						Checked: true,
+					})
+					@label.Label(label.Props{
+						For:   "filter-today",
+						Class: "text-sm cursor-pointer",
+					}) {
+						Today
+					}
+				</div>
+				<div class="flex items-center space-x-2">
+					@checkbox.Checkbox(checkbox.Props{
+						ID: "filter-week",
+					})
+					@label.Label(label.Props{
+						For:   "filter-week",
+						Class: "text-sm cursor-pointer",
+					}) {
+						This Week
+					}
+				</div>
+				<div class="flex items-center space-x-2">
+					@checkbox.Checkbox(checkbox.Props{
+						ID: "filter-month",
+					})
+					@label.Label(label.Props{
+						For:   "filter-month",
+						Class: "text-sm cursor-pointer",
+					}) {
+						This Month
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ Notification003SidebarItem(label, icon string, count int, active bool) {
+	<button
+		class={
+			"w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors",
+			templ.KV("bg-background", active),
+			templ.KV("hover:bg-muted/50", !active),
+		}
+	>
+		<div class="flex items-center gap-2">
+			switch icon {
+				case "inbox":
+					@iconcomp.Inbox(iconcomp.Props{Size: 16})
+				case "circle-dot":
+					@iconcomp.CircleDot(iconcomp.Props{Size: 16})
+				case "at-sign":
+					@iconcomp.AtSign(iconcomp.Props{Size: 16})
+				case "message-square":
+					@iconcomp.MessageSquare(iconcomp.Props{Size: 16})
+				case "heart":
+					@iconcomp.Heart(iconcomp.Props{Size: 16})
+				default:
+					@iconcomp.Bell(iconcomp.Props{Size: 16})
+			}
+			<span>{ label }</span>
+		</div>
+		if count > 0 {
+			<span
+				class={
+					"text-xs",
+					templ.KV("font-medium", active),
+					templ.KV("text-muted-foreground", !active),
+				}
+			>{ count }</span>
+		}
+	</button>
+}
+
+templ Notification003Content() {
+	<div class="flex-1 overflow-y-auto">
+		<div class="sticky top-0 bg-background border-b px-4 md:px-6 py-2 md:py-3 flex items-center justify-between">
+			<div class="flex items-center gap-4">
+				@checkbox.Checkbox(checkbox.Props{
+					ID: "select-all",
+				})
+				@label.Label(label.Props{
+					For: "select-all",
+				}) {
+					Select all
+				}
+			</div>
+			<div class="flex items-center gap-2">
+				@dropdown.Dropdown() {
+					@dropdown.Trigger() {
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Size:    button.SizeSm,
+						}) {
+							Sort by
+							@iconcomp.ChevronDown(iconcomp.Props{
+								Size:  14,
+								Class: "ml-1",
+							})
+						}
+					}
+					@dropdown.Content(dropdown.ContentProps{
+						Class: "w-40",
+					}) {
+						@dropdown.Item() {
+							Newest First
+						}
+						@dropdown.Item() {
+							Oldest First
+						}
+						@dropdown.Item() {
+							Most Relevant
+						}
+					}
+				}
+			</div>
+		</div>
+		<div class="divide-y">
+			@Notification003GroupHeader("Today")
+			@Notification003NotificationItem(
+				true,
+				"/assets/img/avatar-gh-1.png",
+				"Sarah Chen",
+				"mentioned you in a comment",
+				"Hey @john, what do you think about implementing this feature using Go interfaces instead?",
+				"Project: Dashboard Redesign",
+				"2 hours ago",
+				true,
+				"comment",
+			)
+			@Notification003NotificationItem(
+				false,
+				"/assets/img/avatar-gh-2.png",
+				"Alex Rivera",
+				"assigned you to a task",
+				"Update API documentation for v2.0 endpoints",
+				"Priority: High • Due: Tomorrow",
+				"3 hours ago",
+				true,
+				"task",
+			)
+			@Notification003NotificationItem(
+				false,
+				"/assets/img/avatar-gh-3.png",
+				"System",
+				"Security Alert",
+				"New login detected from Chrome on Windows",
+				"Location: San Francisco, CA",
+				"5 hours ago",
+				false,
+				"security",
+			)
+			@Notification003GroupHeader("Yesterday")
+			@Notification003NotificationItem(
+				false,
+				"/assets/img/avatar-gh-1.png",
+				"Emily Davis",
+				"liked your post",
+				"Great insights on the new design system! This will really help our team.",
+				"Post: Building Scalable Design Systems",
+				"Yesterday at 4:32 PM",
+				false,
+				"like",
+			)
+			@Notification003NotificationItem(
+				false,
+				"/assets/img/avatar-gh-2.png",
+				"Team Product",
+				"shared a file with you",
+				"Q4-roadmap-final.pdf",
+				"Size: 2.4 MB",
+				"Yesterday at 2:15 PM",
+				false,
+				"file",
+			)
+		</div>
+	</div>
+}
+
+templ Notification003GroupHeader(title string) {
+	<div class="px-4 md:px-6 py-2 bg-muted/50">
+		<h3 class="text-xs md:text-sm font-medium text-muted-foreground">{ title }</h3>
+	</div>
+}
+
+templ Notification003NotificationItem(selected bool, avatarUrl, name, action, content, meta, time string, unread bool, notifType string) {
+	<div
+		class={
+			"flex gap-3 md:gap-4 px-4 md:px-6 py-3 md:py-4 hover:bg-muted/20 transition-colors",
+			templ.KV("bg-muted/10", unread),
+		}
+	>
+		<div class="flex items-center">
+			@checkbox.Checkbox(checkbox.Props{
+				Checked: selected,
+				Attributes: templ.Attributes{
+					"aria-label": "Select notification from " + name,
+				},
+			})
+		</div>
+		<div class="flex-shrink-0">
+			if avatarUrl != "" {
+				@avatar.Avatar(avatar.Props{
+					Class: "h-8 w-8 md:h-10 md:w-10",
+				}) {
+					@avatar.Image(avatar.ImageProps{
+						Src: avatarUrl,
+						Alt: name,
+					})
+				}
+			} else {
+				<div class="w-8 h-8 md:w-10 md:h-10 bg-muted rounded-full flex items-center justify-center">
+					switch notifType {
+						case "security":
+							@iconcomp.Shield(iconcomp.Props{
+								Size:  16,
+								Class: "text-muted-foreground md:w-5 md:h-5",
+							})
+						default:
+							@iconcomp.Bell(iconcomp.Props{
+								Size:  16,
+								Class: "text-muted-foreground md:w-5 md:h-5",
+							})
+					}
+				</div>
+			}
+		</div>
+		<div class="flex-1 min-w-0">
+			<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-2 md:gap-4">
+				<div class="space-y-1 min-w-0">
+					<div class="flex flex-col md:flex-row md:items-center md:gap-2">
+						<p class="text-sm">
+							<span class="font-medium">{ name }</span>
+							<span class="text-muted-foreground ml-1">{ action }</span>
+						</p>
+						<span class="text-xs text-muted-foreground md:hidden">{ time }</span>
+					</div>
+					<p
+						class={
+							"text-sm line-clamp-2 md:line-clamp-none",
+							templ.KV("font-medium", unread),
+							templ.KV("text-muted-foreground", !unread),
+						}
+					>{ content }</p>
+					<p class="text-xs text-muted-foreground line-clamp-1 md:line-clamp-none">{ meta }</p>
+				</div>
+				<div class="flex items-center gap-2 flex-shrink-0">
+					<span class="text-xs text-muted-foreground hidden md:inline">{ time }</span>
+					@dropdown.Dropdown() {
+						@dropdown.Trigger() {
+							@button.Button(button.Props{
+								Variant: button.VariantGhost,
+								Size:    button.SizeIcon,
+								Class:   "h-7 w-7 md:h-8 md:w-8",
+							}) {
+								@iconcomp.EllipsisVertical(iconcomp.Props{
+									Size: 14,
+								})
+							}
+						}
+						@dropdown.Content(dropdown.ContentProps{
+							Class: "w-40",
+						}) {
+							@dropdown.Item() {
+								Mark as read
+							}
+							@dropdown.Item() {
+								Archive
+							}
+							@dropdown.Item() {
+								Delete
+							}
+						}
+					}
+				</div>
+			</div>
+			<div class="flex flex-wrap items-center gap-2 mt-2 md:mt-3">
+				switch notifType {
+					case "comment":
+						@button.Button(button.Props{
+							Variant: button.VariantOutline,
+							Size:    button.SizeSm,
+							Class:   "text-xs md:text-sm h-7 md:h-8",
+						}) {
+							Reply
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Size:    button.SizeSm,
+							Class:   "text-xs md:text-sm h-7 md:h-8",
+						}) {
+							View Thread
+						}
+					case "task":
+						@button.Button(button.Props{
+							Variant: button.VariantOutline,
+							Size:    button.SizeSm,
+							Class:   "text-xs md:text-sm h-7 md:h-8",
+						}) {
+							View Task
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Size:    button.SizeSm,
+							Class:   "text-xs md:text-sm h-7 md:h-8",
+						}) {
+							Mark Complete
+						}
+					case "file":
+						@button.Button(button.Props{
+							Variant: button.VariantOutline,
+							Size:    button.SizeSm,
+							Class:   "text-xs md:text-sm h-7 md:h-8",
+						}) {
+							Download
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Size:    button.SizeSm,
+							Class:   "text-xs md:text-sm h-7 md:h-8",
+						}) {
+							Preview
+						}
+				}
+			</div>
+		</div>
+	</div>
+}

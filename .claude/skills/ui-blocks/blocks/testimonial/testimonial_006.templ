@@ -1,0 +1,125 @@
+package testimonial
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+	"strconv"
+)
+
+templ Testimonial006() {
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10 bg-gradient-to-b from-background to-muted/50">
+		<div class="py-16 lg:py-24 max-w-6xl w-full">
+			@Testimonial006Header()
+			@Testimonial006CaseStudies()
+		</div>
+	</div>
+}
+
+templ Testimonial006Header() {
+	<div class="text-center mb-16">
+		@badge.Badge(badge.Props{
+			Variant: badge.VariantDefault,
+			Class:   "mb-4",
+		}) {
+			@icon.TrendingUp(icon.Props{Size: 14})
+			Case Studies
+		}
+		<h2 class="text-4xl font-bold mb-6">
+			Proven Results & Impact
+		</h2>
+		<p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+			Real metrics from companies that transformed their development process
+		</p>
+	</div>
+}
+
+templ Testimonial006CaseStudies() {
+	<div class="grid gap-8 lg:grid-cols-2">
+		@Testimonial006CaseStudy(
+			"TechFlow Inc.",
+			"Reduced deployment time from 4 hours to 15 minutes",
+			"Jennifer Chen",
+			"VP of Engineering",
+			"/assets/img/avatar-gh-1.png",
+			[]Testimonial006_Metric{
+				{Label: "Bug Reduction", Before: 15, After: 3, Unit: "%", Value: 80},
+				{Label: "Deployment Speed", Before: 240, After: 15, Unit: "min", Value: 100},
+				{Label: "Developer Productivity", Before: 100, After: 280, Unit: "%", Value: 89},
+			},
+		)
+		@Testimonial006CaseStudy(
+			"StartupLab",
+			"Scaled from 1K to 100K users without infrastructure changes",
+			"Marcus Rodriguez",
+			"CTO",
+			"/assets/img/avatar-gh-2.png",
+			[]Testimonial006_Metric{
+				{Label: "User Scale", Before: 1000, After: 100000, Unit: "users", Value: 100},
+				{Label: "Infrastructure Cost", Before: 100, After: 120, Unit: "%", Value: 87},
+				{Label: "Response Time", Before: 2.5, After: 0.8, Unit: "s", Value: 90},
+			},
+		)
+	</div>
+}
+
+type Testimonial006_Metric struct {
+	Label  string
+	Before float64
+	After  float64
+	Unit   string
+	Value  int // This is used for the progress bar value
+}
+
+templ Testimonial006CaseStudy(company, headline, name, title, avatarSrc string, metrics []Testimonial006_Metric) {
+	@card.Card(card.Props{
+		Class: "overflow-hidden border-primary/20",
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "p-8",
+		}) {
+			<div class="flex items-center gap-3 mb-6">
+				@avatar.Avatar(avatar.Props{
+					Class: "h-16 w-16",
+				}) {
+					@avatar.Image(avatar.ImageProps{
+						Src: avatarSrc,
+					})
+				}
+				<div>
+					<div class="font-semibold text-lg">{ name }</div>
+					<div class="text-muted-foreground">{ title }</div>
+					<div class="font-medium">{ company }</div>
+				</div>
+			</div>
+			<blockquote class="text-lg font-medium mb-8 italic border-l-4 border-primary pl-4">
+				"{ headline }"
+			</blockquote>
+			<div class="space-y-6">
+				<h4 class="font-semibold text-sm uppercase tracking-wide text-muted-foreground">Key Metrics</h4>
+				for _, metric := range metrics {
+					@Testimonial006MetricRow(metric.Label, metric.Before, metric.After, metric.Unit, metric.Value)
+				}
+			</div>
+		}
+	}
+}
+
+templ Testimonial006MetricRow(label string, before, after float64, unit string, value int) {
+	<div class="space-y-2">
+		<div class="flex items-center justify-between text-sm">
+			<span class="font-medium">{ label }</span>
+			<div class="flex items-center gap-3">
+				<span class="text-muted-foreground">{ strconv.FormatFloat(before, 'f', -1, 64) }{ unit }</span>
+				@icon.ArrowRight(icon.Props{Size: 14, Class: "text-muted-foreground"})
+				<span class="font-medium">{ strconv.FormatFloat(after, 'f', -1, 64) }{ unit }</span>
+			</div>
+		</div>
+		@progress.Progress(progress.Props{
+			Value: value,
+			// Max:   100,
+		})
+	</div>
+}

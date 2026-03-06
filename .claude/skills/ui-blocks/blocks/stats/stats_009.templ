@@ -1,0 +1,58 @@
+package stats
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	badgecomp "github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Stats009() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 p-6">
+		@Stats009Card("John D.", "$2,450", "john@example.com", "+$450", "JD", "bg-primary/50")
+		@Stats009Card("Sarah M.", "$1,890", "sarah@example.com", "+$320", "SM", "bg-primary/50")
+		@Stats009Card("Mike L.", "$3,120", "mike@example.com", "+$780", "ML", "bg-primary/50")
+		@Stats009Card("Lisa K.", "$1,650", "lisa@example.com", "+$290", "LK", "bg-primary/50")
+		@Stats009Card("Tom R.", "$2,980", "tom@example.com", "+$590", "TR", "bg-primary/50")
+	</div>
+}
+
+templ Stats009Card(name, total, email, thisMonth, initials, avatarColor string) {
+	@card.Card(card.Props{
+		Class: "hover:shadow-lg transition-shadow duration-200",
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "p-6 text-center space-y-4",
+		}) {
+			@avatar.Avatar(avatar.Props{
+				Class: "h-16 w-16 mx-auto " + avatarColor,
+			}) {
+				@avatar.Fallback(avatar.FallbackProps{
+					Class: "text-white text-lg font-semibold",
+				}) {
+					{ initials }
+				}
+			}
+			<div>
+				<h3 class="font-semibold text-lg">{ name }</h3>
+				<p class="text-sm text-muted-foreground">{ email }</p>
+			</div>
+			<div class="space-y-2">
+				<div>
+					<div class="text-2xl font-bold">{ total }</div>
+					<div class="text-xs text-muted-foreground">Total Sales</div>
+				</div>
+				@badgecomp.Badge(badgecomp.Props{
+					Variant: badgecomp.VariantDefault,
+					Class:   "bg-primary/10 text-primary",
+				}) {
+					{ thisMonth } this month
+				}
+			</div>
+			<div class="flex items-center justify-center space-x-2 pt-2">
+				@icon.TrendingUp(icon.Props{Size: 16, Class: "text-primary"})
+				<span class="text-sm text-primary font-medium">Top Performer</span>
+			</div>
+		}
+	}
+}

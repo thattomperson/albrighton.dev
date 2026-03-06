@@ -1,0 +1,91 @@
+package testimonial
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Testimonial005() {
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="py-16 lg:py-24 max-w-7xl w-full">
+			@Testimonial005Header()
+			@Testimonial005WallOfLove()
+		</div>
+	</div>
+}
+
+templ Testimonial005Header() {
+	<div class="text-center mb-16">
+		<h2 class="text-4xl font-bold mb-6">
+			Wall of Love
+		</h2>
+		<p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+			Quick thoughts from our amazing community
+		</p>
+	</div>
+}
+
+templ Testimonial005WallOfLove() {
+	<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+		@Testimonial005Tweet("Just shipped our MVP in 2 weeks using this platform. Mind blown! 🤯", "Alex", "@alexdev", "/assets/img/avatar-gh-1.png")
+		@Testimonial005Tweet("Best documentation I've ever seen. Crystal clear examples.", "Sarah", "@sarahcodes", "/assets/img/avatar-gh-2.png")
+		@Testimonial005Tweet("The component library is pure gold. Saved me hours!", "Mike", "@mikebuild", "/assets/img/avatar-gh-3.png")
+		@Testimonial005Tweet("Customer support replied in 5 minutes. Incredible! ⚡", "Emma", "@emmatech", "/assets/img/avatar-gh-4.png")
+		@Testimonial005Tweet("Finally, a platform that just works out of the box.", "David", "@davidops", "/assets/img/avatar-gh-5.png")
+		@Testimonial005Tweet("Our team productivity increased 3x since we started using this.", "Lisa", "@lisapm", "/assets/img/avatar-gh-6.png")
+		@Testimonial005Tweet("Clean code, great performance, amazing DX. What more could you want?", "Tom", "@tomfull", "/assets/img/avatar-gh-7.png")
+		@Testimonial005Tweet("Migrated our entire stack in one weekend. Seamless! 🚀", "Rachel", "@rachdev", "/assets/img/avatar-gh-1.png")
+		@Testimonial005Tweet("The type safety is incredible. No more runtime errors!", "James", "@jamesgo", "/assets/img/avatar-gh-2.png")
+		@Testimonial005Tweet("Zero config deployment. It really just works!", "Anna", "@annacloud", "/assets/img/avatar-gh-3.png")
+		@Testimonial005Tweet("Best investment for our startup this year. Hands down.", "Chris", "@chrisstart", "/assets/img/avatar-gh-4.png")
+		@Testimonial005Tweet("The community is so helpful and welcoming. Love it! ❤️", "Maya", "@mayaui", "/assets/img/avatar-gh-5.png")
+	</div>
+}
+
+templ Testimonial005Tweet(content, name, handle, avatarSrc string) {
+	@card.Card() {
+		@card.Content() {
+			<div class="flex items-start gap-3 mb-3">
+				@avatar.Avatar(avatar.Props{
+					Class: "h-8 w-8",
+				}) {
+					@avatar.Image(avatar.ImageProps{
+						Src: avatarSrc,
+					})
+				}
+				<div class="flex-1 min-w-0">
+					<div class="flex items-center gap-2">
+						<span class="font-medium text-sm truncate">{ name }</span>
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantSecondary,
+							Class:   "text-xs px-1.5 py-0.5",
+						}) {
+							@icon.Check(icon.Props{Size: 10})
+						}
+					</div>
+					<div class="text-xs text-muted-foreground">{ handle }</div>
+				</div>
+				@icon.Twitter(icon.Props{Size: 16, Class: "text-muted-foreground"})
+			</div>
+			<p class="text-sm leading-relaxed">
+				{ content }
+			</p>
+			<div class="flex items-center gap-4 mt-3 text-muted-foreground">
+				<div class="flex items-center gap-1 text-xs">
+					@icon.Heart(icon.Props{Size: 12})
+					<span>{ "24" }</span>
+				</div>
+				<div class="flex items-center gap-1 text-xs">
+					@icon.MessageCircle(icon.Props{Size: 12})
+					<span>{ "5" }</span>
+				</div>
+				<div class="flex items-center gap-1 text-xs">
+					@icon.Repeat(icon.Props{Size: 12})
+					<span>{ "8" }</span>
+				</div>
+			</div>
+		}
+	}
+}

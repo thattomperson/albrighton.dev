@@ -1,0 +1,62 @@
+package cookie
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+)
+
+templ Cookie005() {
+	<div class="fixed bottom-4 left-4 z-50">
+		@card.Card(card.Props{
+			Class: "max-w-xs shadow-lg",
+		}) {
+			@card.Content(card.ContentProps{
+				Class: "p-4 space-y-3",
+			}) {
+				<div class="flex items-center space-x-2">
+					@icon.Cookie(icon.Props{Size: 18, Class: "text-primary"})
+					<h4 class="font-medium text-sm">Cookie Consent</h4>
+				</div>
+				<p class="text-xs text-muted-foreground leading-relaxed">
+					We respect your privacy. This site uses cookies to enhance your browsing experience.
+				</p>
+				@Cookie005AutoAccept()
+				<div class="flex flex-col space-y-2">
+					@button.Button(button.Props{
+						Class: "w-full text-xs py-2",
+					}) {
+						Accept Cookies
+					}
+					<div class="flex space-x-2">
+						@button.Button(button.Props{
+							Variant: button.VariantOutline,
+							Class:   "flex-1 text-xs py-1.5",
+						}) {
+							Customize
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Class:   "flex-1 text-xs py-1.5",
+						}) {
+							Decline
+						}
+					</div>
+				</div>
+			}
+		}
+	</div>
+}
+
+templ Cookie005AutoAccept() {
+	<div class="space-y-2">
+		<div class="flex items-center justify-between">
+			<span class="text-xs text-muted-foreground">Auto-accept in</span>
+			<span class="text-xs font-medium">15s</span>
+		</div>
+		@progress.Progress(progress.Props{
+			Value: 33,
+		})
+	</div>
+}

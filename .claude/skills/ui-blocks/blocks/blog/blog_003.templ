@@ -1,0 +1,176 @@
+package blog
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Blog003() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10 bg-muted/50">
+		<div class="w-full max-w-7xl">
+			@Blog003Header()
+			@Blog003FeaturedAndGrid()
+		</div>
+	</section>
+}
+
+templ Blog003Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">From the <span class="text-primary">Blog</span></h2>
+		<p class="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+			Stay updated with our latest news, tutorials, and insights.
+		</p>
+	</div>
+}
+
+templ Blog003FeaturedAndGrid() {
+	<div class="grid gap-8 lg:grid-cols-2">
+		@Blog003Featured()
+		@Blog003RecentPosts()
+	</div>
+}
+
+templ Blog003Featured() {
+	@card.Card(card.Props{
+		Class: "h-full flex flex-col overflow-hidden",
+	}) {
+		<div class="aspect-video bg-muted relative overflow-hidden">
+			<img
+				src="/assets/img/placeholder.svg"
+				alt="Featured post"
+				class="object-cover w-full h-full"
+			/>
+			<div class="absolute top-4 left-4">
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantDefault,
+				}) {
+					Featured
+				}
+			</div>
+		</div>
+		@card.Header(card.HeaderProps{
+			Class: "flex-1 flex flex-col",
+		}) {
+			<div class="flex items-center gap-2">
+				<span class="text-sm font-medium text-primary">Development</span>
+				<span class="text-sm text-muted-foreground">•</span>
+				<span class="text-sm text-muted-foreground">March 20, 2024</span>
+			</div>
+			@card.Title() {
+				Building Real-Time Applications with WebSockets
+			}
+			@card.Description() {
+				Learn how to implement real-time features in your web applications using WebSockets and Go. 
+				We'll cover everything from basic setup to handling complex scenarios.
+			}
+		}
+		@card.Content(card.ContentProps{
+			Class: "mt-auto",
+		}) {
+			<div class="flex items-center gap-4">
+				@avatar.Avatar(avatar.Props{
+					Class: "h-8 w-8",
+				}) {
+					@avatar.Image(avatar.ImageProps{
+						Src: "/assets/img/avatar-gh-1.png",
+						Alt: "Author",
+					})
+					@avatar.Fallback() {
+						JD 
+					}
+				}
+				<div class="flex flex-col">
+					<span class="text-sm font-medium">Jane Doe</span>
+					<span class="text-xs text-muted-foreground">Senior Developer</span>
+				</div>
+			</div>
+		}
+		@card.Footer() {
+			@button.Button(button.Props{
+				Class: "w-full",
+			}) {
+				Read Full Article
+			}
+		}
+	}
+}
+
+templ Blog003RecentPosts() {
+	<div class="space-y-4">
+		<h3 class="text-xl font-semibold mb-4">Recent Posts</h3>
+		@Blog003RecentPost(
+			"Database Migration Strategies",
+			"Best practices for managing database schema changes in production environments.",
+			"Backend",
+			"8 min read",
+			"Mar 16, 2024",
+		)
+		@Blog003RecentPost(
+			"Optimizing Frontend Performance",
+			"Techniques to improve your website's loading speed and user experience.",
+			"Performance",
+			"12 min read",
+			"Mar 14, 2024",
+		)
+		@Blog003RecentPost(
+			"API Design Best Practices",
+			"Guidelines for creating intuitive, maintainable, and scalable REST APIs.",
+			"API",
+			"15 min read",
+			"Mar 12, 2024",
+		)
+		@Blog003RecentPost(
+			"Testing Strategies for Go",
+			"From unit tests to integration tests, learn how to test Go applications effectively.",
+			"Testing",
+			"9 min read",
+			"Mar 10, 2024",
+		)
+	</div>
+}
+
+templ Blog003RecentPost(title, description, category, readTime, date string) {
+	@card.Card(card.Props{
+		Class: "hover:shadow-sm transition-shadow group cursor-pointer",
+	}) {
+		@card.Header(card.HeaderProps{
+			Class: "pb-3",
+		}) {
+			<div class="flex justify-between items-start">
+				@card.Title(card.TitleProps{
+					Class: "text-base font-semibold group-hover:text-primary transition-colors line-clamp-1",
+				}) {
+					{ title }
+				}
+				@icon.ArrowUpRight(icon.Props{
+					Size:  16,
+					Class: "text-muted-foreground flex-shrink-0 ml-2 group-hover:text-primary transition-colors",
+				})
+			</div>
+			@card.Description(card.DescriptionProps{
+				Class: "mt-1",
+			}) {
+				{ description }
+			}
+		}
+		@card.Content(card.ContentProps{
+			Class: "pt-0",
+		}) {
+			<div class="flex items-center gap-2 text-xs text-muted-foreground">
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantOutline,
+					Class:   "hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors",
+				}) {
+					{ category }
+				}
+				<span>•</span>
+				<span>{ readTime }</span>
+				<span>•</span>
+				<span>{ date }</span>
+			</div>
+		}
+	}
+}

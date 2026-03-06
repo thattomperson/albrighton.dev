@@ -1,0 +1,257 @@
+package account
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	"github.com/templui/templui-pro/internal/ui/components/form"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/selectbox"
+)
+
+templ TeamManagement001() {
+	<div class="container mx-auto px-4 py-8">
+		<div class="max-w-6xl mx-auto">
+			@TeamManagement001Header()
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+				@TeamManagement001TeamStatsCard("Active Members", "8", "2 pending invites", icon.Users(icon.Props{Size: 20}))
+				@TeamManagement001TeamStatsCard("Total Seats", "10", "2 seats available", icon.UserPlus(icon.Props{Size: 20}))
+				@TeamManagement001TeamStatsCard("Roles", "4", "Admin, Editor, Viewer, Guest", icon.Shield(icon.Props{Size: 20}))
+			</div>
+			@TeamManagement001TeamMembers()
+			<div class="mt-6"></div>
+			@TeamManagement001PendingInvites()
+		</div>
+	</div>
+}
+
+templ TeamManagement001Header() {
+	<div class="mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+		<div>
+			<h2 class="text-3xl font-bold text-foreground mb-2">Team Management</h2>
+			<p class="text-muted-foreground">Manage team members, roles, and permissions</p>
+		</div>
+		@button.Button(button.Props{Class: "w-full md:w-auto"}) {
+			@icon.UserPlus(icon.Props{Size: 16})
+			<span class="ml-2">Invite Member</span>
+		}
+	</div>
+}
+
+templ TeamManagement001TeamStatsCard(title, value, subtitle string, iconComponent templ.Component) {
+	@card.Card() {
+		@card.Content(card.ContentProps{Class: "p-6"}) {
+			<div class="flex items-center justify-between mb-2">
+				<span class="text-sm text-muted-foreground">{ title }</span>
+				<div class="text-muted-foreground">
+					@iconComponent
+				</div>
+			</div>
+			<div class="text-2xl font-bold">{ value }</div>
+			<p class="text-sm text-muted-foreground mt-1">{ subtitle }</p>
+		}
+	}
+}
+
+templ TeamManagement001TeamMembers() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Team Members
+			}
+			@card.Description() {
+				Active members with access to your workspace
+			}
+		}
+		@card.Content() {
+			<div class="space-y-4">
+				@TeamManagement001MemberItem(
+					"John Doe",
+					"john@example.com",
+					"Owner",
+					"/assets/img/avatar-gh-1.png",
+					true,
+					true,
+				)
+				@TeamManagement001MemberItem(
+					"Sarah Wilson",
+					"sarah@example.com",
+					"Admin",
+					"/assets/img/avatar-gh-2.png",
+					true,
+					false,
+				)
+				@TeamManagement001MemberItem(
+					"Michael Chen",
+					"michael@example.com",
+					"Editor",
+					"/assets/img/avatar-gh-3.png",
+					true,
+					false,
+				)
+				@TeamManagement001MemberItem(
+					"Emily Davis",
+					"emily@example.com",
+					"Viewer",
+					"/assets/img/avatar-gh-4.png",
+					false,
+					false,
+				)
+			</div>
+		}
+	}
+}
+
+templ TeamManagement001MemberItem(name, email, role, avatarUrl string, isActive, isOwner bool) {
+	<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg gap-3">
+		<div class="flex items-center gap-3">
+			@avatar.Avatar() {
+				@avatar.Image(avatar.ImageProps{
+					Src: avatarUrl,
+					Alt: name,
+				})
+				@avatar.Fallback() {
+					{ string(name[0]) }{ string(name[1]) }
+				}
+			}
+			<div class="min-w-0 flex-1">
+				<div class="flex items-center gap-2">
+					<p class="font-medium truncate">{ name }</p>
+					if isActive {
+						<div class="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
+					}
+				</div>
+				<p class="text-sm text-muted-foreground truncate">{ email }</p>
+			</div>
+		</div>
+		<div class="flex items-center gap-2 flex-shrink-0">
+			if isOwner {
+				@badge.Badge(badge.Props{Variant: badge.VariantDefault}) {
+					{ role }
+				}
+			} else {
+				@badge.Badge(badge.Props{Variant: badge.VariantSecondary}) {
+					{ role }
+				}
+			}
+			if !isOwner {
+				@dropdown.Dropdown() {
+					@dropdown.Trigger() {
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Size:    button.SizeIcon,
+						}) {
+							@icon.Settings(icon.Props{Size: 16})
+						}
+					}
+					@dropdown.Content() {
+						@dropdown.Item() {
+							@icon.Settings(icon.Props{Size: 14})
+							<span class="ml-2">Change Role</span>
+						}
+						@dropdown.Item() {
+							@icon.Mail(icon.Props{Size: 14})
+							<span class="ml-2">Resend Invite</span>
+						}
+						@dropdown.Separator()
+						@dropdown.Item(dropdown.ItemProps{Class: "text-destructive"}) {
+							@icon.UserX(icon.Props{Size: 14})
+							<span class="ml-2">Remove Member</span>
+						}
+					}
+				}
+			}
+		</div>
+	</div>
+}
+
+templ TeamManagement001PendingInvites() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Pending Invites
+			}
+			@card.Description() {
+				Team invitations waiting to be accepted
+			}
+		}
+		@card.Content() {
+			<div class="space-y-4">
+				@TeamManagement001InviteItem("alex@example.com", "Editor", "2 days ago")
+				@TeamManagement001InviteItem("jordan@example.com", "Viewer", "5 days ago")
+			</div>
+			<div class="mt-6 pt-6 border-t">
+				<form class="space-y-4">
+					<h4 class="font-medium mb-3">Send New Invite</h4>
+					<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+						@form.Item(form.ItemProps{Class: "sm:col-span-2"}) {
+							@label.Label(label.Props{For: "account006-email"}) {
+								Email Address
+							}
+							@input.Input(input.Props{
+								ID:          "account006-email",
+								Type:        input.TypeEmail,
+								Placeholder: "colleague@example.com",
+							})
+						}
+						@form.Item() {
+							@label.Label(label.Props{For: "account006-role"}) {
+								Role
+							}
+							@selectbox.SelectBox() {
+								@selectbox.Trigger(selectbox.TriggerProps{
+									ID: "account006-role",
+								}) {
+									@selectbox.Value(selectbox.ValueProps{
+										Placeholder: "Select role",
+									})
+								}
+								@selectbox.Content() {
+									@selectbox.Item(selectbox.ItemProps{Value: "admin"}) {
+										Admin
+									}
+									@selectbox.Item(selectbox.ItemProps{Value: "editor"}) {
+										Editor
+									}
+									@selectbox.Item(selectbox.ItemProps{Value: "viewer"}) {
+										Viewer
+									}
+								}
+							}
+						}
+					</div>
+					@button.Button() {
+						@icon.Send(icon.Props{Size: 16})
+						<span class="ml-2">Send Invite</span>
+					}
+				</form>
+			</div>
+		}
+	}
+}
+
+templ TeamManagement001InviteItem(email, role, sentTime string) {
+	<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg gap-3">
+		<div class="min-w-0 flex-1">
+			<p class="font-medium truncate">{ email }</p>
+			<p class="text-sm text-muted-foreground">Invited as { role } • { sentTime }</p>
+		</div>
+		<div class="flex items-center gap-2 flex-shrink-0">
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+			}) {
+				Resend
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Class:   "text-destructive hover:text-destructive",
+			}) {
+				Cancel
+			}
+		</div>
+	</div>
+}

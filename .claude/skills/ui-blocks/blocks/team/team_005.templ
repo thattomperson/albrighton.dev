@@ -1,0 +1,147 @@
+package team
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/utils"
+)
+
+templ Team005() {
+	<section class="py-24 bg-background">
+		<div class="container mx-auto px-4">
+			@Team005Header()
+			@Team005TeamGrid()
+			@Team005JoinUs()
+		</div>
+	</section>
+}
+
+templ Team005Header() {
+	<div class="text-center mb-16">
+		<h2 class="text-4xl md:text-5xl font-bold mb-6">
+			We're hiring!
+		</h2>
+		<p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+			Join our growing team of talented individuals who are passionate about building the future. We offer competitive compensation, flexible work arrangements, and amazing growth opportunities.
+		</p>
+	</div>
+}
+
+templ Team005TeamGrid() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 items-stretch">
+		@Team005TeamMember("/assets/img/avatar-gh-1.png", "Sarah Johnson", "CEO & Founder", true)
+		@Team005TeamMember("/assets/img/avatar-gh-2.png", "Michael Chen", "CTO", true)
+		@Team005TeamMember("/assets/img/avatar-gh-3.png", "Emily Rodriguez", "Head of Design", true)
+		@Team005TeamMember("/assets/img/placeholder.svg", "You?", "Frontend Developer", false)
+		@Team005TeamMember("/assets/img/avatar-gh-4.png", "David Kim", "Lead Developer", true)
+		@Team005TeamMember("/assets/img/avatar-gh-5.png", "Jessica Park", "Product Manager", true)
+		@Team005TeamMember("/assets/img/avatar-gh-6.png", "Alex Thompson", "Marketing Director", true)
+		@Team005TeamMember("/assets/img/placeholder.svg", "You?", "UX Designer", false)
+	</div>
+}
+
+templ Team005TeamMember(imageSrc, name, role string, isExisting bool) {
+	@card.Card(card.Props{
+		Class: utils.TwMerge(
+			"flex items-center justify-center text-center transition-all hover:scale-105 h-full",
+			utils.If(isExisting, "bg-primary/5"),
+			utils.If(!isExisting, "bg-primary/10 hover:bg-primary/20"),
+		),
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "p-4",
+		}) {
+			<div class="mb-4">
+				if isExisting {
+					@avatar.Avatar(avatar.Props{
+						Class: "w-20 h-20 mx-auto",
+					}) {
+						@avatar.Image(avatar.ImageProps{
+							Src: imageSrc,
+							Alt: name,
+						})
+					}
+				} else {
+					<div class="w-20 h-20 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
+						@icon.Plus(icon.Props{
+							Size:  32,
+							Class: "text-primary",
+						})
+					</div>
+				}
+			</div>
+			<h3
+				class={
+					"text-lg font-semibold mb-2",
+					templ.KV("text-foreground", isExisting),
+					templ.KV("text-primary", !isExisting),
+				}
+			>
+				{ name }
+			</h3>
+			<p
+				class={
+					"text-sm",
+					templ.KV("text-muted-foreground", isExisting),
+					templ.KV("text-primary/80", !isExisting),
+				}
+			>
+				{ role }
+			</p>
+			if !isExisting {
+				<div class="mt-4">
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+						Size:    button.SizeIcon,
+						Class:   "text-primary border-primary/30 hover:bg-primary hover:text-primary-foreground",
+					}) {
+						@icon.ArrowRight(icon.Props{Size: 16})
+					}
+				</div>
+			}
+		}
+	}
+}
+
+templ Team005JoinUs() {
+	@card.Card(card.Props{
+		Class: "bg-primary/5 max-w-4xl mx-auto text-center",
+	}) {
+		@card.Content() {
+			<h3 class="text-3xl font-bold mb-4">Ready to join our team?</h3>
+			<p class="text-muted-foreground text-lg mb-8">
+				We're always looking for talented people who share our passion for innovation and excellence. Check out our open positions and become part of our growing family.
+			</p>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+				@Team005Benefit("Remote-First", "Work from anywhere in the world with flexible hours")
+				@Team005Benefit("Great Benefits", "Health insurance, unlimited PTO, and professional development")
+				@Team005Benefit("Growth Opportunities", "Learn from experts and advance your career with us")
+			</div>
+			<div class="flex flex-col sm:flex-row gap-4 justify-center">
+				@button.Button() {
+					<span class="flex items-center gap-2">
+						View Open Positions
+						@icon.ExternalLink(icon.Props{Size: 16})
+					</span>
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+				}) {
+					<span class="flex items-center gap-2">
+						Learn More About Us
+						@icon.ArrowRight(icon.Props{Size: 16})
+					</span>
+				}
+			</div>
+		}
+	}
+}
+
+templ Team005Benefit(title, description string) {
+	<div class="text-center">
+		<h4 class="font-semibold mb-2">{ title }</h4>
+		<p class="text-sm text-muted-foreground">{ description }</p>
+	</div>
+}

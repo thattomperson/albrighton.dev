@@ -1,0 +1,232 @@
+package pricing
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Pricing001() {
+	<section class="py-24 px-4 sm:px-6 lg:px-8">
+		<div class="mx-auto max-w-7xl">
+			@Pricing001Header()
+			@Pricing001Plans()
+		</div>
+	</section>
+}
+
+templ Pricing001Header() {
+	<div class="text-center mb-16">
+		<h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+			Simple pricing for everyone
+		</h2>
+		<p class="text-lg text-muted-foreground">
+			Choose an affordable plan that's packed with the best features
+		</p>
+	</div>
+}
+
+templ Pricing001Plans() {
+	<div class="grid gap-8 lg:grid-cols-3">
+		@Pricing001StarterCard()
+		@Pricing001ProfessionalCard()
+		@Pricing001EnterpriseCard()
+	</div>
+}
+
+templ Pricing001StarterCard() {
+	@card.Card(card.Props{Class: "flex flex-col h-full"}) {
+		<div class="flex flex-col justify-between h-full">
+			<div>
+				@card.Header() {
+					@card.Title() {
+						Starter
+					}
+					@card.Description() {
+						Perfect for getting started
+					}
+				}
+				@card.Content(card.ContentProps{Class: "pt-6"}) {
+					<div class="text-center mb-6">
+						<span class="text-4xl font-bold">$19</span>
+						<span class="text-muted-foreground">/month</span>
+					</div>
+					<ul class="space-y-3">
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">Up to 5 team members</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">10GB storage</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">Basic support</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">Core features</span>
+						</li>
+					</ul>
+				}
+			</div>
+			@card.Footer(card.FooterProps{Class: "mt-auto"}) {
+				@button.Button(button.Props{
+					FullWidth: true,
+					Variant:   button.VariantOutline,
+				}) {
+					Get started
+				}
+			}
+		</div>
+	}
+}
+
+templ Pricing001ProfessionalCard() {
+	@card.Card(card.Props{
+		Class: "ring-2 ring-border relative flex flex-col h-full shadow-lg",
+	}) {
+		<div class="absolute -top-3 left-1/2 -translate-x-1/2">
+			@badge.Badge() {
+				Most Popular
+			}
+		</div>
+		<div class="flex flex-col justify-between h-full">
+			<div>
+				@card.Header() {
+					@card.Title() {
+						Professional
+					}
+					@card.Description() {
+						Most popular choice
+					}
+				}
+				@card.Content(card.ContentProps{Class: "pt-6"}) {
+					<div class="text-center mb-6">
+						<span class="text-4xl font-bold">$49</span>
+						<span class="text-muted-foreground">/month</span>
+					</div>
+					<ul class="space-y-3">
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">Up to 20 team members</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">100GB storage</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">Priority support</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">Advanced features</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">Analytics dashboard</span>
+						</li>
+					</ul>
+				}
+			</div>
+			@card.Footer(card.FooterProps{Class: "mt-auto"}) {
+				@button.Button(button.Props{
+					FullWidth: true,
+					Variant:   button.VariantDefault,
+				}) {
+					Get started
+				}
+			}
+		</div>
+	}
+}
+
+templ Pricing001EnterpriseCard() {
+	@card.Card(card.Props{Class: "flex flex-col h-full"}) {
+		<div class="flex flex-col justify-between h-full">
+			<div>
+				@card.Header() {
+					@card.Title() {
+						Enterprise
+					}
+					@card.Description() {
+						For larger teams
+					}
+				}
+				@card.Content(card.ContentProps{Class: "pt-6"}) {
+					<div class="text-center mb-6">
+						<span class="text-4xl font-bold">$99</span>
+						<span class="text-muted-foreground">/month</span>
+					</div>
+					<ul class="space-y-3">
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">Unlimited team members</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">1TB storage</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">24/7 dedicated support</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">All features included</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">Custom integrations</span>
+						</li>
+						<li class="flex items-center gap-2">
+							@icon.Check(icon.Props{
+								Size: 16,
+							})
+							<span class="text-sm">Advanced security</span>
+						</li>
+					</ul>
+				}
+			</div>
+			@card.Footer(card.FooterProps{Class: "mt-auto"}) {
+				@button.Button(button.Props{
+					FullWidth: true,
+					Variant:   button.VariantOutline,
+				}) {
+					Get started
+				}
+			}
+		</div>
+	}
+}

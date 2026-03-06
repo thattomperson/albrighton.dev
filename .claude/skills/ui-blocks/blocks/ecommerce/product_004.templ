@@ -1,0 +1,158 @@
+package ecommerce
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/rating"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+// Product004 - Product List View
+templ Product004() {
+	<div class="min-h-screen p-6 md:p-10">
+		<div class="max-w-5xl mx-auto">
+			@Product004Header()
+			<div class="space-y-4">
+				@Product004ProductItem(
+					"Wireless Noise-Canceling Headphones",
+					"Premium audio experience with active noise cancellation and 30-hour battery life",
+					"$249",
+					"$299",
+					4.6,
+					"142",
+					"/assets/img/placeholder.svg",
+					true,
+				)
+				@separator.Separator()
+				@Product004ProductItem(
+					"Smart Fitness Watch",
+					"Track your health and fitness goals with advanced sensors and GPS",
+					"$199",
+					"",
+					4.4,
+					"89",
+					"/assets/img/placeholder.svg",
+					true,
+				)
+				@separator.Separator()
+				@Product004ProductItem(
+					"Professional Camera Lens",
+					"50mm f/1.8 prime lens for stunning portraits and low-light photography",
+					"$599",
+					"$699",
+					4.8,
+					"67",
+					"/assets/img/placeholder.svg",
+					false,
+				)
+			</div>
+		</div>
+	</div>
+}
+
+templ Product004Header() {
+	<div class="mb-8">
+		<h2 class="text-2xl font-bold">Search Results</h2>
+		<p class="text-muted-foreground mt-1">Found 24 products</p>
+	</div>
+}
+
+templ Product004ProductItem(name string, description string, price string, oldPrice string, rating float64, reviews string, imageUrl string, inStock bool) {
+	<div class="flex flex-col sm:flex-row gap-4 p-4 rounded-lg hover:bg-muted/50 transition-colors">
+		<div class="flex gap-4">
+			@Product004Image(imageUrl, name)
+			<div class="flex-1 min-w-0 sm:hidden">
+				@Product004Info(name, description, rating, reviews, inStock)
+			</div>
+		</div>
+		<div class="hidden sm:block flex-1 min-w-0">
+			@Product004Info(name, description, rating, reviews, inStock)
+		</div>
+		<div class="flex sm:flex-col items-start sm:items-end justify-between sm:ml-4 gap-4 sm:gap-2">
+			@Product004Pricing(price, oldPrice)
+			@Product004Actions()
+		</div>
+	</div>
+}
+
+templ Product004Image(imageUrl string, altText string) {
+	<div class="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 flex-shrink-0">
+		<img
+			src={ imageUrl }
+			alt={ altText }
+			class="w-full h-full object-cover rounded-lg"
+		/>
+	</div>
+}
+
+templ Product004Info(name string, description string, ratingValue float64, reviews string, inStock bool) {
+	<div class="space-y-2">
+		<div>
+			<h3 class="font-semibold text-lg line-clamp-1">{ name }</h3>
+			<p class="text-sm text-muted-foreground line-clamp-1 sm:line-clamp-2">{ description }</p>
+		</div>
+		<div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+			<div class="flex items-center gap-2">
+				<div class="flex items-center">
+					@rating.Rating(rating.Props{
+						Value:    ratingValue,
+						ReadOnly: true,
+						Class:    "flex-row items-center",
+					}) {
+						@rating.Group() {
+							for i := 1; i <= 5; i++ {
+								@rating.Item(rating.ItemProps{
+									Value: i,
+									Style: rating.StyleStar,
+								})
+							}
+						}
+					}
+				</div>
+				<span class="text-xs text-muted-foreground">({ reviews })</span>
+			</div>
+			if inStock {
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantSecondary,
+					Class:   "text-xs",
+				}) {
+					In Stock
+				}
+			} else {
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantDestructive,
+					Class:   "text-xs",
+				}) {
+					Out of Stock
+				}
+			}
+		</div>
+	</div>
+}
+
+templ Product004Pricing(price string, oldPrice string) {
+	<div class="text-right">
+		<div class="font-bold text-lg">{ price }</div>
+		if oldPrice != "" {
+			<div class="text-sm text-muted-foreground line-through">{ oldPrice }</div>
+		}
+	</div>
+}
+
+templ Product004Actions() {
+	<div class="flex gap-2 w-full sm:w-auto">
+		@button.Button(button.Props{
+			Class: "flex-1 sm:flex-initial",
+		}) {
+			@icon.ShoppingCart(icon.Props{Size: 14, Class: "mr-1"})
+			Add
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+			Size:    button.SizeIcon,
+		}) {
+			@icon.Heart(icon.Props{Size: 14})
+		}
+	</div>
+}

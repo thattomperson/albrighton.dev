@@ -1,0 +1,135 @@
+package chat
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+)
+
+templ Chat003() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-2xl">
+			@card.Card(card.Props{Class: "overflow-hidden h-[600px] flex flex-col"}) {
+				@Chat003Header()
+				@Chat003Messages()
+				@Chat003Input()
+			}
+		</div>
+	</section>
+}
+
+templ Chat003Header() {
+	<div class="border-b px-4 py-3 flex items-center justify-between">
+		<div class="flex items-center gap-3">
+			@avatar.Avatar() {
+				@avatar.Image(avatar.ImageProps{
+					Src: "/assets/img/avatar-gh-5.png",
+					Alt: "Sarah Chen",
+				})
+				@avatar.Fallback() {
+					SC
+				}
+			}
+			<div>
+				<p class="font-semibold text-sm">Sarah Chen</p>
+				<p class="text-xs text-muted-foreground">Active now</p>
+			</div>
+		</div>
+		<div class="flex items-center gap-1">
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Phone(icon.Props{
+					Size: 18,
+				})
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Video(icon.Props{
+					Size: 18,
+				})
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.EllipsisVertical(icon.Props{
+					Size: 18,
+				})
+			}
+		</div>
+	</div>
+}
+
+templ Chat003Messages() {
+	<div class="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+		@Chat003Message("Hey! How's the project going?", "10:00 AM", false)
+		@Chat003Message("It's going well! Just finished the authentication flow", "10:02 AM", true)
+		@Chat003Message("That's great! Can you show me what you've built?", "10:03 AM", false)
+		@Chat003Message("Sure! Let me share my screen in a minute", "10:04 AM", true)
+		@Chat003Message("I've implemented JWT authentication with refresh tokens", "10:05 AM", true)
+		@Chat003Message("Perfect! That's exactly what we need", "10:06 AM", false)
+		@Chat003Message("Are we still on for the meeting tomorrow?", "10:08 AM", false)
+		@Chat003Message("Yes, 2 PM works for me!", "10:09 AM", true)
+		<div class="flex items-center gap-2 text-xs text-muted-foreground">
+			<span>Sarah is typing</span>
+			<span class="flex gap-1">
+				<span class="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style="animation-delay: 0ms;"></span>
+				<span class="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style="animation-delay: 150ms;"></span>
+				<span class="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style="animation-delay: 300ms;"></span>
+			</span>
+		</div>
+	</div>
+}
+
+templ Chat003Message(text, time string, isSent bool) {
+	<div class={ templ.KV("flex", true), templ.KV("justify-end", isSent), templ.KV("justify-start", !isSent) }>
+		<div
+			class={
+				"max-w-[70%] rounded-2xl px-4 py-2",
+				templ.KV("bg-primary text-primary-foreground", isSent),
+				templ.KV("bg-muted", !isSent),
+			}
+		>
+			<p class="text-sm">{ text }</p>
+			<p
+				class={
+					"text-xs mt-1",
+					templ.KV("text-primary-foreground/70", isSent),
+					templ.KV("text-muted-foreground", !isSent),
+				}
+			>{ time }</p>
+		</div>
+	</div>
+}
+
+templ Chat003Input() {
+	<div class="border-t px-4 py-3">
+		<div class="flex items-center gap-2">
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Paperclip(icon.Props{
+					Size: 18,
+				})
+			}
+			@input.Input(input.Props{
+				Placeholder: "Type a message...",
+				Class:       "flex-1",
+			})
+			@button.Button(button.Props{
+				Size: button.SizeIcon,
+			}) {
+				@icon.Send(icon.Props{
+					Size: 18,
+				})
+			}
+		</div>
+	</div>
+}

@@ -1,0 +1,58 @@
+package auth
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ SignUp003() {
+	<div class="flex min-h-svh items-center justify-center bg-muted/10 p-6 md:p-10">
+		<div class="w-full max-w-lg space-y-8">
+			@card.Card() {
+				@card.Header(card.HeaderProps{
+					Class: "text-center",
+				}) {
+					@card.Title(card.TitleProps{
+						Class: "text-2xl font-bold",
+					}) {
+						Create your account
+					}
+					@card.Description() {
+						Create an account with your social accounts
+					}
+				}
+				@card.Content(card.ContentProps{
+					Class: "grid grid-cols-2 gap-3",
+				}) {
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+						Class:   "w-full",
+					}) {
+						@icon.Github(icon.Props{
+							Size:  16,
+							Class: "mr-2",
+						})
+						GitHub
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+						Class:   "w-full",
+					}) {
+						@icon.Inbox(icon.Props{
+							Size:  16,
+							Class: "mr-2",
+						})
+						Google
+					}
+				}
+			}
+			<div class="text-center text-sm">
+				Already have an account?
+				<a href="#" class="font-medium text-primary hover:text-primary/80 ml-1">
+					Sign in
+				</a>
+			</div>
+		</div>
+	</div>
+}

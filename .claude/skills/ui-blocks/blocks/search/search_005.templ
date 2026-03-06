@@ -1,0 +1,304 @@
+package search
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/checkbox"
+	"github.com/templui/templui-pro/internal/ui/components/datepicker"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/selectbox"
+)
+
+templ Search005() {
+	<section class="w-full max-w-4xl mx-auto p-6">
+		@Search005AdvancedSearch()
+	</section>
+}
+
+templ Search005AdvancedSearch() {
+	@card.Card(card.Props{
+		Class: "p-6",
+	}) {
+		@card.Header() {
+			<div class="flex items-center gap-2">
+				@icon.Search(icon.Props{Size: 20})
+				<h2 class="text-xl font-semibold">Advanced Search</h2>
+			</div>
+			<p class="text-sm text-muted-foreground mt-1">
+				Use advanced filters to find exactly what you're looking for
+			</p>
+		}
+		@card.Content() {
+			<form class="space-y-6">
+				@Search005BasicFields()
+				@Search005CategoryFilters()
+				@Search005DateRange()
+				@Search005ContentFilters()
+				@Search005FormActions()
+			</form>
+		}
+	}
+}
+
+templ Search005BasicFields() {
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+		<div class="space-y-2">
+			@label.Label(label.Props{For: "all_words"}) {
+				All these words
+			}
+			@input.Input(input.Props{
+				ID:          "all_words",
+				Name:        "all_words",
+				Type:        input.TypeText,
+				Placeholder: "e.g., web development tutorial",
+			})
+		</div>
+		<div class="space-y-2">
+			@label.Label(label.Props{For: "exact_phrase"}) {
+				This exact phrase
+			}
+			@input.Input(input.Props{
+				ID:          "exact_phrase",
+				Name:        "exact_phrase",
+				Type:        input.TypeText,
+				Placeholder: "e.g., \"templ components\"",
+			})
+		</div>
+		<div class="space-y-2">
+			@label.Label(label.Props{For: "any_words"}) {
+				Any of these words
+			}
+			@input.Input(input.Props{
+				ID:          "any_words",
+				Name:        "any_words",
+				Type:        input.TypeText,
+				Placeholder: "e.g., go OR templ",
+			})
+		</div>
+		<div class="space-y-2">
+			@label.Label(label.Props{For: "exclude_words"}) {
+				None of these words
+			}
+			@input.Input(input.Props{
+				ID:          "exclude_words",
+				Name:        "exclude_words",
+				Type:        input.TypeText,
+				Placeholder: "e.g., deprecated legacy",
+			})
+		</div>
+	</div>
+}
+
+templ Search005CategoryFilters() {
+	<div class="space-y-4">
+		<h3 class="font-medium">Search in</h3>
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+			<div class="space-y-2">
+				@label.Label(label.Props{For: "content_type"}) {
+					Content Type
+				}
+				@selectbox.SelectBox(selectbox.Props{
+					ID: "content_type",
+				}) {
+					@selectbox.Trigger(selectbox.TriggerProps{
+						Name: "content_type",
+					}) {
+						@selectbox.Value(selectbox.ValueProps{
+							Placeholder: "All types",
+						})
+					}
+					@selectbox.Content() {
+						@selectbox.Item(selectbox.ItemProps{Value: ""}) {
+							All types
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "articles"}) {
+							Articles
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "tutorials"}) {
+							Tutorials
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "documentation"}) {
+							Documentation
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "videos"}) {
+							Videos
+						}
+					}
+				}
+			</div>
+			<div class="space-y-2">
+				@label.Label(label.Props{For: "language"}) {
+					Language
+				}
+				@selectbox.SelectBox(selectbox.Props{
+					ID: "language",
+				}) {
+					@selectbox.Trigger(selectbox.TriggerProps{
+						Name: "language",
+					}) {
+						@selectbox.Value(selectbox.ValueProps{
+							Placeholder: "Any language",
+						})
+					}
+					@selectbox.Content() {
+						@selectbox.Item(selectbox.ItemProps{Value: ""}) {
+							Any language
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "en"}) {
+							English
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "de"}) {
+							German
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "fr"}) {
+							French
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "es"}) {
+							Spanish
+						}
+					}
+				}
+			</div>
+			<div class="space-y-2">
+				@label.Label(label.Props{For: "author"}) {
+					Author
+				}
+				@input.Input(input.Props{
+					ID:          "author",
+					Name:        "author",
+					Type:        input.TypeText,
+					Placeholder: "Author name",
+				})
+			</div>
+		</div>
+	</div>
+}
+
+templ Search005DateRange() {
+	<div class="space-y-4">
+		<h3 class="font-medium">Date Range</h3>
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+			<div class="space-y-2">
+				@label.Label(label.Props{For: "date_from"}) {
+					From
+				}
+				@datepicker.DatePicker(datepicker.Props{
+					ID:          "date_from",
+					Name:        "date_from",
+					Placeholder: "Select start date",
+				})
+			</div>
+			<div class="space-y-2">
+				@label.Label(label.Props{For: "date_to"}) {
+					To
+				}
+				@datepicker.DatePicker(datepicker.Props{
+					ID:          "date_to",
+					Name:        "date_to",
+					Placeholder: "Select end date",
+				})
+			</div>
+			<div class="space-y-2">
+				@label.Label(label.Props{For: "date_preset"}) {
+					Quick Select
+				}
+				@selectbox.SelectBox(selectbox.Props{
+					ID: "date_preset",
+				}) {
+					@selectbox.Trigger(selectbox.TriggerProps{
+						Name: "date_preset",
+					}) {
+						@selectbox.Value(selectbox.ValueProps{
+							Placeholder: "Choose period",
+						})
+					}
+					@selectbox.Content() {
+						@selectbox.Item(selectbox.ItemProps{Value: ""}) {
+							Custom range
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "last_week"}) {
+							Last week
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "last_month"}) {
+							Last month
+						}
+						@selectbox.Item(selectbox.ItemProps{Value: "last_year"}) {
+							Last year
+						}
+					}
+				}
+			</div>
+		</div>
+	</div>
+}
+
+templ Search005ContentFilters() {
+	<div class="space-y-4">
+		<h3 class="font-medium">Additional Filters</h3>
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<div class="space-y-3">
+				<h4 class="text-sm font-medium">Content Features</h4>
+				<div class="space-y-2">
+					@Search005FilterCheckbox("has_images", "Has images")
+					@Search005FilterCheckbox("has_code", "Contains code examples")
+					@Search005FilterCheckbox("has_downloads", "Has downloadable files")
+					@Search005FilterCheckbox("is_free", "Free content only")
+				</div>
+			</div>
+			<div class="space-y-3">
+				<h4 class="text-sm font-medium">Difficulty Level</h4>
+				<div class="space-y-2">
+					@Search005FilterCheckbox("beginner", "Beginner")
+					@Search005FilterCheckbox("intermediate", "Intermediate")
+					@Search005FilterCheckbox("advanced", "Advanced")
+					@Search005FilterCheckbox("expert", "Expert")
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ Search005FilterCheckbox(value, labelText string) {
+	<div class="flex items-center space-x-2">
+		@checkbox.Checkbox(checkbox.Props{
+			Name:  "filters",
+			Value: value,
+			ID:    value,
+		})
+		@label.Label(label.Props{
+			For:   value,
+			Class: "text-sm cursor-pointer",
+		}) {
+			{ labelText }
+		}
+	</div>
+}
+
+templ Search005FormActions() {
+	<div class="flex flex-col sm:flex-row gap-3 pt-4 border-t">
+		@button.Button(button.Props{
+			Class: "flex-1 sm:flex-none",
+		}) {
+			<span class="flex items-center gap-2">
+				@icon.Search(icon.Props{Size: 18})
+				Search
+			</span>
+		}
+		@button.Button(button.Props{
+			Type:    "button",
+			Variant: button.VariantOutline,
+			Class:   "flex-1 sm:flex-none",
+		}) {
+			Clear All
+		}
+		@button.Button(button.Props{
+			Type:    "button",
+			Variant: button.VariantGhost,
+			Class:   "flex-1 sm:flex-none",
+		}) {
+			Save Search
+		}
+	</div>
+}

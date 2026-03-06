@@ -1,0 +1,357 @@
+package sidebar
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/breadcrumb"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/sidebar"
+)
+
+templ Sidebar006() {
+	@sidebar.Layout() {
+		@sidebar.Sidebar(sidebar.Props{
+			Variant: sidebar.VariantFloating,
+			Side:    sidebar.SideLeft,
+		}) {
+			@sidebar.Header() {
+				@Sidebar006TeamSwitcher()
+				@Sidebar006SearchBar()
+			}
+			@sidebar.Content() {
+				@Sidebar006MainNav()
+				@sidebar.Separator()
+				@Sidebar006Favorites()
+				@sidebar.Separator()
+				@Sidebar006Workspaces()
+			}
+			@sidebar.Footer() {
+				@Sidebar006SecondaryNav()
+			}
+		}
+		@sidebar.Inset() {
+			<div class="flex h-full flex-col">
+				<header class="flex items-center h-14 px-4 border-b border-border bg-background">
+					@sidebar.Trigger()
+					<div class="h-6 w-px bg-border mx-3"></div>
+					@breadcrumb.Breadcrumb() {
+						@breadcrumb.List() {
+							@breadcrumb.Item() {
+								@breadcrumb.Page() {
+									Project Management & Task Tracking
+								}
+							}
+						}
+					}
+				</header>
+				<div class="flex-1 overflow-y-auto p-6">
+					<!-- Content goes here -->
+				</div>
+			</div>
+		}
+	}
+}
+
+templ Sidebar006TeamSwitcher() {
+	@dropdown.Dropdown() {
+		@dropdown.Trigger() {
+			@sidebar.Menu() {
+				@sidebar.MenuItem() {
+					@sidebar.MenuButton(sidebar.MenuButtonProps{
+						Size: sidebar.MenuButtonSizeLg,
+					}) {
+						<div class="flex items-center gap-2 w-full">
+							<div class="flex items-center justify-center size-8 rounded-lg bg-primary text-primary-foreground">
+								@icon.Command(icon.Props{Class: "size-4"})
+							</div>
+							<div class="flex flex-1 flex-col gap-0.5 overflow-hidden">
+								<span class="truncate font-semibold">Acme Inc</span>
+								<span class="truncate text-xs text-muted-foreground">Enterprise</span>
+							</div>
+							@icon.ChevronsUpDown(icon.Props{Class: "ml-auto size-4"})
+						</div>
+					}
+				}
+			}
+		}
+		@dropdown.Content(dropdown.ContentProps{
+			Class: "w-64",
+		}) {
+			@dropdown.Label() {
+				Teams
+			}
+			@dropdown.Separator()
+			@dropdown.Item() {
+				<div class="flex items-center gap-2">
+					<div class="flex items-center justify-center size-6 rounded-sm bg-primary text-primary-foreground">
+						@icon.Command(icon.Props{Class: "size-3"})
+					</div>
+					<div class="flex flex-col">
+						<span class="text-sm">Acme Inc</span>
+						<span class="text-xs text-muted-foreground">Enterprise</span>
+					</div>
+				</div>
+			}
+			@dropdown.Item() {
+				<div class="flex items-center gap-2">
+					<div class="flex items-center justify-center size-6 rounded-sm bg-violet-500 text-white">
+						@icon.Waves(icon.Props{Class: "size-3"})
+					</div>
+					<div class="flex flex-col">
+						<span class="text-sm">Acme Corp.</span>
+						<span class="text-xs text-muted-foreground">Startup</span>
+					</div>
+				</div>
+			}
+			@dropdown.Item() {
+				<div class="flex items-center gap-2">
+					<div class="flex items-center justify-center size-6 rounded-sm bg-rose-500 text-white">
+						@icon.Command(icon.Props{Class: "size-3"})
+					</div>
+					<div class="flex flex-col">
+						<span class="text-sm">Evil Corp.</span>
+						<span class="text-xs text-muted-foreground">Free</span>
+					</div>
+				</div>
+			}
+			@dropdown.Separator()
+			@dropdown.Item() {
+				@icon.Plus(icon.Props{Class: "mr-2 size-4"})
+				Add team
+			}
+		}
+	}
+}
+
+templ Sidebar006SearchBar() {
+	@sidebar.Menu() {
+		@sidebar.MenuItem() {
+			<div class="relative">
+				@icon.Search(icon.Props{Class: "absolute left-2 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"})
+				<input
+					type="search"
+					placeholder="Search..."
+					class="h-8 w-full rounded-md border border-input bg-background pl-8 pr-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+				/>
+			</div>
+		}
+	}
+}
+
+templ Sidebar006MainNav() {
+	@sidebar.Group() {
+		@sidebar.Menu() {
+			@sidebar.MenuItem() {
+				@sidebar.MenuButton(sidebar.MenuButtonProps{
+					Href:    "#",
+					Tooltip: "Search",
+				}) {
+					@icon.Search(icon.Props{Class: "size-4"})
+					<span>Search</span>
+				}
+			}
+			@sidebar.MenuItem() {
+				@sidebar.MenuButton(sidebar.MenuButtonProps{
+					Href:    "#",
+					Tooltip: "Ask AI",
+				}) {
+					@icon.Sparkles(icon.Props{Class: "size-4"})
+					<span>Ask AI</span>
+				}
+			}
+			@sidebar.MenuItem() {
+				@sidebar.MenuButton(sidebar.MenuButtonProps{
+					Href:     "#",
+					IsActive: true,
+					Tooltip:  "Home",
+				}) {
+					@icon.House(icon.Props{Class: "size-4"})
+					<span>Home</span>
+				}
+			}
+			@sidebar.MenuItem() {
+				@sidebar.MenuButton(sidebar.MenuButtonProps{
+					Href:    "#",
+					Tooltip: "Inbox",
+				}) {
+					@icon.Inbox(icon.Props{Class: "size-4"})
+					<span>Inbox</span>
+					@sidebar.MenuBadge() {
+						10
+					}
+				}
+			}
+		}
+	}
+}
+
+type Sidebar006Favorite struct {
+	Name  string
+	URL   string
+	Emoji string
+}
+
+templ Sidebar006Favorites() {
+	{{
+		favorites := []Sidebar006Favorite{
+			{Name: "Project Management & Task Tracking", URL: "#", Emoji: "📊"},
+			{Name: "Family Recipe Collection & Meal Planning", URL: "#", Emoji: "🍳"},
+			{Name: "Fitness Tracker & Workout Routines", URL: "#", Emoji: "💪"},
+			{Name: "Book Notes & Reading List", URL: "#", Emoji: "📚"},
+			{Name: "Sustainable Gardening Tips & Plant Care", URL: "#", Emoji: "🌱"},
+		}
+	}}
+	@sidebar.Group() {
+		@sidebar.GroupLabel() {
+			Favorites
+		}
+		@sidebar.Menu() {
+			for _, fav := range favorites {
+				@sidebar.MenuItem() {
+					@sidebar.MenuButton(sidebar.MenuButtonProps{
+						Href:    fav.URL,
+						Tooltip: fav.Name,
+					}) {
+						<span>{ fav.Emoji }</span>
+						<span class="truncate">{ fav.Name }</span>
+					}
+				}
+			}
+			@sidebar.MenuItem() {
+				@sidebar.MenuButton(sidebar.MenuButtonProps{
+					Href:    "#",
+					Tooltip: "More",
+				}) {
+					@icon.Ellipsis(icon.Props{Class: "size-4"})
+					<span>More</span>
+				}
+			}
+		}
+	}
+}
+
+type Sidebar006Workspace struct {
+	Name  string
+	Emoji string
+	Pages []Sidebar006Page
+}
+
+type Sidebar006Page struct {
+	Name  string
+	URL   string
+	Emoji string
+}
+
+templ Sidebar006Workspaces() {
+	{{
+		workspaces := []Sidebar006Workspace{
+			{
+				Name:  "Personal Life Management",
+				Emoji: "🏠",
+				Pages: []Sidebar006Page{
+					{Name: "Daily Journal & Reflection", URL: "#", Emoji: "📔"},
+					{Name: "Health & Wellness Tracker", URL: "#", Emoji: "🍏"},
+					{Name: "Personal Growth & Learning Goals", URL: "#", Emoji: "🌟"},
+				},
+			},
+			{
+				Name:  "Professional Development",
+				Emoji: "💼",
+				Pages: []Sidebar006Page{
+					{Name: "Career Objectives & Milestones", URL: "#", Emoji: "🎯"},
+					{Name: "Skill Acquisition & Training Log", URL: "#", Emoji: "🧠"},
+					{Name: "Networking Contacts & Events", URL: "#", Emoji: "🤝"},
+				},
+			},
+		}
+	}}
+	@sidebar.Group() {
+		@sidebar.GroupLabel() {
+			Workspaces
+		}
+		for _, workspace := range workspaces {
+			@sidebar.Menu() {
+				@sidebar.MenuItem() {
+					<div class="text-xs font-medium text-muted-foreground mb-1 px-2">
+						<span>{ workspace.Emoji }</span>
+						<span class="ml-1">{ workspace.Name }</span>
+					</div>
+					@sidebar.MenuSub() {
+						for _, page := range workspace.Pages {
+							@sidebar.MenuSubItem() {
+								@sidebar.MenuSubButton(sidebar.MenuSubButtonProps{
+									Href: page.URL,
+								}) {
+									<span>{ page.Emoji }</span>
+									<span class="truncate">{ page.Name }</span>
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+templ Sidebar006SecondaryNav() {
+	@sidebar.Menu() {
+		@sidebar.MenuItem() {
+			@sidebar.MenuButton(sidebar.MenuButtonProps{
+				Href:    "#",
+				Tooltip: "Support",
+			}) {
+				@icon.CircleQuestionMark(icon.Props{Class: "size-4"})
+				<span>Support</span>
+			}
+		}
+		@sidebar.MenuItem() {
+			@sidebar.MenuButton(sidebar.MenuButtonProps{
+				Href:    "#",
+				Tooltip: "Feedback",
+			}) {
+				@icon.MessageSquare(icon.Props{Class: "size-4"})
+				<span>Feedback</span>
+			}
+		}
+		@sidebar.MenuItem() {
+			@dropdown.Dropdown() {
+				@dropdown.Trigger() {
+					@sidebar.MenuButton(sidebar.MenuButtonProps{
+						Tooltip: "User",
+					}) {
+						@avatar.Avatar(avatar.Props{Class: "size-6"}) {
+							@avatar.Fallback() {
+								JD
+							}
+						}
+						<span>John Doe</span>
+						@icon.ChevronUp(icon.Props{Class: "ml-auto size-4"})
+					}
+				}
+				@dropdown.Content(dropdown.ContentProps{
+					Class:     "w-56",
+					Placement: dropdown.PlacementTop,
+				}) {
+					@dropdown.Label() {
+						John Doe
+					}
+					@dropdown.Separator()
+					@dropdown.Item() {
+						@icon.User(icon.Props{Class: "mr-2 size-4"})
+						Account
+					}
+					@dropdown.Item() {
+						@icon.Settings(icon.Props{Class: "mr-2 size-4"})
+						Settings
+					}
+					@dropdown.Separator()
+					@dropdown.Item() {
+						@icon.LogOut(icon.Props{Class: "mr-2 size-4"})
+						Log out
+					}
+				}
+			}
+		}
+	}
+}

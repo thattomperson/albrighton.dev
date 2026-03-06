@@ -1,0 +1,161 @@
+package navbar
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+	"github.com/templui/templui-pro/internal/ui/components/sheet"
+)
+
+templ Navbar003() {
+	@sheet.Sheet(sheet.Props{
+		Side: sheet.SideLeft,
+	}) {
+		@Navbar003Desktop()
+		@Navbar003MobileDrawer()
+	}
+}
+
+templ Navbar003MobileDrawer() {
+	@sheet.Content() {
+		@Navbar003DrawerContent()
+	}
+}
+
+templ Navbar003DrawerContent() {
+	<div class="flex flex-col h-full">
+		<div class="flex items-center justify-between p-4 border-b bg-background">
+			@Navbar003Logo()
+		</div>
+		<div class="p-4 border-b bg-background">
+			@Navbar003MobileSearch()
+		</div>
+		<nav class="flex-1 p-4 bg-background">
+			<div class="flex flex-col space-y-3">
+				@Navbar003MobileMenuItems()
+			</div>
+		</nav>
+		<div class="p-4 border-t space-y-2 bg-background">
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "w-full justify-start",
+			}) {
+				@icon.Bell(icon.Props{Size: 18, Class: "mr-2"})
+				Notifications
+				<span class="ml-auto h-2 w-2 bg-destructive rounded-full"></span>
+			}
+			@separator.Separator(separator.Props{Class: "my-2"})
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Class:   "w-full justify-center",
+			}) {
+				Sign In
+			}
+		</div>
+	</div>
+}
+
+templ Navbar003Desktop() {
+	<nav class="sticky top-0 w-full border-b shadow-sm">
+		<div class="container mx-auto px-4">
+			<div class="flex h-16 items-center justify-between gap-4">
+				@Navbar003Logo()
+				<div class="hidden lg:flex items-center space-x-6">
+					@Navbar003MenuItems()
+				</div>
+				<div class="flex-1 max-w-md mx-4 hidden sm:block">
+					@Navbar003SearchBar()
+				</div>
+				<div class="hidden md:flex items-center space-x-3">
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+						Size:    button.SizeIcon,
+						Class:   "relative",
+					}) {
+						@icon.Bell(icon.Props{Size: 18, Class: "text-muted-foreground"})
+						<span class="absolute -top-1 -right-1 h-3 w-3 bg-destructive rounded-full"></span>
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+					}) {
+						Sign In
+					}
+				</div>
+				<div class="md:hidden">
+					@sheet.Trigger() {
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Size:    button.SizeIcon,
+							Class:   "h-10 w-10",
+						}) {
+							@icon.Menu(icon.Props{Size: 20})
+						}
+					}
+				</div>
+			</div>
+		</div>
+	</nav>
+}
+
+templ Navbar003Logo() {
+	<div class="flex items-center space-x-2 flex-shrink-0">
+		@icon.Layers()
+		<span class="text-xl font-bold">Acme Inc</span>
+	</div>
+}
+
+templ Navbar003SearchBar() {
+	<div class="relative">
+		@input.Input(input.Props{
+			Type:        "search",
+			Placeholder: "Search products, docs, help...",
+			Class:       "pl-10 pr-12 h-10",
+		})
+		<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+			@icon.Search(icon.Props{Size: 18, Class: "text-muted-foreground"})
+		</div>
+		<div class="absolute inset-y-0 right-0 flex items-center pr-3">
+			<kbd class="hidden sm:inline-flex h-6 select-none items-center gap-1 rounded border bg-muted px-2 font-mono text-xs font-medium text-muted-foreground">
+				<span class="text-xs">⌘</span>K
+			</kbd>
+		</div>
+	</div>
+}
+
+templ Navbar003MobileSearch() {
+	<div class="relative">
+		@input.Input(input.Props{
+			Type:        "search",
+			Placeholder: "Search...",
+			Class:       "pl-10",
+		})
+		<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+			@icon.Search(icon.Props{Size: 18, Class: "text-muted-foreground"})
+		</div>
+	</div>
+}
+
+templ Navbar003MenuItems() {
+	<a href="#" class="text-sm font-medium hover:text-primary/80 transition-colors whitespace-nowrap">
+		Docs
+	</a>
+	<a href="#" class="text-sm font-medium hover:text-primary/80 transition-colors whitespace-nowrap">
+		API
+	</a>
+	<a href="#" class="text-sm font-medium hover:text-primary/80 transition-colors whitespace-nowrap">
+		Guides
+	</a>
+}
+
+templ Navbar003MobileMenuItems() {
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		Docs
+	</a>
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		API
+	</a>
+	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+		Guides
+	</a>
+}

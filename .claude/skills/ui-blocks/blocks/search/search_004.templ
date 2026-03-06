@@ -1,0 +1,91 @@
+package search
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+)
+
+templ Search004() {
+	<section class="w-full bg-background border-b">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			@Search004Header()
+		</div>
+	</section>
+}
+
+templ Search004Header() {
+	<header class="flex items-center justify-between py-4">
+		@Search004Logo()
+		@Search004SearchBar()
+		@Search004Actions()
+	</header>
+}
+
+templ Search004Logo() {
+	<div class="flex items-center">
+		<a href="/" class="flex items-center space-x-2">
+			<div class="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
+				<span class="text-primary-foreground font-bold text-sm">L</span>
+			</div>
+			<span class="font-semibold text-lg hidden sm:block">Logo</span>
+		</a>
+	</div>
+}
+
+templ Search004SearchBar() {
+	<div class="flex-1 max-w-xl mx-4">
+		<form class="relative">
+			<div class="relative">
+				@input.Input(input.Props{
+					Type:        input.TypeSearch,
+					Name:        "q",
+					Placeholder: "Search...",
+					Class:       "pl-10 pr-4 h-10",
+				})
+				<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+					@icon.Search(icon.Props{
+						Size:  16,
+						Class: "text-muted-foreground",
+					})
+				</div>
+			</div>
+		</form>
+	</div>
+}
+
+templ Search004Actions() {
+	<div class="flex items-center space-x-4">
+		@Search004QuickActions()
+		@Search004UserMenu()
+	</div>
+}
+
+templ Search004QuickActions() {
+	<div class="hidden md:flex items-center space-x-2">
+		<a href="/help" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+			Help
+		</a>
+		<span class="text-muted-foreground">|</span>
+		<a href="/contact" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+			Contact
+		</a>
+	</div>
+}
+
+templ Search004UserMenu() {
+	<div class="flex items-center space-x-2">
+		@button.Button(button.Props{
+			Variant: button.VariantGhost,
+			Size:    button.SizeIcon,
+		}) {
+			@icon.Bell(icon.Props{Size: 18})
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantGhost,
+			Size:    button.SizeIcon,
+		}) {
+			@icon.User(icon.Props{Size: 18})
+		}
+	</div>
+}

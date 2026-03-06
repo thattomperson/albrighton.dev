@@ -1,0 +1,327 @@
+package chat
+
+import (
+	"fmt"
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/popover"
+)
+
+templ Chat004() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-3xl">
+			@card.Card(card.Props{Class: "overflow-hidden h-[700px] flex flex-col"}) {
+				@Chat004Header()
+				@Chat004Messages()
+				@Chat004Input()
+			}
+		</div>
+	</section>
+}
+
+templ Chat004Header() {
+	<div class="border-b px-6 py-4 flex items-center justify-between">
+		<div class="flex items-center gap-3">
+			<div class="flex -space-x-2 *:ring-2 *:ring-background">
+				@avatar.Avatar() {
+					@avatar.Image(avatar.ImageProps{
+						Src: "/assets/img/avatar-gh-1.png",
+						Alt: "User 1",
+					})
+					@avatar.Fallback() {
+						U1
+					}
+				}
+				@avatar.Avatar() {
+					@avatar.Image(avatar.ImageProps{
+						Src: "/assets/img/avatar-gh-2.png",
+						Alt: "User 2",
+					})
+					@avatar.Fallback() {
+						U2
+					}
+				}
+				@avatar.Avatar() {
+					@avatar.Image(avatar.ImageProps{
+						Src: "/assets/img/avatar-gh-3.png",
+						Alt: "User 3",
+					})
+					@avatar.Fallback() {
+						U3
+					}
+				}
+			</div>
+			<div>
+				<p class="font-semibold">Design Team</p>
+				<p class="text-xs text-muted-foreground">5 members • 3 online</p>
+			</div>
+		</div>
+		<div class="flex items-center gap-2">
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Search(icon.Props{
+					Size: 18,
+				})
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Info(icon.Props{
+					Size: 18,
+				})
+			}
+		</div>
+	</div>
+}
+
+templ Chat004Messages() {
+	<div class="flex-1 overflow-y-auto px-6 py-4 space-y-6">
+		@Chat004MessageGroup(
+			"/assets/img/avatar-gh-1.png",
+			"Emily Davis",
+			"10:00 AM",
+			[]Chat004_MessageData{
+				{Text: "Hey team! I've finished the new design mockups", ID: "msg1"},
+				{Text: "Here's the Figma link: figma.com/file/abc123", ID: "msg2"},
+			},
+		)
+		@Chat004MessageWithReactions(
+			"/assets/img/avatar-gh-2.png",
+			"Alex Rivera",
+			"10:05 AM",
+			"These look amazing! Great work on the color scheme 🎨",
+			"msg3",
+			[]string{"👍", "🔥", "❤️"},
+			[]int{3, 2, 1},
+		)
+		@Chat004Reply(
+			"/assets/img/avatar-gh-3.png",
+			"Jordan Lee",
+			"10:07 AM",
+			"I especially love the new navigation design!",
+			"Emily Davis: These look amazing!",
+		)
+		@Chat004MessageGroup(
+			"/assets/img/avatar-gh-4.png",
+			"Sam Wilson",
+			"10:15 AM",
+			[]Chat004_MessageData{
+				{Text: "Quick question about the mobile version", ID: "msg4"},
+				{Text: "Should we keep the bottom navigation or switch to a hamburger menu?", ID: "msg5"},
+			},
+		)
+		@Chat004MessageWithReactions(
+			"/assets/img/avatar-gh-1.png",
+			"Emily Davis",
+			"10:18 AM",
+			"I think bottom navigation works better for our use case. It's more accessible on mobile",
+			"msg6",
+			[]string{"💯"},
+			[]int{2},
+		)
+	</div>
+}
+
+type Chat004_MessageData struct {
+	Text string
+	ID   string
+}
+
+templ Chat004MessageGroup(avatarUrl, name, time string, messages []Chat004_MessageData) {
+	<div class="flex gap-3">
+		@avatar.Avatar(avatar.Props{
+			Class: "h-9 w-9",
+		}) {
+			@avatar.Image(avatar.ImageProps{
+				Src: avatarUrl,
+				Alt: name,
+			})
+		}
+		<div class="flex-1">
+			<div class="flex items-baseline gap-2 mb-1">
+				<span class="font-semibold text-sm">{ name }</span>
+				<span class="text-xs text-muted-foreground">{ time }</span>
+			</div>
+			<div class="space-y-2">
+				for _, msg := range messages {
+					<div class="group relative">
+						<div class="bg-muted rounded-2xl px-4 py-2 inline-block max-w-[80%]">
+							<p class="text-sm">{ msg.Text }</p>
+						</div>
+						@Chat004MessageActions(msg.ID)
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+}
+
+templ Chat004MessageWithReactions(avatarUrl, name, time, text, msgID string, reactions []string, counts []int) {
+	<div class="flex gap-3">
+		@avatar.Avatar(avatar.Props{
+			Class: "h-9 w-9",
+		}) {
+			@avatar.Image(avatar.ImageProps{
+				Src: avatarUrl,
+				Alt: name,
+			})
+		}
+		<div class="flex-1">
+			<div class="flex items-baseline gap-2 mb-1">
+				<span class="font-semibold text-sm">{ name }</span>
+				<span class="text-xs text-muted-foreground">{ time }</span>
+			</div>
+			<div class="group relative">
+				<div class="bg-muted rounded-2xl px-4 py-2 inline-block max-w-[80%]">
+					<p class="text-sm">{ text }</p>
+				</div>
+				@Chat004MessageActions(msgID)
+				<div class="flex gap-1 mt-2">
+					for i, reaction := range reactions {
+						<button class="flex items-center gap-1 px-2 py-1 rounded-full bg-muted hover:bg-muted/80 transition-colors">
+							<span class="text-sm">{ reaction }</span>
+							<span class="text-xs text-muted-foreground">{ fmt.Sprintf("%d", counts[i]) }</span>
+						</button>
+					}
+					@popover.Trigger(popover.TriggerProps{
+						For: "chat-004-popover",
+					}) {
+						<button class="px-2 py-1 rounded-full bg-muted hover:bg-muted/80 transition-colors">
+							<span class="text-sm">+</span>
+						</button>
+					}
+					@popover.Content(popover.ContentProps{
+						ID:    "chat-004-popover",
+						Class: "w-64 p-2",
+					}) {
+						<div class="flex flex-wrap">
+							{ "👍 👎 ❤️ 😂 😮 😢 😡 🎉 🔥 👏 💯 🤔 👀 🙏 💪 🚀 ✅ ❌ 💡 📌" }
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ Chat004Reply(avatarUrl, name, time, text, replyTo string) {
+	<div class="flex gap-3 pl-12">
+		@avatar.Avatar(avatar.Props{
+			Class: "h-9 w-9",
+		}) {
+			@avatar.Image(avatar.ImageProps{
+				Src: avatarUrl,
+				Alt: name,
+			})
+		}
+		<div class="flex-1">
+			<div class="flex items-baseline gap-2 mb-1">
+				<span class="font-semibold text-sm">{ name }</span>
+				<span class="text-xs text-muted-foreground">{ time }</span>
+			</div>
+			<div class="bg-muted rounded-2xl px-4 py-2 inline-block max-w-[80%]">
+				<div class="text-xs text-muted-foreground mb-1 pb-1 border-b border-border/50">
+					{ replyTo }
+				</div>
+				<p class="text-sm">{ text }</p>
+			</div>
+		</div>
+	</div>
+}
+
+templ Chat004MessageActions(msgID string) {
+	<div class="absolute -top-4 right-0 opacity-0 group-hover:opacity-100 transition-opacity">
+		<div class="flex items-center gap-1 bg-background border rounded-lg p-1">
+			<button class="p-1 hover:bg-muted rounded transition-colors">
+				<span class="text-xs">😊</span>
+			</button>
+			<button class="p-1 hover:bg-muted rounded transition-colors">
+				@icon.Reply(icon.Props{
+					Size:  14,
+					Class: "text-muted-foreground",
+				})
+			</button>
+			@dropdown.Dropdown() {
+				@dropdown.Trigger() {
+					<button class="p-1 hover:bg-muted rounded transition-colors">
+						@icon.Ellipsis(icon.Props{
+							Size:  14,
+							Class: "text-muted-foreground",
+						})
+					</button>
+				}
+				@dropdown.Content(dropdown.ContentProps{
+					Class: "w-32",
+				}) {
+					@dropdown.Item() {
+						Edit
+					}
+					@dropdown.Item() {
+						Copy
+					}
+					@dropdown.Item() {
+						Forward
+					}
+					@dropdown.Separator()
+					@dropdown.Item() {
+						Delete
+					}
+				}
+			}
+		</div>
+	</div>
+}
+
+templ Chat004Input() {
+	<div class="border-t px-6 py-4">
+		<div class="flex items-end gap-2">
+			<div class="flex gap-1">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+				}) {
+					@icon.Paperclip(icon.Props{
+						Size: 18,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+				}) {
+					@icon.Image(icon.Props{
+						Size: 18,
+					})
+				}
+			</div>
+			<div class="flex-1">
+				@input.Input(input.Props{
+					Placeholder: "Type a message...",
+				})
+			</div>
+			<div class="flex gap-1">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+				}) {
+					@icon.Smile(icon.Props{
+						Size: 18,
+					})
+				}
+				@button.Button(button.Props{
+					Size: button.SizeIcon,
+				}) {
+					@icon.Send(icon.Props{
+						Size: 18,
+					})
+				}
+			</div>
+		</div>
+	</div>
+}

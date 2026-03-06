@@ -1,0 +1,178 @@
+package contact
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/textarea"
+)
+
+templ Contact002() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-6xl">
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+				@Contact002Info()
+				@Contact002Form()
+			</div>
+		</div>
+	</section>
+}
+
+templ Contact002Info() {
+	<div class="space-y-8">
+		@Contact002Header()
+		@Contact002ContactDetails()
+		@Contact002SocialLinks()
+	</div>
+}
+
+templ Contact002Header() {
+	<div>
+		<h2 class="text-3xl font-bold tracking-tight mb-4">Let's <span class="text-primary">talk</span></h2>
+		<p class="text-muted-foreground text-lg">
+			We're here to help and answer any question you might have. We look forward to hearing from you.
+		</p>
+	</div>
+}
+
+templ Contact002ContactDetails() {
+	<div class="space-y-4">
+		@Contact002ContactItem(icon.Mail(icon.Props{Size: 20}), "Email", "hello@example.com")
+		@Contact002ContactItem(icon.Phone(icon.Props{Size: 20}), "Phone", "+1 (555) 123-4567")
+		@Contact002ContactItem(icon.MapPin(icon.Props{Size: 20}), "Office", "123 Business St, Suite 100, New York, NY 10001")
+	</div>
+}
+
+templ Contact002ContactItem(iconEl templ.Component, label, value string) {
+	<div class="flex items-start gap-3">
+		<div class="p-2 bg-primary/10 rounded-lg text-primary">
+			@iconEl
+		</div>
+		<div>
+			<p class="text-sm text-muted-foreground">{ label }</p>
+			<p class="font-medium">{ value }</p>
+		</div>
+	</div>
+}
+
+templ Contact002SocialLinks() {
+	<div>
+		<p class="text-sm text-muted-foreground mb-4">Follow us</p>
+		<div class="flex gap-2">
+			@Contact002SocialLink(icon.Twitter(icon.Props{Size: 20}))
+			@Contact002SocialLink(icon.Facebook(icon.Props{Size: 20}))
+			@Contact002SocialLink(icon.Linkedin(icon.Props{Size: 20}))
+			@Contact002SocialLink(icon.Instagram(icon.Props{Size: 20}))
+		</div>
+	</div>
+}
+
+templ Contact002SocialLink(iconEl templ.Component) {
+	@button.Button(button.Props{
+		Size:    button.SizeIcon,
+		Variant: button.VariantOutline,
+		Class:   "hover:border-primary hover:text-primary transition-colors",
+	}) {
+		@iconEl
+	}
+}
+
+templ Contact002Form() {
+	<div class="bg-card rounded-lg border p-6 md:p-8">
+		<h3 class="text-2xl font-semibold mb-6">Send us a message</h3>
+		<form class="space-y-4">
+			<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+				@Contact002FirstNameField()
+				@Contact002LastNameField()
+			</div>
+			@Contact002EmailField()
+			@Contact002PhoneField()
+			@Contact002MessageField()
+			@Contact002SubmitButton()
+		</form>
+	</div>
+}
+
+templ Contact002FirstNameField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact2-firstname"}) {
+			First Name
+		}
+		@input.Input(input.Props{
+			ID:          "contact2-firstname",
+			Name:        "firstname",
+			Placeholder: "John",
+		})
+	</div>
+}
+
+templ Contact002LastNameField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact2-lastname"}) {
+			Last Name
+		}
+		@input.Input(input.Props{
+			ID:          "contact2-lastname",
+			Name:        "lastname",
+			Placeholder: "Doe",
+		})
+	</div>
+}
+
+templ Contact002EmailField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact2-email"}) {
+			Email
+		}
+		@input.Input(input.Props{
+			ID:          "contact2-email",
+			Name:        "email",
+			Type:        input.TypeEmail,
+			Placeholder: "john@example.com",
+		})
+	</div>
+}
+
+templ Contact002PhoneField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact2-phone"}) {
+			Phone (optional)
+		}
+		@input.Input(input.Props{
+			ID:          "contact2-phone",
+			Name:        "phone",
+			Type:        input.TypeTel,
+			Placeholder: "+1 (555) 123-4567",
+		})
+	</div>
+}
+
+templ Contact002MessageField() {
+	<div class="space-y-2">
+		@label.Label(label.Props{For: "contact2-message"}) {
+			Message
+		}
+		@textarea.Textarea(textarea.Props{
+			ID:          "contact2-message",
+			Name:        "message",
+			Placeholder: "Tell us how we can help you...",
+			Rows:        5,
+		})
+	</div>
+}
+
+templ Contact002SubmitButton() {
+	<div class="pt-2">
+		@button.Button(button.Props{
+			Class: "w-full",
+		}) {
+			<span class="flex items-center gap-2">
+				Send Message
+				@icon.Send(icon.Props{
+					Size: 18,
+				})
+			</span>
+		}
+	</div>
+}

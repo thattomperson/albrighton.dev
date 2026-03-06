@@ -1,0 +1,229 @@
+package contact
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ Contact005() {
+	<section class="w-full py-12 md:py-20 px-6 md:px-10">
+		<div class="mx-auto max-w-6xl">
+			@Contact005Header()
+			@Contact005Cards()
+		</div>
+	</section>
+}
+
+templ Contact005Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl font-bold tracking-tight mb-4">Get in Touch</h2>
+		<p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+			Have questions? We're here to help. Choose the best way to reach our team.
+		</p>
+	</div>
+}
+
+templ Contact005Cards() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+		@Contact005SalesCard()
+		@Contact005SupportCard()
+		@Contact005MediaCard()
+		@Contact005PartnershipsCard()
+		@Contact005CareersCard()
+		@Contact005GeneralCard()
+	</div>
+}
+
+templ Contact005SalesCard() {
+	@card.Card(card.Props{
+		Class: "h-full",
+	}) {
+		@card.Header() {
+			@Contact005CardIcon(icon.ShoppingCart(icon.Props{Size: 24}))
+			@card.Title() {
+				Sales
+			}
+		}
+		@card.Content() {
+			@card.Description() {
+				Interested in our products? Our sales team is ready to help you find the perfect solution.
+			}
+			<div class="mt-4 space-y-2">
+				@Contact005ContactInfo(icon.Mail(icon.Props{Size: 16}), "sales@example.com")
+				@Contact005ContactInfo(icon.Phone(icon.Props{Size: 16}), "+1 (555) 100-1000")
+			</div>
+		}
+		@card.Footer() {
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "w-full",
+			}) {
+				Contact Sales
+			}
+		}
+	}
+}
+
+templ Contact005SupportCard() {
+	@card.Card(card.Props{
+		Class: "h-full",
+	}) {
+		@card.Header() {
+			@Contact005CardIcon(icon.Headphones(icon.Props{Size: 24}))
+			@card.Title() {
+				Technical Support
+			}
+		}
+		@card.Content() {
+			@card.Description() {
+				Need help with our products? Our support team is available 24/7 to assist you.
+			}
+			<div class="mt-4 space-y-2">
+				@Contact005ContactInfo(icon.Mail(icon.Props{Size: 16}), "support@example.com")
+				@Contact005ContactInfo(icon.Clock(icon.Props{Size: 16}), "24/7 Available")
+			</div>
+		}
+		@card.Footer() {
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "w-full",
+			}) {
+				Get Support
+			}
+		}
+	}
+}
+
+templ Contact005MediaCard() {
+	@card.Card(card.Props{
+		Class: "h-full",
+	}) {
+		@card.Header() {
+			@Contact005CardIcon(icon.Newspaper(icon.Props{Size: 24}))
+			@card.Title() {
+				Media & Press
+			}
+		}
+		@card.Content() {
+			@card.Description() {
+				For media inquiries, press releases, and public relations matters.
+			}
+			<div class="mt-4 space-y-2">
+				@Contact005ContactInfo(icon.Mail(icon.Props{Size: 16}), "press@example.com")
+				@Contact005ContactInfo(icon.Phone(icon.Props{Size: 16}), "+1 (555) 200-2000")
+			</div>
+		}
+		@card.Footer() {
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "w-full",
+			}) {
+				Press Inquiries
+			}
+		}
+	}
+}
+
+templ Contact005PartnershipsCard() {
+	@card.Card(card.Props{
+		Class: "h-full",
+	}) {
+		@card.Header() {
+			@Contact005CardIcon(icon.Handshake(icon.Props{Size: 24}))
+			@card.Title() {
+				Partnerships
+			}
+		}
+		@card.Content() {
+			@card.Description() {
+				Explore partnership opportunities and grow your business with us.
+			}
+			<div class="mt-4 space-y-2">
+				@Contact005ContactInfo(icon.Mail(icon.Props{Size: 16}), "partners@example.com")
+				@Contact005ContactInfo(icon.Globe(icon.Props{Size: 16}), "Partner Portal")
+			</div>
+		}
+		@card.Footer() {
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "w-full",
+			}) {
+				Become a Partner
+			}
+		}
+	}
+}
+
+templ Contact005CareersCard() {
+	@card.Card(card.Props{
+		Class: "h-full",
+	}) {
+		@card.Header() {
+			@Contact005CardIcon(icon.Briefcase(icon.Props{Size: 24}))
+			@card.Title() {
+				Careers
+			}
+		}
+		@card.Content() {
+			@card.Description() {
+				Join our team! Explore exciting career opportunities and grow with us.
+			}
+			<div class="mt-4 space-y-2">
+				@Contact005ContactInfo(icon.Mail(icon.Props{Size: 16}), "careers@example.com")
+				@Contact005ContactInfo(icon.Users(icon.Props{Size: 16}), "50+ Open Positions")
+			</div>
+		}
+		@card.Footer() {
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "w-full",
+			}) {
+				View Openings
+			}
+		}
+	}
+}
+
+templ Contact005GeneralCard() {
+	@card.Card(card.Props{
+		Class: "h-full",
+	}) {
+		@card.Header() {
+			@Contact005CardIcon(icon.MessageSquare(icon.Props{Size: 24}))
+			@card.Title() {
+				General Inquiries
+			}
+		}
+		@card.Content() {
+			@card.Description() {
+				For all other questions and general information about our company.
+			}
+			<div class="mt-4 space-y-2">
+				@Contact005ContactInfo(icon.Mail(icon.Props{Size: 16}), "info@example.com")
+				@Contact005ContactInfo(icon.MapPin(icon.Props{Size: 16}), "New York, NY")
+			</div>
+		}
+		@card.Footer() {
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Class:   "w-full",
+			}) {
+				Send Message
+			}
+		}
+	}
+}
+
+templ Contact005CardIcon(iconEl templ.Component) {
+	<div class="p-3 bg-primary/10 rounded-lg text-primary mb-4 w-fit">
+		@iconEl
+	</div>
+}
+
+templ Contact005ContactInfo(iconEl templ.Component, text string) {
+	<div class="flex items-center gap-2 text-sm text-muted-foreground">
+		@iconEl
+		<span>{ text }</span>
+	</div>
+}

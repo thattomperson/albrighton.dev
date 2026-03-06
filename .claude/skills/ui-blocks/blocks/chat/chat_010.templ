@@ -1,0 +1,99 @@
+package chat
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/textarea"
+)
+
+templ Chat010() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-2xl">
+			@Chat010RichInput()
+		</div>
+	</section>
+}
+
+templ Chat010RichInput() {
+	@card.Card(card.Props{
+		Class: "p-2",
+	}) {
+		@textarea.Textarea(textarea.Props{
+			Placeholder: "Type a message... (Shift+Enter for new line)",
+			Class:       "min-h-[80px] resize-none focus:ring-0",
+			Rows:        3,
+		})
+		<div class="flex flex-wrap items-center justify-between mt-3">
+			<div class="flex items-center gap-1">
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@icon.Bold(icon.Props{
+						Size: 16,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@icon.Italic(icon.Props{
+						Size: 16,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@icon.Link(icon.Props{
+						Size: 16,
+					})
+				}
+				<div class="w-px h-4 bg-border mx-1"></div>
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@icon.Paperclip(icon.Props{
+						Size: 16,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@icon.Smile(icon.Props{
+						Size: 16,
+					})
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantGhost,
+					Size:    button.SizeIcon,
+					Class:   "h-8 w-8",
+				}) {
+					@icon.AtSign(icon.Props{
+						Size: 16,
+					})
+				}
+			</div>
+			<div class="flex items-center gap-2">
+				<span class="text-xs text-muted-foreground">0/500</span>
+				@button.Button(button.Props{
+					Size: button.SizeSm,
+				}) {
+					Send
+					@icon.Send(icon.Props{
+						Size:  14,
+						Class: "ml-1",
+					})
+				}
+			</div>
+		</div>
+	}
+}

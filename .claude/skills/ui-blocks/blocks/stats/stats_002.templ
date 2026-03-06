@@ -1,0 +1,44 @@
+package stats
+
+import (
+	"fmt"
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+)
+
+templ Stats002() {
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+		@Stats002Card("Sarah John", "Frontend Dev", 85, "SJ", "bg-primary/30")
+		@Stats002Card("Mike Chen", "Backend Dev", 92, "MC", "bg-primary/30")
+		@Stats002Card("Lisa Wang", "Designer", 78, "LW", "bg-primary/30")
+		@Stats002Card("Tom Wilson", "DevOps", 96, "TW", "bg-primary/30")
+	</div>
+}
+
+templ Stats002Card(name, role string, progressValue int, initials, avatarColor string) {
+	@card.Card() {
+		@card.Content(card.ContentProps{
+			Class: "p-6",
+		}) {
+			<div class="flex items-center space-x-4 mb-4">
+				@avatar.Avatar(avatar.Props{
+					Class: avatarColor,
+				}) {
+					@avatar.Fallback() {
+						{ initials }
+					}
+				}
+				<div class="flex-1">
+					<p class="font-medium">{ name }</p>
+					<p class="text-sm text-muted-foreground">{ role }</p>
+				</div>
+				<span class="text-lg font-bold">{ fmt.Sprintf("%d", progressValue) }%</span>
+			</div>
+			@progress.Progress(progress.Props{
+				Value: progressValue,
+				Class: "h-3",
+			})
+		}
+	}
+}

@@ -1,0 +1,110 @@
+package timeline
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+)
+
+templ Timeline001() {
+	<section class="w-full py-12 md:py-16 lg:py-20">
+		<div class="container mx-auto px-4 md:px-6">
+			@Timeline001Header()
+			@Timeline001Content()
+		</div>
+	</section>
+}
+
+templ Timeline001Header() {
+	<div class="text-center mb-12">
+		<h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+			Our Journey
+		</h2>
+		<p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+			Follow our path from inception to innovation, marking every significant milestone along the way.
+		</p>
+	</div>
+}
+
+templ Timeline001Content() {
+	<div class="relative max-w-4xl mx-auto">
+		<!-- Vertical Line -->
+		<div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-border -translate-x-1/2"></div>
+		<!-- Timeline Items -->
+		<div class="space-y-12">
+			@Timeline001Item("2024", "Series A Funding", "Secured $10M in Series A funding to accelerate product development and market expansion.", true)
+			@Timeline001Item("2023", "Product Launch", "Successfully launched our flagship product with overwhelming positive response from early adopters.", false)
+			@Timeline001Item("2022", "Team Expansion", "Grew from 5 to 25 talented individuals, building a world-class engineering and design team.", true)
+			@Timeline001Item("2021", "Company Founded", "Started with a simple idea and a passion to solve real-world problems through innovative technology.", false)
+		</div>
+	</div>
+}
+
+templ Timeline001Item(year string, title string, description string, isLeft bool) {
+	<div class="relative flex items-center">
+		if isLeft {
+			<!-- Left Side Item (Desktop) -->
+			<div class="hidden md:flex md:w-1/2 md:justify-end md:pr-8">
+				<div class="max-w-md">
+					@Timeline001ItemContent(year, title, description, true)
+				</div>
+			</div>
+			<!-- Center Dot -->
+			<div class="absolute left-8 md:left-1/2 w-4 h-4 bg-primary rounded-full -translate-x-1/2 z-10">
+				<div class="w-4 h-4 bg-primary rounded-full animate-ping absolute"></div>
+			</div>
+			<!-- Right Side Spacer (Desktop) -->
+			<div class="hidden md:block md:w-1/2"></div>
+		} else {
+			<!-- Left Side Spacer (Desktop) -->
+			<div class="hidden md:block md:w-1/2"></div>
+			<!-- Center Dot -->
+			<div class="absolute left-8 md:left-1/2 w-4 h-4 bg-primary rounded-full -translate-x-1/2 z-10">
+				<div class="w-4 h-4 bg-primary rounded-full animate-ping absolute"></div>
+			</div>
+			<!-- Right Side Item (Desktop) -->
+			<div class="hidden md:flex md:w-1/2 md:pl-8">
+				<div class="max-w-md">
+					@Timeline001ItemContent(year, title, description, false)
+				</div>
+			</div>
+		}
+		<!-- Mobile Layout -->
+		<div class="md:hidden flex w-full pl-16">
+			@Timeline001ItemContent(year, title, description, false)
+		</div>
+	</div>
+}
+
+templ Timeline001ItemContent(year string, title string, description string, alignRight bool) {
+	if alignRight {
+		@card.Card(card.Props{
+			Class: "text-right",
+		}) {
+			@card.Content() {
+				<div class="inline-flex mb-3 ml-auto">
+					@badge.Badge(badge.Props{
+						Variant: badge.VariantSecondary,
+					}) {
+						{ year }
+					}
+				</div>
+				<h3 class="text-xl font-semibold mb-2">{ title }</h3>
+				<p class="text-muted-foreground text-sm">{ description }</p>
+			}
+		}
+	} else {
+		@card.Card() {
+			@card.Content() {
+				<div class="inline-flex mb-3">
+					@badge.Badge(badge.Props{
+						Variant: badge.VariantSecondary,
+					}) {
+						{ year }
+					}
+				</div>
+				<h3 class="text-xl font-semibold mb-2">{ title }</h3>
+				<p class="text-muted-foreground text-sm">{ description }</p>
+			}
+		}
+	}
+}

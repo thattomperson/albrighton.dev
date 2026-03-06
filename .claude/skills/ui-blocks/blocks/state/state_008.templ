@@ -1,0 +1,63 @@
+package state
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+templ State008() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="text-center space-y-6 max-w-md">
+			@State008Icon()
+			@State008Content()
+			@State008Actions()
+		</div>
+	</section>
+}
+
+templ State008Icon() {
+	<div class="relative inline-flex">
+		<div class="absolute inset-0 bg-red-500/10 rounded-full"></div>
+		<div class="relative rounded-full bg-red-100 dark:bg-red-900/20 p-6">
+			@icon.CircleX(icon.Props{
+				Size:  48,
+				Class: "text-red-600 dark:text-red-500",
+			})
+		</div>
+	</div>
+}
+
+templ State008Content() {
+	<div class="space-y-2">
+		<h2 class="text-2xl font-semibold tracking-tight">Something went wrong</h2>
+		<p class="text-muted-foreground">
+			We encountered an unexpected error. Please try again or contact support if the problem persists.
+		</p>
+		<p class="text-xs text-muted-foreground font-mono mt-4">
+			Error code: ERR_UNEXPECTED_500
+		</p>
+	</div>
+}
+
+templ State008Actions() {
+	<div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+		}) {
+			<span class="flex items-center gap-2">
+				@icon.Mail(icon.Props{
+					Size: 16,
+				})
+				Contact support
+			</span>
+		}
+		@button.Button() {
+			<span class="flex items-center gap-2">
+				@icon.RefreshCw(icon.Props{
+					Size: 16,
+				})
+				Try again
+			</span>
+		}
+	</div>
+}

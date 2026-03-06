@@ -1,0 +1,278 @@
+package ai
+
+import (
+	"fmt"
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+	"github.com/templui/templui-pro/internal/ui/components/skeleton"
+)
+
+templ AI007() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-4xl space-y-8">
+			@AI007StreamingExample()
+			@AI007StreamingWithProgress()
+		</div>
+	</section>
+}
+
+templ AI007StreamingExample() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Streaming AI Response
+			}
+		}
+		@card.Content(card.ContentProps{Class: "space-y-6"}) {
+			<div class="flex gap-3 justify-end">
+				<div class="max-w-[90%] sm:max-w-[80%] md:max-w-[70%]">
+					<div class="flex items-center gap-2 justify-end mb-2">
+						<p class="font-medium text-sm">You</p>
+						@avatar.Avatar(avatar.Props{
+							Class: "h-8 w-8",
+						}) {
+							@avatar.Image(avatar.ImageProps{
+								Src: "/assets/img/avatar-gh-1.png",
+								Alt: "User",
+							})
+						}
+					</div>
+					<div class="bg-primary text-primary-foreground rounded-lg p-3 sm:p-4">
+						<p class="text-sm">Explain quantum computing</p>
+					</div>
+				</div>
+			</div>
+			<div class="flex gap-3">
+				<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+					@icon.Bot(icon.Props{
+						Size:  20,
+						Class: "text-primary-foreground",
+					})
+				</div>
+				<div class="flex-1 max-w-[90%] sm:max-w-[85%] space-y-3">
+					<p class="font-medium text-sm">AI Assistant</p>
+					<div class="bg-muted rounded-lg p-3 sm:p-4">
+						<div class="space-y-3">
+							<p class="text-sm">Quantum computing uses quantum mechanics principles...</p>
+							@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-full bg-muted-foreground/20"})
+							@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-5/6 bg-muted-foreground/20"})
+							@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-4/5 bg-muted-foreground/20"})
+							<div class="flex items-center gap-1">
+								@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-24 bg-muted-foreground/20"})
+								<span class="animate-pulse text-muted-foreground">|</span>
+							</div>
+						</div>
+						<div class="flex flex-wrap gap-3 items-center justify-between mt-4 pt-4 border-t">
+							<div class="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+								<div class="flex items-center gap-1">
+									<div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+									<span>Streaming</span>
+								</div>
+								<span>•</span>
+								<span>248 tokens</span>
+								<span>•</span>
+								<span>3.2 tokens/sec</span>
+							</div>
+							@button.Button(button.Props{
+								Variant: button.VariantDestructive,
+								Size:    button.SizeSm,
+							}) {
+								@icon.Square(icon.Props{
+									Size:  14,
+									Class: "mr-1",
+								})
+								Stop
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	}
+}
+
+templ AI007StreamingWithProgress() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Streaming with Progress
+			}
+		}
+		@card.Content() {
+			<div class="flex gap-3">
+				<div class="w-8 h-8 bg-gradient-to-br from-violet-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+					@icon.Sparkles(icon.Props{
+						Size:  20,
+						Class: "text-white",
+					})
+				</div>
+				<div class="flex-1 space-y-3">
+					<div class="flex items-center justify-between">
+						<p class="font-medium text-sm">Advanced AI Model</p>
+						<span class="text-xs text-muted-foreground">GPT-4 Turbo</span>
+					</div>
+					<div class="space-y-3">
+						<div class="bg-muted rounded-lg p-3 sm:p-4">
+							<h4 class="font-medium mb-2">Processing...</h4>
+							<div class="space-y-2">
+								@AI007StreamingStep("Understanding context", true)
+								@AI007StreamingStep("Gathering information", true)
+								@AI007StreamingStep("Generating response", false)
+							</div>
+						</div>
+						<div class="bg-muted rounded-lg p-3 sm:p-4">
+							<div class="space-y-2">
+								@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-3/4 bg-muted-foreground/20"})
+								@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-full bg-muted-foreground/20"})
+								@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-5/6 bg-muted-foreground/20"})
+							</div>
+						</div>
+						<div class="flex items-center gap-4">
+							@progress.Progress(progress.Props{
+								Value: 45,
+								Class: "h-2",
+							})
+							<span class="text-sm text-muted-foreground whitespace-nowrap">45%</span>
+							@button.Button(button.Props{
+								Variant: button.VariantOutline,
+								Size:    button.SizeSm,
+							}) {
+								@icon.Pause(icon.Props{
+									Size:  14,
+									Class: "mr-1",
+								})
+								Pause
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	}
+}
+
+templ AI007StreamingStep(step string, completed bool) {
+	<div class="flex items-center gap-2 text-sm">
+		switch completed {
+			case true:
+				<div class="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
+					@icon.Check(icon.Props{
+						Size:  12,
+						Class: "text-white",
+					})
+				</div>
+				<span class="text-muted-foreground line-through">{ step }</span>
+			default:
+				<div class="w-5 h-5 rounded-full border-2 border-primary flex items-center justify-center">
+					<div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+				</div>
+				<span>{ step }</span>
+		}
+	</div>
+}
+
+templ AI007StreamingState(title, content, state string, tokens int, showStop bool) {
+	@card.Card() {
+		@card.Content(card.ContentProps{Class: "p-4 space-y-3"}) {
+			<div class="flex items-center justify-between">
+				<h4 class="font-medium">{ title }</h4>
+				switch state {
+					case "connecting":
+						<div class="flex items-center gap-2 text-sm text-muted-foreground">
+							<div class="flex space-x-1">
+								<div class="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style="animation-delay: 0ms"></div>
+								<div class="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style="animation-delay: 150ms"></div>
+								<div class="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style="animation-delay: 300ms"></div>
+							</div>
+							<span>Connecting</span>
+						</div>
+					case "streaming":
+						<div class="flex items-center gap-2">
+							<div class="flex items-center gap-1 text-sm">
+								<div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+								<span class="text-muted-foreground">Live</span>
+							</div>
+						</div>
+					case "completed":
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantDefault,
+							Class:   "bg-green-500 text-white",
+						}) {
+							Complete
+						}
+					case "interrupted":
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantDestructive,
+						}) {
+							Stopped
+						}
+				}
+			</div>
+			<div class="bg-muted rounded p-3 text-sm">
+				{ content }
+				if state == "streaming" {
+					<span class="animate-pulse">|</span>
+				}
+			</div>
+			<div class="flex items-center justify-between">
+				<div class="flex items-center gap-4 text-xs text-muted-foreground">
+					if tokens > 0 {
+						<span>{ fmt.Sprintf("%d tokens", tokens) }</span>
+					}
+					switch state {
+						case "streaming":
+							<span>5.4 tokens/sec</span>
+							<span>~12s remaining</span>
+						case "completed":
+							<span>Total time: 18.3s</span>
+							<span>Avg: 4.8 tokens/sec</span>
+					}
+				</div>
+				<div class="flex items-center gap-2">
+					switch showStop {
+						case true:
+							@button.Button(button.Props{
+								Variant: button.VariantDestructive,
+								Size:    button.SizeSm,
+							}) {
+								@icon.Square(icon.Props{
+									Size:  12,
+									Class: "mr-1",
+								})
+								Stop
+							}
+						default:
+							switch state {
+								case "completed":
+									@button.Button(button.Props{
+										Variant: button.VariantGhost,
+										Size:    button.SizeSm,
+									}) {
+										@icon.RefreshCw(icon.Props{
+											Size:  12,
+											Class: "mr-1",
+										})
+										Regenerate
+									}
+								case "interrupted":
+									@button.Button(button.Props{
+										Variant: button.VariantOutline,
+										Size:    button.SizeSm,
+									}) {
+										@icon.Play(icon.Props{
+											Size:  12,
+											Class: "mr-1",
+										})
+										Continue
+									}
+							}
+					}
+				</div>
+			</div>
+		}
+	}
+}

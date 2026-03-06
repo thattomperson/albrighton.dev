@@ -1,0 +1,376 @@
+package navbar
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+	"github.com/templui/templui-pro/internal/ui/components/sheet"
+)
+
+templ Navbar005() {
+	@sheet.Sheet(sheet.Props{
+		Side: sheet.SideLeft,
+	}) {
+		@Navbar005Desktop()
+		@Navbar005MobileDrawer()
+	}
+}
+
+templ Navbar005MobileDrawer() {
+	@sheet.Content() {
+		@Navbar005DrawerContent()
+	}
+}
+
+templ Navbar005DrawerContent() {
+	<div class="flex flex-col h-full">
+		<div class="p-4 border-b bg-background">
+			<div class="flex items-center justify-between mb-4">
+				@Navbar005Logo()
+			</div>
+			@Navbar005UserProfile()
+		</div>
+		<nav class="flex-1 p-4 overflow-y-auto bg-background">
+			<div class="space-y-1">
+				<div class="mb-4">
+					<div class="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Navigation</div>
+					@Navbar005MobileMenuItems()
+				</div>
+				@separator.Separator(separator.Props{Class: "my-4"})
+				<div>
+					<div class="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Account</div>
+					@Navbar005MobileUserItems()
+				</div>
+			</div>
+		</nav>
+		@Navbar005DrawerFooter()
+	</div>
+}
+
+templ Navbar005Desktop() {
+	<nav class="sticky top-0 w-full border-b border-border shadow-sm">
+		<div class="container mx-auto px-4">
+			<div class="flex h-16 items-center justify-between">
+				<div class="flex items-center space-x-8">
+					@Navbar005Logo()
+					<div class="hidden lg:flex items-center space-x-6 text-muted-foreground">
+						@Navbar005MenuItems()
+					</div>
+				</div>
+				@Navbar005DesktopUserSection()
+				<div class="md:hidden">
+					@sheet.Trigger() {
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Size:    button.SizeIcon,
+							Class:   "h-9 w-9",
+						}) {
+							@icon.Menu(icon.Props{Size: 20})
+						}
+					}
+				</div>
+			</div>
+		</div>
+	</nav>
+}
+
+templ Navbar005Logo() {
+	<div class="flex items-center space-x-3">
+		@icon.Layers()
+		<div>
+			<div class="text-lg font-bold">Acme Inc</div>
+			<div class="text-xs text-muted-foreground font-medium">Dashboard</div>
+		</div>
+	</div>
+}
+
+templ Navbar005UserProfile() {
+	<div class="flex items-center space-x-3">
+		@avatar.Avatar(avatar.Props{
+			Class: "h-12 w-12",
+		}) {
+			@avatar.Image(avatar.ImageProps{
+				Src: "/assets/img/avatar-gh-1.png",
+				Alt: "User Avatar",
+			})
+			@avatar.Fallback() {
+				JD
+			}
+		}
+		<div class="flex-1 min-w-0">
+			<div class="font-medium text-primary/80">John Doe</div>
+			<div class="text-sm truncate text-muted-foreground">john.doe@acme.com</div>
+			<div class="flex items-center space-x-2 mt-1">
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantSecondary,
+					Class:   "text-xs",
+				}) {
+					Premium
+				}
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantSecondary,
+					Class:   "text-xs bg-primary/10 text-primary",
+				}) {
+					Online
+				}
+			</div>
+		</div>
+	</div>
+}
+
+templ Navbar005DesktopUserSection() {
+	<div class="hidden md:flex items-center space-x-4 text-muted-foreground">
+		@button.Button(button.Props{
+			Variant: button.VariantGhost,
+			Size:    button.SizeIcon,
+		}) {
+			@icon.Search(icon.Props{Size: 18})
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantGhost,
+			Size:    button.SizeIcon,
+			Class:   "relative",
+		}) {
+			@icon.Bell(icon.Props{Size: 18})
+			<span class="absolute -top-1 -right-1 h-3 w-3 bg-destructive rounded-full border-2 border-background"></span>
+		}
+		@button.Button(button.Props{
+			Variant: button.VariantGhost,
+			Size:    button.SizeIcon,
+		}) {
+			@icon.MessageSquare(icon.Props{Size: 18})
+		}
+		@separator.Separator(separator.Props{
+			Orientation: "vertical",
+			Class:       "h-6",
+		})
+		@Navbar005UserDropdown()
+	</div>
+}
+
+templ Navbar005UserDropdown() {
+	@dropdown.Dropdown(dropdown.Props{
+		ID: "user-menu",
+	}) {
+		@dropdown.Trigger() {
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Class:   "flex items-center justify-center",
+			}) {
+				@avatar.Avatar(avatar.Props{
+					Class: "h-8 w-8 border-2 border-border",
+				}) {
+					@avatar.Image(avatar.ImageProps{
+						Src: "/assets/img/avatar-gh-1.png",
+						Alt: "User Avatar",
+					})
+					@avatar.Fallback() {
+						JD
+					}
+				}
+				@icon.ChevronDown(icon.Props{Size: 16, Class: "text-muted-foreground"})
+			}
+		}
+		@dropdown.Content(dropdown.ContentProps{
+			Class: "w-72",
+		}) {
+			<div class="px-4 py-3 border-b">
+				<div class="flex items-center space-x-3">
+					@avatar.Avatar(avatar.Props{
+						Class: "h-12 w-12",
+					}) {
+						@avatar.Image(avatar.ImageProps{
+							Src: "/assets/img/avatar-gh-1.png",
+							Alt: "User Avatar",
+						})
+						@avatar.Fallback() {
+							JD
+						}
+					}
+					<div class="flex-1 min-w-0">
+						<div class="font-medium text-primary/80">John Doe</div>
+						<div class="text-sm truncate text-muted-foreground">john.doe@acme.com</div>
+						<div class="flex items-center space-x-2 mt-1">
+							@badge.Badge(badge.Props{
+								Variant: badge.VariantSecondary,
+								Class:   "text-xs",
+							}) {
+								Premium
+							}
+							@badge.Badge(badge.Props{
+								Variant: badge.VariantSecondary,
+								Class:   "text-xs bg-primary/10 text-primary",
+							}) {
+								Online
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="py-1">
+				@dropdown.Item(dropdown.ItemProps{
+					Class: "px-4 py-2",
+				}) {
+					<div class="flex items-center space-x-3 text-muted-foreground">
+						@icon.User(icon.Props{Size: 16})
+						<span class="text-sm">View Profile</span>
+					</div>
+				}
+				@dropdown.Item(dropdown.ItemProps{
+					Class: "px-4 py-2",
+				}) {
+					<div class="flex items-center space-x-3 text-muted-foreground">
+						@icon.Settings(icon.Props{Size: 16})
+						<span class="text-sm">Account Settings</span>
+					</div>
+				}
+				@dropdown.Item(dropdown.ItemProps{
+					Class: "px-4 py-2",
+				}) {
+					<div class="flex items-center space-x-3 text-muted-foreground">
+						@icon.CreditCard(icon.Props{Size: 16})
+						<span class="text-sm">Billing & Plans</span>
+					</div>
+				}
+				@dropdown.Item(dropdown.ItemProps{
+					Class: "px-4 py-2",
+				}) {
+					<div class="flex items-center space-x-3 text-muted-foreground">
+						@icon.Users(icon.Props{Size: 16})
+						<span class="text-sm">Team Management</span>
+					</div>
+				}
+			</div>
+			@separator.Separator()
+			<div class="py-1">
+				@dropdown.Item(dropdown.ItemProps{
+					Class: "px-4 py-2",
+				}) {
+					<div class="flex items-center space-x-3 text-muted-foreground">
+						@icon.CircleQuestionMark(icon.Props{Size: 16})
+						<span class="text-sm">Help & Support</span>
+					</div>
+				}
+				@dropdown.Item(dropdown.ItemProps{
+					Class: "px-4 py-2 hover:bg-destructive/10",
+				}) {
+					<div class="flex items-center space-x-3 text-muted-foreground">
+						@icon.LogOut(icon.Props{Size: 16, Class: "text-destructive"})
+						<span class="text-sm text-destructive">Sign Out</span>
+					</div>
+				}
+			</div>
+		}
+	}
+}
+
+templ Navbar005DrawerFooter() {
+	<div class="p-4 border-t bg-background">
+		<div class="flex items-center justify-between mb-3">
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Size:    button.SizeIcon,
+				Class:   "relative",
+			}) {
+				@icon.Search(icon.Props{Size: 18})
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Size:    button.SizeIcon,
+				Class:   "relative",
+			}) {
+				@icon.Bell(icon.Props{Size: 18})
+				<span class="absolute -top-1 -right-1 h-3 w-3 bg-destructive rounded-full border-2 border-background"></span>
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.MessageSquare(icon.Props{Size: 18})
+			}
+		</div>
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+			Class:   "w-full justify-start text-destructive hover:bg-destructive/10",
+		}) {
+			@icon.LogOut(icon.Props{Size: 16, Class: "mr-2"})
+			Sign Out
+		}
+	</div>
+}
+
+templ Navbar005MenuItems() {
+	@button.Button(button.Props{
+		Variant: button.VariantGhost,
+		Class:   "flex items-center gap-2",
+	}) {
+		@icon.LayoutDashboard(icon.Props{Size: 16})
+		<span>Dashboard</span>
+	}
+	@button.Button(button.Props{
+		Variant: button.VariantGhost,
+		Class:   "flex items-center gap-2",
+	}) {
+		@icon.FolderOpen(icon.Props{Size: 16})
+		<span>Projects</span>
+	}
+	@button.Button(button.Props{
+		Variant: button.VariantGhost,
+		Class:   "flex items-center gap-2",
+	}) {
+		@icon.Check(icon.Props{Size: 16})
+		<span>Tasks</span>
+	}
+	@button.Button(button.Props{
+		Variant: button.VariantGhost,
+		Class:   "flex items-center gap-2",
+	}) {
+		@icon.ChartBar(icon.Props{Size: 16})
+		<span>Analytics</span>
+	}
+}
+
+templ Navbar005MobileMenuItems() {
+	<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
+		@icon.LayoutDashboard(icon.Props{Size: 18})
+		<span class="font-medium">Dashboard</span>
+	</a>
+	<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
+		@icon.FolderOpen(icon.Props{Size: 18})
+		<span class="font-medium">Projects</span>
+	</a>
+	<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
+		@icon.Check(icon.Props{Size: 18})
+		<span class="font-medium">Tasks</span>
+	</a>
+	<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
+		@icon.ChartBar(icon.Props{Size: 18})
+		<span class="font-medium">Analytics</span>
+	</a>
+}
+
+templ Navbar005MobileUserItems() {
+	<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
+		@icon.User(icon.Props{Size: 18})
+		<span>View Profile</span>
+	</a>
+	<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
+		@icon.Settings(icon.Props{Size: 18})
+		<span>Account Settings</span>
+	</a>
+	<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
+		@icon.CreditCard(icon.Props{Size: 18})
+		<span>Billing & Plans</span>
+	</a>
+	<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
+		@icon.Users(icon.Props{Size: 18})
+		<span>Team Management</span>
+	</a>
+	<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
+		@icon.CircleQuestionMark(icon.Props{Size: 18})
+		<span>Help & Support</span>
+	</a>
+}

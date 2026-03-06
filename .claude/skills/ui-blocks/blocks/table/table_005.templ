@@ -1,0 +1,155 @@
+package table
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/table"
+)
+
+templ Table005() {
+	<section class="w-full max-w-6xl mx-auto p-6 md:p-8">
+		<div class="space-y-4">
+			@Table005Header()
+			@Table005Table()
+		</div>
+	</section>
+}
+
+templ Table005Header() {
+	<div>
+		<h2 class="text-2xl font-bold tracking-tight">Team Directory</h2>
+		<p class="text-muted-foreground">Browse and manage team member information</p>
+	</div>
+}
+
+templ Table005Table() {
+	<div class="rounded-md border">
+		@table.Table() {
+			@table.Header() {
+				@table.Row() {
+					@table.Head() {
+						Member 
+					}
+					@table.Head(table.HeadProps{Class: "hidden sm:table-cell"}) {
+						Role 
+					}
+					@table.Head(table.HeadProps{Class: "hidden md:table-cell"}) {
+						Department 
+					}
+					@table.Head() {
+						Status 
+					}
+					@table.Head(table.HeadProps{Class: "hidden lg:table-cell"}) {
+						Email 
+					}
+				}
+			}
+			@table.Body() {
+				@Table005RowWithAvatar("Alex Rivers", "/assets/img/avatar-gh-1.png", "Senior Developer", "Engineering", "active", "alex.rivers@example.com")
+				@Table005Row("Jordan Blake", "JB", "Product Manager", "Product", "active", "jordan.blake@example.com")
+				@Table005RowWithAvatar("Casey Morgan", "/assets/img/avatar-gh-3.png", "UX Designer", "Design", "active", "casey.morgan@example.com")
+				@Table005RowWithAvatar("Drew Parker", "/assets/img/avatar-gh-4.png", "Marketing Lead", "Marketing", "away", "drew.parker@example.com")
+				@Table005Row("Riley Quinn", "RQ", "DevOps Engineer", "Engineering", "active", "riley.quinn@example.com")
+				@Table005RowWithAvatar("Avery Chen", "/assets/img/avatar-gh-6.png", "Data Analyst", "Analytics", "offline", "avery.chen@example.com")
+				@Table005Row("Morgan Lee", "ML", "Customer Success", "Support", "active", "morgan.lee@example.com")
+				@Table005RowWithAvatar("Taylor Kim", "/assets/img/avatar-gh-8.png", "Sales Manager", "Sales", "active", "taylor.kim@example.com")
+			}
+		}
+	</div>
+}
+
+templ Table005Row(name, initials, role, department, status, email string) {
+	@table.Row() {
+		@table.Cell() {
+			<div class="flex items-center gap-3">
+				@avatar.Avatar() {
+					@avatar.Fallback() {
+						{ initials }
+					}
+				}
+				<div>
+					<div class="font-medium">{ name }</div>
+					<div class="text-sm text-muted-foreground">{ "@" + getUsername(email) }</div>
+					<div class="text-sm text-muted-foreground sm:hidden">{ role }</div>
+				</div>
+			</div>
+		}
+		@table.Cell(table.CellProps{Class: "hidden sm:table-cell"}) {
+			{ role }
+		}
+		@table.Cell(table.CellProps{Class: "hidden md:table-cell"}) {
+			{ department }
+		}
+		@table.Cell() {
+			@Table005StatusBadge(status)
+		}
+		@table.Cell(table.CellProps{Class: "text-muted-foreground hidden lg:table-cell"}) {
+			{ email }
+		}
+	}
+}
+
+templ Table005StatusBadge(status string) {
+	if status == "active" {
+		<div class="flex items-center gap-2">
+			<span class="h-2 w-2 rounded-full bg-green-500"></span>
+			<span class="text-sm">Active</span>
+		</div>
+	} else if status == "away" {
+		<div class="flex items-center gap-2">
+			<span class="h-2 w-2 rounded-full bg-yellow-500"></span>
+			<span class="text-sm">Away</span>
+		</div>
+	} else {
+		<div class="flex items-center gap-2">
+			<span class="h-2 w-2 rounded-full bg-gray-500"></span>
+			<span class="text-sm">Offline</span>
+		</div>
+	}
+}
+
+templ Table005RowWithAvatar(name, avatarSrc, role, department, status, email string) {
+	@table.Row() {
+		@table.Cell() {
+			<div class="flex items-center gap-3">
+				@avatar.Avatar() {
+					@avatar.Image(avatar.ImageProps{
+						Src: avatarSrc,
+						Alt: name,
+					})
+					@avatar.Fallback() {
+						{ name[:1] }
+					}
+				}
+				<div>
+					<div class="font-medium">{ name }</div>
+					<div class="text-sm text-muted-foreground">{ "@" + getUsername(email) }</div>
+					<div class="text-sm text-muted-foreground sm:hidden">{ role }</div>
+				</div>
+			</div>
+		}
+		@table.Cell(table.CellProps{Class: "hidden sm:table-cell"}) {
+			{ role }
+		}
+		@table.Cell(table.CellProps{Class: "hidden md:table-cell"}) {
+			{ department }
+		}
+		@table.Cell() {
+			@Table005StatusBadge(status)
+		}
+		@table.Cell(table.CellProps{Class: "text-muted-foreground hidden lg:table-cell"}) {
+			{ email }
+		}
+	}
+}
+
+func getUsername(email string) string {
+	// Simple function to extract username from email
+	if idx := len(email); idx > 0 {
+		for i, c := range email {
+			if c == '@' {
+				return email[:i]
+			}
+		}
+	}
+	return email
+}

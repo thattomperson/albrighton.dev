@@ -1,0 +1,100 @@
+package table
+
+import "github.com/templui/templui-pro/internal/ui/components/table"
+
+templ Table004() {
+	<section class="w-full max-w-4xl mx-auto p-6 md:p-8">
+		<div class="space-y-6">
+			@Table004Header()
+			@Table004Table()
+		</div>
+	</section>
+}
+
+templ Table004Header() {
+	<div class="space-y-2">
+		<div class="flex items-start justify-between">
+			<div>
+				<h2 class="text-2xl font-bold tracking-tight">Invoice #INV-0042</h2>
+				<p class="text-sm text-muted-foreground">Issued on January 15, 2024</p>
+			</div>
+			<div class="text-right">
+				<p class="text-sm font-medium">Bill to:</p>
+				<p class="text-sm text-muted-foreground">Acme Corporation</p>
+				<p class="text-sm text-muted-foreground">123 Business Ave</p>
+				<p class="text-sm text-muted-foreground">New York, NY 10001</p>
+			</div>
+		</div>
+	</div>
+}
+
+templ Table004Table() {
+	<div class="rounded-md border">
+		@table.Table() {
+			@table.Header() {
+				@table.Row() {
+					@table.Head() {
+						Description 
+					}
+					@table.Head(table.HeadProps{Class: "text-right"}) {
+						Quantity 
+					}
+					@table.Head(table.HeadProps{Class: "text-right"}) {
+						Rate 
+					}
+					@table.Head(table.HeadProps{Class: "text-right"}) {
+						Amount 
+					}
+				}
+			}
+			@table.Body() {
+				@Table004Row("Website Design Services", "1", "$2,500.00", "$2,500.00")
+				@Table004Row("Logo Design Package", "1", "$800.00", "$800.00")
+				@Table004Row("Monthly Maintenance (3 months)", "3", "$150.00", "$450.00")
+				@Table004Row("Stock Photography License", "10", "$25.00", "$250.00")
+				@Table004Row("Domain Registration (2 years)", "2", "$15.00", "$30.00")
+			}
+			@table.Footer() {
+				@Table004FooterRow("Subtotal", "$4,030.00", false)
+				@Table004FooterRow("Tax (8.5%)", "$342.55", false)
+				@Table004FooterRow("Total", "$4,372.55", true)
+			}
+		}
+	</div>
+}
+
+templ Table004Row(description, quantity, rate, amount string) {
+	@table.Row() {
+		@table.Cell() {
+			{ description }
+		}
+		@table.Cell(table.CellProps{Class: "text-right"}) {
+			{ quantity }
+		}
+		@table.Cell(table.CellProps{Class: "text-right"}) {
+			{ rate }
+		}
+		@table.Cell(table.CellProps{Class: "text-right font-medium"}) {
+			{ amount }
+		}
+	}
+}
+
+templ Table004FooterRow(label, amount string, isTotal bool) {
+	@table.Row() {
+		@table.Cell(table.CellProps{Attributes: templ.Attributes{"colspan": "3"}}) {
+			if isTotal {
+				<span class="font-bold">{ label }</span>
+			} else {
+				{ label }
+			}
+		}
+		@table.Cell(table.CellProps{Class: "text-right"}) {
+			if isTotal {
+				<span class="font-bold text-lg">{ amount }</span>
+			} else {
+				{ amount }
+			}
+		}
+	}
+}

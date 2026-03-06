@@ -1,0 +1,292 @@
+package ecommerce
+
+import (
+	"fmt"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+	"github.com/templui/templui-pro/internal/ui/components/tabs"
+)
+
+// Order002 - Order Detail View
+templ Order002() {
+	<div class="min-h-screen p-6 md:p-10">
+		<div class="max-w-4xl mx-auto">
+			@Order002Header()
+			@Order002Content()
+		</div>
+	</div>
+}
+
+templ Order002Header() {
+	<div class="mb-6">
+		<button class="flex items-center text-sm text-muted-foreground hover:text-foreground mb-4">
+			@icon.ArrowLeft(icon.Props{Size: 16, Class: "mr-1"})
+			Back to orders
+		</button>
+		<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+			<div>
+				<h1 class="text-xl sm:text-2xl font-bold">Order #ORD-2024-1234</h1>
+				<p class="text-sm text-muted-foreground mt-1">Placed on December 15, 2024</p>
+			</div>
+			@badge.Badge(badge.Props{
+				Variant: badge.VariantDefault,
+				Class:   "bg-green-100 text-green-800 border-green-200 w-fit",
+			}) {
+				Delivered
+			}
+		</div>
+	</div>
+}
+
+templ Order002Content() {
+	@tabs.Tabs() {
+		@tabs.List() {
+			@tabs.Trigger(tabs.TriggerProps{Value: "overview"}) {
+				Overview
+			}
+			@tabs.Trigger(tabs.TriggerProps{Value: "tracking"}) {
+				Tracking
+			}
+			@tabs.Trigger(tabs.TriggerProps{Value: "invoice"}) {
+				Invoice
+			}
+		}
+		@tabs.Content(tabs.ContentProps{Value: "overview"}) {
+			<div class="space-y-6 mt-6">
+				@Order002OrderItems()
+				@Order002Summary()
+				@Order002Addresses()
+			</div>
+		}
+		@tabs.Content(tabs.ContentProps{Value: "tracking"}) {
+			<div class="mt-6">
+				@Order002TrackingInfo()
+			</div>
+		}
+		@tabs.Content(tabs.ContentProps{Value: "invoice"}) {
+			<div class="mt-6 text-center py-12">
+				@button.Button() {
+					@icon.Download(icon.Props{Size: 16, Class: "mr-2"})
+					Download Invoice PDF
+				}
+			</div>
+		}
+	}
+}
+
+templ Order002OrderItems() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Order Items
+			}
+		}
+		@card.Content() {
+			<div class="space-y-4">
+				@Order002Item(
+					"Premium Wireless Headphones",
+					"Color: Midnight Black, SKU: WH-MB-001",
+					1,
+					"$299.00",
+					"/assets/img/placeholder.svg",
+				)
+				@separator.Separator()
+				@Order002Item(
+					"Minimalist Leather Watch",
+					"Size: 40mm, Color: Brown, SKU: MW-BR-40",
+					1,
+					"$199.00",
+					"/assets/img/placeholder.svg",
+				)
+				@separator.Separator()
+				@Order002Item(
+					"Canvas Backpack",
+					"Color: Navy Blue, SKU: CB-NB-001",
+					2,
+					"$178.00",
+					"/assets/img/placeholder.svg",
+				)
+			</div>
+		}
+	}
+}
+
+templ Order002Item(name string, details string, quantity int, price string, imageUrl string) {
+	<div class="flex flex-col sm:flex-row gap-4">
+		<div class="flex gap-3">
+			<img
+				src={ imageUrl }
+				alt={ name }
+				class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg object-cover flex-shrink-0"
+			/>
+			<div class="flex-1">
+				<h4 class="font-medium text-sm sm:text-base">{ name }</h4>
+				<p class="text-xs sm:text-sm text-muted-foreground">{ details }</p>
+				<div class="mt-2 flex items-center justify-between">
+					<span class="text-xs sm:text-sm">Qty: { fmt.Sprintf("%d", quantity) }</span>
+					<span class="font-medium text-sm sm:text-base">{ price }</span>
+				</div>
+			</div>
+		</div>
+		<div class="flex sm:flex-col gap-2 sm:gap-1">
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+				Size:    button.SizeSm,
+				Class:   "flex-1 sm:flex-initial",
+			}) {
+				Buy Again
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeSm,
+				Class:   "flex-1 sm:flex-initial",
+			}) {
+				Review
+			}
+		</div>
+	</div>
+}
+
+templ Order002Summary() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Payment Summary
+			}
+		}
+		@card.Content() {
+			<div class="space-y-2">
+				@Order002SummaryRow("Subtotal", "$676.00", false)
+				@Order002SummaryRow("Shipping", "Free", false)
+				@Order002SummaryRow("Tax", "$67.60", false)
+				@separator.Separator(separator.Props{Class: "my-2"})
+				@Order002SummaryRow("Total", "$743.60", true)
+			</div>
+			<div class="mt-4 text-sm">
+				<p class="text-muted-foreground">Payment Method</p>
+				<p class="font-medium">Visa ending in 4242</p>
+			</div>
+		}
+	}
+}
+
+templ Order002SummaryRow(label string, value string, isTotal bool) {
+	<div
+		class={ templ.KV("flex justify-between", true),
+		templ.KV("text-sm", !isTotal),
+		templ.KV("font-semibold", isTotal) }
+	>
+		<span>{ label }</span>
+		<span>{ value }</span>
+	</div>
+}
+
+templ Order002Addresses() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Delivery Information
+			}
+		}
+		@card.Content() {
+			<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+				<div>
+					<h4 class="font-medium mb-2">Shipping Address</h4>
+					<address class="text-sm not-italic text-muted-foreground">
+						John Doe
+						<br/>
+						123 Main Street, Apt 4B
+						<br/>
+						New York, NY 10001
+						<br/>
+						United States
+						<br/>
+						Phone: (555) 123-4567
+					</address>
+				</div>
+				<div>
+					<h4 class="font-medium mb-2">Billing Address</h4>
+					<p class="text-sm text-muted-foreground">Same as shipping address</p>
+				</div>
+			</div>
+		}
+	}
+}
+
+templ Order002TrackingInfo() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Shipment Tracking
+			}
+			@card.Description() {
+				Tracking Number: 1Z999AA10123456784
+			}
+		}
+		@card.Content() {
+			<div class="space-y-6">
+				@Order002TrackingStep(
+					"Order Placed",
+					"Dec 15, 2024 at 10:30 AM",
+					true,
+					true,
+				)
+				@Order002TrackingStep(
+					"Order Confirmed",
+					"Dec 15, 2024 at 10:45 AM",
+					true,
+					true,
+				)
+				@Order002TrackingStep(
+					"Shipped",
+					"Dec 16, 2024 at 2:15 PM",
+					true,
+					true,
+				)
+				@Order002TrackingStep(
+					"Out for Delivery",
+					"Dec 18, 2024 at 8:00 AM",
+					true,
+					true,
+				)
+				@Order002TrackingStep(
+					"Delivered",
+					"Dec 18, 2024 at 3:30 PM",
+					true,
+					false,
+				)
+			</div>
+		}
+	}
+}
+
+templ Order002TrackingStep(title string, time string, completed bool, hasLine bool) {
+	<div class="flex gap-3">
+		<div class="flex flex-col items-center">
+			<div
+				class={ templ.KV("w-4 h-4 rounded-full", true),
+				templ.KV("bg-primary", completed),
+				templ.KV("bg-muted", !completed) }
+			></div>
+			if hasLine {
+				<div
+					class={ templ.KV("w-0.5 h-16 mt-1", true),
+					templ.KV("bg-primary", completed),
+					templ.KV("bg-muted", !completed) }
+				></div>
+			}
+		</div>
+		<div class="flex-1 pb-8">
+			<h4
+				class={ templ.KV("font-medium", completed),
+				templ.KV("text-muted-foreground", !completed) }
+			>
+				{ title }
+			</h4>
+			<p class="text-sm text-muted-foreground">{ time }</p>
+		</div>
+	</div>
+}

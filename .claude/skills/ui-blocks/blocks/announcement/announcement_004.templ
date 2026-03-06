@@ -1,0 +1,132 @@
+package announcement
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+)
+
+// Countdown element for the announcement bar
+templ countdownUnit(value, label string) {
+	<div class="flex flex-col items-center">
+		<span class="text-sm font-semibold">{ value }</span>
+		<span class="text-xs text-muted-foreground">{ label }</span>
+	</div>
+}
+
+templ Announcement004() {
+	<div class="w-full bg-background border-b border-border py-3 sm:py-2 relative">
+		<div class="container mx-auto px-4">
+			<!-- Desktop and Tablet Layout (3-column) -->
+			<div class="hidden sm:grid sm:grid-cols-3 lg:grid-cols-4 items-center">
+				<!-- Left section with special offer icon -->
+				<div class="flex items-center gap-2">
+					@avatar.Avatar(avatar.Props{
+						Class: "bg-primary/10",
+					}) {
+						@icon.Star(icon.Props{
+							Size:  16,
+							Class: "text-primary",
+						})
+					}
+					<div>
+						<p class="text-sm font-medium">Premium Access</p>
+					</div>
+				</div>
+				<!-- Center sections -->
+				<div class="sm:col-span-1 lg:col-span-2 flex sm:justify-center lg:justify-between items-center">
+					<div class="hidden lg:block text-center">
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantSecondary,
+						}) {
+							Limited time offer: 40% off
+						}
+					</div>
+					<div class="flex justify-center items-center">
+						<span class="text-xs mr-2 text-muted-foreground">Ends in:</span>
+						<div class="flex items-center gap-1">
+							@countdownUnit("2", "Days")
+							<span class="text-muted-foreground mx-0.5">:</span>
+							@countdownUnit("14", "Hrs")
+							<span class="text-muted-foreground mx-0.5">:</span>
+							@countdownUnit("36", "Min")
+						</div>
+					</div>
+				</div>
+				<!-- Right CTA section -->
+				<div class="flex justify-end items-center">
+					<div class="sm:block lg:hidden mr-4">
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantSecondary,
+							Class:   "whitespace-nowrap",
+						}) {
+							40% off
+						}
+					</div>
+					<div>
+						@button.Button(button.Props{
+							Variant: button.VariantDefault,
+							Class:   "text-xs px-3 py-1",
+						}) {
+							Unlock Access
+						}
+					</div>
+					<button class="text-muted-foreground hover:text-foreground transition-colors ml-3" aria-label="Close">
+						@icon.X(icon.Props{Size: 14})
+					</button>
+				</div>
+			</div>
+			<!-- Mobile Layout -->
+			<div class="sm:hidden">
+				<!-- Top Row: Logo + Badge + Close -->
+				<div class="flex items-center justify-between mb-2">
+					<div class="flex items-center gap-2">
+						@avatar.Avatar(avatar.Props{
+							Class: "bg-primary/10",
+						}) {
+							@icon.Star(icon.Props{
+								Size:  16,
+								Class: "text-primary",
+							})
+						}
+						<div>
+							<p class="text-sm font-medium">Premium Access</p>
+						</div>
+					</div>
+					<div class="flex items-center">
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantSecondary,
+							Class:   "mr-2",
+						}) {
+							40% off
+						}
+						<button class="text-muted-foreground hover:text-foreground transition-colors" aria-label="Close">
+							@icon.X(icon.Props{Size: 14})
+						</button>
+					</div>
+				</div>
+				<!-- Bottom Row: Countdown + CTA -->
+				<div class="flex items-center justify-between">
+					<div class="flex items-center">
+						<div class="flex items-center gap-1">
+							@countdownUnit("2", "D")
+							<span class="text-muted-foreground mx-0.5">:</span>
+							@countdownUnit("14", "H")
+							<span class="text-muted-foreground mx-0.5">:</span>
+							@countdownUnit("36", "M")
+						</div>
+					</div>
+					<div>
+						@button.Button(button.Props{
+							Variant: button.VariantDefault,
+							Class:   "text-xs px-3 py-1",
+						}) {
+							Unlock Access
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}

@@ -1,0 +1,239 @@
+package notification
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/accordion"
+	"github.com/templui/templui-pro/internal/ui/components/alert"
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+	switchcomp "github.com/templui/templui-pro/internal/ui/components/switch"
+)
+
+templ Notification005() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="w-full max-w-2xl space-y-8">
+			@Notification005TeamMemberAlert()
+			@Notification005ProgressAlert()
+			@Notification005ExpandableErrorAlert()
+			@Notification005SystemUpdateAlert()
+			@Notification005SettingsAlert()
+		</div>
+	</section>
+}
+
+// Alert with Avatar & Badge - Team member notification
+templ Notification005TeamMemberAlert() {
+	@alert.Alert(alert.Props{
+		Class: "relative",
+	}) {
+		<div class="flex items-start gap-3">
+			@avatar.Avatar(avatar.Props{
+				Class: "h-10 w-10 flex-shrink-0",
+			}) {
+				@avatar.Image(avatar.ImageProps{
+					Src: "/assets/img/avatar-gh-1.png",
+					Alt: "Sarah Chen",
+				})
+			}
+			<div class="flex-1 min-w-0 space-y-1 pr-10 sm:pr-0">
+				@alert.Title() {
+					<div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+						<span>Sarah Chen joined your team</span>
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantSecondary,
+						}) {
+							Admin
+						}
+					</div>
+				}
+				@alert.Description() {
+					<p>Sarah has been granted admin access to all repositories and can manage team settings.</p>
+				}
+			</div>
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+				Class:   "absolute top-2 right-2 h-8 w-8 sm:relative sm:top-0 sm:right-0 flex-shrink-0",
+			}) {
+				@icon.X(icon.Props{
+					Size: 16,
+				})
+			}
+		</div>
+	}
+}
+
+// Alert with Progress - Download/Upload notification
+templ Notification005ProgressAlert() {
+	@alert.Alert(alert.Props{
+		Class: "relative",
+	}) {
+		@icon.File(icon.Props{
+			Size: 20,
+		})
+		<div class="space-y-3 pr-16 sm:pr-0">
+			@alert.Title() {
+				Downloading project files...
+			}
+			@alert.Description() {
+				<div class="space-y-2">
+					<p>Downloading 24 files (142 MB total)</p>
+					@progress.Progress(progress.Props{
+						Value: 68,
+					})
+					<div class="flex justify-between text-xs text-muted-foreground">
+						<span>68% complete</span>
+						<span class="text-right">2 min remaining</span>
+					</div>
+				</div>
+			}
+		</div>
+		@button.Button(button.Props{
+			Variant: button.VariantGhost,
+			Size:    button.SizeSm,
+			Class:   "absolute top-2 right-2 sm:relative sm:top-0 sm:right-0",
+		}) {
+			Cancel
+		}
+	}
+}
+
+// Alert with Accordion - Expandable error details
+templ Notification005ExpandableErrorAlert() {
+	@alert.Alert() {
+		@icon.CircleAlert(icon.Props{
+			Size:  20,
+			Class: "text-destructive",
+		})
+		<div class="w-full">
+			@alert.Title() {
+				<span class="text-destructive">Build failed with 3 errors</span>
+			}
+			@alert.Description() {
+				<div class="space-y-3">
+					<p>The build process encountered errors that need to be resolved.</p>
+					@accordion.Accordion(accordion.Props{
+						Class: "w-full",
+					}) {
+						@accordion.Item() {
+							@accordion.Trigger() {
+								View error details
+							}
+							@accordion.Content() {
+								<div class="space-y-2 text-xs font-mono">
+									<div class="p-2 bg-muted rounded border border-border">
+										Error: Cannot find package 'templ' at line 42
+									</div>
+									<div class="p-2 bg-muted rounded border border-border">
+										TypeError: undefined is not a function at utils.js:15
+									</div>
+									<div class="p-2 bg-muted rounded border border-border">
+										SyntaxError: Unexpected token { "'}'" } at component.tsx:108
+									</div>
+								</div>
+							}
+						}
+					}
+				</div>
+			}
+		</div>
+	}
+}
+
+// Alert with Tags - System update notification
+templ Notification005SystemUpdateAlert() {
+	@alert.Alert() {
+		@icon.Sparkles(icon.Props{
+			Size: 20,
+		})
+		<div class="space-y-3">
+			@alert.Title() {
+				System maintenance scheduled
+			}
+			@alert.Description() {
+				<div class="space-y-3">
+					<p>Planned maintenance will affect the following services:</p>
+					<div class="flex flex-wrap gap-2">
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantOutline,
+						}) {
+							API Gateway
+						}
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantOutline,
+						}) {
+							Database
+						}
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantOutline,
+						}) {
+							CDN
+						}
+						@badge.Badge(badge.Props{
+							Variant: badge.VariantOutline,
+						}) {
+							Analytics
+						}
+					</div>
+					<div class="flex flex-col sm:flex-row gap-2 pt-2">
+						@button.Button(button.Props{
+							Size:  button.SizeSm,
+							Class: "w-full sm:w-auto",
+						}) {
+							View Schedule
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Size:    button.SizeSm,
+							Class:   "w-full sm:w-auto",
+						}) {
+							Remind Me Later
+						}
+					</div>
+				</div>
+			}
+		</div>
+	}
+}
+
+// Alert with Toggle - Settings notification
+templ Notification005SettingsAlert() {
+	@alert.Alert() {
+		@icon.Shield(icon.Props{
+			Size: 20,
+		})
+		<div class="w-full">
+			@alert.Title() {
+				Enhanced security available
+			}
+			@alert.Description() {
+				<div class="space-y-3">
+					<p>Enable two-factor authentication to add an extra layer of security to your account.</p>
+					<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
+						<div class="flex items-center gap-2">
+							@switchcomp.Switch(switchcomp.Props{
+								ID: "2fa-toggle",
+							})
+							<label for="2fa-toggle" class="text-sm font-medium">
+								Enable 2FA
+							</label>
+						</div>
+						@button.Button(button.Props{
+							Variant: button.VariantLink,
+							Size:    button.SizeSm,
+							Class:   "h-auto p-0 self-start sm:self-auto",
+						}) {
+							Learn more
+							@icon.ExternalLink(icon.Props{
+								Size:  14,
+								Class: "ml-1",
+							})
+						}
+					</div>
+				</div>
+			}
+		</div>
+	}
+}

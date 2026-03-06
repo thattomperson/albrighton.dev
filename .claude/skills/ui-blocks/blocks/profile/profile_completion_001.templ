@@ -1,0 +1,206 @@
+package profile
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/progress"
+	"github.com/templui/templui-pro/internal/utils"
+)
+
+templ ProfileCompletion001() {
+	<div class="container mx-auto px-4 py-8">
+		<div class="max-w-3xl mx-auto">
+			@ProfileCompletion001Header()
+			@ProfileCompletion001Progress()
+			@ProfileCompletion001Steps()
+			@ProfileCompletion001Benefits()
+		</div>
+	</div>
+}
+
+templ ProfileCompletion001Header() {
+	<div class="text-center mb-8">
+		<h2 class="text-3xl font-bold mb-2">Complete Your Profile</h2>
+		<p class="text-muted-foreground">A complete profile helps you stand out and connect with others</p>
+	</div>
+}
+
+templ ProfileCompletion001Progress() {
+	@card.Card(card.Props{Class: "mb-8"}) {
+		@card.Content(card.ContentProps{Class: "p-4 sm:p-6"}) {
+			<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+				<div>
+					<h3 class="text-lg font-semibold">Profile Completion</h3>
+					<p class="text-sm text-muted-foreground">You're almost there!</p>
+				</div>
+				<div class="text-center sm:text-right">
+					<div class="text-3xl font-bold">75%</div>
+					<p class="text-sm text-muted-foreground">Complete</p>
+				</div>
+			</div>
+			@progress.Progress(progress.Props{
+				Value: 75,
+				Class: "h-3",
+			})
+			<div class="flex items-center gap-2 mt-4">
+				@icon.Zap(icon.Props{Size: 16, Class: "text-muted-foreground"})
+				<p class="text-sm">Complete your profile to unlock all features</p>
+			</div>
+		}
+	}
+}
+
+templ ProfileCompletion001Steps() {
+	<div class="space-y-4 mb-8">
+		@ProfileCompletion001Step(
+			"Add Profile Picture",
+			"Upload a professional photo to help others recognize you",
+			true,
+			icon.Camera(icon.Props{Size: 20}),
+		)
+		@ProfileCompletion001Step(
+			"Write Your Bio",
+			"Tell others about yourself in 2-3 sentences",
+			true,
+			icon.FileText(icon.Props{Size: 20}),
+		)
+		@ProfileCompletion001Step(
+			"Add Your Location",
+			"Help others find professionals in their area",
+			true,
+			icon.MapPin(icon.Props{Size: 20}),
+		)
+		@ProfileCompletion001Step(
+			"Connect Social Accounts",
+			"Link your GitHub, Twitter, and LinkedIn profiles",
+			false,
+			icon.Share2(icon.Props{Size: 20}),
+		)
+		@ProfileCompletion001Step(
+			"Add Work Experience",
+			"Showcase your professional background",
+			false,
+			icon.Briefcase(icon.Props{Size: 20}),
+		)
+		@ProfileCompletion001Step(
+			"List Your Skills",
+			"Add at least 5 skills to help others understand your expertise",
+			false,
+			icon.Award(icon.Props{Size: 20}),
+		)
+		@ProfileCompletion001Step(
+			"Verify Email",
+			"Confirm your email address for security",
+			true,
+			icon.Mail(icon.Props{Size: 20}),
+		)
+		@ProfileCompletion001Step(
+			"Enable Two-Factor Authentication",
+			"Add an extra layer of security to your account",
+			false,
+			icon.Shield(icon.Props{Size: 20}),
+		)
+	</div>
+}
+
+templ ProfileCompletion001Step(title, description string, isCompleted bool, iconComponent templ.Component) {
+	@card.Card(card.Props{
+		Class: utils.If(isCompleted, "border-primary/20 dark:border-primary/30"),
+	}) {
+		@card.Content(card.ContentProps{Class: "p-4"}) {
+			<div class="flex items-start gap-4">
+				<div class="flex-shrink-0">
+					if isCompleted {
+						<div class="w-10 h-10 bg-green-500/10 dark:bg-green-500/20 rounded-full flex items-center justify-center">
+							@icon.Check(icon.Props{Size: 20, Class: "text-green-500"})
+						</div>
+					} else {
+						<div class="w-10 h-10 bg-muted rounded-full flex items-center justify-center">
+							{ children... }
+						</div>
+					}
+				</div>
+				<div class="flex-1 min-w-0">
+					<div class="flex flex-wrap items-center gap-2 mb-1">
+						<h4 class="font-medium">{ title }</h4>
+						if isCompleted {
+							@badge.Badge(badge.Props{
+								Class: "bg-green-500/10 text-green-500 dark:bg-green-500/20 text-xs px-2 py-1",
+							}) {
+								Completed
+							}
+						}
+					</div>
+					<p class="text-sm text-muted-foreground mb-3">{ description }</p>
+					if !isCompleted {
+						@button.Button(button.Props{
+							Class: "h-8 px-3 text-sm w-full sm:w-auto",
+						}) {
+							Complete Step
+							@icon.ArrowRight(icon.Props{Size: 14, Class: "ml-1"})
+						}
+					}
+				</div>
+			</div>
+		}
+	}
+}
+
+templ ProfileCompletion001Benefits() {
+	@card.Card(card.Props{
+		Class: "bg-gradient-to-r from-muted/50 to-muted dark:from-muted/50 dark:to-muted/80 border-muted",
+	}) {
+		@card.Header() {
+			@card.Title(card.TitleProps{Class: "flex items-center gap-2"}) {
+				@icon.Gift(icon.Props{Size: 20, Class: "text-muted-foreground"})
+				Benefits of a Complete Profile
+			}
+		}
+		@card.Content(card.ContentProps{Class: "p-4 sm:p-6"}) {
+			<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+				@ProfileCompletion001Benefit(
+					"Increased Visibility",
+					"Appear higher in search results",
+					icon.Search(icon.Props{Size: 16}),
+				)
+				@ProfileCompletion001Benefit(
+					"Build Trust",
+					"Verified profiles get 3x more engagement",
+					icon.ShieldCheck(icon.Props{Size: 16}),
+				)
+				@ProfileCompletion001Benefit(
+					"Unlock Features",
+					"Access premium tools and analytics",
+					icon.Key(icon.Props{Size: 16}),
+				)
+				@ProfileCompletion001Benefit(
+					"Better Connections",
+					"Find and connect with like-minded people",
+					icon.Users(icon.Props{Size: 16}),
+				)
+			</div>
+			<div class="mt-6 text-center">
+				@button.Button(button.Props{
+					Class: "w-full md:w-auto",
+				}) {
+					@icon.Rocket(icon.Props{Size: 16, Class: "mr-2"})
+					Complete Profile Now
+				}
+			</div>
+		}
+	}
+}
+
+templ ProfileCompletion001Benefit(title, description string, iconComponent templ.Component) {
+	<div class="flex gap-3">
+		<div class="flex-shrink-0 text-muted-foreground">
+			{ children... }
+		</div>
+		<div>
+			<h4 class="font-medium text-sm">{ title }</h4>
+			<p class="text-xs text-muted-foreground">{ description }</p>
+		</div>
+	</div>
+}

@@ -1,0 +1,295 @@
+package account
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/code"
+	"github.com/templui/templui-pro/internal/ui/components/dropdown"
+	"github.com/templui/templui-pro/internal/ui/components/form"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/label"
+	"github.com/templui/templui-pro/internal/ui/components/selectbox"
+)
+
+templ ApiIntegrations001() {
+	<div class="container mx-auto px-4 py-8">
+		<div class="max-w-6xl mx-auto">
+			@ApiIntegrations001Header()
+			@ApiIntegrations001APIKeysSection()
+			@ApiIntegrations001WebhooksSection()
+			@ApiIntegrations001DocumentationSection()
+		</div>
+	</div>
+}
+
+templ ApiIntegrations001Header() {
+	<div class="mb-8">
+		<h2 class="text-3xl font-bold text-foreground mb-2">API & Integrations</h2>
+		<p class="text-muted-foreground">Manage API keys, webhooks, and developer settings</p>
+	</div>
+}
+
+templ ApiIntegrations001APIKeysSection() {
+	@card.Card(card.Props{Class: "mb-6"}) {
+		@card.Header() {
+			@card.Title() {
+				API Keys
+			}
+			@card.Description() {
+				Create and manage API keys for accessing our services
+			}
+		}
+		@card.Content() {
+			<div class="space-y-4">
+				@ApiIntegrations001APIKeyItem(
+					"Production API Key",
+					"sk_live_...4242",
+					"Created Jan 5, 2024",
+					"150K calls this month",
+					true,
+				)
+				@ApiIntegrations001APIKeyItem(
+					"Development API Key",
+					"sk_test_...5555",
+					"Created Dec 10, 2023",
+					"5K calls this month",
+					false,
+				)
+			</div>
+			<div class="mt-6 pt-6 border-t">
+				<form class="space-y-4">
+					<h4 class="font-medium mb-3">Create New API Key</h4>
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						@form.Item() {
+							@label.Label(label.Props{For: "account007-key-name"}) {
+								Key Name
+							}
+							@input.Input(input.Props{
+								ID:          "account007-key-name",
+								Placeholder: "My API Key",
+							})
+						}
+						@form.Item() {
+							@label.Label(label.Props{For: "account007-key-type"}) {
+								Environment
+							}
+							@selectbox.SelectBox() {
+								@selectbox.Trigger(selectbox.TriggerProps{
+									ID: "account007-key-type",
+								}) {
+									@selectbox.Value(selectbox.ValueProps{
+										Placeholder: "Select environment",
+									})
+								}
+								@selectbox.Content() {
+									@selectbox.Item(selectbox.ItemProps{Value: "production"}) {
+										Production
+									}
+									@selectbox.Item(selectbox.ItemProps{Value: "development"}) {
+										Development
+									}
+								}
+							}
+						}
+					</div>
+					@button.Button() {
+						@icon.Key(icon.Props{Size: 16})
+						<span class="ml-2">Generate API Key</span>
+					}
+				</form>
+			</div>
+		}
+	}
+}
+
+templ ApiIntegrations001APIKeyItem(name, key, created, usage string, isProduction bool) {
+	<div class="p-4 border rounded-lg">
+		<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-3">
+			<div class="min-w-0">
+				<div class="flex flex-wrap items-center gap-2">
+					<p class="font-medium">{ name }</p>
+					if isProduction {
+						@badge.Badge(badge.Props{Variant: badge.VariantDefault}) {
+							Production
+						}
+					} else {
+						@badge.Badge(badge.Props{Variant: badge.VariantSecondary}) {
+							Development
+						}
+					}
+				</div>
+				<p class="text-sm text-muted-foreground">{ created } • { usage }</p>
+			</div>
+			@dropdown.Dropdown() {
+				@dropdown.Trigger() {
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Size:    button.SizeIcon,
+					}) {
+						@icon.Settings(icon.Props{Size: 16})
+					}
+				}
+				@dropdown.Content() {
+					@dropdown.Item() {
+						@icon.Copy(icon.Props{Size: 14})
+						<span class="ml-2">Copy Key</span>
+					}
+					@dropdown.Item() {
+						@icon.Eye(icon.Props{Size: 14})
+						<span class="ml-2">View Full Key</span>
+					}
+					@dropdown.Item() {
+						@icon.RotateCw(icon.Props{Size: 14})
+						<span class="ml-2">Regenerate</span>
+					}
+					@dropdown.Separator()
+					@dropdown.Item(dropdown.ItemProps{Class: "text-destructive"}) {
+						@icon.Trash(icon.Props{Size: 14})
+						<span class="ml-2">Revoke Key</span>
+					}
+				}
+			}
+		</div>
+		<div class="flex items-center gap-2">
+			<div class="flex-1 overflow-hidden">
+				@code.Code(code.Props{Class: "font-mono text-xs sm:text-sm truncate block"}) {
+					{ key }
+				}
+			</div>
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+				Size:    button.SizeIcon,
+			}) {
+				@icon.Copy(icon.Props{Size: 16})
+			}
+		</div>
+	</div>
+}
+
+templ ApiIntegrations001WebhooksSection() {
+	@card.Card(card.Props{Class: "mb-6"}) {
+		@card.Header() {
+			@card.Title() {
+				Webhooks
+			}
+			@card.Description() {
+				Configure webhooks to receive real-time updates
+			}
+		}
+		@card.Content() {
+			<div class="space-y-4">
+				@ApiIntegrations001WebhookItem(
+					"https://api.example.com/webhooks/events",
+					"All Events",
+					true,
+					"200 OK - 5 min ago",
+				)
+				@ApiIntegrations001WebhookItem(
+					"https://api.example.com/webhooks/payments",
+					"Payment Events",
+					true,
+					"200 OK - 1 hour ago",
+				)
+			</div>
+		}
+		@card.Footer() {
+			@button.Button() {
+				@icon.Plus(icon.Props{Size: 16})
+				<span class="ml-2">Add Webhook Endpoint</span>
+			}
+		}
+	}
+}
+
+templ ApiIntegrations001WebhookItem(url, events string, isActive bool, lastResponse string) {
+	<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg gap-3">
+		<div class="flex-1 min-w-0">
+			<div class="flex flex-wrap items-center gap-2 mb-1">
+				<p class="font-medium text-sm break-all">{ url }</p>
+				if isActive {
+					@badge.Badge(badge.Props{Variant: badge.VariantSecondary}) {
+						Active
+					}
+				} else {
+					@badge.Badge(badge.Props{Variant: badge.VariantOutline}) {
+						Inactive
+					}
+				}
+			</div>
+			<p class="text-sm text-muted-foreground">{ events } • { lastResponse }</p>
+		</div>
+		<div class="flex items-center gap-2 flex-shrink-0">
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+			}) {
+				Test
+			}
+			@button.Button(button.Props{
+				Variant: button.VariantGhost,
+			}) {
+				Edit
+			}
+		</div>
+	</div>
+}
+
+templ ApiIntegrations001DocumentationSection() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
+				Quick Start
+			}
+			@card.Description() {
+				Get started with our API in minutes
+			}
+		}
+		@card.Content() {
+			<div class="space-y-4">
+				<div>
+					<h4 class="font-medium mb-2">1. Install the SDK</h4>
+					<div class="overflow-x-auto">
+						@code.Code(code.Props{Class: "font-mono text-xs sm:text-sm"}) {
+							go get github.com/example/api-sdk
+						}
+					</div>
+				</div>
+				<div>
+					<h4 class="font-medium mb-2">2. Initialize the client</h4>
+					<div class="overflow-x-auto">
+						@code.Code(code.Props{Class: "font-mono text-xs sm:text-sm"}) {
+							const api = new ExampleAPI()
+						}
+					</div>
+				</div>
+				<div>
+					<h4 class="font-medium mb-2">3. Make your first request</h4>
+					<div class="overflow-x-auto">
+						@code.Code(code.Props{Class: "font-mono text-xs sm:text-sm"}) {
+							const response = await api.users.list()
+						}
+					</div>
+				</div>
+			</div>
+		}
+		@card.Footer() {
+			<div class="flex flex-col sm:flex-row gap-3">
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+					Class:   "w-full sm:w-auto",
+				}) {
+					@icon.Book(icon.Props{Size: 16})
+					<span class="ml-2">View Full Documentation</span>
+				}
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
+					Class:   "w-full sm:w-auto",
+				}) {
+					@icon.Github(icon.Props{Size: 16})
+					<span class="ml-2">SDK on GitHub</span>
+				}
+			</div>
+		}
+	}
+}

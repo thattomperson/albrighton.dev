@@ -1,0 +1,202 @@
+package ecommerce
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/table"
+)
+
+// Wishlist002 - Compare Products
+templ Wishlist002() {
+	<div class="min-h-screen p-4 sm:p-6 md:p-10">
+		<div class="max-w-7xl mx-auto">
+			@Wishlist002Header()
+			@Wishlist002CompareTable()
+			@Wishlist002MobileView()
+		</div>
+	</div>
+}
+
+templ Wishlist002Header() {
+	<div class="mb-8">
+		<h1 class="text-2xl sm:text-3xl font-bold">Compare Products</h1>
+		<p class="text-muted-foreground mt-1">Compare up to 4 products side by side</p>
+	</div>
+}
+
+templ Wishlist002CompareTable() {
+	<div class="hidden lg:block">
+		@card.Card(card.Props{
+			Class: "overflow-hidden",
+		}) {
+			<div class="overflow-x-auto">
+				@table.Table() {
+					@table.Header() {
+						@table.Row() {
+							@table.Head(table.HeadProps{Class: "w-48 sticky left-0 bg-background"}) {
+								Feature
+							}
+							@table.Head(table.HeadProps{Class: "text-center min-w-[200px]"}) {
+								@Wishlist002ProductHeader(
+									"Smart Watch Pro",
+									"$299",
+									"/assets/img/placeholder.svg",
+								)
+							}
+							@table.Head(table.HeadProps{Class: "text-center min-w-[200px]"}) {
+								@Wishlist002ProductHeader(
+									"Fitness Tracker Plus",
+									"$199",
+									"/assets/img/placeholder.svg",
+								)
+							}
+							@table.Head(table.HeadProps{Class: "text-center min-w-[200px]"}) {
+								@Wishlist002ProductHeader(
+									"Basic Watch",
+									"$99",
+									"/assets/img/placeholder.svg",
+								)
+							}
+							@table.Head(table.HeadProps{Class: "text-center min-w-[200px]"}) {
+								<button class="w-full h-full min-h-[200px] flex flex-col items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
+									@icon.Plus(icon.Props{Size: 24, Class: "mb-2"})
+									<span class="text-sm">Add Product</span>
+								</button>
+							}
+						}
+					}
+					@table.Body() {
+						@Wishlist002CompareRow("Display", []string{"1.4\" AMOLED", "1.2\" LCD", "Analog", "-"})
+						@Wishlist002CompareRow("Battery Life", []string{"7 days", "10 days", "2 years", "-"})
+						@Wishlist002CompareRow("Water Resistance", []string{"5 ATM", "3 ATM", "1 ATM", "-"})
+						@Wishlist002CompareRow("GPS", []string{"Built-in", "Connected", "No", "-"})
+						@Wishlist002CompareRow("Heart Rate", []string{"24/7", "During workouts", "No", "-"})
+						@Wishlist002CompareRow("Sleep Tracking", []string{"Advanced", "Basic", "No", "-"})
+						@Wishlist002CompareRow("Notifications", []string{"All apps", "Calls & texts", "No", "-"})
+						@Wishlist002CompareRow("Weight", []string{"42g", "35g", "58g", "-"})
+						@table.Row() {
+							@table.Cell(table.CellProps{Class: "font-medium sticky left-0 bg-background"})
+							@table.Cell(table.CellProps{Class: "font-medium sticky left-0 bg-background"}) {
+								@button.Button(button.Props{
+									Class: "w-full",
+								}) {
+									Add to Cart
+								}
+							}
+							@table.Cell(table.CellProps{Class: "font-medium sticky left-0 bg-background"}) {
+								@button.Button(button.Props{
+									Class: "w-full",
+								}) {
+									Add to Cart
+								}
+							}
+							@table.Cell(table.CellProps{Class: "font-medium sticky left-0 bg-background"}) {
+								@button.Button(button.Props{
+									Class: "w-full",
+								}) {
+									Add to Cart
+								}
+							}
+						}
+					}
+				}
+			</div>
+		}
+	</div>
+}
+
+templ Wishlist002ProductHeader(name string, price string, imageUrl string) {
+	<div class="p-4">
+		<button class="absolute top-2 right-2 p-1 text-muted-foreground hover:text-foreground">
+			@icon.X(icon.Props{Size: 20})
+		</button>
+		<img
+			src={ imageUrl }
+			alt={ name }
+			class="w-24 h-24 mx-auto mb-3 object-cover rounded-lg"
+		/>
+		<h3 class="font-semibold text-sm line-clamp-2">{ name }</h3>
+		<p class="text-lg font-bold mt-1">{ price }</p>
+	</div>
+}
+
+templ Wishlist002CompareRow(feature string, values []string) {
+	@table.Row() {
+		@table.Cell(table.CellProps{Class: "font-medium sticky left-0 bg-background"}) {
+			{ feature }
+		}
+		for _, value := range values {
+			@table.Cell(table.CellProps{Class: "text-center"}) {
+				if value == "-" {
+					<span class="text-muted-foreground">-</span>
+				} else {
+					{ value }
+				}
+			}
+		}
+	}
+}
+
+// Mobile view for smaller screens
+templ Wishlist002MobileView() {
+	<div class="lg:hidden space-y-4">
+		@Wishlist002MobileProduct(
+			"Smart Watch Pro",
+			"$299",
+			"/assets/img/placeholder.svg",
+			map[string]string{
+				"Display":          "1.4\" AMOLED",
+				"Battery Life":     "7 days",
+				"Water Resistance": "5 ATM",
+				"GPS":              "Built-in",
+				"Heart Rate":       "24/7",
+			},
+		)
+		@Wishlist002MobileProduct(
+			"Fitness Tracker Plus",
+			"$199",
+			"/assets/img/placeholder.svg",
+			map[string]string{
+				"Display":          "1.2\" LCD",
+				"Battery Life":     "10 days",
+				"Water Resistance": "3 ATM",
+				"GPS":              "Connected",
+				"Heart Rate":       "During workouts",
+			},
+		)
+	</div>
+}
+
+templ Wishlist002MobileProduct(name string, price string, imageUrl string, features map[string]string) {
+	@card.Card() {
+		@card.Header() {
+			<div class="flex items-start justify-between">
+				<div>
+					@card.Title() {
+						{ name }
+					}
+					<p class="text-xl font-bold mt-1">{ price }</p>
+				</div>
+				<button class="p-2 -m-2 text-muted-foreground hover:text-foreground">
+					@icon.X(icon.Props{Size: 20})
+				</button>
+			</div>
+		}
+		@card.Content() {
+			<img
+				src={ imageUrl }
+				alt={ name }
+				class="w-full h-32 sm:h-48 object-cover rounded-lg mb-4"
+			/>
+			<div class="space-y-2">
+				for feature, value := range features {
+					<div class="flex justify-between text-sm">
+						<span class="text-muted-foreground">{ feature }</span>
+						<span class="font-medium">{ value }</span>
+					</div>
+				}
+			</div>
+		}
+	}
+}

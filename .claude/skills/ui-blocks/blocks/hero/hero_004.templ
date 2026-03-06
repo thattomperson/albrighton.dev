@@ -1,0 +1,121 @@
+package hero
+
+import (
+	"github.com/templui/templui-pro/internal/ui/components/avatar"
+	"github.com/templui/templui-pro/internal/ui/components/badge"
+	"github.com/templui/templui-pro/internal/ui/components/button"
+	"github.com/templui/templui-pro/internal/ui/components/card"
+	"github.com/templui/templui-pro/internal/ui/components/icon"
+	"github.com/templui/templui-pro/internal/ui/components/input"
+	"github.com/templui/templui-pro/internal/ui/components/separator"
+)
+
+templ Hero004() {
+	<section class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center py-16">
+			@Hero004Content()
+			@Hero004Illustration()
+		</div>
+	</section>
+}
+
+templ Hero004Content() {
+	<div class="flex flex-col justify-center space-y-4">
+		@badge.Badge(badge.Props{
+			Variant: badge.VariantOutline,
+			Class:   "inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm w-fit bg-primary/10 border-primary/20",
+		}) {
+			<span>Just Launched</span>
+			<div class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
+		}
+		<h1 class="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+			Join our community of forward-thinking professionals
+		</h1>
+		<p class="text-muted-foreground md:text-lg">
+			Get exclusive insights, early access to new features, and weekly tips delivered straight to your inbox.
+		</p>
+		<div class="flex flex-col gap-2 pt-4 sm:flex-row max-w-md">
+			@input.Input(input.Props{
+				Type:        "email",
+				Placeholder: "Enter your email",
+				Class:       "flex-1",
+			})
+			@button.Button(button.Props{
+				Size:  "default",
+				Class: "shrink-0",
+			}) {
+				Subscribe
+				@icon.ArrowRight(icon.Props{Class: "ml-2 h-4 w-4"})
+			}
+		</div>
+		@separator.Separator(separator.Props{Class: "my-6"})
+		<div class="flex items-center gap-4">
+			<div class="flex flex-col gap-1">
+				<div class="flex items-center">
+					for i := 0; i < 5; i++ {
+						@icon.Star(icon.Props{
+							Class: "h-4 w-4 text-primary fill-primary",
+						})
+					}
+				</div>
+				<p class="text-sm italic text-muted-foreground">
+					"The newsletter has been incredibly valuable for our team."
+				</p>
+				<div class="text-sm font-medium">Alex Morgan, Design Lead</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ Hero004Illustration() {
+	@card.Card(card.Props{
+		Class: "w-full overflow-hidden",
+	}) {
+		@card.Content() {
+			<div class="mb-6 flex items-center justify-between">
+				<div class="flex items-center gap-2">
+					@avatar.Avatar(avatar.Props{Class: "h-8 w-8"}) {
+						@icon.Mail(icon.Props{Size: 16})
+					}
+					<p class="font-medium">Weekly Insights</p>
+				</div>
+				<p class="text-xs text-muted-foreground">Just now</p>
+			</div>
+			<h3 class="text-lg font-semibold mb-2">This week's top resources</h3>
+			<p class="text-sm text-muted-foreground mb-4">
+				Explore our curated list of articles, tools, and tips to boost your productivity.
+			</p>
+			<div class="space-y-3 overflow-x-auto">
+				@Hero004ResourceItem("How to improve your workflow", "5 min read")
+				@separator.Separator(separator.Props{Class: "my-4"})
+				@Hero004ResourceItem("The best tools for remote teams", "8 min read")
+				@separator.Separator(separator.Props{Class: "my-4"})
+				@Hero004ResourceItem("This week's top resources", "2 min read")
+			</div>
+			<a href="#" class="mt-4 text-sm text-muted-foreground flex items-center gap-1 hover:text-primary hover:underline">
+				See all resources
+				@icon.ArrowRight(icon.Props{Size: 16})
+			</a>
+		}
+	}
+}
+
+templ Hero004ResourceItem(title string, subtitle string) {
+	<div class="flex items-center gap-3 sm:gap-3">
+		<div class="h-10 w-10 rounded bg-primary/10 flex items-center justify-center shrink-0">
+			@icon.FileText(icon.Props{Class: "h-5 w-5"})
+		</div>
+		<div class="flex-1 min-w-0">
+			<p class="truncate font-medium text-sm">{ title }</p>
+			<p class="text-xs text-muted-foreground">{ subtitle }</p>
+		</div>
+		<a href="#">
+			@button.Button(button.Props{
+				Size:    button.SizeIcon,
+				Variant: button.VariantGhost,
+			}) {
+				@icon.ExternalLink(icon.Props{Size: 16})
+			}
+		</a>
+	</div>
+}
