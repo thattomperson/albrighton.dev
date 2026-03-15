@@ -33,6 +33,7 @@ go.work
 # Generated files
 *_templ.go
 output.css
+sources.generated.css
 
 # IDE
 .idea/

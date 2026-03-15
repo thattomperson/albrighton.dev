@@ -3,15 +3,15 @@ package pages
 import (
 	"github.com/templui/goilerplate/internal/ctxkeys"
 	"github.com/templui/goilerplate/internal/model"
-	"github.com/templui/goilerplate/internal/ui/components/avatar"
-	"github.com/templui/goilerplate/internal/ui/components/button"
-	"github.com/templui/goilerplate/internal/ui/components/card"
+	"github.com/templui/templui/components/avatar"
+	"github.com/templui/templui/components/button"
+	"github.com/templui/templui/components/card"
 	"github.com/templui/goilerplate/internal/ui/components/csrf"
-	"github.com/templui/goilerplate/internal/ui/components/dialog"
-	"github.com/templui/goilerplate/internal/ui/components/icon"
-	"github.com/templui/goilerplate/internal/ui/components/input"
-	"github.com/templui/goilerplate/internal/ui/components/label"
-	"github.com/templui/goilerplate/internal/ui/components/tabs"
+	"github.com/templui/templui/components/dialog"
+	"github.com/templui/templui/components/icon"
+	"github.com/templui/templui/components/input"
+	"github.com/templui/templui/components/label"
+	"github.com/templui/templui/components/tabs"
 	"github.com/templui/goilerplate/internal/ui/layouts"
 	"strings"
 )
@@ -28,11 +28,11 @@ templ Settings() {
 			@tabs.Tabs() {
 				@tabs.List() {
 					@tabs.Trigger(tabs.TriggerProps{Value: "profile", IsActive: true}) {
-						@icon.User(icon.Props{Size: 16})
+						@icon.User(icon.Props{Class: "size-4"})
 						Profile
 					}
 					@tabs.Trigger(tabs.TriggerProps{Value: "security"}) {
-						@icon.Shield(icon.Props{Size: 16})
+						@icon.Shield(icon.Props{Class: "size-4"})
 						Security
 					}
 				}
@@ -152,7 +152,7 @@ templ SettingsAvatarSection(user *model.User) {
 									Type:  "submit",
 									Class: "w-full sm:w-auto",
 								}) {
-									@icon.Upload(icon.Props{Size: 16, Class: "mr-2"})
+									@icon.Upload(icon.Props{Class: "mr-2 size-4"})
 									Upload Avatar
 								}
 								@dialog.Dialog(dialog.Props{ID: "delete-avatar-dialog"}) {
@@ -162,7 +162,7 @@ templ SettingsAvatarSection(user *model.User) {
 											Variant: button.VariantOutline,
 											Class:   "w-full sm:w-auto",
 										}) {
-											@icon.Trash2(icon.Props{Size: 16, Class: "mr-2"})
+											@icon.Trash2(icon.Props{Class: "mr-2 size-4"})
 											Remove Avatar
 										}
 									}
@@ -435,7 +435,7 @@ templ SettingsDangerZoneSection() {
 								Type:    "button",
 								Variant: button.VariantDestructive,
 							}) {
-								@icon.Trash2(icon.Props{Size: 16, Class: "mr-2"})
+								@icon.Trash2(icon.Props{Class: "mr-2 size-4"})
 								Delete Account
 							}
 						}

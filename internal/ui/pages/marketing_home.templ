@@ -3,12 +3,12 @@ package pages
 import (
 	"fmt"
 	"github.com/templui/goilerplate/internal/ctxkeys"
-	"github.com/templui/goilerplate/internal/ui/components/accordion"
-	"github.com/templui/goilerplate/internal/ui/components/avatar"
-	"github.com/templui/goilerplate/internal/ui/components/button"
-	"github.com/templui/goilerplate/internal/ui/components/card"
-	"github.com/templui/goilerplate/internal/ui/components/icon"
-	switchcomp "github.com/templui/goilerplate/internal/ui/components/switch"
+	"github.com/templui/templui/components/accordion"
+	"github.com/templui/templui/components/avatar"
+	"github.com/templui/templui/components/button"
+	"github.com/templui/templui/components/card"
+	"github.com/templui/templui/components/icon"
+	switchcomp "github.com/templui/templui/components/switch"
 	"github.com/templui/goilerplate/internal/ui/layouts"
 )
 
@@ -95,7 +95,7 @@ templ HomeHero() {
 						<p class="text-sm font-medium">Join 8,429 people mastering new skills</p>
 						<div class="flex items-center justify-center gap-1 mt-1">
 							for i := 0; i < 5; i++ {
-								@icon.Star(icon.Props{Size: 14, Class: "fill-yellow-500 text-yellow-500"})
+								@icon.Star(icon.Props{Class: "size-3.5 fill-yellow-500 text-yellow-500"})
 							}
 							<span class="ml-1 text-xs text-muted-foreground">4.8/5 from 512 reviews</span>
 						</div>
@@ -174,19 +174,19 @@ templ HomeFeatureCard(iconName string, title string, description string) {
 			<div class="inline-flex size-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
 				switch iconName {
 					case "Target":
-						@icon.Target(icon.Props{Size: 24})
+						@icon.Target(icon.Props{Class: "size-6"})
 					case "ChartBar":
-						@icon.ChartBar(icon.Props{Size: 24})
+						@icon.ChartBar(icon.Props{Class: "size-6"})
 					case "Repeat":
-						@icon.Repeat(icon.Props{Size: 24})
+						@icon.Repeat(icon.Props{Class: "size-6"})
 					case "Download":
-						@icon.Download(icon.Props{Size: 24})
+						@icon.Download(icon.Props{Class: "size-6"})
 					case "Sparkles":
-						@icon.Sparkles(icon.Props{Size: 24})
+						@icon.Sparkles(icon.Props{Class: "size-6"})
 					case "Shield":
-						@icon.Shield(icon.Props{Size: 24})
+						@icon.Shield(icon.Props{Class: "size-6"})
 					default:
-						@icon.Star(icon.Props{Size: 24})
+						@icon.Star(icon.Props{Class: "size-6"})
 				}
 			</div>
 			<div class="text-center sm:text-left">
@@ -310,13 +310,12 @@ templ HomePricingCard(name string, monthlyPrice int, annualPrice int, popular bo
 			</div>
 			<ul class="mt-8 space-y-4 flex-1">
 				for _, feature := range features {
-					<li class="flex items-start gap-3">
-						@icon.Check(icon.Props{
-							Size:  16,
-							Class: "mt-0.5 text-primary shrink-0",
-						})
-						<span class="text-sm">{ feature }</span>
-					</li>
+						<li class="flex items-start gap-3">
+							@icon.Check(icon.Props{
+								Class: "mt-0.5 text-primary shrink-0 size-4",
+							})
+							<span class="text-sm">{ feature }</span>
+						</li>
 				}
 			</ul>
 			<div class="mt-auto pt-8">
@@ -346,23 +345,23 @@ templ HomeTrustedBy() {
 				</p>
 				<div class="mt-8 flex flex-wrap items-center justify-center gap-x-12 gap-y-8 grayscale opacity-60">
 					<div class="flex items-center gap-2">
-						@icon.Target(icon.Props{Size: 32})
+						@icon.Target(icon.Props{Class: "size-8"})
 						<span class="text-sm font-medium">Goal Focused</span>
 					</div>
 					<div class="flex items-center gap-2">
-						@icon.ChartBar(icon.Props{Size: 32})
+						@icon.ChartBar(icon.Props{Class: "size-8"})
 						<span class="text-sm font-medium">Data Driven</span>
 					</div>
 					<div class="flex items-center gap-2">
-						@icon.Shield(icon.Props{Size: 32})
+						@icon.Shield(icon.Props{Class: "size-8"})
 						<span class="text-sm font-medium">Privacy First</span>
 					</div>
 					<div class="flex items-center gap-2">
-						@icon.Zap(icon.Props{Size: 32})
+						@icon.Zap(icon.Props{Class: "size-8"})
 						<span class="text-sm font-medium">Fast & Simple</span>
 					</div>
 					<div class="flex items-center gap-2">
-						@icon.Heart(icon.Props{Size: 32})
+						@icon.Heart(icon.Props{Class: "size-8"})
 						<span class="text-sm font-medium">User Loved</span>
 					</div>
 				</div>
@@ -391,15 +390,15 @@ templ HomeStatCard(iconName string, value string, label string) {
 		<div class="inline-flex items-center justify-center size-12 rounded-lg bg-primary/10 text-primary mb-4">
 			switch iconName {
 				case "Users":
-					@icon.Users(icon.Props{Size: 24})
+					@icon.Users(icon.Props{Class: "size-6"})
 				case "Target":
-					@icon.Target(icon.Props{Size: 24})
+					@icon.Target(icon.Props{Class: "size-6"})
 				case "Globe":
-					@icon.Globe(icon.Props{Size: 24})
+					@icon.Globe(icon.Props{Class: "size-6"})
 				case "Sparkles":
-					@icon.Sparkles(icon.Props{Size: 24})
+					@icon.Sparkles(icon.Props{Class: "size-6"})
 				default:
-					@icon.Star(icon.Props{Size: 24})
+					@icon.Star(icon.Props{Class: "size-6"})
 			}
 		</div>
 		<div class="text-3xl font-bold">{ value }</div>

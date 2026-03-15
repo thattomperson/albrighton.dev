@@ -1,20 +1,19 @@
 @font-face {
   font-family: "Geist";
-  src: url("/assets/fonts/geist/geist-variable.woff2")
-    format("woff2-variations");
+  src: url("/assets/fonts/geist/geist-variable.woff2") format("woff2-variations");
   font-weight: 100 900;
   font-display: optional;
 }
 
 @font-face {
   font-family: "Geist Mono";
-  src: url("/assets/fonts/geist/geist-mono-variable.woff2")
-    format("woff2-variations");
+  src: url("/assets/fonts/geist/geist-mono-variable.woff2") format("woff2-variations");
   font-weight: 100 900;
   font-display: optional;
 }
 
 @import "tailwindcss";
+@import "./sources.generated.css";
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -145,13 +144,16 @@
   --selection: oklch(0.92 0.004 286.32);
   --selection-foreground: oklch(0.21 0.006 285.885);
 }
+
 @layer base {
   * {
     @apply border-border;
   }
+
   ::selection {
     @apply bg-selection text-selection-foreground;
   }
+
   html {
     @apply scroll-smooth;
   }

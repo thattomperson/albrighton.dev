@@ -1,8 +1,8 @@
 package blocks
 
 import (
-	"github.com/templui/goilerplate/internal/ui/components/button"
-	"github.com/templui/goilerplate/internal/ui/components/icon"
+	"github.com/templui/templui/components/button"
+	"github.com/templui/templui/components/icon"
 )
 
 type ThemeSwitcherProps struct {
@@ -25,6 +25,6 @@ templ ThemeSwitcher(props ...ThemeSwitcherProps) {
 			"aria-label":          "Toggle theme",
 		},
 	}) {
-		@icon.Eclipse(icon.Props{Size: 20})
+		@icon.Eclipse(icon.Props{Class: "size-5"})
 	}
 }

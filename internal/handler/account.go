@@ -9,7 +9,7 @@ import (
 	"github.com/templui/goilerplate/internal/ctxkeys"
 	"github.com/templui/goilerplate/internal/service"
 	"github.com/templui/goilerplate/internal/ui"
-	"github.com/templui/goilerplate/internal/ui/components/toast"
+	"github.com/templui/templui/components/toast"
 	"github.com/templui/goilerplate/internal/ui/layouts"
 	"github.com/templui/goilerplate/internal/ui/pages"
 	"github.com/templui/goilerplate/internal/validation"

@@ -8,6 +8,7 @@ import (
 	"github.com/templui/goilerplate/internal/app"
 	"github.com/templui/goilerplate/internal/handler"
 	"github.com/templui/goilerplate/internal/middleware"
+	tuiutils "github.com/templui/templui/utils"
 )
 
 func SetupRoutes(app *app.App) http.Handler {
@@ -44,6 +45,7 @@ func SetupRoutes(app *app.App) http.Handler {
 		assetHandler = http.FileServer(http.FS(sub))
 	}
 	mux.Handle("GET /assets/", http.StripPrefix("/assets/", assetHandler))
+	tuiutils.SetupScriptRoutes(mux, app.Cfg.IsDevelopment())
 
 	// SEO
 	mux.HandleFunc("GET /robots.txt", seo.Robots)
@@ -146,11 +148,11 @@ func SetupRoutes(app *app.App) http.Handler {
 	// Global middleware - executed in order (top to bottom)
 	handler := middleware.Chain(
 		mux,
-		middleware.Config(app.Cfg),  // Config must be first (needed by SecurityHeaders for S3 endpoint)
-		middleware.NonceMiddleware,  // Generate CSP nonce for each request (must be before SecurityHeaders)
-		middleware.SecurityHeaders,  // Security headers for all responses (XSS, clickjacking, etc.)
+		middleware.Config(app.Cfg), // Config must be first (needed by SecurityHeaders for S3 endpoint)
+		middleware.NonceMiddleware, // Generate CSP nonce for each request (must be before SecurityHeaders)
+		middleware.SecurityHeaders, // Security headers for all responses (XSS, clickjacking, etc.)
 		middleware.RequestLogging,
-		middleware.CSRFProtection,   // CSRF protection for all state-changing requests
+		middleware.CSRFProtection, // CSRF protection for all state-changing requests
 		middleware.AuthMiddleware(app.AuthService, app.UserService, app.ProfileService, app.SubscriptionService),
 		middleware.WithURLPath,
 	)

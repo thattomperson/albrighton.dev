@@ -3,14 +3,14 @@ package pages
 import (
 	"github.com/templui/goilerplate/internal/ctxkeys"
 	"github.com/templui/goilerplate/internal/model"
-	"github.com/templui/goilerplate/internal/ui/components/badge"
-	"github.com/templui/goilerplate/internal/ui/components/button"
-	"github.com/templui/goilerplate/internal/ui/components/card"
+	"github.com/templui/templui/components/badge"
+	"github.com/templui/templui/components/button"
+	"github.com/templui/templui/components/card"
 	"github.com/templui/goilerplate/internal/ui/components/csrf"
-	"github.com/templui/goilerplate/internal/ui/components/icon"
-	"github.com/templui/goilerplate/internal/ui/components/tabs"
+	"github.com/templui/templui/components/icon"
+	"github.com/templui/templui/components/tabs"
 	"github.com/templui/goilerplate/internal/ui/layouts"
-	"github.com/templui/goilerplate/internal/utils"
+	"github.com/templui/templui/utils"
 )
 
 templ Billing() {
@@ -239,7 +239,7 @@ templ BillingPricingCard(
 			<ul class="space-y-3">
 				for _, feature := range features {
 					<li class="flex items-start gap-2">
-						@icon.Check(icon.Props{Size: 20, Class: "text-primary mt-0.5 shrink-0"})
+						@icon.Check(icon.Props{Class: "text-primary mt-0.5 shrink-0 size-5"})
 						<span class="text-sm">{ feature }</span>
 					</li>
 				}

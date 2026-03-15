@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/templui/goilerplate/internal/ui"
-	"github.com/templui/goilerplate/internal/ui/components/toast"
+	"github.com/templui/templui/components/toast"
 	"github.com/templui/goilerplate/internal/ui/pages"
 )
 
