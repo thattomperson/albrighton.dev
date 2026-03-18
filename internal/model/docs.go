@@ -8,6 +8,13 @@ type DocPage struct {
 	Description string
 	Content     string
 	HTMLContent string
+	Headings    []DocHeading
 	Children    []*DocPage
 	Parent      *DocPage
+}
+
+type DocHeading struct {
+	ID    string
+	Text  string
+	Level int
 }

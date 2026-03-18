@@ -21,7 +21,7 @@ templ Docs(currentPage *model.DocPage, docsTree *model.DocPage, prevPage *model.
 		Path:        ctxkeys.URLPath(ctx),
 	}) {
 		@sidebar.Layout() {
-			@sidebar.Sidebar() {
+			@sidebar.Sidebar(sidebar.Props{Collapsible: sidebar.CollapsibleNone}) {
 				@sidebar.Header() {
 					@sidebar.Menu() {
 						@sidebar.MenuItem() {
@@ -69,7 +69,9 @@ templ Docs(currentPage *model.DocPage, docsTree *model.DocPage, prevPage *model.
 				<header class="sticky top-0 z-10 border-b bg-background">
 					<div class="flex h-14 items-center px-6">
 						<div class="flex items-center gap-4">
-							@sidebar.Trigger()
+							<div class="md:hidden">
+								@sidebar.Trigger()
+							</div>
 							@templ.Fragment("docs-breadcrumb") {
 								<div id="docs-breadcrumb" hx-swap-oob="true">
 									@breadcrumb.Breadcrumb() {
@@ -109,62 +111,130 @@ templ Docs(currentPage *model.DocPage, docsTree *model.DocPage, prevPage *model.
 						</div>
 					</div>
 				</header>
-				// Documentation content with HTMX target wrapper
-				<div id="docs-content-wrapper">
-					@templ.Fragment("docs-content") {
-						// Documentation Content
-						<div class="flex-1" id="docs-content">
-							<article class="container max-w-5xl px-6 py-12">
-								// Page Title
-								<div class="mb-8">
-									<h1 class="text-4xl font-bold mb-2">{ currentPage.Title }</h1>
-									if currentPage.Description != "" {
-										<p class="text-xl text-muted-foreground">{ currentPage.Description }</p>
-									}
-								</div>
-								// Content
-								@blocks.ContentWithProse(currentPage.HTMLContent)
-								// Navigation Footer
-								<div class="mt-12 pt-8 border-t">
-									<div class="flex justify-between">
-										if prevPage != nil {
-											@button.Button(button.Props{
-												Href:    fmt.Sprintf("/docs/%s", prevPage.Slug),
-												Variant: button.VariantOutline,
-												Attributes: templ.Attributes{
-													"hx-get":      fmt.Sprintf("/docs/%s", prevPage.Slug),
-													"hx-target":   "#docs-content-wrapper",
-													"hx-push-url": "true",
-													"hx-swap":     "innerHTML",
-												},
-											}) {
-												← { prevPage.Title }
-											}
+				<div class="xl:grid xl:grid-cols-[minmax(0,1fr)_16rem]">
+					<div class="min-w-0">
+						<main class="min-h-[calc(100svh-3.5rem)]">
+								// Documentation content with HTMX target wrapper
+								<div class="max-w-5xl px-6 pt-12 pb-16" id="docs-content-wrapper">
+									@templ.Fragment("docs-content") {
+										// Documentation Content
+										<article id="docs-content" style="--docs-heading-offset: 80px;">
+											// Page Title
+											<div class="mb-8">
+												<h1 class="text-4xl font-bold mb-2">{ currentPage.Title }</h1>
+												if currentPage.Description != "" {
+													<p class="text-xl text-muted-foreground">{ currentPage.Description }</p>
+												}
+											</div>
+											// Content
+											<div class="[&_h2]:scroll-mt-[var(--docs-heading-offset)] [&_h3]:scroll-mt-[var(--docs-heading-offset)]">
+												@blocks.ContentWithProse(currentPage.HTMLContent)
+											</div>
+											// Navigation Footer
+											<div class="mt-12 pt-8">
+												<div class="flex justify-between">
+													if prevPage != nil {
+														@button.Button(button.Props{
+															Href:    fmt.Sprintf("/docs/%s", prevPage.Slug),
+															Variant: button.VariantOutline,
+															Attributes: templ.Attributes{
+																"hx-get":      fmt.Sprintf("/docs/%s", prevPage.Slug),
+																"hx-target":   "#docs-content-wrapper",
+																"hx-push-url": "true",
+																"hx-swap":     "innerHTML",
+															},
+														}) {
+															← { prevPage.Title }
+														}
+													}
+													if nextPage != nil {
+														@button.Button(button.Props{
+															Href:    fmt.Sprintf("/docs/%s", nextPage.Slug),
+															Variant: button.VariantOutline,
+															Attributes: templ.Attributes{
+																"hx-get":      fmt.Sprintf("/docs/%s", nextPage.Slug),
+																"hx-target":   "#docs-content-wrapper",
+																"hx-push-url": "true",
+																"hx-swap":     "innerHTML",
+															},
+														}) {
+															{ nextPage.Title } →
+														}
+													}
+												</div>
+											</div>
+											</article>
 										}
-										if nextPage != nil {
-											@button.Button(button.Props{
-												Href:    fmt.Sprintf("/docs/%s", nextPage.Slug),
-												Variant: button.VariantOutline,
-												Attributes: templ.Attributes{
-													"hx-get":      fmt.Sprintf("/docs/%s", nextPage.Slug),
-													"hx-target":   "#docs-content-wrapper",
-													"hx-push-url": "true",
-													"hx-swap":     "innerHTML",
-												},
-											}) {
-												{ nextPage.Title } →
-											}
-										}
-									</div>
 								</div>
-							</article>
-						</div>
-					}
+						</main>
+						@blocks.Footer()
+					</div>
+					@renderPageTOC(currentPage.Headings)
 				</div>
-				@blocks.Footer()
 			}
 			// HTMX active state updater
 			<script nonce={ templ.GetNonce(ctx) }>
+				let docsTOCScrollHandler = null;
+
+				function setActiveDocsTOCLink(activeId) {
+					document.querySelectorAll('[data-docs-toc-link]').forEach(link => {
+						const isActive = link.dataset.docsTocLink === activeId;
+
+						link.classList.toggle('text-foreground', isActive);
+						link.classList.toggle('font-medium', isActive);
+						link.classList.toggle('text-muted-foreground', !isActive);
+
+						if (isActive) {
+							link.setAttribute('aria-current', 'location');
+						} else {
+							link.removeAttribute('aria-current');
+						}
+					});
+				}
+
+				function initDocsTOC() {
+					const tocLinks = Array.from(document.querySelectorAll('[data-docs-toc-link]'));
+					if (docsTOCScrollHandler) {
+						window.removeEventListener('scroll', docsTOCScrollHandler);
+						docsTOCScrollHandler = null;
+					}
+
+					if (!tocLinks.length) {
+						return;
+					}
+
+					const headings = tocLinks
+						.map(link => document.getElementById(link.dataset.docsTocLink || ''))
+						.filter(Boolean);
+
+					if (!headings.length) {
+						return;
+					}
+
+					const activationOffset = parseInt(
+						getComputedStyle(document.getElementById('docs-content'))
+							.getPropertyValue('--docs-heading-offset'),
+						10,
+					) || 96;
+
+					const updateActiveDocsTOC = () => {
+						let activeId = headings[0]?.id ?? '';
+						for (const heading of headings) {
+							if (heading.getBoundingClientRect().top <= activationOffset) {
+								activeId = heading.id;
+							} else {
+								break;
+							}
+						}
+
+						setActiveDocsTOCLink(activeId);
+					};
+
+					docsTOCScrollHandler = updateActiveDocsTOC;
+					window.addEventListener('scroll', docsTOCScrollHandler, { passive: true });
+					updateActiveDocsTOC();
+				}
+
 				// Update active states after HTMX navigation
 				document.body.addEventListener('htmx:afterSettle', () => {
 					const currentPath = window.location.pathname;
@@ -192,6 +262,8 @@ templ Docs(currentPage *model.DocPage, docsTree *model.DocPage, prevPage *model.
 							}
 						}
 					});
+
+					initDocsTOC();
 				});
 
 				// Scroll to top and close mobile sheet after content swap
@@ -206,6 +278,8 @@ templ Docs(currentPage *model.DocPage, docsTree *model.DocPage, prevPage *model.
 						}
 					}
 				});
+
+				initDocsTOC();
 			</script>
 		}
 		@blocks.HighlightScripts()
@@ -229,6 +303,41 @@ templ renderDocsNav(node *model.DocPage, currentPage *model.DocPage) {
 	@sidebar.Menu() {
 		for _, child := range node.Children {
 			@renderDocMenuItem(child, currentPage)
+		}
+	}
+}
+
+templ renderPageTOC(headings []model.DocHeading) {
+	@templ.Fragment("docs-toc") {
+		if len(headings) > 0 {
+			<aside id="docs-toc" hx-swap-oob="true" class="hidden self-stretch border-l xl:block">
+				<div class="sticky top-14 max-h-[calc(100svh-3.5rem)] overflow-y-auto pl-6 pt-12 pb-10">
+					<p class="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">On this page</p>
+					<nav class="flex flex-col gap-0.5">
+						for _, heading := range headings {
+							if heading.Level == 3 {
+								<a
+									href={ fmt.Sprintf("#%s", heading.ID) }
+									data-docs-toc-link={ heading.ID }
+									class="block py-1 pl-3 text-[13px] leading-5 text-muted-foreground transition-colors hover:text-foreground"
+								>
+									{ heading.Text }
+								</a>
+							} else {
+								<a
+									href={ fmt.Sprintf("#%s", heading.ID) }
+									data-docs-toc-link={ heading.ID }
+									class="block py-1 text-[13px] leading-5 text-muted-foreground transition-colors hover:text-foreground"
+								>
+									{ heading.Text }
+								</a>
+							}
+						}
+					</nav>
+				</div>
+			</aside>
+		} else {
+			<aside id="docs-toc" hx-swap-oob="true" class="hidden"></aside>
 		}
 	}
 }

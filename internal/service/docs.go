@@ -98,6 +98,7 @@ func (s *DocsService) loadDocPage(fullPath, relPath string) (*model.DocPage, err
 		Path:        relPath,
 		HTMLContent: string(htmlContent),
 		Content:     string(content),
+		Headings:    s.parser.ExtractHeadings(content),
 		Children:    []*model.DocPage{},
 	}
 
@@ -133,7 +134,7 @@ func (s *DocsService) insertPage(page *model.DocPage, relPath string, dirMetadat
 	// Build/traverse the directory structure
 	for i := 0; i < len(parts)-1; i++ {
 		dirSlug := strings.Join(parts[:i+1], "/")
-		
+
 		// Check if this directory already exists
 		var found *model.DocPage
 		for _, child := range current.Children {
@@ -160,6 +161,7 @@ func (s *DocsService) insertPage(page *model.DocPage, relPath string, dirMetadat
 				dirPage.Order = meta.Order
 				dirPage.HTMLContent = meta.HTMLContent
 				dirPage.Content = meta.Content
+				dirPage.Headings = meta.Headings
 			} else {
 				// Generate title from slug
 				dirPage.Title = s.titleFromSlug(parts[i])
@@ -262,7 +264,7 @@ func (s *DocsService) FlatDocsList() []*model.DocPage {
 	if s.docsTree == nil {
 		return []*model.DocPage{}
 	}
-	
+
 	var pages []*model.DocPage
 	s.collectPagesInOrder(s.docsTree, &pages)
 	return pages
@@ -284,7 +286,7 @@ func (s *DocsService) collectPagesInOrder(node *model.DocPage, pages *[]*model.D
 // PrevNextPages returns the previous and next pages in the documentation flow
 func (s *DocsService) PrevNextPages(currentPage *model.DocPage) (prev, next *model.DocPage) {
 	pages := s.FlatDocsList()
-	
+
 	for i, page := range pages {
 		if page.Slug == currentPage.Slug {
 			if i > 0 {
@@ -296,17 +298,17 @@ func (s *DocsService) PrevNextPages(currentPage *model.DocPage) (prev, next *mod
 			break
 		}
 	}
-	
+
 	return prev, next
 }
 
 func (s *DocsService) titleFromSlug(slug string) string {
 	parts := strings.Split(slug, "/")
 	lastPart := parts[len(parts)-1]
-	
+
 	lastPart = strings.ReplaceAll(lastPart, "-", " ")
 	lastPart = strings.ReplaceAll(lastPart, "_", " ")
-	
+
 	words := strings.Fields(lastPart)
 	caser := cases.Title(language.English)
 	for i, word := range words {
@@ -315,4 +317,3 @@ func (s *DocsService) titleFromSlug(slug string) string {
 
 	return strings.Join(words, " ")
 }
-

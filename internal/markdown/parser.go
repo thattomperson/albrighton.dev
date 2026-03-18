@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"io"
 
+	"github.com/templui/goilerplate/internal/model"
 	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer"
@@ -106,4 +108,64 @@ func (p *Parser) ExtractFrontmatter(source []byte) map[string]any {
 
 func (p *Parser) Renderer() renderer.Renderer {
 	return p.md.Renderer()
+}
+
+func (p *Parser) ExtractHeadings(source []byte) []model.DocHeading {
+	doc := p.md.Parser().Parse(text.NewReader(source))
+	headings := make([]model.DocHeading, 0)
+
+	ast.Walk(doc, func(n ast.Node, entering bool) (ast.WalkStatus, error) {
+		if !entering {
+			return ast.WalkContinue, nil
+		}
+
+		heading, ok := n.(*ast.Heading)
+		if !ok || heading.Level < 2 || heading.Level > 3 {
+			return ast.WalkContinue, nil
+		}
+
+		idAttr, ok := heading.Attribute([]byte("id"))
+		if !ok {
+			return ast.WalkContinue, nil
+		}
+
+		text := extractNodeText(heading, source)
+		if text == "" {
+			return ast.WalkContinue, nil
+		}
+
+		id, ok := idAttr.([]byte)
+		if !ok || len(id) == 0 {
+			return ast.WalkContinue, nil
+		}
+
+		headings = append(headings, model.DocHeading{
+			ID:    string(id),
+			Text:  text,
+			Level: heading.Level,
+		})
+
+		return ast.WalkContinue, nil
+	})
+
+	return headings
+}
+
+func extractNodeText(node ast.Node, source []byte) string {
+	var textBuf bytes.Buffer
+
+	var walk func(ast.Node)
+	walk = func(current ast.Node) {
+		for child := current.FirstChild(); child != nil; child = child.NextSibling() {
+			if textNode, ok := child.(*ast.Text); ok {
+				textBuf.Write(textNode.Segment.Value(source))
+				continue
+			}
+			walk(child)
+		}
+	}
+
+	walk(node)
+
+	return textBuf.String()
 }

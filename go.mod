@@ -3,7 +3,6 @@ module github.com/templui/goilerplate
 go 1.25
 
 require (
-	github.com/Oudwins/tailwind-merge-go v0.2.1
 	github.com/a-h/templ v0.3.1001
 	github.com/aws/aws-sdk-go-v2 v1.39.4
 	github.com/aws/aws-sdk-go-v2/config v1.31.15
@@ -22,7 +21,7 @@ require (
 	github.com/samber/slog-sentry/v2 v2.9.3
 	github.com/standard-webhooks/standard-webhooks/libraries v0.0.0-20250711233419-a173a6c0125c
 	github.com/stripe/stripe-go/v81 v81.4.0
-	github.com/templui/templui v1.8.0
+	github.com/templui/templui v1.9.0
 	github.com/yuin/goldmark v1.7.13
 	go.abhg.dev/goldmark/frontmatter v0.2.0
 	golang.org/x/crypto v0.42.0
@@ -34,6 +33,7 @@ require (
 require (
 	cloud.google.com/go/compute/metadata v0.8.0 // indirect
 	github.com/BurntSushi/toml v1.2.1 // indirect
+	github.com/Oudwins/tailwind-merge-go v0.2.1 // indirect
 	github.com/a-h/parse v0.0.0-20250122154542-74294addb73e // indirect
 	github.com/andybalholm/brotli v1.2.0 // indirect
 	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.7.2 // indirect

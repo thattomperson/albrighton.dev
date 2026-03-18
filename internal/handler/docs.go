@@ -61,10 +61,9 @@ func (h *DocsHandler) ShowDocs(w http.ResponseWriter, r *http.Request) {
 	if r.Header.Get("HX-Request") == "true" {
 		// Return only the docs-content fragment for HTMX requests
 		// This requires rendering the fragment from the full template
-		ui.RenderFragment(w, r, pages.Docs(page, docsTree, prevPage, nextPage), "docs-content", "seo-title", "docs-breadcrumb")
+		ui.RenderFragment(w, r, pages.Docs(page, docsTree, prevPage, nextPage), "docs-content", "seo-title", "docs-breadcrumb", "docs-toc")
 	} else {
 		// Return full page for regular requests
 		ui.Render(w, r, pages.Docs(page, docsTree, prevPage, nextPage))
 	}
 }
-
