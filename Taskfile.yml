@@ -1,9 +1,5 @@
 version: "3"
 
-vars:
-  TAILWIND_CMD:
-    sh: command -v tailwindcss >/dev/null 2>&1 && echo "tailwindcss" || echo "npx tailwindcss@latest"
-
 tasks:
   # Development Tools
   templ:
@@ -20,7 +16,7 @@ tasks:
           '@source "./**/*.templ";' \
           "@source \"$TEMPLUI_PATH/components/**/*.templ\";" \
           > ./assets/css/sources.generated.css && \
-        {{.TAILWIND_CMD}} -i ./assets/css/input.css -o ./assets/css/output.css --watch
+        tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch
 
   # Start development server
   dev:

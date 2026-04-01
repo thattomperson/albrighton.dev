@@ -3,10 +3,11 @@ package pages
 import (
 	"fmt"
 	"github.com/templui/goilerplate/internal/model"
+	"github.com/templui/goilerplate/internal/ui/components/csrf"
+	"github.com/templui/goilerplate/internal/ui/layouts"
 	"github.com/templui/templui/components/badge"
 	"github.com/templui/templui/components/button"
 	"github.com/templui/templui/components/card"
-	"github.com/templui/goilerplate/internal/ui/components/csrf"
 	"github.com/templui/templui/components/datepicker"
 	"github.com/templui/templui/components/dialog"
 	"github.com/templui/templui/components/dropdown"
@@ -15,7 +16,6 @@ import (
 	"github.com/templui/templui/components/label"
 	"github.com/templui/templui/components/progress"
 	"github.com/templui/templui/components/textarea"
-	"github.com/templui/goilerplate/internal/ui/layouts"
 	"time"
 )
 
@@ -29,17 +29,25 @@ templ GoalDetail(goal *model.Goal, entries []*model.GoalEntry) {
 		<div id="goal-delete-dialog-container"></div>
 		<script nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('htmx:afterSwap', function(evt) {
-				if (evt.detail.target?.id === 'goal-detail-content') {
+				const targetId = evt.detail.target?.id;
+
+				if (targetId === 'goal-detail-content') {
 					['goal-entry-dialog-container', 'goal-edit-dialog-container', 'goal-delete-dialog-container'].forEach(containerId => {
 						const container = document.getElementById(containerId);
-						if (container) {
-							const content = container.querySelector('[data-tui-dialog-content]');
-							const instanceId = content?.getAttribute('data-dialog-instance');
-							if (instanceId && window.tui?.dialog?.close) {
-								window.tui.dialog.close(instanceId);
-							}
+						const dialogRoot = container?.querySelector('[data-tui-dialog]');
+						if (dialogRoot && window.tui?.dialog?.close) {
+							window.tui.dialog.close(dialogRoot);
 						}
 					});
+
+					return;
+				}
+
+				if (['goal-entry-dialog-container', 'goal-edit-dialog-container', 'goal-delete-dialog-container'].includes(targetId)) {
+					const dialogRoot = evt.detail.target?.querySelector('[data-tui-dialog]');
+					if (dialogRoot && window.tui?.dialog?.open) {
+						window.tui.dialog.open(dialogRoot);
+					}
 				}
 			});
 		</script>
@@ -180,85 +188,89 @@ templ GoalDetailContent(goal *model.Goal, entries []*model.GoalEntry) {
 }
 
 templ GoalEditDialog(goal *model.Goal) {
-	@dialog.Content(dialog.ContentProps{
+	@dialog.Dialog(dialog.Props{
 		ID:   "edit-goal-dialog",
 		Open: true,
 	}) {
-		@dialog.Header() {
-			@dialog.Title() {
-				Edit Goal
+		@dialog.Content() {
+			@dialog.Header() {
+				@dialog.Title() {
+					Edit Goal
+				}
 			}
-		}
-		<form hx-put={ fmt.Sprintf("/app/goals/%s", goal.ID) } hx-target="#goal-detail-content" class="space-y-4">
-			@csrf.Token()
-			<div>
-				@label.Label(label.Props{For: "title"}) {
-					Goal Title
-				}
-				@input.Input(input.Props{
-					ID:          "title",
-					Name:        "title",
-					Type:        "text",
-					Value:       goal.Title,
-					Placeholder: "e.g., Learn Spanish, Do 100 Pushups",
-				})
-			</div>
-			<div>
-				@label.Label(label.Props{For: "description"}) {
-					Description
-				}
-				@textarea.Textarea(textarea.Props{
-					ID:          "description",
-					Name:        "description",
-					Value:       goal.Description,
-					Placeholder: "What do you want to achieve?",
-					Rows:        4,
-				})
-			</div>
-			<div class="flex justify-end gap-2">
-				@dialog.Close(dialog.CloseProps{For: "edit-goal-dialog"}) {
-					@button.Button(button.Props{Variant: button.VariantOutline, Type: "button"}) {
-						Cancel
+			<form hx-put={ fmt.Sprintf("/app/goals/%s", goal.ID) } hx-target="#goal-detail-content" class="space-y-4">
+				@csrf.Token()
+				<div>
+					@label.Label(label.Props{For: "title"}) {
+						Goal Title
 					}
-				}
-				@button.Button(button.Props{Type: "submit"}) {
-					Save Changes
-				}
-			</div>
-		</form>
+					@input.Input(input.Props{
+						ID:          "title",
+						Name:        "title",
+						Type:        "text",
+						Value:       goal.Title,
+						Placeholder: "e.g., Learn Spanish, Do 100 Pushups",
+					})
+				</div>
+				<div>
+					@label.Label(label.Props{For: "description"}) {
+						Description
+					}
+					@textarea.Textarea(textarea.Props{
+						ID:          "description",
+						Name:        "description",
+						Value:       goal.Description,
+						Placeholder: "What do you want to achieve?",
+						Rows:        4,
+					})
+				</div>
+				<div class="flex justify-end gap-2">
+					@dialog.Close(dialog.CloseProps{For: "edit-goal-dialog"}) {
+						@button.Button(button.Props{Variant: button.VariantOutline, Type: "button"}) {
+							Cancel
+						}
+					}
+					@button.Button(button.Props{Type: "submit"}) {
+						Save Changes
+					}
+				</div>
+			</form>
+		}
 	}
 }
 
 templ GoalDeleteDialog(goal *model.Goal) {
-	@dialog.Content(dialog.ContentProps{
+	@dialog.Dialog(dialog.Props{
 		ID:   "delete-goal-dialog",
 		Open: true,
 	}) {
-		@dialog.Header() {
-			@dialog.Title() {
-				Delete Goal
-			}
-		}
-		<div class="space-y-4">
-			<p class="text-sm text-muted-foreground">
-				Are you sure you want to delete "<strong>{ goal.Title }</strong>"? This action cannot be undone.
-			</p>
-			<div class="flex justify-end gap-2">
-				@dialog.Close(dialog.CloseProps{For: "delete-goal-dialog"}) {
-					@button.Button(button.Props{Variant: button.VariantOutline, Type: "button"}) {
-						Cancel
-					}
-				}
-				@button.Button(button.Props{
-					Type: "button",
-					Attributes: templ.Attributes{
-						"hx-delete": fmt.Sprintf("/app/goals/%s", goal.ID),
-					},
-				}) {
+		@dialog.Content() {
+			@dialog.Header() {
+				@dialog.Title() {
 					Delete Goal
 				}
+			}
+			<div class="space-y-4">
+				<p class="text-sm text-muted-foreground">
+					Are you sure you want to delete "<strong>{ goal.Title }</strong>"? This action cannot be undone.
+				</p>
+				<div class="flex justify-end gap-2">
+					@dialog.Close(dialog.CloseProps{For: "delete-goal-dialog"}) {
+						@button.Button(button.Props{Variant: button.VariantOutline, Type: "button"}) {
+							Cancel
+						}
+					}
+					@button.Button(button.Props{
+						Type: "button",
+						Attributes: templ.Attributes{
+							"hx-delete": fmt.Sprintf("/app/goals/%s", goal.ID),
+						},
+					}) {
+						Delete Goal
+					}
+				</div>
 			</div>
-		</div>
+		}
 	}
 }
 
@@ -268,81 +280,83 @@ templ GoalEntryDialog(goal *model.Goal, entry *model.GoalEntry) {
 	if entry.CompletedAt != nil {
 		{{ completedAtValue = *entry.CompletedAt }}
 	}
-	@dialog.Content(dialog.ContentProps{
+	@dialog.Dialog(dialog.Props{
 		ID:   fmt.Sprintf("goal-entry-%d-dialog", entry.Step),
 		Open: true,
 	}) {
-		@dialog.Header() {
-			@dialog.Title() {
-				Step { fmt.Sprintf("%d", entry.Step) }
-			}
-			@dialog.Description() {
-				Edit your entry details
-			}
-		}
-		<form
-			hx-patch={ fmt.Sprintf("/app/goals/%s/entries/%d", goal.ID, entry.Step) }
-			hx-target="#goal-detail-content"
-			hx-swap="innerHTML"
-			class="space-y-4"
-		>
-			@csrf.Token()
-			<!-- Completed At -->
-			<div>
-				@label.Label(label.Props{For: "completed_at"}) {
-					Completed At
+		@dialog.Content() {
+			@dialog.Header() {
+				@dialog.Title() {
+					Step { fmt.Sprintf("%d", entry.Step) }
 				}
-				@datepicker.DatePicker(datepicker.Props{
-					ID:          "completed_at",
-					Name:        "completed_at",
-					Value:       completedAtValue,
-					Placeholder: "Select date",
-				})
-			</div>
-			<!-- Notes -->
-			<div>
-				@label.Label(label.Props{For: "note"}) {
-					Notes
+				@dialog.Description() {
+					Edit your entry details
 				}
-				@textarea.Textarea(textarea.Props{
-					ID:          "note",
-					Name:        "note",
-					Placeholder: "What did you accomplish?",
-					Rows:        4,
-					Value:       entry.Note,
-					Attributes:  templ.Attributes{"autofocus": "true"},
-				})
-			</div>
-			@dialog.Footer() {
-				<div class="flex justify-between w-full">
-					<div>
-						if canDelete {
-							@button.Button(button.Props{
-								Type: "button",
-								Attributes: templ.Attributes{
-									"hx-delete":  fmt.Sprintf("/app/goals/%s/entries/%d", goal.ID, entry.Step),
-									"hx-target":  "#goal-detail-content",
-									"hx-swap":    "innerHTML",
-									"hx-confirm": "Are you sure you want to uncomplete this step?",
-								},
-							}) {
-								Uncomplete
-							}
-						}
-					</div>
-					<div class="flex gap-2">
-						@dialog.Close(dialog.CloseProps{For: fmt.Sprintf("goal-entry-%d-dialog", entry.Step)}) {
-							@button.Button(button.Props{Variant: button.VariantOutline, Type: "button"}) {
-								Cancel
-							}
-						}
-						@button.Button(button.Props{Type: "submit"}) {
-							Save Changes
-						}
-					</div>
+			}
+			<form
+				hx-patch={ fmt.Sprintf("/app/goals/%s/entries/%d", goal.ID, entry.Step) }
+				hx-target="#goal-detail-content"
+				hx-swap="innerHTML"
+				class="space-y-4"
+			>
+				@csrf.Token()
+				<!-- Completed At -->
+				<div>
+					@label.Label(label.Props{For: "completed_at"}) {
+						Completed At
+					}
+					@datepicker.DatePicker(datepicker.Props{
+						ID:          "completed_at",
+						Name:        "completed_at",
+						Value:       completedAtValue,
+						Placeholder: "Select date",
+					})
 				</div>
-			}
-		</form>
+				<!-- Notes -->
+				<div>
+					@label.Label(label.Props{For: "note"}) {
+						Notes
+					}
+					@textarea.Textarea(textarea.Props{
+						ID:          "note",
+						Name:        "note",
+						Placeholder: "What did you accomplish?",
+						Rows:        4,
+						Value:       entry.Note,
+						Attributes:  templ.Attributes{"autofocus": "true"},
+					})
+				</div>
+				@dialog.Footer() {
+					<div class="flex justify-between w-full">
+						<div>
+							if canDelete {
+								@button.Button(button.Props{
+									Type: "button",
+									Attributes: templ.Attributes{
+										"hx-delete":  fmt.Sprintf("/app/goals/%s/entries/%d", goal.ID, entry.Step),
+										"hx-target":  "#goal-detail-content",
+										"hx-swap":    "innerHTML",
+										"hx-confirm": "Are you sure you want to uncomplete this step?",
+									},
+								}) {
+									Uncomplete
+								}
+							}
+						</div>
+						<div class="flex gap-2">
+							@dialog.Close(dialog.CloseProps{For: fmt.Sprintf("goal-entry-%d-dialog", entry.Step)}) {
+								@button.Button(button.Props{Variant: button.VariantOutline, Type: "button"}) {
+									Cancel
+								}
+							}
+							@button.Button(button.Props{Type: "submit"}) {
+								Save Changes
+							}
+						</div>
+					</div>
+				}
+			</form>
+		}
 	}
 }
 

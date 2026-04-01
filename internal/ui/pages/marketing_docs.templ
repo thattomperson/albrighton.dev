@@ -272,9 +272,9 @@ templ Docs(currentPage *model.DocPage, docsTree *model.DocPage, prevPage *model.
 						window.scrollTo(0, 0);
 
 						// Close mobile sheet if open
-						const sheet = document.querySelector('[data-tui-dialog-content][data-tui-dialog-open="true"][data-tui-sheet-content]');
+						const sheet = document.querySelector('[data-tui-dialog][data-tui-sheet="true"][data-tui-dialog-open="true"]');
 						if (sheet) {
-							window.tui.dialog.close(sheet.getAttribute('data-dialog-instance'));
+							window.tui.dialog.close(sheet);
 						}
 					}
 				});

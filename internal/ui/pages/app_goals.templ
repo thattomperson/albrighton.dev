@@ -56,7 +56,7 @@ templ Goals(goals []*model.Goal, sortBy string) {
 
 				// Focus title input when create dialog opens
 				document.addEventListener('click', e => {
-					if (e.target.closest('[data-tui-dialog-trigger][data-dialog-instance="create-goal-dialog"]')) {
+					if (e.target.closest('[data-tui-dialog-trigger][data-tui-dialog-target="create-goal-dialog"]')) {
 						setTimeout(() => document.getElementById('title')?.focus(), 150);
 					}
 				});
