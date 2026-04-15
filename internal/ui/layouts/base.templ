@@ -12,9 +12,7 @@ import "github.com/templui/templui/components/toast"
 import "github.com/templui/templui/components/calendar"
 import "github.com/templui/templui/components/datepicker"
 import "github.com/templui/templui/components/progress"
-import "fmt"
-import "time"
-
+import tuiutils "github.com/templui/templui/utils"
 type SEOProps struct {
 	Title       string
 	Description string
@@ -35,7 +33,7 @@ templ Base(props ...SEOProps) {
 				<title>{ cfg.AppName }</title>
 			}
 			<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico"/>
-			<link href={ "/assets/css/output.css?v=" + templ.EscapeString(fmt.Sprintf("%d", time.Now().Unix())) } rel="stylesheet"/>
+			<link href={ tuiutils.ScriptURL("/assets/css/output.css") } rel="stylesheet"/>
 			<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js" integrity="sha384-ZBXiYtYQ6hJ2Y0ZNoYuI+Nq5MqWBr+chMrS/RkXpNzQCApHEhOt2aY8EJgqwHLkJ" crossorigin="anonymous"></script>
 			// Component scripts
 			@input.Script()
