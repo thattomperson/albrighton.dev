@@ -1,6 +1,6 @@
 module github.com/templui/goilerplate
 
-go 1.25
+go 1.25.0
 
 require (
 	github.com/Oudwins/tailwind-merge-go v0.2.1
@@ -12,7 +12,7 @@ require (
 	github.com/getsentry/sentry-go v0.36.1
 	github.com/golang-jwt/jwt/v5 v5.2.3
 	github.com/google/uuid v1.6.0
-	github.com/jackc/pgx/v5 v5.7.6
+	github.com/jackc/pgx/v5 v5.9.2
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/joho/godotenv v1.5.1
 	github.com/polarsource/polar-go v0.11.1
